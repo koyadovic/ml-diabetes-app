@@ -7,12 +7,121 @@ class Api {
   final Storage _storage = getLocalStorage();
   String _token;
   String _refreshToken;
-  int _tokenExpires;
+  double _tokenExpires;
+
+  String _baseUrl = 'http://127.0.0.1:5000/';
 
   Api() {
-    _token = _storage.get('api-token');
-    _refreshToken = _storage.get('api-refresh-token');
-    _tokenExpires = _storage.get('api-token-expires');
+    _loadToken();
+  }
+
+  bool isAuthenticated(){
+    return _haveToken() && !_isTokenExpired();
+  }
+
+  void saveToken(String newToken, String refreshNewToken, double expires) {
+    _storage.set('api-token', newToken);
+    _storage.set('api-refresh-token', refreshNewToken);
+    _storage.set('api-token-expires', expires);
+    _token = newToken;
+    _refreshToken = refreshNewToken;
+    _tokenExpires = expires;
+  }
+
+  void removeToken() {
+    _storage.set('api-token', null);
+    _storage.set('api-refresh-token', null);
+    _storage.set('api-token-expires', null);
+    _token = null;
+    _refreshToken = null;
+    _tokenExpires = null;
+  }
+
+  Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    var headers = await _getHeaders(withAuth, additionalHeaders);
+    var uri = _fixURI(_baseUrl + endpoint);
+    print('GET $uri');
+    http.Response response = await http.get(uri, headers: headers);
+    return await _processResponse(response);
+  }
+
+  Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    var headers = await _getHeaders(withAuth, additionalHeaders);
+    var uri = _fixURI(_baseUrl + endpoint);
+    print('POST $uri');
+    http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
+    return await _processResponse(response);
+  }
+
+  Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    var headers = await _getHeaders(withAuth, additionalHeaders);
+    var uri = _fixURI(_baseUrl + endpoint);
+    print('PATCH $uri');
+    http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
+    return await _processResponse(response);
+  }
+
+  Future<Map<String, String>> _getHeaders(bool withAuth, Map<String, String> additionalHeaders) async {
+    Map<String, String> headers;
+    if (additionalHeaders == null) {
+      headers = {};
+    } else {
+      headers = additionalHeaders;
+    }
+    headers['Content-Type'] = 'application/json';
+    if (withAuth) {
+      String token = await _getToken();
+      headers['Authorization'] = 'Bearer $token';
+    }
+    return headers;
+  }
+
+  dynamic _processResponse(http.Response response) async {
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      dynamic contents = await _decodeResponseBody(response);
+      return contents;
+    }
+    print('${response.statusCode}: ${response.body}');
+    return null;
+  }
+
+  String _fixURI(String uri) {
+    return uri.replaceAll('//', '/').replaceAll(':/', '://');
+  }
+
+  Future<dynamic> _decodeResponseBody(http.Response response) async {
+    bool error = response.statusCode < 200 || response.statusCode > 399;
+    if(error) {
+      throw new Exception('Response from server was ${response.statusCode}');
+    }
+    dynamic content = json.decode(utf8.decode(response.bodyBytes));
+    return content;
+  }
+
+  void _loadToken() async {
+    _token = await _storage.get('api-token');
+    _refreshToken = await _storage.get('api-refresh-token');
+    _tokenExpires = await _storage.get('api-token-expires');
+  }
+
+  Future<String> _getToken() async {
+    if(_haveToken()) {
+      if(!_isTokenExpired()) {
+        return _token;
+      } else {
+        dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
+        if (data == null) {
+          removeToken();
+        } else {
+          String token = data['token'];
+          String refreshToken = data['refresh_token'];
+          double expires = data['expires'] * 1000.0;
+          saveToken(token, refreshToken, expires);
+          return token;
+        }
+      }
+    }
+    return null;
   }
 
   bool _isTokenExpired() {
@@ -22,36 +131,6 @@ class Api {
 
   bool _haveToken() {
     return _token != null && _token != '';
-  }
-
-  void _setNewToken(String newToken, String refreshNewToken, int expires) {
-    _storage.set('api-token', newToken);
-    _storage.set('api-refresh-token', refreshNewToken);
-    _storage.set('api-token-expires', expires);
-    _token = newToken;
-    _refreshToken = refreshNewToken;
-    _tokenExpires = expires;
-  }
-
-  Future<String> getToken() async {
-    if(_haveToken()) {
-      if(!_isTokenExpired()) return _token;
-    }
-    if(!_isTokenExpired() && _haveToken()) return _token;
-  }
-
-  bool isAuthenticated(){
-    if(this._isTokenExpired()) return false;
-    return _token != null;
-  }
-
-  Future<dynamic> decodeResponseBody(http.Response response) async {
-    bool error = response.statusCode < 200 || response.statusCode > 399;
-    if(error) {
-      throw new Exception('Response from server was ${response.statusCode}');
-    }
-    dynamic content = json.decode(utf8.decode(response.bodyBytes));
-    return content;
   }
 
 }
