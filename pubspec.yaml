@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  package_info: ^0.4.3
   localstorage: ^3.0.3+6
   firebase_messaging: ^7.0.3
 
