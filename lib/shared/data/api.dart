@@ -11,8 +11,8 @@ class Api {
 
   String _baseUrl = 'http://192.168.1.250:5000/';
 
-  Api() {
-    _loadToken();
+  Future<void> initialize() async {
+    await _loadToken();
   }
 
   bool isAuthenticated(){
@@ -42,7 +42,7 @@ class Api {
     var uri = _fixURI(_baseUrl + endpoint);
     print('GET $uri');
     http.Response response = await http.get(uri, headers: headers);
-    return await _processResponse(response);
+    return _decodeResponseBody(response);
   }
 
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
@@ -50,7 +50,7 @@ class Api {
     var uri = _fixURI(_baseUrl + endpoint);
     print('POST $uri');
     http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
-    return await _processResponse(response);
+    return _decodeResponseBody(response);
   }
 
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
@@ -58,7 +58,7 @@ class Api {
     var uri = _fixURI(_baseUrl + endpoint);
     print('PATCH $uri');
     http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
-    return await _processResponse(response);
+    return _decodeResponseBody(response);
   }
 
   Future<Map<String, String>> _getHeaders(bool withAuth, Map<String, String> additionalHeaders) async {
@@ -76,29 +76,21 @@ class Api {
     return headers;
   }
 
-  dynamic _processResponse(http.Response response) async {
-    if(response.statusCode == 200 || response.statusCode == 201) {
-      dynamic contents = await _decodeResponseBody(response);
-      return contents;
-    }
-    print('${response.statusCode}: ${response.body}');
-    return null;
-  }
-
   String _fixURI(String uri) {
     return uri.replaceAll('//', '/').replaceAll(':/', '://');
   }
 
-  Future<dynamic> _decodeResponseBody(http.Response response) async {
+  dynamic _decodeResponseBody(http.Response response) {
     bool error = response.statusCode < 200 || response.statusCode > 399;
     if(error) {
+      print('${response.statusCode}: ${response.body}');
       throw new Exception('Response from server was ${response.statusCode}');
     }
     dynamic content = json.decode(utf8.decode(response.bodyBytes));
     return content;
   }
 
-  void _loadToken() async {
+  Future<void> _loadToken() async {
     _token = await _storage.get('api-token');
     _refreshToken = await _storage.get('api-refresh-token');
     _tokenExpires = await _storage.get('api-token-expires');
