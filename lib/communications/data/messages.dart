@@ -1,18 +1,12 @@
+import 'package:Dia/shared/data/storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'entities.dart';
 
-Future<dynamic> _bg(Map<String, dynamic> message) async {
-  print('onBackgroundMessage $message');
-  // TODO try to save pending messages? local storage and restore them in the callbacks
-  // TODO see also W/FirebaseMessaging( 3504): Missing Default Notification Channel metadata in AndroidManifest. Default value will be used.
-  return message;
-}
-
 class MessageSource {
   Function(Message) _onMessageHandler;
 
-  void initialize() {}
+  Future<void> initialize() async {}
   void addMessageHandler(Function(Message) onMessageHandler) {
     _onMessageHandler = onMessageHandler;
   }
@@ -26,35 +20,31 @@ MessageSource getMessagesSource() {
   return _FirebaseMessageSource();
 }
 
+/*
+ * FIREBASE MESSAGING
+ */
 class _FirebaseMessageSource extends MessageSource {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
-  void initialize() {
+  Future<void> initialize() async {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage $message');
-        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
+        Message diaMessage = convertFirebaseMessage(message);
         _messageReceived(diaMessage);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('onLaunch $message');
-        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
+        Message diaMessage = convertFirebaseMessage(message);
         _messageReceived(diaMessage);
       },
       onResume: (Map<String, dynamic> message) async {
         print('onResume $message');
-        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
+        Message diaMessage = convertFirebaseMessage(message);
         _messageReceived(diaMessage);
       },
-      onBackgroundMessage: _bg,
     );
-    /*
-    TODO
-    Invalid argument(s): Failed to setup background message handler! `onBackgroundMessage`
-            should be a TOP-LEVEL OR STATIC FUNCTION and should NOT be tied to a
-            class or an anonymous function.
-    */
 
     // TODO iOS
     _firebaseMessaging.requestNotificationPermissions(
@@ -67,5 +57,28 @@ class _FirebaseMessageSource extends MessageSource {
       assert(token != null);
       print(token);
     });
+
+    // Storage storage = getLocalStorage();
+    // List<dynamic> messages = await storage.get('pending-messages');
+    // if (messages != null) {
+    //
+    //   List<Message> diaMessages = List<Message>.from(
+    //       messages.map((message) => convertFirebaseMessage(message))
+    //   );
+    //
+    //   diaMessages.forEach((diaMessage) {
+    //     _messageReceived(diaMessage);
+    //   });
+    // }
+    // await storage.set('pending-messages', []);
   }
+
+  Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
+    return Message(
+        title: firebaseMessage['notification']['title'],
+        subtitle: firebaseMessage['notification']['body'],
+        data: firebaseMessage['data']
+    );
+  }
+
 }

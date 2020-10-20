@@ -9,13 +9,19 @@ Storage getLocalStorage() {
   return _FlutterLocalStorage();
 }
 
-
 class _FlutterLocalStorage implements Storage {
   final LocalStorage _storage = new LocalStorage('ml-diabetes');
+
   Future<void> set(String key, dynamic data) async {
+    await _storage.ready;
+    print('Store set $key: $data');
     _storage.setItem(key, data);
   }
+
   Future<dynamic> get(String key) async {
-    return _storage.getItem(key);
+    await _storage.ready;
+    var value = _storage.getItem(key);
+    print('Store get $key: $value');
+    return value;
   }
 }
