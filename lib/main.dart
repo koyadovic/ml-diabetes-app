@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     MessageSource source = getMessagesSource();
     source.initialize();
     source.addMessageHandler((Message message) {
-      print('message $message received!');
+      print('message ${message.toString()} received!');
     });
   }
 

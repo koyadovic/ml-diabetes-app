@@ -26,21 +26,31 @@ class _FirebaseMessageSource extends MessageSource {
   void initialize() {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print(message);
-        Message diaMessage = Message(title: 'title', subtitle: 'subtitle', data: message);
+        print('onMessage $message');
+        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
         _messageReceived(diaMessage);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print(message);
-        Message diaMessage = Message(title: 'title', subtitle: 'subtitle', data: message);
+        print('onLaunch $message');
+        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
         _messageReceived(diaMessage);
       },
       onResume: (Map<String, dynamic> message) async {
-        print(message);
-        Message diaMessage = Message(title: 'title', subtitle: 'subtitle', data: message);
+        print('onResume $message');
+        Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
         _messageReceived(diaMessage);
       },
+      // onBackgroundMessage: (Map<String, dynamic> message) async {
+      //   Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
+      //   _messageReceived(diaMessage);
+      // },
     );
+    /*
+    TODO
+    Invalid argument(s): Failed to setup background message handler! `onBackgroundMessage`
+            should be a TOP-LEVEL OR STATIC FUNCTION and should NOT be tied to a
+            class or an anonymous function.
+    */
 
     // TODO iOS
     _firebaseMessaging.requestNotificationPermissions(
