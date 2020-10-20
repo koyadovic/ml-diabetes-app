@@ -9,7 +9,7 @@ class Api {
   String _refreshToken;
   double _tokenExpires;
 
-  String _baseUrl = 'http://127.0.0.1:5000/';
+  String _baseUrl = 'http://192.168.1.250:5000/';
 
   Api() {
     _loadToken();
