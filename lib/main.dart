@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'communications/data/entities.dart';
+import 'communications/data/messages.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -33,6 +36,16 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    MessageSource source = getMessagesSource();
+    source.initialize();
+    source.addMessageHandler((Message message) {
+      print('message $message received!');
     });
   }
 
