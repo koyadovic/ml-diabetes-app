@@ -1,4 +1,3 @@
-// isolate here the concrete plugin used for storage
 import 'package:localstorage/localstorage.dart';
 
 class Storage {
