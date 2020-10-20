@@ -2,6 +2,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'entities.dart';
 
+Future<dynamic> _bg(Map<String, dynamic> message) async {
+  print('onBackgroundMessage $message');
+  // TODO try to save pending messages? local storage and restore them in the callbacks
+  // TODO see also W/FirebaseMessaging( 3504): Missing Default Notification Channel metadata in AndroidManifest. Default value will be used.
+  return message;
+}
+
 class MessageSource {
   Function(Message) _onMessageHandler;
 
@@ -40,10 +47,7 @@ class _FirebaseMessageSource extends MessageSource {
         Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
         _messageReceived(diaMessage);
       },
-      // onBackgroundMessage: (Map<String, dynamic> message) async {
-      //   Message diaMessage = Message(title: message['notification']['title'], subtitle: message['notification']['body'], data: message['data']);
-      //   _messageReceived(diaMessage);
-      // },
+      onBackgroundMessage: _bg,
     );
     /*
     TODO
