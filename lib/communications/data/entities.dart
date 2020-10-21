@@ -6,7 +6,7 @@ class Message {
   Message({this.title, this.subtitle, this.data});
 
   String toString() {
-    return this.title + ': ' + this.subtitle;
+    return this.title + ': ' + this.subtitle + ', ' + this.data.toString();
   }
 
 }

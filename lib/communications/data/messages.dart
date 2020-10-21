@@ -30,20 +30,21 @@ class _FirebaseMessageSource extends MessageSource {
   Future<void> initialize() async {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('onMessage $message');
         Message diaMessage = convertFirebaseMessage(message);
+        print('onMessage() message received $diaMessage');
         _messageReceived(diaMessage);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch $message');
         Message diaMessage = convertFirebaseMessage(message);
+        print('onLaunch() message received $diaMessage');
         _messageReceived(diaMessage);
       },
       onResume: (Map<String, dynamic> message) async {
-        print('onResume $message');
         Message diaMessage = convertFirebaseMessage(message);
+        print('onResume() message received $diaMessage');
         _messageReceived(diaMessage);
       },
+      onBackgroundMessage: backgroundMessageHandler,
     );
 
     // TODO iOS
@@ -73,12 +74,20 @@ class _FirebaseMessageSource extends MessageSource {
     // await storage.set('pending-messages', []);
   }
 
-  Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
-    return Message(
-        title: firebaseMessage['notification']['title'],
-        subtitle: firebaseMessage['notification']['body'],
-        data: firebaseMessage['data']
-    );
-  }
 
+}
+
+Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
+  String title = firebaseMessage['notification']['title'];
+  if(title == null) title = firebaseMessage['data']['title'];
+  String subtitle = firebaseMessage['notification']['body'];
+  if(subtitle == null) subtitle = firebaseMessage['data']['body'];
+  firebaseMessage['data'].remove('title');
+  firebaseMessage['data'].remove('body');
+  return Message(title: title, subtitle: subtitle, data: firebaseMessage['data']);
+}
+
+Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) async {
+  Message diaMessage = convertFirebaseMessage(message);
+  print('backgroundMessageHandler() $diaMessage');
 }
