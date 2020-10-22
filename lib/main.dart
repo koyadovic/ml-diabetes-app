@@ -33,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  MessageSource _source;
+
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -42,11 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    MessageSource source = getMessagesSource();
-    source.initialize();
-    source.addMessageHandler((Message message) {
-      print('message ${message.toString()} received!');
-    });
+    _source = getMessagesSource();
+    _source.addMessageHandler(onMessageReceived);
+    _source.initialize();
+  }
+
+  void onMessageReceived(DiaMessage message) {
+    print('message ${message.toString()} received!');
   }
 
   @override

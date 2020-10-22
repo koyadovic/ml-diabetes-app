@@ -1,16 +1,32 @@
-import 'package:Dia/shared/data/storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:flutter/services.dart';
+import 'package:rxdart/subjects.dart';
 import 'entities.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+/// Streams are created so that app can respond to notification-related events
+/// since the plugin is initialised in the `main` function
+final BehaviorSubject<DiaMessage> didReceiveLocalNotificationSubject = BehaviorSubject<DiaMessage>();
+final BehaviorSubject<String> selectNotificationSubject = BehaviorSubject<String>();
+
+const MethodChannel platform = MethodChannel('dexterx.dev/flutter_local_notifications_example');
+const MethodChannel platform2 = MethodChannel('plugins.flutter.io/firebase_messaging');
+const MethodChannel platform3 = MethodChannel('plugins.flutter.io/firebase_messaging_background');
+
 
 class MessageSource {
-  Function(Message) _onMessageHandler;
+  Function(DiaMessage) _onMessageHandler;
 
   Future<void> initialize() async {}
-  void addMessageHandler(Function(Message) onMessageHandler) {
+  void addMessageHandler(Function(DiaMessage) onMessageHandler) {
     _onMessageHandler = onMessageHandler;
   }
-  void _messageReceived(Message message) {
+  void _messageReceived(DiaMessage message) {
+    print('_messageReceived in MessageSource: $message');
     if(_onMessageHandler != null)
       _onMessageHandler(message);
   }
@@ -30,17 +46,17 @@ class _FirebaseMessageSource extends MessageSource {
   Future<void> initialize() async {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        Message diaMessage = convertFirebaseMessage(message);
+        DiaMessage diaMessage = convertFirebaseMessage(message);
         print('onMessage() message received $diaMessage');
         _messageReceived(diaMessage);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        Message diaMessage = convertFirebaseMessage(message);
+        DiaMessage diaMessage = convertFirebaseMessage(message);
         print('onLaunch() message received $diaMessage');
         _messageReceived(diaMessage);
       },
       onResume: (Map<String, dynamic> message) async {
-        Message diaMessage = convertFirebaseMessage(message);
+        DiaMessage diaMessage = convertFirebaseMessage(message);
         print('onResume() message received $diaMessage');
         _messageReceived(diaMessage);
       },
@@ -77,17 +93,17 @@ class _FirebaseMessageSource extends MessageSource {
 
 }
 
-Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
+DiaMessage convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
   String title = firebaseMessage['notification']['title'];
   if(title == null) title = firebaseMessage['data']['title'];
   String subtitle = firebaseMessage['notification']['body'];
   if(subtitle == null) subtitle = firebaseMessage['data']['body'];
   firebaseMessage['data'].remove('title');
   firebaseMessage['data'].remove('body');
-  return Message(title: title, subtitle: subtitle, data: firebaseMessage['data']);
+  return DiaMessage(title: title, subtitle: subtitle, data: firebaseMessage['data']);
 }
 
 Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) async {
-  Message diaMessage = convertFirebaseMessage(message);
+  DiaMessage diaMessage = convertFirebaseMessage(message);
   print('backgroundMessageHandler() $diaMessage');
 }
