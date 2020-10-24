@@ -1,3 +1,4 @@
+import 'package:Dia/shared/model/api_rest_repository.dart';
 import 'package:Dia/shared/view/dia_screen_widget.dart';
 import 'package:Dia/user_data/view/v1/main.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,12 @@ class DiaApp extends StatelessWidget {
   }
 }
 
+enum DiaScreen {
+  AUTH_AUTHENTICATE,
+  USER_DATA,
+}
+
+
 class MasterPage extends StatefulWidget {
   MasterPage({Key key, this.title}) : super(key: key);
 
@@ -31,11 +38,45 @@ class MasterPage extends StatefulWidget {
 
 class _MasterPageState extends State<MasterPage> {
 
-  DiaScreenStatefulWidget _currentScreen;
+  DiaScreen _currentScreen;
+  DiaScreenStatefulWidget _currentScreenWidget;
+  ApiRestRepository _repository;
 
   @override
   void initState() {
     super.initState();
+
+    _repository = ApiRestRepository();
+    _repository.initialize().then((_) {
+      if (!_repository.isAuthenticated()) {
+        changeCurrentScreen(DiaScreen.AUTH_AUTHENTICATE);
+      } else {
+        changeCurrentScreen(DiaScreen.USER_DATA);
+      }
+    });
+  }
+
+  void changeCurrentScreen(DiaScreen screen) {
+    if(screen == _currentScreen) return;
+
+    switch (screen) {
+      case DiaScreen.USER_DATA:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = UserDataScreenWidget();
+        });
+        break;
+
+      case DiaScreen.AUTH_AUTHENTICATE:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = UserDataScreenWidget();
+        });
+        break;
+
+      default:
+        return null;
+    }
   }
 
   Drawer getDrawer(BuildContext context) {
@@ -45,22 +86,16 @@ class _MasterPageState extends State<MasterPage> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
+            child: Text('Menu'),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
           ),
           ListTile(
-            title: Text('Item 1'),
+            selected: _currentScreen == DiaScreen.USER_DATA,
+            title: Text('User Data'),
             onTap: () {
-              // Then close the drawer
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: Text('Item 2'),
-            onTap: () {
-              // Then close the drawer
+              changeCurrentScreen(DiaScreen.USER_DATA);
               Navigator.pop(context);
             },
           ),
@@ -71,25 +106,26 @@ class _MasterPageState extends State<MasterPage> {
 
   @override
   Widget build(BuildContext context) {
-    _currentScreen = UserDataScreenWidget();
+    if (_currentScreenWidget == null)
+      return Center(child: CircularProgressIndicator());
 
     AppBar appBar;
-    if (_currentScreen.hasAppBar()) {
-      String title = _currentScreen.getAppBarTitle();
+    if (_currentScreenWidget.hasAppBar()) {
+      String title = _currentScreenWidget.getAppBarTitle();
       if(title == null || title == '')
         title = widget.title;
 
       appBar = AppBar(
         title: Text(title),
-        actions: _currentScreen.getAppBarActions(),
+        actions: _currentScreenWidget.getAppBarActions(),
       );
     }
 
     return Scaffold(
       appBar: appBar,
-      body: _currentScreen,
-      drawer: _currentScreen.hasDrawer() ? getDrawer(context) : null,
-      floatingActionButton: _currentScreen.getFloatingActionButton(),
+      body: _currentScreenWidget,
+      drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
+      floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
     );
   }
 }

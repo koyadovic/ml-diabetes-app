@@ -3,7 +3,7 @@ import 'package:Dia/shared/model/storage.dart';
 import 'package:http/http.dart' as http;
 
 
-class Api {
+class ApiRestRepository {
   final Storage _storage = getLocalStorage();
   String _token;
   String _refreshToken;

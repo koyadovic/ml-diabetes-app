@@ -26,6 +26,7 @@ class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWi
     return true;
   }
 
+  @override
   String getAppBarTitle() {
     return 'User Data';
   }
@@ -40,8 +41,10 @@ class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWi
 
 
 class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
+
   @override
   Widget build(BuildContext context) {
     return Text('UserDataScreenWidget');
   }
+
 }
