@@ -22,8 +22,9 @@ class DiaApp extends StatelessWidget {
 }
 
 enum DiaScreen {
-  AUTH_AUTHENTICATE,
+  AUTHENTICATE,
   USER_DATA,
+  SETTINGS,
 }
 
 
@@ -49,7 +50,7 @@ class _MasterPageState extends State<MasterPage> {
     _repository = ApiRestRepository();
     _repository.initialize().then((_) {
       if (!_repository.isAuthenticated()) {
-        changeCurrentScreen(DiaScreen.AUTH_AUTHENTICATE);
+        changeCurrentScreen(DiaScreen.AUTHENTICATE);
       } else {
         changeCurrentScreen(DiaScreen.USER_DATA);
       }
@@ -67,10 +68,17 @@ class _MasterPageState extends State<MasterPage> {
         });
         break;
 
-      case DiaScreen.AUTH_AUTHENTICATE:
+      case DiaScreen.AUTHENTICATE:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget();
+          _currentScreenWidget = UserDataScreenWidget();  // TODO
+        });
+        break;
+
+      case DiaScreen.SETTINGS:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = UserDataScreenWidget();  // TODO
         });
         break;
 
