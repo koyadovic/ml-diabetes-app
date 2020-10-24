@@ -9,6 +9,9 @@ class AuthenticationServices {
 
   Future<void> login(String email, String password) async {
     await _backend.initialize();
+
+    // TODO capture BackendUnavailable and raise AuthenticationServicesUnavailable
+    //  this will be captured by view_model and show appropriate message
     dynamic responseBody = await _backend.post(
         '/api/v1/auth/new-token/',
         {email: email, password: password},
