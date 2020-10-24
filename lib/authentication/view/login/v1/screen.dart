@@ -1,9 +1,7 @@
 // ignore: must_be_immutable
-import 'package:Dia/authentication/view/signup/v1/screen.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
-
 import '../view_model.dart';
 
 
@@ -41,14 +39,21 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
       child: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Spacer(),
             TextField(
               onChanged: (String value) { _viewModel.email = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Email'
               ),
+            ),
+            Text(
+                _viewModel.emailError,
+                textAlign: TextAlign.left,
+                textWidthBasis: TextWidthBasis.longestLine,
+                style: TextStyle(color: Colors.red)
             ),
             TextField(
               onChanged: (String value) { _viewModel.password = value; },
@@ -58,17 +63,34 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               ),
               obscureText: true,
             ),
-            RaisedButton(
-              child: Text('Login'),
-              onPressed: () {
-                _viewModel.login();
-              },
+            Text(
+                _viewModel.passwordError,
+                textAlign: TextAlign.start,
+                style: TextStyle(color: Colors.red)
             ),
-            FlatButton(
-              child: Text('I have no account yet'),
-              onPressed: () {
-                widget.requestScreenChange(DiaScreen.SIGNUP);
-              },
+            SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RaisedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    _viewModel.login();
+                  },
+                ),
+              ],
+            ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton(
+                  child: Text('I have no account yet'),
+                  onPressed: () {
+                    _viewModel.notHaveAccount();
+                  },
+                ),
+              ],
             )
           ],
         ),
