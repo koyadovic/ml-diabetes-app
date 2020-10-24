@@ -49,12 +49,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                 hintText: 'Email'
               ),
             ),
-            Text(
-                _viewModel.emailError,
-                textAlign: TextAlign.left,
-                textWidthBasis: TextWidthBasis.longestLine,
-                style: TextStyle(color: Colors.red)
-            ),
+            Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
             TextField(
               onChanged: (String value) { _viewModel.password = value; },
               decoration: InputDecoration(
@@ -63,11 +58,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               ),
               obscureText: true,
             ),
-            Text(
-                _viewModel.passwordError,
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.red)
-            ),
+            Text(_viewModel.passwordError, style: TextStyle(color: Colors.red)),
             SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

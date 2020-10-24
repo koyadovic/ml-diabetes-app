@@ -39,8 +39,10 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
       child: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Spacer(),
+
             TextField(
               onChanged: (String value) { _viewModel.email = value; },
               decoration: InputDecoration(
@@ -48,6 +50,8 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 hintText: 'Email'
               ),
             ),
+            Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
+
             TextField(
               onChanged: (String value) { _viewModel.password1 = value; },
               decoration: InputDecoration(
@@ -56,6 +60,8 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               ),
               obscureText: true,
             ),
+            Text(_viewModel.password1Error, style: TextStyle(color: Colors.red)),
+
             TextField(
               onChanged: (String value) { _viewModel.password2 = value; },
               decoration: InputDecoration(
@@ -64,17 +70,31 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               ),
               obscureText: true,
             ),
-            RaisedButton(
-              child: Text('Signup'),
-              onPressed: () {
-                _viewModel.signUp();
-              },
+            Text(_viewModel.password2Error, style: TextStyle(color: Colors.red)),
+
+            SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RaisedButton(
+                  child: Text('Signup'),
+                  onPressed: () {
+                    _viewModel.signUp();
+                  },
+                ),
+              ],
             ),
-            FlatButton(
-              child: Text('I already have an account'),
-              onPressed: () {
-                widget.requestScreenChange(DiaScreen.LOGIN);
-              },
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton(
+                  child: Text('I already have an account'),
+                  onPressed: () {
+                    widget.requestScreenChange(DiaScreen.LOGIN);
+                  },
+                ),
+              ],
             )
           ],
         ),

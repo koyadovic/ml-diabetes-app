@@ -14,7 +14,6 @@ class AuthenticationServices {
 
     String basicAuth = base64.encode(latin1.encode('$email:$password'));
 
-    // TODO y si es non authorized ??
     dynamic responseBody = await _backend.post(
       '/api/v1/auth/new-token/', {},
       withAuth: false,
@@ -27,7 +26,7 @@ class AuthenticationServices {
     await _backend.initialize();
     await _backend.post(
         '/api/v1/auth/new-account/',
-        {email: email, password: password},
+        {'email': email, 'password': password},
         withAuth: false
     );
   }

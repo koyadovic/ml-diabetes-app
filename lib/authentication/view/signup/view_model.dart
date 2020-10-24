@@ -31,6 +31,10 @@ class SignupViewModel extends DiaViewModel {
     return _email;
   }
 
+  String get emailError {
+    return _emailError;
+  }
+
   set password1(String password) {
     _password1 = password;
     if(_isValid != null) _validate();
@@ -41,6 +45,10 @@ class SignupViewModel extends DiaViewModel {
     return _password1;
   }
 
+  String get password1Error {
+    return _password1Error;
+  }
+
   set password2(String password) {
     _password2 = password;
     if(_isValid != null) _validate();
@@ -49,6 +57,10 @@ class SignupViewModel extends DiaViewModel {
 
   String get password2 {
     return _password2;
+  }
+
+  String get password2Error {
+    return _password2Error;
   }
 
   void _validate() {
@@ -91,10 +103,11 @@ class SignupViewModel extends DiaViewModel {
 
   Future<void> signUp() async{
     _validate();
-    print('view_model login()');
+    print('view_model signUp()');
     if (_isValid) {
       try {
-        await authenticationServices.signUp(email, password1);
+        await authenticationServices.signUp(_email, _password1);
+        await authenticationServices.login(_email, _password1);
       } catch (err) {
         throw err;
       } finally {

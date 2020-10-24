@@ -72,8 +72,8 @@ class LoginViewModel extends DiaViewModel {
     _validate();
     print('view_model login()');
     if (_isValid) {
-      setLoading(true);
       try {
+        setLoading(true);
         await authenticationServices.login(email, password);
       } catch (err) {
         throw err;

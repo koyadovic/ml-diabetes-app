@@ -4,17 +4,28 @@ import 'package:Dia/shared/model/storage.dart';
 import 'package:http/http.dart' as http;
 
 
-class BackendUnavailable implements Exception {
-  const BackendUnavailable();
-  String toString() => "BackendUnavailable";
+class BackendError implements Exception {
+  final String _message;
+  const BackendError(this._message);
+  String toString() => "$_message";
 }
 
 
-class BackendUnauthorized implements Exception {
-  final String _message;
+class BackendUnavailable extends BackendError {
+  const BackendUnavailable() : super('');
+  String toString() => "BackendUnavailable";
+}
 
-  const BackendUnauthorized(this._message);
-  String toString() => "BackendUnauthorized: $_message";
+class BackendUnauthorized extends BackendError {
+  const BackendUnauthorized(String message) : super(message);
+}
+
+class BackendForbidden extends BackendError {
+  const BackendForbidden(String message) : super(message);
+}
+
+class BackendBadRequest extends BackendError {
+  const BackendBadRequest(String message) : super(message);
 }
 
 
@@ -64,8 +75,9 @@ class ApiRestBackend {
     } on SocketException catch(e) {
       print(e);
       throw BackendUnavailable();
+    } catch (err) {
+      throw BackendError(err.toString());
     }
-    return null;
   }
 
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
@@ -78,8 +90,9 @@ class ApiRestBackend {
     } on SocketException catch(e) {
       print(e);
       throw BackendUnavailable();
+    } catch (err) {
+      throw BackendError(err.toString());
     }
-    return null;
   }
 
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
@@ -92,8 +105,9 @@ class ApiRestBackend {
     } on SocketException catch(e) {
       print(e);
       throw BackendUnavailable();
+    } catch (err) {
+      throw BackendError(err.toString());
     }
-    return null;
   }
 
   Future<Map<String, String>> _getHeaders(bool withAuth, Map<String, String> additionalHeaders) async {
@@ -118,13 +132,19 @@ class ApiRestBackend {
   dynamic _decodeResponseBody(http.Response response) {
     bool error = response.statusCode < 200 || response.statusCode > 399;
     dynamic content = json.decode(utf8.decode(response.bodyBytes));
-    print(content);
     if(error) {
+      String message = content['message'];
       if(response.statusCode == 401){
-        throw BackendUnauthorized(content['message']);
+        throw BackendUnauthorized(message);
+      }
+      else if(response.statusCode == 400) {
+        throw BackendBadRequest(message);
+      }
+      else if(response.statusCode == 403) {
+        throw BackendForbidden(message);
       }
       print('${response.statusCode}: ${response.body}');
-      throw new Exception('Response from server was ${response.statusCode}');
+      throw BackendError('${response.statusCode}: ' + message);
     }
     return content;
   }
