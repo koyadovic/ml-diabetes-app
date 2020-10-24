@@ -1,7 +1,9 @@
 import 'package:Dia/shared/model/api_rest_repository.dart';
 import 'package:Dia/shared/view/dia_screen_widget.dart';
-import 'package:Dia/user_data/view/v1/main.dart';
+import 'package:Dia/user_data/view/v1/user_data_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'authentication/view/v1/login_screen.dart';
 
 void main() {
   runApp(DiaApp());
@@ -71,7 +73,7 @@ class _MasterPageState extends State<MasterPage> {
       case DiaScreen.AUTHENTICATE:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget();  // TODO
+          _currentScreenWidget = LoginScreenWidget();
         });
         break;
 
