@@ -26,7 +26,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = SignupViewModel(this);
+    _viewModel = SignupViewModel(this, this.widget.requestScreenChange);
     _viewModel.addOnChangeListener(() {
       print('onViewModelChange');
       setState(() {
@@ -72,6 +72,12 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 _viewModel.signup();
               },
             ),
+            FlatButton(
+              child: Text('I already have an account'),
+              onPressed: () {
+                widget.requestScreenChange(DiaScreen.LOGIN);
+              },
+            )
           ],
         ),
       ),

@@ -1,3 +1,5 @@
+import 'package:Dia/authentication/view/login/v1/screen.dart';
+import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,7 @@ class LoginViewModel extends DiaViewModel {
   String _emailError = '';
   String _passwordError = '';
 
-  LoginViewModel(State state) : super(state);
+  LoginViewModel(State state, Function(DiaScreen) requestScreenChange) : super(state, requestScreenChange);
 
   set email(String email) {
     _email = email;
@@ -34,8 +36,8 @@ class LoginViewModel extends DiaViewModel {
 
   void login(){
     setLoading(true);
-
     setLoading(false);
+    requestScreenChange(DiaScreen.USER_DATA);
   }
 
 }

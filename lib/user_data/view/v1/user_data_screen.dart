@@ -52,7 +52,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = UserDataViewModel(this);
+    _viewModel = UserDataViewModel(this, this.widget.requestScreenChange);
     _viewModel.addOnChangeListener(onViewModelChange);
     super.initState();
   }
@@ -66,10 +66,6 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Text('UserDataScreenWidget');
-  }
-
-  void tal(){
-    print('Culo');
   }
 
 }

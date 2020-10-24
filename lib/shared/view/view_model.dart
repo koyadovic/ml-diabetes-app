@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
 
 class DiaViewModel {
@@ -5,8 +6,9 @@ class DiaViewModel {
   bool _loading = false;
 
   final State state;
+  final Function(DiaScreen) requestScreenChange;
 
-  DiaViewModel(this.state);
+  DiaViewModel(this.state, this.requestScreenChange);
 
   void addOnChangeListener(Function listener) {
     int i = _listeners.indexOf(listener);

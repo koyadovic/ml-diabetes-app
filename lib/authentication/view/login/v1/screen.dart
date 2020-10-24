@@ -26,7 +26,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = LoginViewModel(this);
+    _viewModel = LoginViewModel(this, this.widget.requestScreenChange);
     _viewModel.addOnChangeListener(() {
       print('onViewModelChange');
       setState(() {

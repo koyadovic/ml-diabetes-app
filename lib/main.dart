@@ -48,7 +48,7 @@ class _MasterPageState extends State<MasterPage> {
     _repository = ApiRestRepository();
     _repository.initialize().then((_) {
       if (!_repository.isAuthenticated()) {
-        changeCurrentScreen(DiaScreen.AUTHENTICATE);
+        changeCurrentScreen(DiaScreen.LOGIN);
       } else {
         changeCurrentScreen(DiaScreen.USER_DATA);
       }
@@ -66,7 +66,7 @@ class _MasterPageState extends State<MasterPage> {
         });
         break;
 
-      case DiaScreen.AUTHENTICATE:
+      case DiaScreen.LOGIN:
         this.setState(() {
           _currentScreen = screen;
           _currentScreenWidget = LoginScreenWidget(changeCurrentScreen);

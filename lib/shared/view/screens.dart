@@ -1,6 +1,6 @@
 
 enum DiaScreen {
-  AUTHENTICATE,
+  LOGIN,
   SIGNUP,
   USER_DATA,
   SETTINGS,
