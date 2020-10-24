@@ -5,33 +5,8 @@ import 'package:flutter/material.dart';
 import '../login_view_model.dart';
 
 
-class LoginScreenWidget extends StatefulWidget implements DiaScreenStatefulWidget {
+class LoginScreenWidget extends DiaScreenStatefulWidget {
   LoginScreenWidgetState _state;
-
-  @override
-  bool hasAppBar() {
-    return false;
-  }
-
-  @override
-  List<Widget> getAppBarActions() {
-    return [];
-  }
-
-  @override
-  Widget getFloatingActionButton() {
-    return null;
-  }
-
-  @override
-  bool hasDrawer() {
-    return true;
-  }
-
-  @override
-  String getAppBarTitle() {
-    return 'User Data';
-  }
 
   @override
   State<StatefulWidget> createState() {
@@ -41,7 +16,6 @@ class LoginScreenWidget extends StatefulWidget implements DiaScreenStatefulWidge
 
 }
 
-
 class LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   LoginViewModel _viewModel;
@@ -49,19 +23,47 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
   @override
   void initState() {
     _viewModel = LoginViewModel(this);
-    _viewModel.addOnChangeListener(onViewModelChange);
-    super.initState();
-  }
-
-  onViewModelChange() {
-    setState(() {
-
+    _viewModel.addOnChangeListener(() {
+      print('onViewModelChange');
+      setState(() {
+      });
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text('LoginScreenWidget');
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              onChanged: (String value) { _viewModel.email = value; },
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Email'
+              ),
+            ),
+            TextField(
+              onChanged: (String value) { _viewModel.password = value; },
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Password',
+              ),
+              obscureText: true,
+            ),
+            RaisedButton(
+              child: Text('Login'),
+              onPressed: () {
+                _viewModel.login();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
 }

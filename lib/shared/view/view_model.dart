@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class DiaViewModel {
   List<Function> _listeners = [];
+  bool _loading = false;
 
   final State state;
 
@@ -18,4 +19,12 @@ class DiaViewModel {
     }
   }
 
+  bool isLoading() {
+    return _loading;
+  }
+
+  void setLoading(bool loading) {
+    _loading = loading;
+    notifyChanges();
+  }
 }

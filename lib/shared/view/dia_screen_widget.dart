@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 abstract class DiaScreenStatefulWidget extends StatefulWidget {
 
   bool hasAppBar() {
-    throw UnimplementedError();
+    return false;
   }
 
   String getAppBarTitle() {
     // ignored if hasAppBar() returns false
-    throw UnimplementedError();
+    return '';
   }
 
   List<Widget> getAppBarActions() {
     // ignored if hasAppBar() returns false
-    throw UnimplementedError();
+    return [];
   }
 
   Widget getFloatingActionButton() {
-    throw UnimplementedError();
+    return null;
   }
 
   bool hasDrawer() {
-    throw UnimplementedError();
+    return false;
   }
 
 }

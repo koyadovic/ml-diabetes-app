@@ -6,7 +6,7 @@ import '../user_data_view_model.dart';
 
 
 // ignore: must_be_immutable
-class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWidget {
+class UserDataScreenWidget extends DiaScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
   @override
