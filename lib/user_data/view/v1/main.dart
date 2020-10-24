@@ -7,6 +7,11 @@ class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWi
   State<StatefulWidget> _state;
 
   @override
+  bool hasAppBar() {
+    return true;
+  }
+
+  @override
   List<Widget> getAppBarActions() {
     return [];
   }
@@ -18,11 +23,6 @@ class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWi
 
   @override
   bool hasDrawer() {
-    return true;
-  }
-
-  @override
-  bool hasAppBar() {
     return true;
   }
 
