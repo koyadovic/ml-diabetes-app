@@ -21,22 +21,22 @@ class DiaApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPage(title: 'Dia'),
+      home: MasterScreen(title: 'Dia'),
     );
   }
 }
 
 
-class MasterPage extends StatefulWidget {
-  MasterPage({Key key, this.title}) : super(key: key);
+class MasterScreen extends StatefulWidget {
+  MasterScreen({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MasterPageState createState() => _MasterPageState();
+  _MasterScreenState createState() => _MasterScreenState();
 }
 
-class _MasterPageState extends State<MasterPage> {
+class _MasterScreenState extends State<MasterScreen> {
 
   DiaScreen _currentScreen;
   DiaScreenStatefulWidget _currentScreenWidget;
@@ -115,9 +115,9 @@ class _MasterPageState extends State<MasterPage> {
           ),
           ListTile(
             title: Text('Logout'),
-            onTap: () {
+            onTap: () async {
               final AuthenticationServices authenticationServices = AuthenticationServices();
-              authenticationServices.logout();
+              await authenticationServices.logout();
               changeCurrentScreen(DiaScreen.LOGIN);
               Navigator.pop(context);
             },

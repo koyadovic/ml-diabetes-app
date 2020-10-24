@@ -10,6 +10,14 @@ class BackendUnavailable implements Exception {
 }
 
 
+class BackendUnauthorized implements Exception {
+  final String _message;
+
+  const BackendUnauthorized(this._message);
+  String toString() => "BackendUnauthorized: $_message";
+}
+
+
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
   String _token;
@@ -109,11 +117,15 @@ class ApiRestBackend {
 
   dynamic _decodeResponseBody(http.Response response) {
     bool error = response.statusCode < 200 || response.statusCode > 399;
+    dynamic content = json.decode(utf8.decode(response.bodyBytes));
+    print(content);
     if(error) {
+      if(response.statusCode == 401){
+        throw BackendUnauthorized(content['message']);
+      }
       print('${response.statusCode}: ${response.body}');
       throw new Exception('Response from server was ${response.statusCode}');
     }
-    dynamic content = json.decode(utf8.decode(response.bodyBytes));
     return content;
   }
 
