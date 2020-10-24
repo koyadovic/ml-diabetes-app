@@ -1,9 +1,11 @@
 import 'package:Dia/shared/model/api_rest_repository.dart';
-import 'package:Dia/shared/view/dia_screen_widget.dart';
+import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/user_data/view/v1/user_data_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'authentication/view/v1/login_screen.dart';
+import 'authentication/view/login/v1/screen.dart';
+import 'authentication/view/signup/v1/screen.dart';
 
 void main() {
   runApp(DiaApp());
@@ -21,12 +23,6 @@ class DiaApp extends StatelessWidget {
       home: MasterPage(title: 'Dia'),
     );
   }
-}
-
-enum DiaScreen {
-  AUTHENTICATE,
-  USER_DATA,
-  SETTINGS,
 }
 
 
@@ -66,21 +62,28 @@ class _MasterPageState extends State<MasterPage> {
       case DiaScreen.USER_DATA:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget();
+          _currentScreenWidget = UserDataScreenWidget(changeCurrentScreen);
         });
         break;
 
       case DiaScreen.AUTHENTICATE:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = LoginScreenWidget();
+          _currentScreenWidget = LoginScreenWidget(changeCurrentScreen);
+        });
+        break;
+
+      case DiaScreen.SIGNUP:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = SignupScreenWidget(changeCurrentScreen);
         });
         break;
 
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget();  // TODO
+          _currentScreenWidget = UserDataScreenWidget(changeCurrentScreen);  // TODO
         });
         break;
 

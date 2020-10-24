@@ -1,12 +1,16 @@
 // ignore: must_be_immutable
-import 'package:Dia/shared/view/dia_screen_widget.dart';
+import 'package:Dia/authentication/view/signup/v1/screen.dart';
+import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
 
-import '../login_view_model.dart';
+import '../view_model.dart';
 
 
 class LoginScreenWidget extends DiaScreenStatefulWidget {
   LoginScreenWidgetState _state;
+
+  LoginScreenWidget(Function(DiaScreen) requestScreenChange) : super(requestScreenChange);
 
   @override
   State<StatefulWidget> createState() {
@@ -60,6 +64,12 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                 _viewModel.login();
               },
             ),
+            FlatButton(
+              child: Text('I have no account yet'),
+              onPressed: () {
+                widget.requestScreenChange(DiaScreen.SIGNUP);
+              },
+            )
           ],
         ),
       ),

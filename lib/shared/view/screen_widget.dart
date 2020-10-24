@@ -1,6 +1,10 @@
+import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
 
 abstract class DiaScreenStatefulWidget extends StatefulWidget {
+  final Function(DiaScreen) requestScreenChange;
+
+  DiaScreenStatefulWidget(this.requestScreenChange);
 
   bool hasAppBar() {
     return false;

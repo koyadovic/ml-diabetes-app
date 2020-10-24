@@ -1,4 +1,5 @@
-import 'package:Dia/shared/view/dia_screen_widget.dart';
+import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -8,6 +9,8 @@ import '../user_data_view_model.dart';
 // ignore: must_be_immutable
 class UserDataScreenWidget extends DiaScreenStatefulWidget {
   UserDataScreenWidgetState _state;
+
+  UserDataScreenWidget(Function(DiaScreen) requestScreenChange) : super(requestScreenChange);
 
   @override
   bool hasAppBar() {

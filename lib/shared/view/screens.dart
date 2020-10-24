@@ -1,0 +1,7 @@
+
+enum DiaScreen {
+  AUTHENTICATE,
+  SIGNUP,
+  USER_DATA,
+  SETTINGS,
+}
