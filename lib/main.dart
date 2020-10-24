@@ -1,13 +1,12 @@
+import 'package:Dia/shared/view/dia_screen_widget.dart';
+import 'package:Dia/user_data/view/v1/main.dart';
 import 'package:flutter/material.dart';
 
-import 'communications/data/entities.dart';
-import 'communications/data/messages.dart';
-
 void main() {
-  runApp(MyApp());
+  runApp(DiaApp());
 }
 
-class MyApp extends StatelessWidget {
+class DiaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,68 +15,76 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MasterPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class MasterPage extends StatefulWidget {
+  MasterPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MasterPageState createState() => _MasterPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MasterPageState extends State<MasterPage> {
 
-  MessageSource _source;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  DiaScreenStatefulWidget _currentScreen;
 
   @override
   void initState() {
     super.initState();
-    _source = getMessagesSource();
-    _source.addMessageHandler(onMessageReceived);
-    _source.initialize();
   }
 
-  void onMessageReceived(DiaMessage message) {
-    print('message ${message.toString()} received!');
+  Drawer getDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text('Drawer Header'),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+          ),
+          ListTile(
+            title: Text('Item 1'),
+            onTap: () {
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Text('Item 2'),
+            onTap: () {
+              // Then close the drawer
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    _currentScreen = UserDataScreenWidget();
+
+    AppBar appBar;
+    if (_currentScreen.hasAppBar())
+      appBar = AppBar(
         title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+        actions: _currentScreen.getAppBarActions(),
+      );
+
+    return Scaffold(
+      appBar: appBar,
+      body: _currentScreen,
+      drawer: _currentScreen.hasDrawer() ? getDrawer(context) : null,
+      floatingActionButton: _currentScreen.getFloatingActionButton(),
     );
   }
 }

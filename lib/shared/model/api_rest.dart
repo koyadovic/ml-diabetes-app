@@ -1,7 +1,7 @@
 import 'dart:convert';
-
-import 'package:Dia/shared/data/storage.dart';
+import 'package:Dia/shared/model/storage.dart';
 import 'package:http/http.dart' as http;
+
 
 class Api {
   final Storage _storage = getLocalStorage();
