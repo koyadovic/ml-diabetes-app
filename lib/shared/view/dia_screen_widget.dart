@@ -6,6 +6,11 @@ abstract class DiaScreenStatefulWidget extends StatefulWidget {
     throw UnimplementedError();
   }
 
+  String getAppBarTitle() {
+    // ignored if hasAppBar() returns false
+    throw UnimplementedError();
+  }
+
   List<Widget> getAppBarActions() {
     // ignored if hasAppBar() returns false
     throw UnimplementedError();

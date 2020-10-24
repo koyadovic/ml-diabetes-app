@@ -26,6 +26,10 @@ class UserDataScreenWidget extends StatefulWidget implements DiaScreenStatefulWi
     return true;
   }
 
+  String getAppBarTitle() {
+    return 'User Data';
+  }
+
   @override
   State<StatefulWidget> createState() {
     _state = UserDataScreenWidgetState();

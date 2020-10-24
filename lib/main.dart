@@ -10,12 +10,12 @@ class DiaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Dia',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MasterPage(title: 'Flutter Demo Home Page'),
+      home: MasterPage(title: 'Dia'),
     );
   }
 }
@@ -74,11 +74,16 @@ class _MasterPageState extends State<MasterPage> {
     _currentScreen = UserDataScreenWidget();
 
     AppBar appBar;
-    if (_currentScreen.hasAppBar())
+    if (_currentScreen.hasAppBar()) {
+      String title = _currentScreen.getAppBarTitle();
+      if(title == null || title == '')
+        title = widget.title;
+
       appBar = AppBar(
-        title: Text(widget.title),
+        title: Text(title),
         actions: _currentScreen.getAppBarActions(),
       );
+    }
 
     return Scaffold(
       appBar: appBar,
