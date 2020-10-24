@@ -1,10 +1,10 @@
-// ignore: must_be_immutable
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
-import '../view_model.dart';
+import 'view_model.dart';
 
 
+// ignore: must_be_immutable
 class LoginScreenWidget extends DiaScreenStatefulWidget {
   LoginScreenWidgetState _state;
 

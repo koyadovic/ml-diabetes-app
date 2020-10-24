@@ -1,11 +1,11 @@
 import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
-import 'package:Dia/user_data/view/v1/user_data_screen.dart';
+import 'package:Dia/user_data/view/v1_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'authentication/view/login/v1/screen.dart';
-import 'authentication/view/signup/v1/screen.dart';
+import 'authentication/view/login/v1_screen.dart';
+import 'authentication/view/signup/v1_screen.dart';
 
 void main() {
   runApp(DiaApp());

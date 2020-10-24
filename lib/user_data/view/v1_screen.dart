@@ -3,7 +3,7 @@ import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import '../user_data_view_model.dart';
+import 'view_model.dart';
 
 
 // ignore: must_be_immutable

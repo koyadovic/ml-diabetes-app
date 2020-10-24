@@ -1,5 +1,4 @@
 import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/authentication/view/login/v1/screen.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +73,13 @@ class LoginViewModel extends DiaViewModel {
     print('view_model login()');
     if (_isValid) {
       setLoading(true);
-      await authenticationServices.login(email, password);
-      setLoading(false);
+      try {
+        await authenticationServices.login(email, password);
+      } catch (err) {
+        throw err;
+      } finally {
+        setLoading(false);
+      }
       if(authenticationServices.isAuthenticated()) {
         requestScreenChange(DiaScreen.USER_DATA);
       }
