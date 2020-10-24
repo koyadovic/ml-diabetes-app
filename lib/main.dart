@@ -1,4 +1,4 @@
-import 'package:Dia/shared/model/api_rest_repository.dart';
+import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/user_data/view/v1/user_data_screen.dart';
@@ -39,15 +39,15 @@ class _MasterPageState extends State<MasterPage> {
 
   DiaScreen _currentScreen;
   DiaScreenStatefulWidget _currentScreenWidget;
-  ApiRestRepository _repository;
+  ApiRestBackend _backend;
 
   @override
   void initState() {
     super.initState();
 
-    _repository = ApiRestRepository();
-    _repository.initialize().then((_) {
-      if (!_repository.isAuthenticated()) {
+    _backend = ApiRestBackend();
+    _backend.initialize().then((_) {
+      if (!_backend.isAuthenticated()) {
         changeCurrentScreen(DiaScreen.LOGIN);
       } else {
         changeCurrentScreen(DiaScreen.USER_DATA);

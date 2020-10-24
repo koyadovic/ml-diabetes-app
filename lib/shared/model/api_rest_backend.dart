@@ -1,37 +1,46 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:Dia/shared/model/storage.dart';
 import 'package:http/http.dart' as http;
 
 
-class ApiRestRepository {
+class BackendUnavailable implements Exception {
+  const BackendUnavailable();
+  String toString() => "BackendUnavailable";
+}
+
+
+class ApiRestBackend {
   final Storage _storage = getLocalStorage();
   String _token;
   String _refreshToken;
   double _tokenExpires;
 
-  String _baseUrl = 'http://192.168.1.250:5000/';
+  String _baseUrl = 'http://192.168.1.250:5000';
 
   Future<void> initialize() async {
-    await _loadToken();
+    if(_token == null || _refreshToken == null || _tokenExpires == null) {
+      await _loadToken();
+    }
   }
 
   bool isAuthenticated(){
     return _haveToken() && !_isTokenExpired();
   }
 
-  void saveToken(String newToken, String refreshNewToken, double expires) {
-    _storage.set('api-token', newToken);
-    _storage.set('api-refresh-token', refreshNewToken);
-    _storage.set('api-token-expires', expires);
+  Future<void> saveToken(String newToken, String refreshNewToken, double expires) async {
+    await _storage.set('api-token', newToken);
+    await _storage.set('api-refresh-token', refreshNewToken);
+    await _storage.set('api-token-expires', expires);
     _token = newToken;
     _refreshToken = refreshNewToken;
     _tokenExpires = expires;
   }
 
-  void removeToken() {
-    _storage.set('api-token', null);
-    _storage.set('api-refresh-token', null);
-    _storage.set('api-token-expires', null);
+  Future<void> removeToken() async {
+    await _storage.set('api-token', null);
+    await _storage.set('api-refresh-token', null);
+    await _storage.set('api-token-expires', null);
     _token = null;
     _refreshToken = null;
     _tokenExpires = null;
@@ -41,24 +50,42 @@ class ApiRestRepository {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     print('GET $uri');
-    http.Response response = await http.get(uri, headers: headers);
-    return _decodeResponseBody(response);
+    try {
+      http.Response response = await http.get(uri, headers: headers);
+      return _decodeResponseBody(response);
+    } on SocketException catch(e) {
+      print(e);
+      throw BackendUnavailable();
+    }
+    return null;
   }
 
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     print('POST $uri');
-    http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
-    return _decodeResponseBody(response);
+    try {
+      http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
+      return _decodeResponseBody(response);
+    } on SocketException catch(e) {
+      print(e);
+      throw BackendUnavailable();
+    }
+    return null;
   }
 
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     print('PATCH $uri');
-    http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
-    return _decodeResponseBody(response);
+    try {
+      http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
+      return _decodeResponseBody(response);
+    } on SocketException catch(e) {
+      print(e);
+      throw BackendUnavailable();
+    }
+    return null;
   }
 
   Future<Map<String, String>> _getHeaders(bool withAuth, Map<String, String> additionalHeaders) async {

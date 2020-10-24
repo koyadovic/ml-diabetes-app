@@ -1,3 +1,4 @@
+import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/v1/screen.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/shared/view/view_model.dart';
@@ -11,6 +12,8 @@ class LoginViewModel extends DiaViewModel {
 
   String _emailError = '';
   String _passwordError = '';
+
+  final AuthenticationServices authenticationServices = AuthenticationServices();
 
   LoginViewModel(State state, Function(DiaScreen) requestScreenChange) : super(state, requestScreenChange);
 
@@ -34,10 +37,14 @@ class LoginViewModel extends DiaViewModel {
     return _password;
   }
 
-  void login(){
+  Future<void> login() async {
+    print('view_model login()');
     setLoading(true);
+    await authenticationServices.login(email, password);
     setLoading(false);
-    requestScreenChange(DiaScreen.USER_DATA);
+    if(authenticationServices.isAuthenticated()) {
+      requestScreenChange(DiaScreen.USER_DATA);
+    }
   }
 
 }
