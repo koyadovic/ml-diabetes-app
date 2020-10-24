@@ -14,27 +14,27 @@ class ApiRestBackend {
   final Storage _storage = getLocalStorage();
   String _token;
   String _refreshToken;
-  double _tokenExpires;
+  double _tokenExpiresMilliseconds;
 
   String _baseUrl = 'http://192.168.1.250:5000';
 
   Future<void> initialize() async {
-    if(_token == null || _refreshToken == null || _tokenExpires == null) {
+    if(_token == null || _refreshToken == null || _tokenExpiresMilliseconds == null) {
       await _loadToken();
     }
   }
 
   bool isAuthenticated(){
-    return _haveToken() && !_isTokenExpired();
+    return _haveToken();
   }
 
-  Future<void> saveToken(String newToken, String refreshNewToken, double expires) async {
+  Future<void> saveToken(String newToken, String refreshNewToken, double expiresMilliseconds) async {
     await _storage.set('api-token', newToken);
     await _storage.set('api-refresh-token', refreshNewToken);
-    await _storage.set('api-token-expires', expires);
+    await _storage.set('api-token-expires', expiresMilliseconds);
     _token = newToken;
     _refreshToken = refreshNewToken;
-    _tokenExpires = expires;
+    _tokenExpiresMilliseconds = expiresMilliseconds;
   }
 
   Future<void> removeToken() async {
@@ -43,7 +43,7 @@ class ApiRestBackend {
     await _storage.set('api-token-expires', null);
     _token = null;
     _refreshToken = null;
-    _tokenExpires = null;
+    _tokenExpiresMilliseconds = null;
   }
 
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
@@ -120,7 +120,7 @@ class ApiRestBackend {
   Future<void> _loadToken() async {
     _token = await _storage.get('api-token');
     _refreshToken = await _storage.get('api-refresh-token');
-    _tokenExpires = await _storage.get('api-token-expires');
+    _tokenExpiresMilliseconds = await _storage.get('api-token-expires');
   }
 
   Future<String> _getToken() async {
@@ -144,8 +144,9 @@ class ApiRestBackend {
   }
 
   bool _isTokenExpired() {
-    if(_tokenExpires == null) return true;
-    return _tokenExpires > DateTime.now().millisecondsSinceEpoch;
+    if(_tokenExpiresMilliseconds == null) return true;
+    int now = DateTime.now().millisecondsSinceEpoch;
+    return _tokenExpiresMilliseconds < now;
   }
 
   bool _haveToken() {

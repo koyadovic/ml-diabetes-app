@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/user_data/view/v1_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'authentication/controller/services.dart';
 import 'authentication/view/login/v1_screen.dart';
 import 'authentication/view/signup/v1_screen.dart';
 
@@ -109,6 +110,15 @@ class _MasterPageState extends State<MasterPage> {
             title: Text('User Data'),
             onTap: () {
               changeCurrentScreen(DiaScreen.USER_DATA);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            title: Text('Logout'),
+            onTap: () {
+              final AuthenticationServices authenticationServices = AuthenticationServices();
+              authenticationServices.logout();
+              changeCurrentScreen(DiaScreen.LOGIN);
               Navigator.pop(context);
             },
           ),
