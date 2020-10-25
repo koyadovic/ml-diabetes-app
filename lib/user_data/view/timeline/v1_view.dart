@@ -74,8 +74,8 @@ class TimelineState extends State<Timeline> {
 
     return ListTile(
       leading: leading,
-      title: Text(entity.text),
-      subtitle: Text(entity.eventDate.toIso8601String()),
+      title: Text(entity.text, style: TextStyle(color: Colors.black)),
+      subtitle: Text(entity.eventDate.toIso8601String(), style: TextStyle(color: Colors.grey)),
       onTap: () {
         print(entity.entity.id);
       },
