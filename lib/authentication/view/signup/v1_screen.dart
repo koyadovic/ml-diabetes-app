@@ -6,7 +6,7 @@ import 'view_model.dart';
 
 
 // ignore: must_be_immutable
-class SignupScreenWidget extends DiaScreenStatefulWidget {
+class SignupScreenWidget extends DiaRootScreenStatefulWidget {
   SignupScreenWidgetState _state;
 
   SignupScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
@@ -26,11 +26,6 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
   @override
   void initState() {
     _viewModel = SignUpViewModel(this, widget.navigation, widget.messages);
-    _viewModel.addOnChangeListener(() {
-      print('onViewModelChange');
-      setState(() {
-      });
-    });
     super.initState();
   }
 

@@ -22,7 +22,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> implements Messages, Navigation {
 
   DiaScreen _currentScreen;
-  DiaScreenStatefulWidget _currentScreenWidget;
+  DiaRootScreenStatefulWidget _currentScreenWidget;
   ApiRestBackend _backend;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -86,12 +86,33 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
       if(title == null || title == '')
         title = widget.title;
 
-      appBar = AppBar(
-        title: Text(title),
-        actions: _currentScreenWidget.getAppBarActions(),
-      );
-    }
+      if(_currentScreenWidget.getAppBarTabs() != null) {
+        appBar = AppBar(
+          title: Text(title),
+          actions: _currentScreenWidget.getAppBarActions(),
+          bottom: TabBar(
+            tabs: _currentScreenWidget.getAppBarTabs()
+          ),
+        );
 
+        return DefaultTabController(
+          length: _currentScreenWidget.getAppBarTabs().length,
+          child: Scaffold(
+            key: _scaffoldKey,
+            appBar: appBar,
+            body: _currentScreenWidget,
+            drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
+            floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+          ),
+        );
+
+      } else {
+        appBar = AppBar(
+          title: Text(title),
+          actions: _currentScreenWidget.getAppBarActions(),
+        );
+      }
+    }
     return Scaffold(
       key: _scaffoldKey,
       appBar: appBar,
@@ -99,6 +120,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
       drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
       floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
     );
+
   }
 
   @override

@@ -35,14 +35,14 @@ class UserDataViewModelEntity {
 }
 
 
-class UserDataViewModel extends DiaViewModel {
+class TimelineViewModel extends DiaViewModel {
   List<UserDataViewModelEntity> _entries = [];
   DateTime _oldestRetrieved;
   bool _noMoreData = false;
 
   final UserDataServices userDataServices = UserDataServices();
 
-  UserDataViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
+  TimelineViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
 
   List<UserDataViewModelEntity> get entries {
     if(_oldestRetrieved == null) moreData();

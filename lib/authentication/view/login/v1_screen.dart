@@ -6,7 +6,7 @@ import 'view_model.dart';
 
 
 // ignore: must_be_immutable
-class LoginScreenWidget extends DiaScreenStatefulWidget {
+class LoginScreenWidget extends DiaRootScreenStatefulWidget {
   LoginScreenWidgetState _state;
 
   LoginScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
@@ -26,11 +26,6 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
   @override
   void initState() {
     _viewModel = LoginViewModel(this, widget.navigation, widget.messages);
-    _viewModel.addOnChangeListener(() {
-      print('onViewModelChange');
-      setState(() {
-      });
-    });
     super.initState();
   }
 

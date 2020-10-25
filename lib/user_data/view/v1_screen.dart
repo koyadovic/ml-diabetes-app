@@ -1,12 +1,12 @@
 import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/user_data/view/v1_screen_timeline.dart';
 import 'package:flutter/material.dart';
-import 'view_model.dart';
 
 
 // ignore: must_be_immutable
-class UserDataScreenWidget extends DiaScreenStatefulWidget {
+class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
   UserDataScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
@@ -19,6 +19,13 @@ class UserDataScreenWidget extends DiaScreenStatefulWidget {
   @override
   List<Widget> getAppBarActions() {
     return [];
+  }
+
+  @override
+  List<Tab> getAppBarTabs() {
+    return [
+      Tab(icon: Icon(Icons.directions_car)),
+    ];
   }
 
   @override
@@ -47,23 +54,18 @@ class UserDataScreenWidget extends DiaScreenStatefulWidget {
 
 class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
 
-  UserDataViewModel _viewModel;
-
   @override
   void initState() {
-    _viewModel = UserDataViewModel(this, widget.navigation, widget.messages);
-    _viewModel.addOnChangeListener(onViewModelChange);
     super.initState();
-  }
-
-  onViewModelChange() {
-    setState(() {
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text('UserDataScreenWidget');
+    return TabBarView(
+      children: [
+        Timeline(widget.navigation, widget.messages),
+      ],
+    );
   }
 
 }

@@ -71,6 +71,8 @@ class ApiRestBackend {
     print('GET $uri');
     try {
       http.Response response = await http.get(uri, headers: headers);
+      print('Response headers');
+      print(response.headers.toString());
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());
@@ -89,6 +91,8 @@ class ApiRestBackend {
     print('POST $uri');
     try {
       http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
+      print('Response headers');
+      print(response.headers.toString());
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());
@@ -105,6 +109,8 @@ class ApiRestBackend {
     print('PATCH $uri');
     try {
       http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
+      print('Response headers');
+      print(response.headers.toString());
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());
