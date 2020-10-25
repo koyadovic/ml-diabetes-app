@@ -21,6 +21,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> implements Messages, Navigation {
 
+  List<DiaScreen> _screens = [];
   DiaScreen _currentScreen;
   DiaRootScreenStatefulWidget _currentScreenWidget;
   ApiRestBackend _backend;
@@ -66,6 +67,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
               final AuthenticationServices authenticationServices = AuthenticationServices();
               await authenticationServices.logout();
               showInformation('See you soon!');
+              _screens = [];
               requestScreenChange(DiaScreen.LOGIN);
               Navigator.pop(context);
             },
@@ -95,14 +97,17 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
           ),
         );
 
-        return DefaultTabController(
-          length: _currentScreenWidget.getAppBarTabs().length,
-          child: Scaffold(
-            key: _scaffoldKey,
-            appBar: appBar,
-            body: _currentScreenWidget,
-            drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
-            floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+        return WillPopScope(
+          onWillPop: backScreen,
+          child: DefaultTabController(
+            length: _currentScreenWidget.getAppBarTabs().length,
+            child: Scaffold(
+              key: _scaffoldKey,
+              appBar: appBar,
+              body: _currentScreenWidget,
+              drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
+              floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+            ),
           ),
         );
 
@@ -113,12 +118,15 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
         );
       }
     }
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: appBar,
-      body: _currentScreenWidget,
-      drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
-      floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+    return WillPopScope(
+      onWillPop: backScreen,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: appBar,
+        body: _currentScreenWidget,
+        drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
+        floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+      ),
     );
 
   }
@@ -135,7 +143,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   @override
   void requestScreenChange(DiaScreen screen) {
     if(screen == _currentScreen) return;
-
+    _screens.add(screen);
     switch (screen) {
       case DiaScreen.USER_DATA:
         this.setState(() {
@@ -166,7 +174,18 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
         break;
 
       default:
-        return null;
+        throw Error();
+    }
+  }
+
+  Future<bool> backScreen() async {
+    print('Screens length: ' + _screens.length.toString());
+    if(_screens.length == 1) {
+      return true;
+    } else {
+      _screens.removeLast();
+      requestScreenChange(_screens.removeLast());
+      return false;
     }
   }
 
