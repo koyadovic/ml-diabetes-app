@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 
 
 class LoginViewModel extends DiaViewModel {
-
   final _emailPattern = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
   String _email = '';
-  String _password = '';
-
   String _emailError = '';
+
+  String _password = '';
   String _passwordError = '';
 
   bool _isValid;

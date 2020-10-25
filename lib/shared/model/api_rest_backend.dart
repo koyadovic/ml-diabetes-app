@@ -68,7 +68,7 @@ class ApiRestBackend {
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
-    print('GET $uri');
+    print('GET $uri | headers: $headers');
     try {
       http.Response response = await http.get(uri, headers: headers);
       print('Response headers');
@@ -80,17 +80,17 @@ class ApiRestBackend {
     } on HttpException catch (e) {
       print(e.toString());
       throw BackendUnavailable();
-    } catch (err) {
-      throw BackendError(err.toString());
     }
   }
 
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
-    print('POST $uri');
+    var body = json.encode(data);
+    // TODO fix IOClient.send / ClientException(error.message, error.uri)
+    print('POST $uri | body: $body | headers: $headers');
     try {
-      http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
+      http.Response response = await http.post(uri, headers: headers, body: body);
       print('Response headers');
       print(response.headers.toString());
       return _decodeResponseBody(response);
@@ -106,9 +106,10 @@ class ApiRestBackend {
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
-    print('PATCH $uri');
+    var body = json.encode(data);
+    print('PATCH $uri | body: $body | headers: $headers');
     try {
-      http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
+      http.Response response = await http.patch(uri, headers: headers, body: body);
       print('Response headers');
       print(response.headers.toString());
       return _decodeResponseBody(response);
@@ -118,8 +119,6 @@ class ApiRestBackend {
     } on HttpException catch (e) {
       print(e.toString());
       throw BackendUnavailable();
-    } catch (err) {
-      throw BackendError(err.toString());
     }
   }
 
