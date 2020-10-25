@@ -6,35 +6,6 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 
-class UserDataViewModelEntity {
-  DateTime eventDate;
-  String type;
-  String text;
-  UserDataEntity entity;
-
-  UserDataViewModelEntity(this.eventDate, this.type, this.text, this.entity);
-
-  factory UserDataViewModelEntity.fromEntity(UserDataEntity entity) {
-    switch(entity.entityType) {
-      case 'GlucoseLevel':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, '${(entity as GlucoseLevel).level}mg/dL', entity);
-      case 'Feeding':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, 'Feeding', entity);
-      case 'Activity':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, 'Activity', entity);
-      case 'InsulinInjection':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, 'Insulin', entity);
-      case 'TraitMeasure':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, 'Trait Measure', entity);
-      case 'Flag':
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, '${(entity as Flag).type}', entity);
-    }
-    return null;
-  }
-
-}
-
-
 class TimelineViewModel extends DiaViewModel {
   List<UserDataViewModelEntity> _entries = [];
   DateTime _oldestRetrieved;
@@ -66,6 +37,52 @@ class TimelineViewModel extends DiaViewModel {
     } finally {
       setLoading(false);
     }
+  }
+
+}
+
+
+class UserDataViewModelEntity {
+  DateTime eventDate;
+  String type;
+  String text;
+  UserDataEntity entity;
+
+  UserDataViewModelEntity(this.eventDate, this.type, this.text, this.entity);
+
+  factory UserDataViewModelEntity.fromEntity(UserDataEntity entity) {
+    switch(entity.entityType) {
+      case 'GlucoseLevel':
+        GlucoseLevel glucoseLevel = entity as GlucoseLevel;
+        String text = '${glucoseLevel.level} mg/dL';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+
+      case 'Feeding':
+        Feeding feeding = entity as Feeding;
+        String text = '${feeding.kCal.round()} Kcal';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+
+      case 'Activity':
+        Activity activity = entity as Activity;
+        String text = '${activity.activityType.name} ${activity.minutes}m';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+
+      case 'InsulinInjection':
+        InsulinInjection insulinInjection = entity as InsulinInjection;
+        String text = '${insulinInjection.insulinType.name} ${insulinInjection.units}u';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+
+      case 'TraitMeasure':
+        TraitMeasure traitMeasure = entity as TraitMeasure;
+        String text = '${traitMeasure.traitType.name} ${traitMeasure.value.round()}';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+
+      case 'Flag':
+        Flag flag = entity as Flag;
+        String text = '${flag.type}';
+        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+    }
+    return null;
   }
 
 }

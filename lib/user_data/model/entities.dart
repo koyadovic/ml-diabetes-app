@@ -17,6 +17,7 @@ class UserDataValueObject {
   factory UserDataValueObject.fromJson(Map<String, dynamic> json) {
     return UserDataValueObject(json['name'], json['slug']);
   }
+
 }
 
 
@@ -34,6 +35,7 @@ class GlucoseLevel extends UserDataEntity {
       level: json['level'],
     );
   }
+
 }
 
 class Feeding extends UserDataEntity {
@@ -50,7 +52,6 @@ class Feeding extends UserDataEntity {
     this.proteinGrams, this.fatGrams, this.alcoholGrams, this.saltGrams
   }) : super(id, eventDate, userId, entityType);
 
-
   factory Feeding.fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
@@ -66,6 +67,11 @@ class Feeding extends UserDataEntity {
       saltGrams: json['salt_g'],
     );
   }
+
+  double get kCal {
+    return (carbGrams - carbFiberGrams) * 4 + proteinGrams * 4 + fatGrams * 9 + alcoholGrams * 7;
+  }
+
 }
 
 
@@ -86,6 +92,10 @@ class Activity extends UserDataEntity {
     );
   }
 
+  double get kCalBurned {
+
+  }
+
 }
 
 class InsulinInjection extends UserDataEntity {
@@ -104,6 +114,7 @@ class InsulinInjection extends UserDataEntity {
       units: json['units'],
     );
   }
+
 }
 
 class TraitMeasure extends UserDataEntity {
