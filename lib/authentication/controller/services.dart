@@ -38,11 +38,18 @@ class AuthenticationServices {
 
   Future<void> signUp(String email, String password) async {
     await _backend.initialize();
-    await _backend.post(
-        '/api/v1/auth/new-account/',
-        {'email': email, 'password': password},
-        withAuth: false
-    );
+    try {
+      await _backend.post(
+          '/api/v1/auth/new-account/',
+          {'email': email, 'password': password},
+          withAuth: false
+      );
+    } on BackendBadRequest catch (e) {
+      throw AuthenticationServicesError(e.toString());
+    } on BackendUnavailable catch (e) {
+      throw AuthenticationServicesError('Dia services are unavailable. Try again later.');
+    }
+
   }
 
   Future<void> logout() async {

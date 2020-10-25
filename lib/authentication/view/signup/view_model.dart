@@ -104,13 +104,12 @@ class SignupViewModel extends DiaViewModel {
 
   Future<void> signUp() async{
     _validate();
-    print('view_model signUp()');
     if (_isValid) {
       try {
         await authenticationServices.signUp(_email, _password1);
         await authenticationServices.login(_email, _password1);
-      } catch (err) {
-        throw err;
+      } on AuthenticationServicesError catch (e) {
+        messages.showInformation(e.toString());
       } finally {
         setLoading(false);
       }
