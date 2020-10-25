@@ -1,3 +1,5 @@
+import 'package:Dia/shared/view/messages.dart';
+import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'view_model.dart';
 class SignupScreenWidget extends DiaScreenStatefulWidget {
   SignupScreenWidgetState _state;
 
-  SignupScreenWidget(Function(DiaScreen) requestScreenChange) : super(requestScreenChange);
+  SignupScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +26,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = SignupViewModel(this, this.widget.requestScreenChange);
+    _viewModel = SignupViewModel(this, widget.navigation, widget.messages);
     _viewModel.addOnChangeListener(() {
       print('onViewModelChange');
       setState(() {
@@ -91,7 +93,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 FlatButton(
                   child: Text('I already have an account'),
                   onPressed: () {
-                    widget.requestScreenChange(DiaScreen.LOGIN);
+                    widget.navigation.requestScreenChange(DiaScreen.LOGIN);
                   },
                 ),
               ],

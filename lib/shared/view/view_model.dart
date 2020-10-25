@@ -1,14 +1,17 @@
-import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
+
+import 'messages.dart';
+import 'navigation.dart';
 
 class DiaViewModel {
   List<Function> _listeners = [];
   bool _loading = false;
 
   final State state;
-  final Function(DiaScreen) requestScreenChange;
+  final Navigation navigation;
+  final Messages messages;
 
-  DiaViewModel(this.state, this.requestScreenChange);
+  DiaViewModel(this.state, this.navigation, this.messages);
 
   void addOnChangeListener(Function listener) {
     int i = _listeners.indexOf(listener);

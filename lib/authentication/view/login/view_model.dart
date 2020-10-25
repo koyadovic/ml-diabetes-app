@@ -1,5 +1,6 @@
 import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/shared/view/screens.dart';
+import 'package:Dia/shared/view/messages.dart';
+import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class LoginViewModel extends DiaViewModel {
 
   final AuthenticationServices authenticationServices = AuthenticationServices();
 
-  LoginViewModel(State state, Function(DiaScreen) requestScreenChange) : super(state, requestScreenChange);
+  LoginViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
 
   set email(String email) {
     _email = email;
@@ -49,6 +50,7 @@ class LoginViewModel extends DiaViewModel {
   }
 
   void _validate() {
+    messages.showInformation('Title', 'Message');
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
       _emailError = 'This is not an email address';
@@ -81,13 +83,13 @@ class LoginViewModel extends DiaViewModel {
         setLoading(false);
       }
       if(authenticationServices.isAuthenticated()) {
-        requestScreenChange(DiaScreen.USER_DATA);
+        navigation.requestScreenChange(DiaScreen.USER_DATA);
       }
     }
   }
 
   void notHaveAccount() {
-    requestScreenChange(DiaScreen.SIGNUP);
+    navigation.requestScreenChange(DiaScreen.SIGNUP);
   }
 
 }

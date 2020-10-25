@@ -1,3 +1,5 @@
+import 'package:Dia/shared/view/messages.dart';
+import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import 'view_model.dart';
 class UserDataScreenWidget extends DiaScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
-  UserDataScreenWidget(Function(DiaScreen) requestScreenChange) : super(requestScreenChange);
+  UserDataScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
 
   @override
   bool hasAppBar() {
@@ -52,14 +54,13 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = UserDataViewModel(this, this.widget.requestScreenChange);
+    _viewModel = UserDataViewModel(this, widget.navigation, widget.messages);
     _viewModel.addOnChangeListener(onViewModelChange);
     super.initState();
   }
 
   onViewModelChange() {
     setState(() {
-
     });
   }
 

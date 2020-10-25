@@ -3,8 +3,9 @@ import 'package:Dia/authentication/view/login/v1_screen.dart';
 import 'package:Dia/authentication/view/signup/v1_screen.dart';
 import 'package:Dia/main/view/theme.dart';
 import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/view/messages.dart';
+import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/screens.dart';
 import 'package:Dia/user_data/view/v1_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> implements Messages, Navigation {
 
   DiaScreen _currentScreen;
   DiaScreenStatefulWidget _currentScreenWidget;
@@ -31,48 +32,11 @@ class _MainScreenState extends State<MainScreen> {
     _backend = ApiRestBackend();
     _backend.initialize().then((_) {
       if (!_backend.isAuthenticated()) {
-        changeCurrentScreen(DiaScreen.LOGIN);
+        requestScreenChange(DiaScreen.LOGIN);
       } else {
-        changeCurrentScreen(DiaScreen.USER_DATA);
+        requestScreenChange(DiaScreen.USER_DATA);
       }
     });
-  }
-
-  void changeCurrentScreen(DiaScreen screen) {
-    if(screen == _currentScreen) return;
-
-    switch (screen) {
-      case DiaScreen.USER_DATA:
-        this.setState(() {
-          _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(changeCurrentScreen);
-        });
-        break;
-
-      case DiaScreen.LOGIN:
-        this.setState(() {
-          _currentScreen = screen;
-          _currentScreenWidget = LoginScreenWidget(changeCurrentScreen);
-        });
-        break;
-
-      case DiaScreen.SIGNUP:
-        this.setState(() {
-          _currentScreen = screen;
-          _currentScreenWidget = SignupScreenWidget(changeCurrentScreen);
-        });
-        break;
-
-      case DiaScreen.SETTINGS:
-        this.setState(() {
-          _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(changeCurrentScreen);  // TODO
-        });
-        break;
-
-      default:
-        return null;
-    }
   }
 
   Drawer getDrawer(BuildContext context) {
@@ -91,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
             selected: _currentScreen == DiaScreen.USER_DATA,
             title: Text('User Data'),
             onTap: () {
-              changeCurrentScreen(DiaScreen.USER_DATA);
+              requestScreenChange(DiaScreen.USER_DATA);
               Navigator.pop(context);
             },
           ),
@@ -100,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
             onTap: () async {
               final AuthenticationServices authenticationServices = AuthenticationServices();
               await authenticationServices.logout();
-              changeCurrentScreen(DiaScreen.LOGIN);
+              requestScreenChange(DiaScreen.LOGIN);
               Navigator.pop(context);
             },
           ),
@@ -133,4 +97,49 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
     );
   }
+
+  @override
+  Future<void> showInformation(String title, String message) {
+    print('$title: $message');
+    // TODO
+  }
+
+  @override
+  void requestScreenChange(DiaScreen screen) {
+    if(screen == _currentScreen) return;
+
+    switch (screen) {
+      case DiaScreen.USER_DATA:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = UserDataScreenWidget(this, this);
+        });
+        break;
+
+      case DiaScreen.LOGIN:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = LoginScreenWidget(this, this);
+        });
+        break;
+
+      case DiaScreen.SIGNUP:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = SignupScreenWidget(this, this);
+        });
+        break;
+
+      case DiaScreen.SETTINGS:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = UserDataScreenWidget(this, this);  // TODO
+        });
+        break;
+
+      default:
+        return null;
+    }
+  }
+
 }

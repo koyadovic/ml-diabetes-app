@@ -73,7 +73,10 @@ class ApiRestBackend {
       http.Response response = await http.get(uri, headers: headers);
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
-      print(e);
+      print(e.toString());
+      throw BackendUnavailable();
+    } on HttpException catch (e) {
+      print(e.toString());
       throw BackendUnavailable();
     } catch (err) {
       throw BackendError(err.toString());
@@ -88,7 +91,10 @@ class ApiRestBackend {
       http.Response response = await http.post(uri, headers: headers, body: json.encode(data));
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
-      print(e);
+      print(e.toString());
+      throw BackendUnavailable();
+    } on HttpException catch (e) {
+      print(e.toString());
       throw BackendUnavailable();
     } catch (err) {
       throw BackendError(err.toString());
@@ -103,7 +109,10 @@ class ApiRestBackend {
       http.Response response = await http.patch(uri, headers: headers, body: json.encode(data));
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
-      print(e);
+      print(e.toString());
+      throw BackendUnavailable();
+    } on HttpException catch (e) {
+      print(e.toString());
       throw BackendUnavailable();
     } catch (err) {
       throw BackendError(err.toString());

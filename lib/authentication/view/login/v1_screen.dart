@@ -1,3 +1,5 @@
+import 'package:Dia/shared/view/messages.dart';
+import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/screens.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import 'view_model.dart';
 class LoginScreenWidget extends DiaScreenStatefulWidget {
   LoginScreenWidgetState _state;
 
-  LoginScreenWidget(Function(DiaScreen) requestScreenChange) : super(requestScreenChange);
+  LoginScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +26,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = LoginViewModel(this, this.widget.requestScreenChange);
+    _viewModel = LoginViewModel(this, widget.navigation, widget.messages);
     _viewModel.addOnChangeListener(() {
       print('onViewModelChange');
       setState(() {
