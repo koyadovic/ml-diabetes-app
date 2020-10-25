@@ -103,7 +103,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
 
   @override
   Future<void> showInformation(String message) async {
-    int seconds = message.split(' ').length;
+    int seconds = ((message.split(' ').length / 2.0) + 1.0).ceil();
     Duration duration = Duration(seconds: seconds);
     SnackBar bar = SnackBar(content: Text('$message'), duration: duration);
     _scaffoldKey.currentState.showSnackBar(bar);

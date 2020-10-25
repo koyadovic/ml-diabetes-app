@@ -96,8 +96,6 @@ class ApiRestBackend {
     } on HttpException catch (e) {
       print(e.toString());
       throw BackendUnavailable();
-    } catch (err) {
-      throw BackendError(err.toString());
     }
   }
 

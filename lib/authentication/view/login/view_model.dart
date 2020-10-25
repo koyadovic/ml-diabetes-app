@@ -76,12 +76,8 @@ class LoginViewModel extends DiaViewModel {
       try {
         setLoading(true);
         await authenticationServices.login(email, password);
-        // TODO capture 401 and show message
-      } on BackendError catch(err) {
-        messages.showInformation(err.toString());
-      } catch (err) {
-        print(err);
-        throw err;
+      } on AuthenticationServicesError catch (e) {
+        messages.showInformation(e.toString());
       } finally {
         setLoading(false);
       }
