@@ -1,4 +1,5 @@
 import 'package:Dia/authentication/controller/services.dart';
+import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
@@ -50,7 +51,6 @@ class LoginViewModel extends DiaViewModel {
   }
 
   void _validate() {
-    messages.showInformation('Message');
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
       _emailError = 'This is not an email address';
@@ -77,13 +77,16 @@ class LoginViewModel extends DiaViewModel {
         setLoading(true);
         await authenticationServices.login(email, password);
         // TODO capture 401 and show message
+      } on BackendError catch(err) {
+        messages.showInformation(err.toString());
       } catch (err) {
+        print(err);
         throw err;
       } finally {
         setLoading(false);
       }
       if(authenticationServices.isAuthenticated()) {
-        messages.showInformation('');
+        messages.showInformation('Welcome!');
         navigation.requestScreenChange(DiaScreen.USER_DATA);
       }
     }

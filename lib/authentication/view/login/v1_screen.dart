@@ -67,11 +67,15 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                 RaisedButton(
                   child: Text('Login'),
                   onPressed: () {
+                    // hide keyboard
+                    FocusScope.of(context).unfocus();
                     _viewModel.login();
                   },
                 ),
               ],
             ),
+            if(_viewModel.isLoading())
+              CircularProgressIndicator(),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

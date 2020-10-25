@@ -65,6 +65,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
             onTap: () async {
               final AuthenticationServices authenticationServices = AuthenticationServices();
               await authenticationServices.logout();
+              showInformation('See you soon!');
               requestScreenChange(DiaScreen.LOGIN);
               Navigator.pop(context);
             },

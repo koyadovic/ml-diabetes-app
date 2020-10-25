@@ -80,6 +80,8 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 RaisedButton(
                   child: Text('Signup'),
                   onPressed: () {
+                    // hide keyboard
+                    FocusScope.of(context).unfocus();
                     _viewModel.signUp();
                   },
                 ),
