@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   DiaScreen _currentScreen;
   DiaScreenStatefulWidget _currentScreenWidget;
   ApiRestBackend _backend;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -91,6 +92,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: appBar,
       body: _currentScreenWidget,
       drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
@@ -99,9 +101,12 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   }
 
   @override
-  Future<void> showInformation(String title, String message) {
-    print('$title: $message');
-    // TODO
+  Future<void> showInformation(String message) async {
+    int seconds = message.split(' ').length;
+    Duration duration = Duration(seconds: seconds);
+    SnackBar bar = SnackBar(content: Text('$message'), duration: duration);
+    _scaffoldKey.currentState.showSnackBar(bar);
+    return;
   }
 
   @override

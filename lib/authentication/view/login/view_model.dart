@@ -50,7 +50,7 @@ class LoginViewModel extends DiaViewModel {
   }
 
   void _validate() {
-    messages.showInformation('Title', 'Message');
+    messages.showInformation('Message');
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
       _emailError = 'This is not an email address';
@@ -72,17 +72,18 @@ class LoginViewModel extends DiaViewModel {
 
   Future<void> login() async {
     _validate();
-    print('view_model login()');
     if (_isValid) {
       try {
         setLoading(true);
         await authenticationServices.login(email, password);
+        // TODO capture 401 and show message
       } catch (err) {
         throw err;
       } finally {
         setLoading(false);
       }
       if(authenticationServices.isAuthenticated()) {
+        messages.showInformation('');
         navigation.requestScreenChange(DiaScreen.USER_DATA);
       }
     }
