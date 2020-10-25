@@ -21,11 +21,11 @@ class SignupScreenWidget extends DiaScreenStatefulWidget {
 
 class SignupScreenWidgetState extends State<SignupScreenWidget> {
 
-  SignupViewModel _viewModel;
+  SignUpViewModel _viewModel;
 
   @override
   void initState() {
-    _viewModel = SignupViewModel(this, widget.navigation, widget.messages);
+    _viewModel = SignUpViewModel(this, widget.navigation, widget.messages);
     _viewModel.addOnChangeListener(() {
       print('onViewModelChange');
       setState(() {

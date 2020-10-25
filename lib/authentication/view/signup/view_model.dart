@@ -5,7 +5,7 @@ import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
 
 
-class SignupViewModel extends DiaViewModel {
+class SignUpViewModel extends DiaViewModel {
   final _emailPattern = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   String _email = '';
@@ -20,7 +20,7 @@ class SignupViewModel extends DiaViewModel {
 
   final AuthenticationServices authenticationServices = AuthenticationServices();
 
-  SignupViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
+  SignUpViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
 
   set email(String email) {
     _email = email;
@@ -102,10 +102,11 @@ class SignupViewModel extends DiaViewModel {
     notifyChanges();
   }
 
-  Future<void> signUp() async{
+  Future<void> signUp() async {
     _validate();
     if (_isValid) {
       try {
+        setLoading(true);
         await authenticationServices.signUp(_email, _password1);
         messages.showInformation('Account created successfully');
         navigation.requestScreenChange(DiaScreen.LOGIN);

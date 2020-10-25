@@ -1,5 +1,4 @@
 import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
