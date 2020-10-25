@@ -107,7 +107,8 @@ class SignupViewModel extends DiaViewModel {
     if (_isValid) {
       try {
         await authenticationServices.signUp(_email, _password1);
-        await authenticationServices.login(_email, _password1);
+        messages.showInformation('Account created successfully');
+        navigation.requestScreenChange(DiaScreen.LOGIN);
       } on AuthenticationServicesError catch (e) {
         messages.showInformation(e.toString());
       } finally {
