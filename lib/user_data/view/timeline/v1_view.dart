@@ -29,11 +29,17 @@ class TimelineState extends State<Timeline> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        if (_viewModel != null)
-          ..._viewModel.entries.map((entry) => Text(entry.text))
-      ],
+    return NotificationListener<ScrollEndNotification>(
+      child: ListView(
+        children: [
+          if (_viewModel != null)
+            ..._viewModel.entries.map((entry) => Text(entry.text))
+        ],
+      ),
+      onNotification: (notification) {
+        _viewModel.moreData();
+        return false;  // false continues to bubble the notification to ancestors
+      },
     );
   }
 }

@@ -15,12 +15,12 @@ class UserDataServices {
     _backend = ApiRestBackend();
   }
 
-  Future<List<UserDataEntity>> getUserData({DateTime olderThan}) async {
+  Future<List<UserDataEntity>> getUserData({DateTime olderThan, int limit = 10}) async {
     await _backend.initialize();
 
-    String url = '/api/v1/user-data/?limit=10';
+    String url = '/api/v1/user-data/?limit=$limit';
     if(olderThan != null) {
-      url += '&older_than=${olderThan.millisecondsSinceEpoch / 1000.0}';
+      url += '&older_than=${olderThan.microsecondsSinceEpoch / 1000000.0}';
     }
 
     dynamic contents = await _backend.get(url);
