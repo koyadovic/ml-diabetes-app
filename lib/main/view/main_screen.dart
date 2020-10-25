@@ -180,12 +180,12 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
 
   Future<bool> backScreen() async {
     print('backScreen() Screens length: ' + _screens.length.toString());
-    if(_screens.length == 1) {
-      return true;
-    } else {
+    if(_screens.length > 1) {
       _screens.removeLast();
       requestScreenChange(_screens.removeLast());
       return false;
+    } else {
+      return true;
     }
   }
 
