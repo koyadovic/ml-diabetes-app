@@ -179,7 +179,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   }
 
   Future<bool> backScreen() async {
-    print('Screens length: ' + _screens.length.toString());
+    print('backScreen() Screens length: ' + _screens.length.toString());
     if(_screens.length == 1) {
       return true;
     } else {
