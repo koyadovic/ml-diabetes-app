@@ -28,7 +28,7 @@ class GlucoseLevel extends UserDataEntity {
   factory GlucoseLevel.fromJson(Map<String, dynamic> json) {
     return GlucoseLevel(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       level: json['level'],
@@ -54,7 +54,7 @@ class Feeding extends UserDataEntity {
   factory Feeding.fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       carbGrams: json['carb_g'],
@@ -78,7 +78,7 @@ class Activity extends UserDataEntity {
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       activityType: UserDataValueObject.fromJson(json['activity_type']),
@@ -97,7 +97,7 @@ class InsulinInjection extends UserDataEntity {
   factory InsulinInjection.fromJson(Map<String, dynamic> json) {
     return InsulinInjection(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       insulinType: UserDataValueObject.fromJson(json['insulin_type']),
@@ -115,7 +115,7 @@ class TraitMeasure extends UserDataEntity {
   factory TraitMeasure.fromJson(Map<String, dynamic> json) {
     return TraitMeasure(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       traitType: UserDataValueObject.fromJson(json['trait_type']),
@@ -134,7 +134,7 @@ class Flag extends UserDataEntity {
   factory Flag.fromJson(Map<String, dynamic> json) {
     return Flag(
       id: json['id'],
-      eventDate: DateTime.fromMillisecondsSinceEpoch(json['event_date'] * 1000.0),
+      eventDate: DateTime.fromMillisecondsSinceEpoch((json['event_date'] * 1000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
       type: json['type'],

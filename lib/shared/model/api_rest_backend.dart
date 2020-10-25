@@ -183,8 +183,11 @@ class ApiRestBackend {
           return token;
         }
       }
+    } else {
+      print('We don\'t have token. Returning null');
+      return null;
     }
-    return null;
+
   }
 
   bool _isTokenExpired() {

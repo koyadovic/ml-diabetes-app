@@ -1,7 +1,7 @@
 import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/user_data/view/v1_screen_timeline.dart';
+import 'package:Dia/user_data/view/timeline/v1_view.dart';
 import 'package:flutter/material.dart';
 
 

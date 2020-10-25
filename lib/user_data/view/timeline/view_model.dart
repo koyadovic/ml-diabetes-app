@@ -50,7 +50,7 @@ class TimelineViewModel extends DiaViewModel {
   }
 
   Future<void> moreData() async {
-    if(_noMoreData) return;
+    if(_noMoreData || isLoading()) return;
 
     try {
       setLoading(true);
@@ -59,7 +59,7 @@ class TimelineViewModel extends DiaViewModel {
       bool moreData = !_noMoreData;
 
       if(moreData) {
-        _oldestRetrieved = moreEntries[-1].eventDate;
+        _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
         _entries.addAll(moreEntries.map((entity) => UserDataViewModelEntity.fromEntity(entity)));
         notifyChanges();
       }

@@ -16,10 +16,11 @@ class UserDataServices {
   }
 
   Future<List<UserDataEntity>> getUserData({DateTime olderThan}) async {
+    await _backend.initialize();
 
-    String url = '/api/v1/user-data/';
+    String url = '/api/v1/user-data/?limit=10';
     if(olderThan != null) {
-      url += '?older_than=${olderThan.millisecondsSinceEpoch / 1000.0}';
+      url += '&older_than=${olderThan.millisecondsSinceEpoch / 1000.0}';
     }
 
     dynamic contents = await _backend.get(url);
