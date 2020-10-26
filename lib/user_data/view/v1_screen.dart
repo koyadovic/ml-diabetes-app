@@ -27,50 +27,9 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   @override
   List<Tab> getAppBarTabs() {
     return [
-      Tab(icon: Icon(Icons.directions_car)),
+      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.home, color: Colors.white), onPressed: null)),
     ];
   }
-
-  /*
-      case 'GlucoseLevel':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.tint),
-          onPressed: (){},
-        );
-        break;
-      case 'Feeding':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.pizzaSlice),
-          color: DiaTheme.primaryColor,
-          onPressed: (){},
-        );
-        break;
-      case 'Activity':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.dumbbell),
-          onPressed: (){},
-        );
-        break;
-      case 'InsulinInjection':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.syringe),
-          onPressed: (){},
-        );
-        break;
-      case 'TraitMeasure':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.weight),
-          onPressed: (){},
-        );
-        break;
-      case 'Flag':
-        leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.flag),
-          onPressed: (){},
-        );
-        break;
-
-   */
 
   @override
   Widget getFloatingActionButton() {

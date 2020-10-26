@@ -33,7 +33,7 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
     _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
       begin: widget.color,
-      end: widget.color,  // TODO before was Colors.grey
+      end: widget.color,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(
@@ -78,7 +78,6 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
         onPressed: toggle,
         tooltip: 'Toggle',
         child: AnimatedIcon(
-          //size: themeService.isPhone ? null : 35,
           icon: AnimatedIcons.menu_close,
           progress: _animateIcon,
           color: Colors.white,
