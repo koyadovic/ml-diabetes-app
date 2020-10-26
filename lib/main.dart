@@ -15,7 +15,8 @@ class DiaApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dia',
       theme: ThemeData(
-        primarySwatch: DiaTheme.primaryColor,
+        primarySwatch: DiaTheme.primarySwatch,
+        primaryColor: DiaTheme.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MainScreen(title: 'Dia'),
@@ -23,6 +24,7 @@ class DiaApp extends StatelessWidget {
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: translationApp.supportedLocales(),
     );

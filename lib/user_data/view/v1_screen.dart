@@ -27,7 +27,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   @override
   List<Tab> getAppBarTabs() {
     return [
-      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.home, color: Colors.white), onPressed: null)),
+      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.home, color: DiaTheme.primaryColor), onPressed: null)),
     ];
   }
 
@@ -42,7 +42,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           onPressed: null,
           tooltip: 'Add Activity',
           backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.dumbbell),
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.dumbbell, color: Colors.white),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -54,7 +54,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           onPressed: null,
           tooltip: 'Add Trait Measure',
           backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.weight),
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.weight, color: Colors.white),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -66,7 +66,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           onPressed: null,
           tooltip: 'Add Feeding',
           backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.pizzaSlice),
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.pizzaSlice, color: Colors.white),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -78,7 +78,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           onPressed: null,
           tooltip: 'Add Insulin Injection',
           backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.syringe),
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.syringe, color: Colors.white),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -90,7 +90,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           onPressed: null,
           tooltip: 'Add Glucose',
           backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.tint),
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.tint, color: Colors.white),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');

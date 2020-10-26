@@ -93,7 +93,8 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
 
       if(_currentScreenWidget.getAppBarTabs() != null) {
         appBar = AppBar(
-          title: Text(title),
+          backgroundColor: Colors.grey[200],
+          title: Text(title, style: TextStyle(color: DiaTheme.primaryColor)),
           actions: _currentScreenWidget.getAppBarActions(),
           bottom: TabBar(
             tabs: _currentScreenWidget.getAppBarTabs()
