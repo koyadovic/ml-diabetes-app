@@ -15,6 +15,7 @@ class DiaApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dia',
       theme: ThemeData(
+        fontFamily: 'Roboto',
         primarySwatch: DiaTheme.primarySwatch,
         primaryColor: DiaTheme.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -3,9 +3,12 @@ import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
+import 'package:Dia/user_data/view/summary/v1_view.dart';
 import 'package:Dia/user_data/view/timeline/v1_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'graphs/v1_view.dart';
 
 
 // ignore: must_be_immutable
@@ -28,6 +31,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   List<Tab> getAppBarTabs() {
     return [
       Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.home, color: DiaTheme.primaryColor), onPressed: null)),
+      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.info, color: DiaTheme.primaryColor), onPressed: null)),
+      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.chartLine, color: DiaTheme.primaryColor), onPressed: null)),
     ];
   }
 
@@ -135,6 +140,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
     return TabBarView(
       children: [
         Timeline(widget.navigation, widget.messages),
+        Summary(widget.navigation, widget.messages),
+        Graphs(widget.navigation, widget.messages),
       ],
     );
   }
