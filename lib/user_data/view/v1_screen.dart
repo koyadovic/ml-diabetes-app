@@ -1,6 +1,8 @@
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/navigation.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
 import 'package:Dia/user_data/view/timeline/v1_view.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +32,26 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
 
   @override
   Widget getFloatingActionButton() {
-    return null;
+    return SeveralFloatingActionButton(
+        color: DiaTheme.primaryColor,
+        floatingActionButtons: [
+          FloatingActionButton(
+            heroTag: 'todo',
+            onPressed: () async {
+            },
+            tooltip: 'New todo',
+            backgroundColor: DiaTheme.primaryColor,
+            child: Icon(Icons.calendar_today, color: Colors.white),
+          ),
+
+          FloatingActionButton(
+            onPressed: () async {
+            },
+            child: Icon(Icons.assignment, color: Colors.white),
+            backgroundColor: DiaTheme.primaryColor,
+          )
+        ]
+    );
   }
 
   @override

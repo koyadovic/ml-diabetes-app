@@ -1,8 +1,8 @@
-import 'package:Dia/shared/view/translations.dart';
+import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 
-import 'messages.dart';
-import 'navigation.dart';
+import 'utils/messages.dart';
+import 'utils/navigation.dart';
 
 class DiaViewModel {
   bool _loading = false;

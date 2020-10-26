@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'messages.dart';
-import 'navigation.dart';
+import 'utils/messages.dart';
+import 'utils/navigation.dart';
 
 abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
   final Navigation navigation;

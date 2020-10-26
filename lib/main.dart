@@ -1,8 +1,8 @@
-import 'package:Dia/shared/view/translations.dart';
+import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'main/view/main_screen.dart';
-import 'shared/view/theme.dart';
+import 'shared/view/utils/theme.dart';
 
 
 void main() {

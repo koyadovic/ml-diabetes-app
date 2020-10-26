@@ -1,6 +1,6 @@
 import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/navigation.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
 

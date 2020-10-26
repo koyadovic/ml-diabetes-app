@@ -1,7 +1,7 @@
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/navigation.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/theme.dart';
+import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
