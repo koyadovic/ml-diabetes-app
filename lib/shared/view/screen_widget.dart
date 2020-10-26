@@ -25,6 +25,7 @@ abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
 
   List<Tab> getAppBarTabs() {
     // ignored if hasAppBar() returns false
+    // if returns List<Tab>, the build method of the Widget must return a TabBarView
     return null;
   }
 
