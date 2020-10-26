@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 class DiaSmallFaIcon extends StatelessWidget {
   final IconData _iconData;
   final Color color;
@@ -16,7 +17,6 @@ class DiaSmallFaIcon extends StatelessWidget {
       size: 18,
     );
   }
-
 }
 
 
@@ -34,7 +34,6 @@ class DiaMediumFaIcon extends StatelessWidget {
       size: 26,
     );
   }
-
 }
 
 
@@ -52,5 +51,4 @@ class DiaBigFaIcon extends StatelessWidget {
       size: 36,
     );
   }
-
 }
