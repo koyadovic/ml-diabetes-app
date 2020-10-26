@@ -6,6 +6,7 @@ import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/user_data/view/v1_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -56,7 +57,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
           ),
           ListTile(
             selected: _currentScreen == DiaScreen.USER_DATA,
-            leading: IconButton(icon: FaIcon(FontAwesomeIcons.home, color: _currentScreen == DiaScreen.USER_DATA ? DiaTheme.primaryColor : Colors.black), onPressed: null),
+            leading: IconButton(icon: DiaMediumFaIcon(FontAwesomeIcons.home, color: _currentScreen == DiaScreen.USER_DATA ? DiaTheme.primaryColor : Colors.black), onPressed: null),
             title: Text('User Data'),
             onTap: () {
               requestScreenChange(DiaScreen.USER_DATA);
@@ -65,7 +66,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
           ),
           ListTile(
             title: Text('Logout'),
-            leading: IconButton(icon: FaIcon(FontAwesomeIcons.signOutAlt, color: Colors.black), onPressed: null),
+            leading: IconButton(icon: DiaMediumFaIcon(FontAwesomeIcons.signOutAlt, color: Colors.black), onPressed: null),
             onTap: () async {
               final AuthenticationServices authenticationServices = AuthenticationServices();
               await authenticationServices.logout();

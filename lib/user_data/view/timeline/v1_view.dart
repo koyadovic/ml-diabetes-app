@@ -2,6 +2,7 @@ import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,38 +35,38 @@ class TimelineState extends State<Timeline> {
     switch(entity.type) {
       case 'GlucoseLevel':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.tint),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.tint),
           onPressed: (){},
         );
         break;
       case 'Feeding':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.pizzaSlice),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.pizzaSlice),
           color: DiaTheme.primaryColor,
           onPressed: (){},
         );
         break;
       case 'Activity':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.dumbbell),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.dumbbell),
           onPressed: (){},
         );
         break;
       case 'Flag':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.flag),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.flag),
           onPressed: (){},
         );
         break;
       case 'InsulinInjection':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.syringe),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.syringe),
           onPressed: (){},
         );
         break;
       case 'TraitMeasure':
         leading = IconButton(
-          icon: FaIcon(FontAwesomeIcons.weight),
+          icon: DiaSmallFaIcon(FontAwesomeIcons.weight),
           onPressed: (){},
         );
         break;
