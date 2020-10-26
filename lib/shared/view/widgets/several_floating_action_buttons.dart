@@ -4,10 +4,14 @@ class SeveralFloatingActionButton extends StatefulWidget {
   final List<FloatingActionButton> floatingActionButtons;
   final Color color;
 
+  _SeveralFloatingActionButtonState state;
+
   SeveralFloatingActionButton({this.floatingActionButtons, this.color});
 
   @override
-  _SeveralFloatingActionButtonState createState() => _SeveralFloatingActionButtonState();
+  _SeveralFloatingActionButtonState createState() {
+    return _SeveralFloatingActionButtonState();
+  }
 }
 
 class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButton> with SingleTickerProviderStateMixin {
@@ -85,6 +89,8 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
 
   @override
   Widget build(BuildContext context) {
+    widget.state = this;
+
     List<Widget> widgets = [];
     double lengthOfButtons = widget.floatingActionButtons.length.toDouble();
     for(int n=0; n<lengthOfButtons; n++) {
