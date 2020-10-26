@@ -36,13 +36,14 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
     SeveralFloatingActionButton severalFloatingActionButton;
     severalFloatingActionButton = SeveralFloatingActionButton(
       color: DiaTheme.primaryColor,
+      backgroundColor: Colors.grey[100],
       floatingActionButtons: [
         FloatingActionButton(
           heroTag: 'activity',
           onPressed: null,
           tooltip: 'Add Activity',
-          backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.dumbbell, color: Colors.white),
+          backgroundColor: Colors.grey[100],
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.dumbbell, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -53,8 +54,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           heroTag: 'traits',
           onPressed: null,
           tooltip: 'Add Trait Measure',
-          backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.weight, color: Colors.white),
+          backgroundColor: Colors.grey[100],
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.weight, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -65,8 +66,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           heroTag: 'feeding',
           onPressed: null,
           tooltip: 'Add Feeding',
-          backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.pizzaSlice, color: Colors.white),
+          backgroundColor: Colors.grey[100],
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.pizzaSlice, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -77,8 +78,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           heroTag: 'insulin',
           onPressed: null,
           tooltip: 'Add Insulin Injection',
-          backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.syringe, color: Colors.white),
+          backgroundColor: Colors.grey[100],
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.syringe, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -89,8 +90,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           heroTag: 'glucose',
           onPressed: null,
           tooltip: 'Add Glucose',
-          backgroundColor: DiaTheme.primaryColor,
-          child: IconButton(icon: FaIcon(FontAwesomeIcons.tint, color: Colors.white),
+          backgroundColor: Colors.grey[100],
+          child: IconButton(icon: FaIcon(FontAwesomeIcons.tint, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');

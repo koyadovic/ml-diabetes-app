@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
           DrawerHeader(
             child: Text('Menu'),
             decoration: BoxDecoration(
-              color: DiaTheme.primaryColor,
+              color: Colors.grey[200],
             ),
           ),
           ListTile(
@@ -93,6 +93,12 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
 
       if(_currentScreenWidget.getAppBarTabs() != null) {
         appBar = AppBar(
+          actionsIconTheme: IconThemeData(
+            color: DiaTheme.primaryColor
+          ),
+          iconTheme: IconThemeData(
+              color: DiaTheme.primaryColor
+          ),
           backgroundColor: Colors.grey[200],
           title: Text(title, style: TextStyle(color: DiaTheme.primaryColor)),
           actions: _currentScreenWidget.getAppBarActions(),
