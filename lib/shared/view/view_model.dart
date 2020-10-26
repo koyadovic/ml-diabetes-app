@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/translations.dart';
 import 'package:flutter/material.dart';
 
 import 'messages.dart';
@@ -24,5 +25,9 @@ class DiaViewModel {
   Future<void> setLoading(bool loading) async {
     _loading = loading;
     notifyChanges();
+  }
+
+  String translate(String key) {
+    return Translations.of(state.context).translate(key);
   }
 }

@@ -50,14 +50,14 @@ class LoginViewModel extends DiaViewModel {
   void _validate() {
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
-      _emailError = 'This is not an email address';
+      _emailError = translate('This is not an email address');
       isValid = false;
     } else {
       _emailError = '';
       isValid = isValid && true;
     }
     if(_password.length < 8) {
-      _passwordError = 'Error minimum length is 8 characters';
+      _passwordError = translate('Error minimum length is 8 characters');
       isValid = false;
     } else {
       _passwordError = '';
@@ -79,7 +79,7 @@ class LoginViewModel extends DiaViewModel {
         setLoading(false);
       }
       if(authenticationServices.isAuthenticated()) {
-        messages.showInformation('Welcome!');
+        messages.showInformation(translate('Welcome!'));
         navigation.requestScreenChange(DiaScreen.USER_DATA);
       }
     }

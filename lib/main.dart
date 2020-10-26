@@ -1,4 +1,6 @@
+import 'package:Dia/shared/view/translations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'main/view/main_screen.dart';
 import 'shared/view/theme.dart';
 
@@ -17,6 +19,12 @@ class DiaApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MainScreen(title: 'Dia'),
+      localizationsDelegates: [
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: translationApp.supportedLocales(),
     );
   }
 }
