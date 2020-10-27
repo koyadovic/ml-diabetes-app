@@ -154,6 +154,9 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   @override
   void requestScreenChange(DiaScreen screen) {
     if(screen == _currentScreen) return;
+    if(_currentScreen == DiaScreen.LOGIN || screen == DiaScreen.LOGIN) {
+      _screens = [];
+    }
     _screens.add(screen);
     switch (screen) {
       case DiaScreen.USER_DATA:

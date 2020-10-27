@@ -20,7 +20,7 @@ class Timeline extends DiaChildScreenStatefulWidget {
 }
 
 
-class TimelineState extends State<Timeline> {
+class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<Timeline> {
 
   TimelineViewModel _viewModel;
 
@@ -101,4 +101,8 @@ class TimelineState extends State<Timeline> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }

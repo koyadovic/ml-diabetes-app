@@ -13,9 +13,12 @@ class Graphs extends DiaChildScreenStatefulWidget {
   }
 }
 
-class GraphsState extends State<Graphs> {
+class GraphsState extends State<Graphs> with AutomaticKeepAliveClientMixin<Graphs> {
   @override
   Widget build(BuildContext context) {
     return Text('Graphs');
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

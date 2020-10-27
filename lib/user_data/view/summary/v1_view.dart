@@ -13,9 +13,12 @@ class Summary extends DiaChildScreenStatefulWidget {
 }
 
 
-class SummaryState extends State<Summary> {
+class SummaryState extends State<Summary> with AutomaticKeepAliveClientMixin<Summary> {
   @override
   Widget build(BuildContext context) {
     return Text('Summary');
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
