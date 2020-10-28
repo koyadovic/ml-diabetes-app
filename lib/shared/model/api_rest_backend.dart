@@ -28,6 +28,10 @@ class BackendBadRequest extends BackendError {
   const BackendBadRequest(String message) : super(message);
 }
 
+class NotLoggedIn extends BackendError {
+  const NotLoggedIn(String message) : super(message);
+}
+
 
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
@@ -87,7 +91,6 @@ class ApiRestBackend {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
-    // TODO fix IOClient.send / ClientException(error.message, error.uri)
     print('POST $uri | body: $body | headers: $headers');
     try {
       http.Response response = await http.post(uri, headers: headers, body: body);
@@ -172,15 +175,21 @@ class ApiRestBackend {
       if(!_isTokenExpired()) {
         return _token;
       } else {
-        dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
-        if (data == null) {
-          removeToken();
-        } else {
-          String token = data['token'];
-          String refreshToken = data['refresh_token'];
-          double expires = data['expires'] * 1000.0;
-          saveToken(token, refreshToken, expires);
-          return token;
+        try{
+          dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
+          if (data == null) {
+            removeToken();
+          } else {
+            String token = data['token'];
+            String refreshToken = data['refresh_token'];
+            double expires = data['expires'] * 1000.0;
+            saveToken(token, refreshToken, expires);
+            return token;
+          }
+        } on BackendBadRequest catch (err) {
+          await removeToken();
+          // error 400, bad request when refreshing the token, means that need to log in again with user/password
+          throw NotLoggedIn('Need to log in again with user/password');
         }
       }
     } else {

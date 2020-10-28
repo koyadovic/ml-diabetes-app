@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^0.1.3
   font_awesome_flutter: ^8.10.0
 
+  # Useful
+  pull_to_refresh: ^1.6.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

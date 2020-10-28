@@ -21,22 +21,28 @@ class TimelineViewModel extends DiaViewModel {
     return _entries;
   }
 
+  Future<void> refreshAll() async {
+    _entries = [];
+    _oldestRetrieved = null;
+    _noMoreData = false;
+    await moreData();
+  }
+
   Future<void> moreData() async {
     print('moreData');
     if(_noMoreData || isLoading()) return;
 
     try {
-      setLoading(true);
-      int limit = 10;
-      List<UserDataEntity> moreEntries = await userDataServices.getUserData(
-          olderThan: this._oldestRetrieved, limit: limit);
-      _noMoreData = moreEntries.length < limit;
-      _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
-      _entries.addAll(moreEntries.map((entity) =>
-          UserDataViewModelEntity.fromEntity(entity)));
-      notifyChanges();
-    } on BackendUnavailable catch (e) {
-      messages.showInformation('Dia Services are unavailable. Try again later.');
+      await withGeneralErrorHandlers(() async {
+        setLoading(true);
+        int limit = 10;
+        List<UserDataEntity> moreEntries = await userDataServices.getUserData(
+            olderThan: this._oldestRetrieved, limit: limit);
+        _noMoreData = moreEntries.length < limit;
+        _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
+        _entries.addAll(moreEntries.map((entity) => UserDataViewModelEntity.fromEntity(entity)));
+        notifyChanges();
+      });
     } on UserDataServicesError catch (e) {
       messages.showInformation(e.toString());
     } finally {

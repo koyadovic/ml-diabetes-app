@@ -6,6 +6,7 @@ import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 class Timeline extends DiaChildScreenStatefulWidget {
@@ -23,6 +24,7 @@ class Timeline extends DiaChildScreenStatefulWidget {
 class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<Timeline> {
 
   TimelineViewModel _viewModel;
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -85,21 +87,28 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollEndNotification>(
+    return SmartRefresher(
+      controller: _refreshController,
+      enablePullDown: true,
+      enablePullUp: true,
+      onRefresh: () async {
+        await _viewModel.refreshAll();
+        _refreshController.refreshCompleted();
+      },
+      onLoading: () async {
+        await _viewModel.moreData();
+        _refreshController.loadComplete();
+      },
       child: ListView(
         children: [
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-
-          if(_viewModel.isLoading())
-            Center(child: CircularProgressIndicator()),
+          // if(_viewModel.isLoading())
+          //   Center(child: CircularProgressIndicator()),
         ],
       ),
-      onNotification: (notification) {
-        _viewModel.moreData();
-        return false;  // false continues to bubble the notification to ancestors
-      },
     );
+
   }
 
   @override
