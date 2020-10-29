@@ -1,6 +1,7 @@
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/v1_screen.dart';
 import 'package:Dia/authentication/view/signup/v1_screen.dart';
+import 'package:Dia/communications/model/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
@@ -23,6 +24,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> implements Messages, Navigation {
 
+  final MessageSource messageSource = getMessagesSource();
+
   List<DiaScreen> _screens = [];
   DiaScreen _currentScreen;
   DiaRootScreenStatefulWidget _currentScreenWidget;
@@ -32,6 +35,11 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   @override
   void initState() {
     super.initState();
+
+    messageSource.addMessageHandler((message) {
+      print('In handler message: $message');
+    });
+    messageSource.initialize();
 
     _backend = ApiRestBackend();
     _backend.initialize().then((_) {
