@@ -70,7 +70,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               ],
             ),
             if(_viewModel.isLoading())
-              CircularProgressIndicator(),
+              Center(child: CircularProgressIndicator()),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

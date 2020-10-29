@@ -33,8 +33,8 @@ class TimelineViewModel extends DiaViewModel {
     if(_noMoreData || isLoading()) return;
 
     try {
+      setLoading(true);
       await withGeneralErrorHandlers(() async {
-        setLoading(true);
         int limit = 10;
         List<UserDataEntity> moreEntries = await userDataServices.getUserData(
             olderThan: this._oldestRetrieved, limit: limit);

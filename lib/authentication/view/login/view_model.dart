@@ -70,18 +70,20 @@ class LoginViewModel extends DiaViewModel {
   Future<void> login() async {
     _validate();
     if (_isValid) {
-      try {
-        setLoading(true);
-        await authenticationServices.login(email, password);
-      } on AuthenticationServicesError catch (e) {
-        messages.showInformation(e.toString());
-      } finally {
-        setLoading(false);
-      }
-      if(authenticationServices.isAuthenticated()) {
-        messages.showInformation(translate('Welcome!'));
-        navigation.requestScreenChange(DiaScreen.USER_DATA);
-      }
+      await withGeneralErrorHandlers(() async {
+        try {
+          setLoading(true);
+          await authenticationServices.login(email, password);
+        } on AuthenticationServicesError catch (e) {
+          messages.showInformation(e.toString());
+        } finally {
+          setLoading(false);
+        }
+        if(authenticationServices.isAuthenticated()) {
+          messages.showInformation(translate('Welcome!'));
+          navigation.requestScreenChange(DiaScreen.USER_DATA);
+        }
+      });
     }
   }
 
