@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:Dia/shared/model/api_rest_backend.dart';
+
 import 'entities.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -11,18 +15,31 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
 
 
 class MessageSource {
-  Function(Message) _onMessageHandler;
+  Function(Message) _onMessageWhenForegroundHandler;
+  Function(Message) _onMessageFromNotificationBarHandler;
 
   Future<void> initialize() async {}
-  void addMessageHandler(Function(Message) onMessageHandler) {
-    _onMessageHandler = onMessageHandler;
+
+  void onMessageWhenForeground(Function(Message) onMessageHandler) {
+    _onMessageWhenForegroundHandler = onMessageHandler;
   }
 
-  void _messageReceived(Message message) {
-    print('_messageReceived in MessageSource: $message');
-    if(_onMessageHandler != null)
-      _onMessageHandler(message);
+  void onMessageFromNotificationBar(Function(Message) onMessageHandler) {
+    _onMessageFromNotificationBarHandler = onMessageHandler;
   }
+
+  void _messageWhenForeground(Message message) {
+    print("_messageWhenForeground: $message");
+    if(_onMessageWhenForegroundHandler != null)
+      _onMessageWhenForegroundHandler(message);
+  }
+
+  void _messageFromNotificationBar(Message message) {
+    print("_messageFromNotificationBar: $message");
+    if(_onMessageFromNotificationBarHandler != null)
+      _onMessageFromNotificationBarHandler(message);
+  }
+
 }
 
 MessageSource getMessagesSource() {
@@ -34,6 +51,8 @@ MessageSource getMessagesSource() {
  */
 class _FirebaseMessageSource extends MessageSource {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  ApiRestBackend _backend = ApiRestBackend();
+  Timer _waitUntilAuthenticated;
 
   @override
   Future<void> initialize() async {
@@ -42,34 +61,48 @@ class _FirebaseMessageSource extends MessageSource {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         var data = message['data'] ?? message;
-        print("onMessage: $data");
+        print('onMessage $data');
+        return convertFirebaseMessage(data);
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         var data = message['data'] ?? message;
-        print("onLaunch: $data");
+        print('onLaunch $data');
+        return convertFirebaseMessage(data);
       },
       onResume: (Map<String, dynamic> message) async {
         var data = message['data'] ?? message;
-        print("onResume: $data");
+        print('onResume $data');
+        return convertFirebaseMessage(data);
       },
+      //onBackgroundMessage: myBackgroundMessageHandler,
+    );
+
+    _waitUntilAuthenticated = Timer.periodic(Duration(seconds: 2), (Timer t) async {
+      await _backend.initialize();
+      print('Authenticated: ' + _backend.isAuthenticated().toString());
+      if (_backend.isAuthenticated()) {
+        String token = await _firebaseMessaging.getToken();
+        _waitUntilAuthenticated.cancel();
+        await _backend.post('/api/v1/communications/receiver-details/', {'token': token});
+      }
+    });
+  }
+
+  Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
+    print('convertFirebaseMessage');
+    return Message(
+        title: firebaseMessage['title'],
+        text: firebaseMessage['body'],
+        type: firebaseMessage['type'],
+        payload: firebaseMessage['payload']
     );
   }
 
-
 }
 
-Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
-  String title = firebaseMessage['notification']['title'];
-  if(title == null) title = firebaseMessage['data']['title'];
-  String subtitle = firebaseMessage['notification']['body'];
-  if(subtitle == null) subtitle = firebaseMessage['data']['body'];
-  firebaseMessage['data'].remove('title');
-  firebaseMessage['data'].remove('body');
-  return Message(title: title, text: subtitle, payload: firebaseMessage['data']);
-}
 
-Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) async {
-  Message diaMessage = convertFirebaseMessage(message);
-  print('backgroundMessageHandler() $diaMessage');
-}
+
+// Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) async {
+//   Message diaMessage = convertFirebaseMessage(message);
+//   print('backgroundMessageHandler() $diaMessage');
+// }

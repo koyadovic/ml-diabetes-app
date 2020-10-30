@@ -1,6 +1,7 @@
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/v1_screen.dart';
 import 'package:Dia/authentication/view/signup/v1_screen.dart';
+import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/model/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/model/api_rest_backend.dart';
@@ -29,16 +30,30 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   List<DiaScreen> _screens = [];
   DiaScreen _currentScreen;
   DiaRootScreenStatefulWidget _currentScreenWidget;
-  ApiRestBackend _backend;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  ApiRestBackend _backend;
+
+  Message lastMessageFromNotificationBar;
+  Message lastMessageWhenForeground;
 
   @override
   void initState() {
     super.initState();
 
-    messageSource.addMessageHandler((message) {
-      print('In handler message: $message');
+    messageSource.onMessageFromNotificationBar((message) {
+      print('MainScreen MessageFromNotificationBar: $message');
+      setState(() {
+        lastMessageFromNotificationBar = message;
+      });
     });
+
+    messageSource.onMessageWhenForeground((message) {
+      print('MainScreen MessageWhenForeground: $message');
+      setState(() {
+        lastMessageWhenForeground = message;
+      });
+    });
+
     messageSource.initialize();
 
     _backend = ApiRestBackend();
