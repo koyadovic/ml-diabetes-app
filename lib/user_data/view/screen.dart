@@ -100,8 +100,13 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               showWidget(
-                AddGlucoseLevelWidget(selfCloseCallback: hideWidget),
-                WidgetPosition.BOTTOM
+                AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
+                  if(reload) {
+                    // TODO reload
+                  }
+                  hideWidget();
+                }),
+                WidgetPosition.CENTER
               );
             },
           ),

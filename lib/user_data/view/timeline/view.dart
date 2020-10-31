@@ -1,22 +1,21 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'add_glucose_level.dart';
-
 
 class Timeline extends DiaChildScreenStatefulWidget {
+  TimelineState _state;
 
   Timeline(DiaRootScreenStatefulWidget root) : super(root);
 
   @override
   State<StatefulWidget> createState() {
-    return TimelineState();
+    _state = TimelineState();
+    return _state;
   }
 
 }
@@ -49,20 +48,10 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   void initState() {
     _viewModel = TimelineViewModel(this);
     super.initState();
+  }
 
-    Widget widgetToShow = ListView(
-      shrinkWrap: true,
-      children: [
-        ListTile(title: Text('This is a test')),
-        ListTile(title: Text('This is a test')),
-        ListTile(title: Text('This is a test')),
-        FlatButton(
-          onPressed: widget.diaRootScreen.hideWidget,
-          child: Text('Close'),
-        )
-      ],
-    );
-
+  refreshAll() {
+    _viewModel.refreshAll();
   }
 
   ListTile userDataViewModelEntityToListTile(UserDataViewModelEntity entity) {
@@ -139,39 +128,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-
-          UnitTextField(
-            unit: 'mg/dL',
-            initialValue: 123,
-            min: 0.0, max: 600.0,
-            onChange: (value) {
-              print('Glucosa!: $value');
-            }
-          ),
-          UnitTextField(
-              unit: 'g',
-              initialValue: 123,
-              min: 0.0, max: 3000.0,
-              onChange: (value) {
-                print('Gramos!: $value');
-              }
-          ),
-          UnitTextField(
-              unit: 'm',
-              initialValue: 0,
-              min: 0.0, max: 1440,
-              onChange: (value) {
-                print('Minutos!: $value');
-              }
-          ),
-          UnitTextField(
-              unit: 'u',
-              initialValue: 0,
-              min: 0.0, max: 250,
-              onChange: (value) {
-                print('u insulina!: $value');
-              }
-          ),
         ],
       ),
     );

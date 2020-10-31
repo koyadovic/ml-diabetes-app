@@ -7,8 +7,9 @@ class UnitTextField extends StatefulWidget {
   final double min;
   final double max;
   final bool enabled;
+  final bool autoFocus;
 
-  UnitTextField({@required this.unit, @required this.onChange, this.initialValue, this.min, this.max, this.enabled : true});
+  UnitTextField({@required this.unit, @required this.onChange, this.initialValue, this.autoFocus : false, this.min, this.max, this.enabled : true});
 
   @override
   State<StatefulWidget> createState() {
@@ -19,10 +20,12 @@ class UnitTextField extends StatefulWidget {
 class UnitTextFieldState extends State<UnitTextField> {
   TextEditingController _controller;
   double _lastValueEmitted;
+  FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
     _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
     _controller.addListener(() {
       final text = _controller.text;
@@ -40,6 +43,10 @@ class UnitTextFieldState extends State<UnitTextField> {
       );
       setState(() {});
     });
+
+    if(widget.autoFocus) {
+      Future.delayed(Duration(milliseconds: 300), () => requestFocus());
+    }
   }
 
   double processStringValue(String text) {
@@ -65,43 +72,57 @@ class UnitTextFieldState extends State<UnitTextField> {
   }
 
   @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void requestFocus() {
+    if(widget.enabled)
+      _focusNode.requestFocus();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-      child: Text.rich(
-        TextSpan(
-          //style: TextStyle(color: widget.enabled ? Colors.black : Colors.grey),
-          children: <InlineSpan>[
-            WidgetSpan(
-              child: SizedBox(
-                width: w,
-                //height: 38,
-                child: TextField(
-                  enabled: widget.enabled,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
+    return GestureDetector(
+      onTap: () => requestFocus(),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+        child: Text.rich(
+          TextSpan(
+            children: <InlineSpan>[
+              WidgetSpan(
+                child: SizedBox(
+                  width: w,
+                  //height: 38,
+                  child: TextField(
+                    focusNode: _focusNode,
+                    enabled: widget.enabled,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
+                    ),
+                    style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
+                    keyboardType: TextInputType.number,
+                    controller: _controller,
                   ),
-                  style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
-                  keyboardType: TextInputType.number,
-                  controller: _controller,
-                ),
-              )
-            ),
-            WidgetSpan(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: Text(
-                  widget.unit,
-                  style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+                )
+              ),
+              WidgetSpan(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                  child: Text(
+                    widget.unit,
+                    style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
+            ],
+          )
+        ),
       ),
     );
   }
