@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
-enum WidgetPosition {
-  TOP,
-  CENTER,
-  BOTTOM,
-}
 
-
-typedef ShowWidgetCallback = void Function(Widget w, WidgetPosition position);
+typedef ShowWidgetCallback = void Function(Widget w);
 typedef HideWidgetCallback = void Function();
 
 

@@ -41,31 +41,39 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            DropdownButton<TraitType>(
-              elevation: 999999,
-              value: _selectedTraitType,
-              onChanged: (TraitType newValue) {
-                _selectTraitType(newValue);
-              },
-              items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
-                return DropdownMenuItem<TraitType>(
-                  value: type,
-                  child: Text(type.name),
-                );
-              }).toList(),
-            )
+            Padding(
+              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
+              child: Column(
+                children: [
+                  DropdownButton<TraitType>(
+                    //isExpanded: true,
+                    value: _selectedTraitType,
+                    onChanged: (TraitType newValue) {
+                      _selectTraitType(newValue);
+                    },
+                    items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
+                      return DropdownMenuItem<TraitType>(
+                        value: type,
+                        child: Text(type.name),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             UnitTextField(
-                unit: 'mg/dL',
+                unit: _selectedTraitType == null ? '' : _selectedTraitType.unit,
                 min: 0.0, max: 600.0,
                 onChange: (value) {
                 }

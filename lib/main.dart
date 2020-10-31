@@ -89,64 +89,27 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
      */
   }
 
-  OverlayEntry _overlayEntry;
-
-  void showWidgetCallback(Widget w, WidgetPosition position) {
+  void showWidgetCallback(Widget widget) {
     print('!!!! showWidgetCallback()');
-    this._overlayEntry = this._createOverlayEntry(w, position);
-    Overlay.of(context).insert(this._overlayEntry);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return WillPopScope(
+          onWillPop: () {},
+          child: Dialog(
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+            child: widget
+          ),
+        );
+      }
+    );
   }
 
   void hideWidgetCallback() {
     print('!!!! hideWidgetCallback()');
-    try {
-      this._overlayEntry?.remove();
-    } catch (e) {}
-    this._overlayEntry = null;
-  }
-
-  OverlayEntry _createOverlayEntry(Widget w, WidgetPosition position) {
-    RenderBox renderBox = context.findRenderObject();
-    var size = renderBox.size;
-
-    MainAxisAlignment alignment;
-    switch(position) {
-      case WidgetPosition.TOP:
-        alignment = MainAxisAlignment.start;
-        break;
-      case WidgetPosition.CENTER:
-        alignment = MainAxisAlignment.center;
-        break;
-      case WidgetPosition.BOTTOM:
-        alignment = MainAxisAlignment.end;
-        break;
-      default:
-        alignment = MainAxisAlignment.center;
-    }
-
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        height: size.height,
-        width: size.width,
-        child: Container(
-          color: Colors.black26,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: alignment,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 36.0, 12.0, 12.0),
-                child: Dialog(
-                  elevation: 2.0,
-                  child: w
-                )
-              )
-            ],
-          ),
-        ),
-      )
-    );
+    Navigator.pop(context);
   }
 
   Drawer getDrawer(BuildContext context) {
@@ -299,18 +262,12 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   Future<bool> backScreen() async {
-    if(this._overlayEntry != null) {
-      // if overlay is currently opened, ignore back button.
-      // users must attend the current opened dialog
+    if(_screens.length > 1) {
+      _screens.removeLast();
+      requestScreenChange(_screens.removeLast());
       return false;
     } else {
-      if(_screens.length > 1) {
-        _screens.removeLast();
-        requestScreenChange(_screens.removeLast());
-        return false;
-      } else {
-        return true;
-      }
+      return true;
     }
   }
 

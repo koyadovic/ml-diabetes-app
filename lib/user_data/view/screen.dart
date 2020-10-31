@@ -60,7 +60,6 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                     }
                     hideWidget();
                   }),
-                  WidgetPosition.BOTTOM
               );
             },
           ),
@@ -119,7 +118,6 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   }
                   hideWidget();
                 }),
-                WidgetPosition.BOTTOM
               );
             },
           ),
