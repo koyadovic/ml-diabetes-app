@@ -106,7 +106,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   }
                   hideWidget();
                 }),
-                WidgetPosition.CENTER
+                WidgetPosition.BOTTOM
               );
             },
           ),
