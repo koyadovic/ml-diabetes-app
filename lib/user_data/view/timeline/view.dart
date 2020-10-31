@@ -1,5 +1,3 @@
-import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
@@ -11,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Timeline extends DiaChildScreenStatefulWidget {
 
-  // Timeline() : super();
+  Timeline(DiaRootScreenStatefulWidget root) : super(root);
 
   @override
   State<StatefulWidget> createState() {
@@ -48,6 +46,29 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   void initState() {
     _viewModel = TimelineViewModel(this);
     super.initState();
+
+    Future.delayed(Duration(seconds: 2), () {
+      widget.root.showWidgetCallback(
+        Center(
+          child: Material(
+            elevation: 4.0,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(title: Text('This is a test')),
+                ListTile(title: Text('This is a test')),
+                ListTile(title: Text('This is a test')),
+                FlatButton(
+                  onPressed: widget.root.hideWidgetCallback,
+                  child: Text('Close'),
+                )
+              ],
+            ),
+          ),
+        )
+      );
+    });
+
   }
 
   ListTile userDataViewModelEntityToListTile(UserDataViewModelEntity entity) {

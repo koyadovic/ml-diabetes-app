@@ -90,8 +90,40 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
      */
   }
 
-  void showWidgetCallback(Widget w) {
+  OverlayEntry _overlayEntry;
 
+  void showWidgetCallback(Widget w) {
+    print('!!!! showWidgetCallback()');
+    this._overlayEntry = this._createOverlayEntry(w);
+    Overlay.of(context).insert(this._overlayEntry);
+  }
+
+  void hideWidgetCallback() {
+    print('!!!! hideWidgetCallback()');
+    try {
+      this._overlayEntry?.remove();
+    } catch (e) {}
+    this._overlayEntry = null;
+  }
+
+  OverlayEntry _createOverlayEntry(Widget w) {
+    RenderBox renderBox = context.findRenderObject();
+    var size = renderBox.size;
+    print(size.toString());
+
+    return OverlayEntry(
+        builder: (context) => Positioned(
+          height: size.height,
+          width: size.width,
+          child: Container(
+            color: Colors.black26,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: w
+            )
+          ),
+        )
+    );
   }
 
   Drawer getDrawer(BuildContext context) {
@@ -213,28 +245,28 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       case DiaScreen.USER_DATA:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback);
+          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
         });
         break;
 
       case DiaScreen.LOGIN:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = LoginScreenWidget();
+          _currentScreenWidget = LoginScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
         });
         break;
 
       case DiaScreen.SIGNUP:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = SignupScreenWidget();
+          _currentScreenWidget = SignupScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
         });
         break;
 
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback);  // TODO
+          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);  // TODO
         });
         break;
 
@@ -245,12 +277,17 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   Future<bool> backScreen() async {
     print('backScreen() Screens length: ' + _screens.length.toString());
-    if(_screens.length > 1) {
-      _screens.removeLast();
-      requestScreenChange(_screens.removeLast());
+    if(this._overlayEntry != null) {
+      hideWidgetCallback();
       return false;
     } else {
-      return true;
+      if(_screens.length > 1) {
+        _screens.removeLast();
+        requestScreenChange(_screens.removeLast());
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 

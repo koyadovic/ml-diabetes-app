@@ -1,4 +1,3 @@
-import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'view_model.dart';
 class SignupScreenWidget extends DiaRootScreenStatefulWidget {
   SignupScreenWidgetState _state;
 
-  SignupScreenWidget() : super();
+  SignupScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidgetCallback: showWidgetCallback, hideWidgetCallback: hideWidgetCallback);
 
   @override
   State<StatefulWidget> createState() {

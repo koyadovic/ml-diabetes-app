@@ -14,7 +14,7 @@ import 'graphs/view.dart';
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
-  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback) : super(showWidgetCallback: showWidgetCallback);
+  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidgetCallback: showWidgetCallback, hideWidgetCallback: hideWidgetCallback);
 
   @override
   bool hasAppBar() {
@@ -138,9 +138,9 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        Timeline(),
-        Summary(),
-        Graphs(),
+        Timeline(widget),
+        Summary(widget),
+        Graphs(widget),
       ],
     );
   }

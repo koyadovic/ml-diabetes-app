@@ -2,7 +2,7 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
 
 class Summary extends DiaChildScreenStatefulWidget {
-  // Summary() : super();
+  Summary(DiaRootScreenStatefulWidget root) : super(root);
 
   @override
   State<StatefulWidget> createState() {

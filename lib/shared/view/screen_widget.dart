@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 typedef ShowWidgetCallback = void Function(Widget w);
+typedef HideWidgetCallback = void Function();
 
 
 abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
   final ShowWidgetCallback showWidgetCallback;
+  final HideWidgetCallback hideWidgetCallback;
 
-  DiaRootScreenStatefulWidget({this.showWidgetCallback});
+  DiaRootScreenStatefulWidget({
+    @required this.showWidgetCallback,
+    @required this.hideWidgetCallback
+  });
 
   bool hasAppBar() {
     return false;
@@ -40,5 +45,6 @@ abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
 
 
 abstract class DiaChildScreenStatefulWidget extends StatefulWidget {
-  DiaChildScreenStatefulWidget();
+  final DiaRootScreenStatefulWidget root;
+  DiaChildScreenStatefulWidget(this.root);
 }
