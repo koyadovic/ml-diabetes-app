@@ -68,14 +68,18 @@ class _FirebaseMessageSource extends MessageSource {
       },
     );
 
-    _waitUntilAuthenticated = Timer.periodic(Duration(seconds: 2), (Timer t) async {
-      await _backend.initialize();
-      if (_backend.isAuthenticated()) {
-        String token = await _firebaseMessaging.getToken();
-        _waitUntilAuthenticated.cancel();
-        await _backend.post('/api/v1/communications/receiver-details/', {'token': token});
-      }
-    });
+    if(_waitUntilAuthenticated == null) {
+      _waitUntilAuthenticated = Timer.periodic(Duration(seconds: 2), (Timer t) async {
+        await _backend.initialize();
+        if (_backend.isAuthenticated()) {
+          String token = await _firebaseMessaging.getToken();
+          if(token != null && token != '') {
+            await _backend.post('/api/v1/communications/receiver-details/', {'token': token});
+            _waitUntilAuthenticated.cancel();
+          }
+        }
+      });
+    }
   }
 
   Message convertFirebaseMessage(Map<String, dynamic> firebaseMessage) {
