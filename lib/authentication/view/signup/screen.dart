@@ -8,7 +8,7 @@ import 'view_model.dart';
 class SignupScreenWidget extends DiaRootScreenStatefulWidget {
   SignupScreenWidgetState _state;
 
-  SignupScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidgetCallback: showWidgetCallback, hideWidgetCallback: hideWidgetCallback);
+  SignupScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidget: showWidgetCallback, hideWidget: hideWidgetCallback);
 
   @override
   State<StatefulWidget> createState() {

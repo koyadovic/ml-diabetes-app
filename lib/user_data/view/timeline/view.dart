@@ -48,24 +48,20 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     super.initState();
 
     Future.delayed(Duration(seconds: 2), () {
-      widget.root.showWidgetCallback(
-        Center(
-          child: Material(
-            elevation: 4.0,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                ListTile(title: Text('This is a test')),
-                ListTile(title: Text('This is a test')),
-                ListTile(title: Text('This is a test')),
-                FlatButton(
-                  onPressed: widget.root.hideWidgetCallback,
-                  child: Text('Close'),
-                )
-              ],
-            ),
-          ),
-        )
+      widget.diaRootScreen.showWidget(
+        ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(title: Text('This is a test')),
+            ListTile(title: Text('This is a test')),
+            ListTile(title: Text('This is a test')),
+            FlatButton(
+              onPressed: widget.diaRootScreen.hideWidget,
+              child: Text('Close'),
+            )
+          ],
+        ),
+        WidgetPosition.CENTER
       );
     });
 

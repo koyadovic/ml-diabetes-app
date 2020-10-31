@@ -92,9 +92,9 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   OverlayEntry _overlayEntry;
 
-  void showWidgetCallback(Widget w) {
+  void showWidgetCallback(Widget w, WidgetPosition position) {
     print('!!!! showWidgetCallback()');
-    this._overlayEntry = this._createOverlayEntry(w);
+    this._overlayEntry = this._createOverlayEntry(w, position);
     Overlay.of(context).insert(this._overlayEntry);
   }
 
@@ -106,23 +106,48 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     this._overlayEntry = null;
   }
 
-  OverlayEntry _createOverlayEntry(Widget w) {
+  OverlayEntry _createOverlayEntry(Widget w, WidgetPosition position) {
     RenderBox renderBox = context.findRenderObject();
     var size = renderBox.size;
-    print(size.toString());
+
+    MainAxisAlignment alignment;
+    switch(position) {
+      case WidgetPosition.TOP:
+        alignment = MainAxisAlignment.start;
+        break;
+      case WidgetPosition.CENTER:
+        alignment = MainAxisAlignment.center;
+        break;
+      case WidgetPosition.BOTTOM:
+        alignment = MainAxisAlignment.end;
+        break;
+      default:
+        alignment = MainAxisAlignment.center;
+    }
 
     return OverlayEntry(
-        builder: (context) => Positioned(
-          height: size.height,
-          width: size.width,
-          child: Container(
-            color: Colors.black26,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: w
-            )
+      builder: (context) => Positioned(
+        height: size.height,
+        width: size.width,
+        child: Container(
+          color: Colors.black26,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: alignment,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 32.0, 8.0, 8.0),
+                child: Material(
+                  borderRadius: BorderRadius.circular(5.0),
+                  elevation: 2.0,
+                  child: w
+                )
+              )
+            ],
           ),
-        )
+        ),
+      )
     );
   }
 

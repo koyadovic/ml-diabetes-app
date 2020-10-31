@@ -14,7 +14,7 @@ import 'graphs/view.dart';
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
-  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidgetCallback: showWidgetCallback, hideWidgetCallback: hideWidgetCallback);
+  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidget: showWidgetCallback, hideWidget: hideWidgetCallback);
 
   @override
   bool hasAppBar() {
