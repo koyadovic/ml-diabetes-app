@@ -276,9 +276,9 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   Future<bool> backScreen() async {
-    print('backScreen() Screens length: ' + _screens.length.toString());
     if(this._overlayEntry != null) {
-      hideWidgetCallback();
+      // if overlay is currently opened, ignore back button.
+      // users must attend the current opened dialog
       return false;
     } else {
       if(_screens.length > 1) {
