@@ -1,7 +1,7 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/shared/view/widgets/unit_input.dart';
+import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -156,12 +156,22 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
 
-          UnitInput('mg/dL', min: 0.0, max: 600.0, onChange: (value) {
-            print('Glucosa!: $value');
-          }),
-          UnitInput('g', onChange: (value) {
-            print('Gramos!: $value');
-          }),
+          UnitTextField(
+            unit: 'mg/dL',
+            initialValue: 123,
+            min: 0.0, max: 600.0,
+            onChange: (value) {
+              print('Glucosa!: $value');
+            }
+          ),
+          UnitTextField(
+            unit: 'g',
+            initialValue: 123,
+            min: 0.0, max: 3000.0,
+            onChange: (value) {
+              print('Gramos!: $value');
+            }
+          ),
         ],
       ),
     );
