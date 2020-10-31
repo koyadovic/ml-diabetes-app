@@ -165,12 +165,28 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             }
           ),
           UnitTextField(
-            unit: 'g',
-            initialValue: 123,
-            min: 0.0, max: 3000.0,
-            onChange: (value) {
-              print('Gramos!: $value');
-            }
+              unit: 'g',
+              initialValue: 123,
+              min: 0.0, max: 3000.0,
+              onChange: (value) {
+                print('Gramos!: $value');
+              }
+          ),
+          UnitTextField(
+              unit: 'm',
+              initialValue: 0,
+              min: 0.0, max: 1440,
+              onChange: (value) {
+                print('Minutos!: $value');
+              }
+          ),
+          UnitTextField(
+              unit: 'u',
+              initialValue: 0,
+              min: 0.0, max: 250,
+              onChange: (value) {
+                print('u insulina!: $value');
+              }
           ),
         ],
       ),
