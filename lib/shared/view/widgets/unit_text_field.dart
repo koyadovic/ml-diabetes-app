@@ -17,22 +17,13 @@ class UnitTextField extends StatefulWidget {
 }
 
 class UnitTextFieldState extends State<UnitTextField> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controller;
   double _lastValueEmitted;
 
   @override
   void initState() {
     super.initState();
-
-    if(_controller.text == '' || _controller.text == null) {
-      if (_lastValueEmitted == null) {
-        _controller.text = (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '';
-        _lastValueEmitted = widget.initialValue;
-      } else {
-        _controller.text = approximateDouble(_lastValueEmitted);
-      }
-    }
-
+    _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
     _controller.addListener(() {
       final text = _controller.text;
       double numericalValue = processStringValue(text);
@@ -76,7 +67,7 @@ class UnitTextFieldState extends State<UnitTextField> {
   @override
   Widget build(BuildContext context) {
     double w = (_controller.text.length.toDouble()) * 17.5;
-    w = w < 26 ? 26 : w;
+    w = w < 13 ? 13 : w;
 
     return Text.rich(
       TextSpan(
@@ -92,7 +83,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                 ),
-                style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey),
+                style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
                 keyboardType: TextInputType.number,
                 controller: _controller,
               ),
@@ -100,7 +91,7 @@ class UnitTextFieldState extends State<UnitTextField> {
           ),
           TextSpan(
             text: widget.unit,
-            style: TextStyle(fontSize: 14, color: Colors.grey)
+            style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
           ),
         ],
       )
