@@ -157,6 +157,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
 
           UnitInput('mg/dL'),
+          UnitInput('g'),
         ],
       ),
     );
