@@ -1,6 +1,4 @@
-import 'package:Dia/shared/model/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
@@ -14,7 +12,7 @@ class TimelineViewModel extends DiaViewModel {
 
   final UserDataServices userDataServices = UserDataServices();
 
-  TimelineViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
+  TimelineViewModel(State state) : super(state);
 
   List<UserDataViewModelEntity> get entries {
     if(_oldestRetrieved == null) moreData();
@@ -44,7 +42,7 @@ class TimelineViewModel extends DiaViewModel {
         notifyChanges();
       });
     } on UserDataServicesError catch (e) {
-      messages.showInformation(e.toString());
+      DiaMessages.getInstance().showInformation(e.toString());
     } finally {
       _noMoreData = true;
       setLoading(false);

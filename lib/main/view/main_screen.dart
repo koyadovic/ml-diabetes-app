@@ -23,7 +23,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> implements Messages, Navigation {
+class _MainScreenState extends State<MainScreen> implements MessagesHandler, ConcreteNavigator {
 
   final MessageSource messageSource = getMessagesSource();
 
@@ -39,6 +39,10 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   @override
   void initState() {
     super.initState();
+
+    DiaMessages.setMessagesHandler(this);
+    DiaNavigation.setConcreteNavigator(this);
+
     messageSource.initialize();
     _backend = ApiRestBackend();
     _backend.initialize().then((_) {
@@ -55,6 +59,10 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
     El widget de communications tendrá que ofrecer pasarle un callback para cuando
     to do sea finalizado y se puedan recargar los mensajes
      */
+  }
+
+  void showWidgetCallback(Widget w) {
+
   }
 
   Drawer getDrawer(BuildContext context) {
@@ -176,28 +184,28 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
       case DiaScreen.USER_DATA:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this, this);
+          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback);
         });
         break;
 
       case DiaScreen.LOGIN:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = LoginScreenWidget(this, this);
+          _currentScreenWidget = LoginScreenWidget();
         });
         break;
 
       case DiaScreen.SIGNUP:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = SignupScreenWidget(this, this);
+          _currentScreenWidget = SignupScreenWidget();
         });
         break;
 
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this, this);  // TODO
+          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback);  // TODO
         });
         break;
 

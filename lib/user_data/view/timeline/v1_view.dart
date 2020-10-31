@@ -11,7 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Timeline extends DiaChildScreenStatefulWidget {
 
-  Timeline(Navigation navigation, Messages messages) : super(navigation, messages);
+  // Timeline() : super();
 
   @override
   State<StatefulWidget> createState() {
@@ -46,7 +46,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   @override
   void initState() {
-    _viewModel = TimelineViewModel(this, widget.navigation, widget.messages);
+    _viewModel = TimelineViewModel(this);
     super.initState();
   }
 
@@ -105,6 +105,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return SmartRefresher(
       controller: _refreshController,
       enablePullDown: true,
@@ -121,8 +123,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-          // if(_viewModel.isLoading())
-          //   Center(child: CircularProgressIndicator()),
         ],
       ),
     );

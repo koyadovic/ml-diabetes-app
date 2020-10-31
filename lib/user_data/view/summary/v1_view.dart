@@ -1,10 +1,8 @@
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:flutter/material.dart';
 
 class Summary extends DiaChildScreenStatefulWidget {
-  Summary(Navigation navigation, Messages messages) : super(navigation, messages);
+  // Summary() : super();
 
   @override
   State<StatefulWidget> createState() {

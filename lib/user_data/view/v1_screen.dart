@@ -1,5 +1,3 @@
-import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
@@ -16,7 +14,7 @@ import 'graphs/v1_view.dart';
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
-  UserDataScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
+  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback) : super(showWidgetCallback: showWidgetCallback);
 
   @override
   bool hasAppBar() {
@@ -45,11 +43,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
       backgroundColor: Colors.grey[100],
       floatingActionButtons: [
         FloatingActionButton(
-          heroTag: 'activity',
+          heroTag: 'traits',
           onPressed: null,
-          tooltip: 'Add Activity',
+          tooltip: 'Add Trait Measure',
           backgroundColor: Colors.grey[100],
-          child: IconButton(icon: DiaSmallFaIcon(FontAwesomeIcons.dumbbell, color: DiaTheme.primaryColor),
+          child: IconButton(icon: DiaSmallFaIcon(FontAwesomeIcons.weight, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -57,11 +55,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           ),
         ),
         FloatingActionButton(
-          heroTag: 'traits',
+          heroTag: 'activity',
           onPressed: null,
-          tooltip: 'Add Trait Measure',
+          tooltip: 'Add Activity',
           backgroundColor: Colors.grey[100],
-          child: IconButton(icon: DiaSmallFaIcon(FontAwesomeIcons.weight, color: DiaTheme.primaryColor),
+          child: IconButton(icon: DiaSmallFaIcon(FontAwesomeIcons.dumbbell, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               print('Inside');
@@ -140,9 +138,9 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        Timeline(widget.navigation, widget.messages),
-        Summary(widget.navigation, widget.messages),
-        Graphs(widget.navigation, widget.messages),
+        Timeline(),
+        Summary(),
+        Graphs(),
       ],
     );
   }
