@@ -1,6 +1,6 @@
 import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/authentication/view/login/v1_screen.dart';
-import 'package:Dia/authentication/view/signup/v1_screen.dart';
+import 'package:Dia/authentication/view/login/screen.dart';
+import 'package:Dia/authentication/view/signup/screen.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/model/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
@@ -9,7 +9,7 @@ import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/user_data/view/v1_screen.dart';
+import 'package:Dia/user_data/view/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -33,8 +33,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ApiRestBackend _backend;
 
-  Message lastMessageFromNotificationBar;
-  Message lastMessageWhenForeground;
+
 
   @override
   void initState() {

@@ -2,12 +2,12 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
-import 'package:Dia/user_data/view/summary/v1_view.dart';
-import 'package:Dia/user_data/view/timeline/v1_view.dart';
+import 'package:Dia/user_data/view/summary/view.dart';
+import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'graphs/v1_view.dart';
+import 'graphs/view.dart';
 
 
 // ignore: must_be_immutable
