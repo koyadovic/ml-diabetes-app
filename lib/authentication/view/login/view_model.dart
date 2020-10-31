@@ -17,7 +17,7 @@ class LoginViewModel extends DiaViewModel {
 
   final AuthenticationServices authenticationServices = AuthenticationServices();
 
-  LoginViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
+  LoginViewModel(State state) : super(state);
 
   set email(String email) {
     _email = email;
@@ -70,23 +70,25 @@ class LoginViewModel extends DiaViewModel {
   Future<void> login() async {
     _validate();
     if (_isValid) {
-      try {
-        setLoading(true);
-        await authenticationServices.login(email, password);
-      } on AuthenticationServicesError catch (e) {
-        messages.showInformation(e.toString());
-      } finally {
-        setLoading(false);
-      }
-      if(authenticationServices.isAuthenticated()) {
-        messages.showInformation(translate('Welcome!'));
-        navigation.requestScreenChange(DiaScreen.USER_DATA);
-      }
+      await withGeneralErrorHandlers(() async {
+        try {
+          setLoading(true);
+          await authenticationServices.login(email, password);
+        } on AuthenticationServicesError catch (e) {
+          DiaMessages.getInstance().showInformation(e.toString());
+        } finally {
+          setLoading(false);
+        }
+        if(authenticationServices.isAuthenticated()) {
+          DiaMessages.getInstance().showInformation(translate('Welcome!'));
+          DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA);
+        }
+      });
     }
   }
 
   void notHaveAccount() {
-    navigation.requestScreenChange(DiaScreen.SIGNUP);
+    DiaNavigation.getInstance().requestScreenChange(DiaScreen.SIGNUP);
   }
 
 }

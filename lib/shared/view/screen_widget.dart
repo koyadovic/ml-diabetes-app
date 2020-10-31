@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'utils/messages.dart';
-import 'utils/navigation.dart';
+typedef ShowWidgetCallback = void Function(Widget w);
+
 
 abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
-  final Navigation navigation;
-  final Messages messages;
+  final ShowWidgetCallback showWidgetCallback;
 
-  DiaRootScreenStatefulWidget(this.navigation, this.messages);
+  DiaRootScreenStatefulWidget({this.showWidgetCallback});
 
   bool hasAppBar() {
     return false;
@@ -41,9 +40,5 @@ abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
 
 
 abstract class DiaChildScreenStatefulWidget extends StatefulWidget {
-  final Navigation navigation;
-  final Messages messages;
-
-  DiaChildScreenStatefulWidget(this.navigation, this.messages);
-
+  DiaChildScreenStatefulWidget();
 }

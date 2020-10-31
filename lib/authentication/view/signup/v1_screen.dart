@@ -9,7 +9,7 @@ import 'view_model.dart';
 class SignupScreenWidget extends DiaRootScreenStatefulWidget {
   SignupScreenWidgetState _state;
 
-  SignupScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
+  SignupScreenWidget() : super();
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +25,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = SignUpViewModel(this, widget.navigation, widget.messages);
+    _viewModel = SignUpViewModel(this);
     super.initState();
   }
 
@@ -89,7 +89,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 FlatButton(
                   child: Text('I already have an account'),
                   onPressed: () {
-                    widget.navigation.requestScreenChange(DiaScreen.LOGIN);
+                    DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
                   },
                 ),
               ],

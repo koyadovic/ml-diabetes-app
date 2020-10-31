@@ -9,7 +9,7 @@ import 'view_model.dart';
 class LoginScreenWidget extends DiaRootScreenStatefulWidget {
   LoginScreenWidgetState _state;
 
-  LoginScreenWidget(Navigation navigation, Messages messages) : super(navigation, messages);
+  LoginScreenWidget() : super();
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +25,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
 
   @override
   void initState() {
-    _viewModel = LoginViewModel(this, widget.navigation, widget.messages);
+    _viewModel = LoginViewModel(this);
     super.initState();
   }
 
@@ -70,7 +70,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               ],
             ),
             if(_viewModel.isLoading())
-              CircularProgressIndicator(),
+              Center(child: CircularProgressIndicator()),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

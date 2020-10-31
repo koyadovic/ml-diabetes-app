@@ -31,8 +31,6 @@ class AuthenticationServices {
       await _backend.saveToken(responseBody['token'], responseBody['refresh_token'], responseBody['expires'] * 1000.0);
     } on BackendUnauthorized catch (e) {
       throw AuthenticationServicesError('Email/Password combination are wrong.');
-    } on BackendUnavailable catch (e) {
-      throw AuthenticationServicesError('Dia services are unavailable. Try again later.');
     }
   }
 
@@ -46,8 +44,6 @@ class AuthenticationServices {
       );
     } on BackendBadRequest catch (e) {
       throw AuthenticationServicesError(e.toString());
-    } on BackendUnavailable catch (e) {
-      throw AuthenticationServicesError('Dia services are unavailable. Try again later.');
     }
 
   }

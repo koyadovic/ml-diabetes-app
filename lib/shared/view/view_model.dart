@@ -1,18 +1,16 @@
 import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 
-import 'utils/messages.dart';
 import 'utils/navigation.dart';
 
 class DiaViewModel {
   bool _loading = false;
 
   final State state;
-  final Navigation navigation;
-  final Messages messages;
 
-  DiaViewModel(this.state, this.navigation, this.messages);
+  DiaViewModel(this.state);
 
   void notifyChanges() {
     if(this.state.mounted)
@@ -36,9 +34,9 @@ class DiaViewModel {
     try {
       await function();
     } on NotLoggedIn catch (err) {
-      navigation.requestScreenChange(DiaScreen.LOGIN);
+      DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
     } on BackendUnavailable catch (err) {
-      messages.showInformation('Dia Services are unavailable. Try again later.');
+      DiaMessages.getInstance().showInformation('Dia Services are unavailable. Try again later.');
     }
   }
 }

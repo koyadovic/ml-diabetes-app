@@ -20,7 +20,7 @@ class SignUpViewModel extends DiaViewModel {
 
   final AuthenticationServices authenticationServices = AuthenticationServices();
 
-  SignUpViewModel(State state, Navigation navigation, Messages messages) : super(state, navigation, messages);
+  SignUpViewModel(State state) : super(state);
 
   set email(String email) {
     _email = email;
@@ -105,13 +105,19 @@ class SignUpViewModel extends DiaViewModel {
   Future<void> signUp() async {
     _validate();
     if (_isValid) {
-      try {
-        await authenticationServices.signUp(_email, _password1);
-        messages.showInformation('Account created successfully');
-        navigation.requestScreenChange(DiaScreen.LOGIN);
-      } on AuthenticationServicesError catch (e) {
-        messages.showInformation(e.toString());
-      }
+      await withGeneralErrorHandlers(() async {
+        try {
+          setLoading(true);
+          await authenticationServices.signUp(_email, _password1);
+          DiaMessages.getInstance().showInformation('Account created successfully');
+          DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
+        } on AuthenticationServicesError catch (e) {
+          DiaMessages.getInstance().showInformation(e.toString());
+        }
+        finally {
+          setLoading(false);
+        }
+      });
     }
   }
 

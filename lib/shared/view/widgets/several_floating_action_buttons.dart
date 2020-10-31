@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 // ignore: must_be_immutable
-class SeveralFloatingActionButton extends StatefulWidget {
+class SeveralFloatingActionButton extends StatefulWidget{
   final List<FloatingActionButton> floatingActionButtons;
   final Color color;
   final Color backgroundColor;
@@ -28,15 +28,19 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
   double _fabHeight = 56.0;
   int animationMillis = 200;
 
+  double _floatingActionButtonsLength = 0.0;
+
   @override
   initState() {
+    widget.state = this;
+    _floatingActionButtonsLength = widget.floatingActionButtons.length.toDouble();
+
     _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: animationMillis))
       ..addListener(() {
-        setState(() {});
+          setState(() {});
       });
 
     _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-
     _buttonColor = ColorTween(
       begin: widget.backgroundColor,
       end: widget.backgroundColor,
@@ -85,32 +89,24 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
     );
   }
 
+  double n = 0.0;
+
   @override
   Widget build(BuildContext context) {
-    widget.state = this;
-
-    List<Widget> widgets = [];
-    double lengthOfButtons = widget.floatingActionButtons.length.toDouble();
-    for(int n=0; n<lengthOfButtons; n++) {
-      FloatingActionButton button = widget.floatingActionButtons[n];
-      widgets.add(
-        Transform(
-          transform: Matrix4.translationValues(
-              0.0,
-              _translateButton.value * (lengthOfButtons - n.toDouble()),
-              0.0
-          ),
-          child: AnimatedOpacity(
-            opacity: isOpened ? 1.0 : 0.0,
-            duration: Duration(milliseconds: animationMillis - 100),
-            child: Container(
-              child: button,
-            ),
-          ),
+    List<Widget> widgets = widget.floatingActionButtons.map((FloatingActionButton b) {
+      Widget w = Transform(
+        transform: Matrix4.translationValues(0.0, _translateButton.value * (_floatingActionButtonsLength - n), 0.0),
+        child: AnimatedOpacity(
+          opacity: isOpened ? 1.0 : 0.0,
+          duration: Duration(milliseconds: animationMillis),
+          child: b,
         ),
       );
-    }
+      n += 1;
+      return w;
+    }).toList();
     widgets.add(getToggleIconButton());
+    n = 0.0;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,

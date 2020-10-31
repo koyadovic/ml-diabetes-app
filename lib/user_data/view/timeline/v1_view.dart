@@ -11,7 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Timeline extends DiaChildScreenStatefulWidget {
 
-  Timeline(Navigation navigation, Messages messages) : super(navigation, messages);
+  // Timeline() : super();
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +20,24 @@ class Timeline extends DiaChildScreenStatefulWidget {
 
 }
 
+/*
+TODO aquí tendremos que crear otro overlay para los añadidos
+  Dependiendo de la acción solicitada, se tendrá que insertar en el overlay
+  el widget de añadido que corresponda.
+
+  Los widgets de añadidos tienen que poder ser mostrados en una lista sin que quede feo.
+  Tienen que ser stateful y manejar internamente su estado. Si todos los elementos
+  de la lista han sido manejados se ha de quitar el overlay.
+
+  Los widgets de añadidos tienen que permitir ser editados o no. Si no son editables
+  pueden seguir siendo descartados.
+
+  Quien los engloba tiene que tener la cuenta de todos los que son y cuántos han sido manejados.
+  Tendrá que pasar un callback a todos los hijos. Estos tendrán que llamar al callback
+  siempre que el añadido es manejado (aceptado o descartado)
+
+  Esto mismo se usará en el main_screen.dart
+ */
 
 class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<Timeline> {
 
@@ -28,7 +46,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   @override
   void initState() {
-    _viewModel = TimelineViewModel(this, widget.navigation, widget.messages);
+    _viewModel = TimelineViewModel(this);
     super.initState();
   }
 
@@ -87,6 +105,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return SmartRefresher(
       controller: _refreshController,
       enablePullDown: true,
@@ -103,8 +123,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-          // if(_viewModel.isLoading())
-          //   Center(child: CircularProgressIndicator()),
         ],
       ),
     );
