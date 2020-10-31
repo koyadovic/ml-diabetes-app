@@ -54,4 +54,6 @@ abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
 abstract class DiaChildScreenStatefulWidget extends StatefulWidget {
   final DiaRootScreenStatefulWidget diaRootScreen;
   DiaChildScreenStatefulWidget(this.diaRootScreen);
+
+  void refresh() {}
 }

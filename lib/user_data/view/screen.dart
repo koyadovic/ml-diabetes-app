@@ -102,7 +102,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
               showWidget(
                 AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
                   if(reload) {
-                    // TODO reload
+                    _refresh();
                   }
                   hideWidget();
                 }),
@@ -133,23 +133,38 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
     return _state;
   }
 
+  void _refresh() {
+    _state?.refresh();
+  }
 }
 
 
 class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
+
+  Timeline timeline;
+  Summary summary;
+  Graphs graphs;
 
   @override
   void initState() {
     super.initState();
   }
 
+  void refresh() {
+    timeline?.refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
+    timeline = Timeline(widget);
+    summary = Summary(widget);
+    graphs = Graphs(widget);
+
     return TabBarView(
       children: [
-        Timeline(widget),
-        Summary(widget),
-        Graphs(widget),
+        timeline,
+        summary,
+        graphs,
       ],
     );
   }

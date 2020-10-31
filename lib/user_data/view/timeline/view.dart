@@ -18,6 +18,10 @@ class Timeline extends DiaChildScreenStatefulWidget {
     return _state;
   }
 
+  void refresh() {
+    _state?.refreshAll();
+  }
+
 }
 
 /*
