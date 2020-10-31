@@ -39,23 +39,7 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
   @override
   void initState() {
     super.initState();
-
-    messageSource.onMessageFromNotificationBar((message) {
-      print('MainScreen MessageFromNotificationBar: $message');
-      setState(() {
-        lastMessageFromNotificationBar = message;
-      });
-    });
-
-    messageSource.onMessageWhenForeground((message) {
-      print('MainScreen MessageWhenForeground: $message');
-      setState(() {
-        lastMessageWhenForeground = message;
-      });
-    });
-
     messageSource.initialize();
-
     _backend = ApiRestBackend();
     _backend.initialize().then((_) {
       if (!_backend.isAuthenticated()) {
