@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
+import 'package:Dia/shared/view/widgets/unit_input.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -154,6 +155,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
+
+          UnitInput('mg/dL'),
         ],
       ),
     );
