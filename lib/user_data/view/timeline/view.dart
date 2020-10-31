@@ -61,24 +61,24 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       ],
     );
 
-    Future.delayed(Duration(seconds: 1), () {
-      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.TOP);
-    });
-    Future.delayed(Duration(seconds: 2), () {
-      widget.diaRootScreen.hideWidget();
-    });
-    Future.delayed(Duration(seconds: 3), () {
-      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.CENTER);
-    });
-    Future.delayed(Duration(seconds: 4), () {
-      widget.diaRootScreen.hideWidget();
-    });
-    Future.delayed(Duration(seconds: 5), () {
-      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.BOTTOM);
-    });
-    Future.delayed(Duration(seconds: 6), () {
-      widget.diaRootScreen.hideWidget();
-    });
+    // Future.delayed(Duration(seconds: 1), () {
+    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.TOP);
+    // });
+    // Future.delayed(Duration(seconds: 2), () {
+    //   widget.diaRootScreen.hideWidget();
+    // });
+    // Future.delayed(Duration(seconds: 3), () {
+    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.CENTER);
+    // });
+    // Future.delayed(Duration(seconds: 4), () {
+    //   widget.diaRootScreen.hideWidget();
+    // });
+    // Future.delayed(Duration(seconds: 5), () {
+    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.BOTTOM);
+    // });
+    // Future.delayed(Duration(seconds: 6), () {
+    //   widget.diaRootScreen.hideWidget();
+    // });
 
   }
 
@@ -156,8 +156,12 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
 
-          UnitInput('mg/dL'),
-          UnitInput('g'),
+          UnitInput('mg/dL', min: 0.0, max: 600.0, onChange: (value) {
+            print('Glucosa!: $value');
+          }),
+          UnitInput('g', onChange: (value) {
+            print('Gramos!: $value');
+          }),
         ],
       ),
     );
