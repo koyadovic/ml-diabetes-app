@@ -3,6 +3,7 @@ import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
 import 'package:Dia/user_data/view/summary/view.dart';
+import 'package:Dia/user_data/view/timeline/add_glucose_level.dart';
 import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -98,7 +99,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           child: IconButton(icon: DiaSmallFaIcon(FontAwesomeIcons.tint, color: DiaTheme.primaryColor),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              print('Inside');
+              showWidget(
+                AddGlucoseLevelWidget(selfCloseCallback: hideWidget),
+                WidgetPosition.BOTTOM
+              );
             },
           ),
         ),

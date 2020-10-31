@@ -138,8 +138,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(12.0, 36.0, 12.0, 12.0),
-                child: Material(
-                  borderRadius: BorderRadius.circular(5.0),
+                child: Dialog(
                   elevation: 2.0,
                   child: w
                 )

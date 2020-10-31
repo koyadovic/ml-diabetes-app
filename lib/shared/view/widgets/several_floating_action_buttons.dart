@@ -93,6 +93,7 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
 
   @override
   Widget build(BuildContext context) {
+    widget.state = this;
     List<Widget> widgets = widget.floatingActionButtons.map((FloatingActionButton b) {
       Widget w = Transform(
         transform: Matrix4.translationValues(0.0, _translateButton.value * (_floatingActionButtonsLength - n), 0.0),

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'add_glucose_level.dart';
+
 
 class Timeline extends DiaChildScreenStatefulWidget {
 
@@ -61,25 +63,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       ],
     );
 
-    // Future.delayed(Duration(seconds: 1), () {
-    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.TOP);
-    // });
-    // Future.delayed(Duration(seconds: 2), () {
-    //   widget.diaRootScreen.hideWidget();
-    // });
-    // Future.delayed(Duration(seconds: 3), () {
-    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.CENTER);
-    // });
-    // Future.delayed(Duration(seconds: 4), () {
-    //   widget.diaRootScreen.hideWidget();
-    // });
-    // Future.delayed(Duration(seconds: 5), () {
-    //   widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.BOTTOM);
-    // });
-    // Future.delayed(Duration(seconds: 6), () {
-    //   widget.diaRootScreen.hideWidget();
-    // });
-
   }
 
   ListTile userDataViewModelEntityToListTile(UserDataViewModelEntity entity) {
@@ -88,7 +71,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       case 'GlucoseLevel':
         leading = IconButton(
           icon: DiaSmallFaIcon(FontAwesomeIcons.tint),
-          onPressed: (){},
+          onPressed: (){
+          },
         );
         break;
       case 'Feeding':

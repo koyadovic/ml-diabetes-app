@@ -69,32 +69,40 @@ class UnitTextFieldState extends State<UnitTextField> {
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
 
-    return Text.rich(
-      TextSpan(
-        //style: TextStyle(color: widget.enabled ? Colors.black : Colors.grey),
-        children: <InlineSpan>[
-          WidgetSpan(
-            child: SizedBox(
-              width: w,
-              height: 38,
-              child: TextField(
-                enabled: widget.enabled,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+      child: Text.rich(
+        TextSpan(
+          //style: TextStyle(color: widget.enabled ? Colors.black : Colors.grey),
+          children: <InlineSpan>[
+            WidgetSpan(
+              child: SizedBox(
+                width: w,
+                //height: 38,
+                child: TextField(
+                  enabled: widget.enabled,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
+                  ),
+                  style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
+                  keyboardType: TextInputType.number,
+                  controller: _controller,
                 ),
-                style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
-                keyboardType: TextInputType.number,
-                controller: _controller,
+              )
+            ),
+            WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                child: Text(
+                  widget.unit,
+                  style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+                ),
               ),
-            )
-          ),
-          TextSpan(
-            text: widget.unit,
-            style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
-          ),
-        ],
-      )
+            ),
+          ],
+        )
+      ),
     );
   }
 }
