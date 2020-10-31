@@ -59,4 +59,26 @@ class UserDataServices {
     await _backend.post(url, {'level': level});
   }
 
+  // TYPES!
+  Future<List<ActivityType>> getActivityTypes() async {
+    await _backend.initialize();
+    String url = '/api/v1/activity-types/';
+    dynamic contents = await _backend.get(url);
+    return List<ActivityType>.from(contents.map((content) => ActivityType.fromJson(content)));
+  }
+
+  Future<List<InsulinType>> getInsulinTypes() async {
+    await _backend.initialize();
+    String url = '/api/v1/insulin-types/';
+    dynamic contents = await _backend.get(url);
+    return List<InsulinType>.from(contents.map((content) => InsulinType.fromJson(content)));
+  }
+
+  Future<List<TraitType>> getTraitTypes() async {
+    await _backend.initialize();
+    String url = '/api/v1/trait-types/';
+    dynamic contents = await _backend.get(url);
+    return List<TraitType>.from(contents.map((content) => TraitType.fromJson(content)));
+  }
+
 }

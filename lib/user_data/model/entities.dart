@@ -1,3 +1,62 @@
+/*
+TYPES!
+ */
+
+class UserDataValueObject {
+  final String name;
+  final String slug;
+  UserDataValueObject(this.name, this.slug);
+}
+
+
+class TraitType extends UserDataValueObject {
+  final String unit;
+  final List<String> options;
+
+  TraitType(name, slug, this.unit, this.options) : super(name, slug);
+
+  factory TraitType.fromJson(Map<String, dynamic> json) {
+    return TraitType(
+      json['name'],
+      json['slug'],
+      json['unit'],
+      List<String>.from(json['options']),
+    );
+  }
+}
+
+class ActivityType extends UserDataValueObject {
+  final double met;
+
+  ActivityType(name, slug, this.met) : super(name, slug);
+
+  factory ActivityType.fromJson(Map<String, dynamic> json) {
+    return ActivityType(
+      json['name'],
+      json['slug'],
+      json['met'],
+    );
+  }
+}
+
+class InsulinType extends UserDataValueObject {
+  final List<String> categories;
+
+  InsulinType(name, slug, this.categories) : super(name, slug);
+
+  factory InsulinType.fromJson(Map<String, dynamic> json) {
+    return InsulinType(
+      json['name'],
+      json['slug'],
+      List<String>.from(json['categories']),
+    );
+  }
+}
+
+/*
+Core Entities!
+ */
+
 class UserDataEntity {
   final int id;
   final DateTime eventDate;
@@ -5,18 +64,6 @@ class UserDataEntity {
   final String entityType;
 
   UserDataEntity(this.id, this.eventDate, this.userId, this.entityType);
-
-}
-
-class UserDataValueObject {
-  final String name;
-  final String slug;
-
-  UserDataValueObject(this.name, this.slug);
-
-  factory UserDataValueObject.fromJson(Map<String, dynamic> json) {
-    return UserDataValueObject(json['name'], json['slug']);
-  }
 
 }
 
@@ -87,7 +134,7 @@ class Activity extends UserDataEntity {
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
-      activityType: UserDataValueObject.fromJson(json['activity_type']),
+      activityType: ActivityType.fromJson(json['activity_type']),
       minutes: json['minutes'],
     );
   }
@@ -110,7 +157,7 @@ class InsulinInjection extends UserDataEntity {
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
-      insulinType: UserDataValueObject.fromJson(json['insulin_type']),
+      insulinType: InsulinType.fromJson(json['insulin_type']),
       units: json['units'],
     );
   }
@@ -129,7 +176,7 @@ class TraitMeasure extends UserDataEntity {
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
-      traitType: UserDataValueObject.fromJson(json['trait_type']),
+      traitType: TraitType.fromJson(json['trait_type']),
       value: json['value'],
     );
   }
@@ -176,7 +223,7 @@ def serialize_insulin_type(insulin_type: InsulinType):
     return {
         'name': insulin_type.name,
         'slug': insulin_type.slug,
-        'category': insulin_type.catalog_insulin_type(),
+        'categories': insulin_type.catalog_insulin_type(),
     }
 
 
