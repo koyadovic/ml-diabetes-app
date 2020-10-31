@@ -63,39 +63,38 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     switch(entity.type) {
       case 'GlucoseLevel':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.tint),
-          onPressed: (){
-          },
+          icon: GlucoseLevelIconMedium(),
+          onPressed: (){},
         );
         break;
       case 'Feeding':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.pizzaSlice),
+          icon: FeedingIconMedium(),
           color: DiaTheme.primaryColor,
           onPressed: (){},
         );
         break;
       case 'Activity':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.dumbbell),
+          icon: ActivityIconMedium(),
           onPressed: (){},
         );
         break;
       case 'Flag':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.flag),
+          icon: FlagIconMedium(),
           onPressed: (){},
         );
         break;
       case 'InsulinInjection':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.syringe),
+          icon: InsulinInjectionIconMedium(),
           onPressed: (){},
         );
         break;
       case 'TraitMeasure':
         leading = IconButton(
-          icon: DiaSmallFaIcon(FontAwesomeIcons.weight),
+          icon: TraitMeasureIconMedium(),
           onPressed: (){},
         );
         break;

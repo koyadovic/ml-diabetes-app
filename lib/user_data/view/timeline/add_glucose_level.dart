@@ -1,6 +1,6 @@
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
-import 'package:Dia/user_data/model/entities.dart';
+import 'package:Dia/user_data/controller/services.dart';
 import 'package:flutter/material.dart';
 
 class AddGlucoseLevelWidget extends StatefulWidget {
@@ -17,6 +17,7 @@ class AddGlucoseLevelWidget extends StatefulWidget {
 
 class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
   double _glucoseLevel;
+  UserDataServices _userDataServices = UserDataServices();
 
   @override
   void initState() {
@@ -46,13 +47,8 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
         ),
         IconButton(
           icon: Icon(Icons.done, color: _glucoseLevel == 0.0 ? Colors.grey : DiaTheme.primaryColor),
-          onPressed: _glucoseLevel == 0.0 ? null : () {
-            // TODO save it
-            GlucoseLevel glucoseLevel = GlucoseLevel(
-              eventDate: DateTime.now(),
-              level: _glucoseLevel.toInt(),
-            );
-
+          onPressed: _glucoseLevel == 0.0 ? null : () async {
+            await _userDataServices.saveGlucoseLevel(_glucoseLevel);
             widget.selfCloseCallback(true);
           },
         ),

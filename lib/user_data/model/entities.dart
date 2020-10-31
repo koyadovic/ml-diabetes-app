@@ -32,7 +32,7 @@ class GlucoseLevel extends UserDataEntity {
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
       userId: json['user_id'],
       entityType: json['entity_type'],
-      level: json['level'],
+      level: (json['level'] as double).toInt(),
     );
   }
 

@@ -90,7 +90,7 @@ class UnitTextFieldState extends State<UnitTextField> {
     return GestureDetector(
       onTap: () => requestFocus(),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
         child: Text.rich(
           TextSpan(
             children: <InlineSpan>[

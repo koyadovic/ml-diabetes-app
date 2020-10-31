@@ -51,10 +51,12 @@ class UserDataServices {
       }
     }
     return entities;
-
   }
 
-
-
+  Future<void> saveGlucoseLevel(double level) async {
+    await _backend.initialize();
+    String url = '/api/v1/glucose-levels/';
+    await _backend.post(url, {'level': level});
+  }
 
 }
