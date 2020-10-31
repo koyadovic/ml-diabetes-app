@@ -47,22 +47,36 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     _viewModel = TimelineViewModel(this);
     super.initState();
 
+    Widget widgetToShow = ListView(
+      shrinkWrap: true,
+      children: [
+        ListTile(title: Text('This is a test')),
+        ListTile(title: Text('This is a test')),
+        ListTile(title: Text('This is a test')),
+        FlatButton(
+          onPressed: widget.diaRootScreen.hideWidget,
+          child: Text('Close'),
+        )
+      ],
+    );
+
+    Future.delayed(Duration(seconds: 1), () {
+      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.TOP);
+    });
     Future.delayed(Duration(seconds: 2), () {
-      widget.diaRootScreen.showWidget(
-        ListView(
-          shrinkWrap: true,
-          children: [
-            ListTile(title: Text('This is a test')),
-            ListTile(title: Text('This is a test')),
-            ListTile(title: Text('This is a test')),
-            FlatButton(
-              onPressed: widget.diaRootScreen.hideWidget,
-              child: Text('Close'),
-            )
-          ],
-        ),
-        WidgetPosition.CENTER
-      );
+      widget.diaRootScreen.hideWidget();
+    });
+    Future.delayed(Duration(seconds: 3), () {
+      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.CENTER);
+    });
+    Future.delayed(Duration(seconds: 4), () {
+      widget.diaRootScreen.hideWidget();
+    });
+    Future.delayed(Duration(seconds: 5), () {
+      widget.diaRootScreen.showWidget(widgetToShow, WidgetPosition.BOTTOM);
+    });
+    Future.delayed(Duration(seconds: 6), () {
+      widget.diaRootScreen.hideWidget();
     });
 
   }

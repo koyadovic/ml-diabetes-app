@@ -137,7 +137,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
             mainAxisAlignment: alignment,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 32.0, 8.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(12.0, 36.0, 12.0, 12.0),
                 child: Material(
                   borderRadius: BorderRadius.circular(5.0),
                   elevation: 2.0,
