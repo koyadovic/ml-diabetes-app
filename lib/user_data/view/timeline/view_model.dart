@@ -97,4 +97,8 @@ class UserDataViewModelEntity {
     return null;
   }
 
+  factory UserDataViewModelEntity.fromMessage(UserDataEntity entity) {
+
+  }
+
 }

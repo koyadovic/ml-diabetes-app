@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 // ignore: must_be_immutable
-class SeveralFloatingActionButton extends StatefulWidget {
+class SeveralFloatingActionButton extends StatefulWidget{
   final List<FloatingActionButton> floatingActionButtons;
   final Color color;
   final Color backgroundColor;
@@ -37,11 +37,10 @@ class _SeveralFloatingActionButtonState extends State<SeveralFloatingActionButto
 
     _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: animationMillis))
       ..addListener(() {
-        setState(() {});
+          setState(() {});
       });
 
     _animateIcon = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-
     _buttonColor = ColorTween(
       begin: widget.backgroundColor,
       end: widget.backgroundColor,

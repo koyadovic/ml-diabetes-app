@@ -41,6 +41,15 @@ class ApiRestBackend {
 
   String _baseUrl = 'http://192.168.1.250:5000';
 
+  // Singleton
+  static final ApiRestBackend _instance = ApiRestBackend._internal();
+  factory ApiRestBackend() {
+    return _instance;
+  }
+  ApiRestBackend._internal() {
+    initialize();
+  }
+
   Future<void> initialize() async {
     if(_token == null || _refreshToken == null || _tokenExpiresMilliseconds == null) {
       await _loadToken();

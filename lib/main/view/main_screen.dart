@@ -48,6 +48,13 @@ class _MainScreenState extends State<MainScreen> implements Messages, Navigation
         requestScreenChange(DiaScreen.USER_DATA);
       }
     });
+
+    /*
+    Usa communication services para traerse mensajes.
+    Si existen mensajes, crea el overlay para verlos.
+    El widget de communications tendrá que ofrecer pasarle un callback para cuando
+    to do sea finalizado y se puedan recargar los mensajes
+     */
   }
 
   Drawer getDrawer(BuildContext context) {
