@@ -16,12 +16,12 @@ class AddGlucoseLevelWidget extends StatefulWidget {
 
 
 class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
-  double _glucoseLevel;
+  int _glucoseLevel;
   UserDataServices _userDataServices = UserDataServices();
 
   @override
   void initState() {
-    _glucoseLevel = 0.0;
+    _glucoseLevel = 0;
     super.initState();
   }
 
@@ -36,7 +36,7 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
             autoFocus: true,
             onChange: (value) {
               setState(() {
-                _glucoseLevel = value;
+                _glucoseLevel = value.toInt();
               });
             }
         ),
