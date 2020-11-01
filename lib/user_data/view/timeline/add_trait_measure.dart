@@ -34,6 +34,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
   void initState() {
     super.initState();
     _userDataServices.getTraitTypes().then((traitTypes) {
+      traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
       setState(() {
         _traitTypes = traitTypes;
       });
@@ -69,7 +70,9 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
                     items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
                       return DropdownMenuItem<TraitType>(
                         value: type,
-                        child: Text(type.name),
+                        child: Text(
+                          type.name
+                        ),
                       );
                     }).toList(),
                   ),
@@ -81,10 +84,6 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // TODO show this only when height, weight, hip, neck, waist
-            // TODO show calendar if Birth in Seconds from Epoch
-            // TODO show selector if Gender
-
             UnitTextField(
                 unit: _selectedTraitType == null ? '' : _selectedTraitType.unit,
                 min: 0.0, max: 600.0,
@@ -94,7 +93,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
                   });
                 }
             ),
-            if(_selectedTraitType != null && _selectedTraitType.slug == '')
+
             Spacer(),
             IconButton(
               icon: Icon(Icons.close, color: DiaTheme.secondaryColor),

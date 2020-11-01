@@ -94,24 +94,24 @@ class GlucoseLevelIconBig extends StatelessWidget {
 
 
 class InsulinInjectionIconSmall extends StatelessWidget {
-  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.InsulinInjection, color: Colors.lightGreen);
+  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.InsulinInjection, color: Colors.indigo);
 }
 class InsulinInjectionIconMedium extends StatelessWidget {
-  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.InsulinInjection, color: Colors.lightGreen);
+  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.InsulinInjection, color: Colors.indigo);
 }
 class InsulinInjectionIconBig extends StatelessWidget {
-  Widget build(BuildContext context) => DiaBigFaIcon(Entity.InsulinInjection, color: Colors.lightGreen);
+  Widget build(BuildContext context) => DiaBigFaIcon(Entity.InsulinInjection, color: Colors.indigo);
 }
 
 
 class FeedingIconSmall extends StatelessWidget {
-  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.Feeding, color: Colors.orange);
+  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.Feeding, color: Colors.lightGreen);
 }
 class FeedingIconMedium extends StatelessWidget {
-  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.Feeding, color: Colors.orange);
+  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.Feeding, color: Colors.lightGreen);
 }
 class FeedingIconBig extends StatelessWidget {
-  Widget build(BuildContext context) => DiaBigFaIcon(Entity.Feeding, color: Colors.orange);
+  Widget build(BuildContext context) => DiaBigFaIcon(Entity.Feeding, color: Colors.lightGreen);
 }
 
 
@@ -127,13 +127,13 @@ class ActivityIconBig extends StatelessWidget {
 
 
 class TraitMeasureIconSmall extends StatelessWidget {
-  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.TraitMeasure, color: Colors.teal);
+  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.TraitMeasure, color: Colors.grey);
 }
 class TraitMeasureIconMedium extends StatelessWidget {
-  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.TraitMeasure, color: Colors.teal);
+  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.TraitMeasure, color: Colors.grey);
 }
 class TraitMeasureIconBig extends StatelessWidget {
-  Widget build(BuildContext context) => DiaBigFaIcon(Entity.TraitMeasure, color: Colors.teal);
+  Widget build(BuildContext context) => DiaBigFaIcon(Entity.TraitMeasure, color: Colors.grey);
 }
 
 
