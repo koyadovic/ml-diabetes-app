@@ -3,8 +3,10 @@ import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
 import 'package:Dia/user_data/view/summary/view.dart';
-import 'package:Dia/user_data/view/timeline/add_glucose_level.dart';
-import 'package:Dia/user_data/view/timeline/add_trait_measure.dart';
+import 'package:Dia/user_data/view/add_activity.dart';
+import 'package:Dia/user_data/view/add_glucose_level.dart';
+import 'package:Dia/user_data/view/add_insulin_injection.dart';
+import 'package:Dia/user_data/view/add_trait_measure.dart';
 import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -69,9 +71,12 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: ActivityIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              print('Inside');
+              showWidget(AddActivityWidget(selfCloseCallback: (bool reload) {
+                if(reload) _refresh();
+                hideWidget();
+              }));
             },
-            ),
+          ),
         ),
         FloatingActionButton(
           heroTag: 'feeding',
@@ -95,6 +100,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: InsulinInjectionIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
+              showWidget(AddInsulinInjectionWidget(selfCloseCallback: (bool reload) {
+                if(reload) _refresh();
+                hideWidget();
+              }));
             },
           ),
         ),

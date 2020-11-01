@@ -65,6 +65,18 @@ class UserDataServices {
     await _backend.post(url, {'trait_type': type.slug, 'value': value});
   }
 
+  Future<void> saveActivity(ActivityType type, int minutes) async {
+    await _backend.initialize();
+    String url = '/api/v1/activities/';
+    await _backend.post(url, {'activity_type': type.slug, 'minutes': minutes});
+  }
+
+  Future<void> saveInsulinInjection(InsulinType type, int units) async {
+    await _backend.initialize();
+    String url = '/api/v1/insulin-injections/';
+    await _backend.post(url, {'insulin_type': type.slug, 'units': units});
+  }
+
   // TYPES!
   Future<List<ActivityType>> getActivityTypes() async {
     await _backend.initialize();
