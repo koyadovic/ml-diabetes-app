@@ -53,14 +53,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: TraitMeasureIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(
-                  AddTraitMeasureWidget(selfCloseCallback: (bool reload) {
-                    if(reload) {
-                      _refresh();
-                    }
-                    hideWidget();
-                  }),
-              );
+              showWidget(AddTraitMeasureWidget(selfCloseCallback: (bool reload) {
+                if(reload) _refresh();
+                hideWidget();
+              }));
             },
           ),
         ),
@@ -111,14 +107,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: GlucoseLevelIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(
-                AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
-                  if(reload) {
-                    _refresh();
-                  }
-                  hideWidget();
-                }),
-              );
+              showWidget(AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
+                if(reload) _refresh();
+                hideWidget();
+              }));
             },
           ),
         ),
