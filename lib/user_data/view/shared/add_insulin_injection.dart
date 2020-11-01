@@ -50,15 +50,15 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-              child: Column(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
                 children: [
                   DropdownButton<InsulinType>(
                     //isExpanded: true,
@@ -77,37 +77,37 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            UnitTextField(
-                unit: 'u',
-                min: 0.0, max: 250.0,
-                onChange: (value) {
-                  setState(() {
-                    _units = value.toInt();
-                  });
-                }
-            ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              UnitTextField(
+                  unit: 'u',
+                  min: 0.0, max: 250.0,
+                  onChange: (value) {
+                    setState(() {
+                      _units = value.toInt();
+                    });
+                  }
+              ),
 
-            Spacer(),
-            IconButton(
-              icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
-              onPressed: () => widget.selfCloseCallback(false),
-            ),
-            IconButton(
-              icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-              onPressed: () async {
-                await _userDataServices.saveInsulinInjection(_selectedInsulinType, _units);
-                widget.selfCloseCallback(true);
-              },
-            ),
-          ],
-        ),
-      ],
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                onPressed: () => widget.selfCloseCallback(false),
+              ),
+              IconButton(
+                icon: Icon(Icons.done, color: DiaTheme.primaryColor),
+                onPressed: () async {
+                  await _userDataServices.saveInsulinInjection(_selectedInsulinType, _units);
+                  widget.selfCloseCallback(true);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

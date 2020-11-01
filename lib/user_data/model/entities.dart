@@ -165,7 +165,7 @@ class InsulinInjection extends UserDataEntity {
 }
 
 class TraitMeasure extends UserDataEntity {
-  final UserDataValueObject traitType;
+  final TraitType traitType;
   final dynamic value;
 
   TraitMeasure({int id, DateTime eventDate, int userId, String entityType, this.traitType, this.value}) : super(id, eventDate, userId, entityType);

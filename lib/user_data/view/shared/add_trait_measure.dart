@@ -51,15 +51,15 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-              child: Column(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
                 children: [
                   DropdownButton<TraitType>(
                     //isExpanded: true,
@@ -78,37 +78,37 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            UnitTextField(
-                unit: _selectedTraitType == null ? '' : _selectedTraitType.unit,
-                min: 0.0, max: 600.0,
-                onChange: (value) {
-                  setState(() {
-                    _measuredValue = value;
-                  });
-                }
-            ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              UnitTextField(
+                  unit: _selectedTraitType == null ? '' : _selectedTraitType.unit,
+                  min: 0.0, max: 600.0,
+                  onChange: (value) {
+                    setState(() {
+                      _measuredValue = value;
+                    });
+                  }
+              ),
 
-            Spacer(),
-            IconButton(
-              icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
-              onPressed: () => widget.selfCloseCallback(false),
-            ),
-            IconButton(
-              icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-              onPressed: () async {
-                await _userDataServices.saveTraitMeasure(_selectedTraitType, _measuredValue);
-                widget.selfCloseCallback(true);
-              },
-            ),
-          ],
-        ),
-      ],
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                onPressed: () => widget.selfCloseCallback(false),
+              ),
+              IconButton(
+                icon: Icon(Icons.done, color: DiaTheme.primaryColor),
+                onPressed: () async {
+                  await _userDataServices.saveTraitMeasure(_selectedTraitType, _measuredValue);
+                  widget.selfCloseCallback(true);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

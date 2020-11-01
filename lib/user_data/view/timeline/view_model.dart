@@ -55,42 +55,73 @@ class TimelineViewModel extends DiaViewModel {
 class UserDataViewModelEntity {
   DateTime eventDate;
   String type;
-  String text;
+  dynamic value;
+  String unit;
   UserDataEntity entity;
 
-  UserDataViewModelEntity(this.eventDate, this.type, this.text, this.entity);
+  UserDataViewModelEntity({this.eventDate, this.type, this.value, this.unit, this.entity});
 
   factory UserDataViewModelEntity.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
       case 'GlucoseLevel':
         GlucoseLevel glucoseLevel = entity as GlucoseLevel;
-        String text = '${glucoseLevel.level} mg/dL';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+          eventDate: entity.eventDate,
+          type: entity.entityType,
+          value: glucoseLevel.level,
+          unit: 'mg/dL',
+          entity: glucoseLevel
+        );
 
       case 'Feeding':
         Feeding feeding = entity as Feeding;
-        String text = '${feeding.kCal.round()} Kcal';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+          eventDate: entity.eventDate,
+          type: entity.entityType,
+          value: feeding.kCal.round(),
+          unit: 'Kcal',
+          entity: feeding
+        );
 
       case 'Activity':
         Activity activity = entity as Activity;
-        String text = '${activity.activityType.name} ${activity.minutes}m';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+            eventDate: entity.eventDate,
+            type: entity.entityType,
+            value: activity.minutes,
+            unit: 'm',
+            entity: activity
+        );
 
       case 'InsulinInjection':
         InsulinInjection insulinInjection = entity as InsulinInjection;
-        String text = '${insulinInjection.insulinType.name} ${insulinInjection.units}u';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+            eventDate: entity.eventDate,
+            type: entity.entityType,
+            value: insulinInjection.units,
+            unit: 'u',
+            entity: insulinInjection
+        );
 
       case 'TraitMeasure':
         TraitMeasure traitMeasure = entity as TraitMeasure;
-        String text = '${traitMeasure.traitType.name} ${traitMeasure.value}';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+            eventDate: entity.eventDate,
+            type: entity.entityType,
+            value: traitMeasure.value,
+            unit: traitMeasure.traitType.unit,
+            entity: traitMeasure
+        );
 
       case 'Flag':
         Flag flag = entity as Flag;
-        String text = '${flag.type}';
-        return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
+        return UserDataViewModelEntity(
+            eventDate: entity.eventDate,
+            type: entity.entityType,
+            value: flag.type,
+            unit: '',
+            entity: flag
+        );
     }
     return null;
   }

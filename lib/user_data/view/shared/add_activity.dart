@@ -50,15 +50,15 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
-              child: Column(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
                 children: [
                   DropdownButton<ActivityType>(
                     //isExpanded: true,
@@ -77,37 +77,37 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            UnitTextField(
-                unit: 'm',
-                min: 0.0, max: 600.0,
-                onChange: (value) {
-                  setState(() {
-                    _minutes = value.toInt();
-                  });
-                }
-            ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              UnitTextField(
+                  unit: 'm',
+                  min: 0.0, max: 600.0,
+                  onChange: (value) {
+                    setState(() {
+                      _minutes = value.toInt();
+                    });
+                  }
+              ),
 
-            Spacer(),
-            IconButton(
-              icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
-              onPressed: () => widget.selfCloseCallback(false),
-            ),
-            IconButton(
-              icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-              onPressed: () async {
-                await _userDataServices.saveActivity(_selectedActivityType, _minutes);
-                widget.selfCloseCallback(true);
-              },
-            ),
-          ],
-        ),
-      ],
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                onPressed: () => widget.selfCloseCallback(false),
+              ),
+              IconButton(
+                icon: Icon(Icons.done, color: DiaTheme.primaryColor),
+                onPressed: () async {
+                  await _userDataServices.saveActivity(_selectedActivityType, _minutes);
+                  widget.selfCloseCallback(true);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -89,40 +89,37 @@ class UnitTextFieldState extends State<UnitTextField> {
 
     return GestureDetector(
       onTap: () => requestFocus(),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
-        child: Text.rich(
-          TextSpan(
-            children: <InlineSpan>[
-              WidgetSpan(
-                child: SizedBox(
-                  width: w,
-                  //height: 38,
-                  child: TextField(
-                    focusNode: _focusNode,
-                    enabled: widget.enabled,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
-                    ),
-                    style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
-                    keyboardType: TextInputType.number,
-                    controller: _controller,
+      child: Text.rich(
+        TextSpan(
+          children: <InlineSpan>[
+            WidgetSpan(
+              child: SizedBox(
+                width: w,
+                //height: 38,
+                child: TextField(
+                  focusNode: _focusNode,
+                  enabled: widget.enabled,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                )
-              ),
-              WidgetSpan(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                  child: Text(
-                    widget.unit,
-                    style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
-                  ),
+                  style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
+                  keyboardType: TextInputType.number,
+                  controller: _controller,
+                ),
+              )
+            ),
+            WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                child: Text(
+                  widget.unit,
+                  style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
                 ),
               ),
-            ],
-          )
-        ),
+            ),
+          ],
+        )
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
+import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -100,10 +101,25 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         break;
     }
 
+    double value;
+    try{
+      value = entity.value.toInt();
+    } catch (err) {
+      try {
+        value = double.parse(entity.value);
+      } catch(err) {
+        value = 0.0;
+      }
+    }
 
     return ListTile(
       leading: leading,
-      title: Text(entity.text, style: TextStyle(color: Colors.black)),
+      title: UnitTextField(
+          unit: entity.unit,
+          initialValue: value,
+          enabled: false,
+          onChange: null,
+      ),
       subtitle: Text(entity.eventDate.toIso8601String(), style: TextStyle(color: Colors.grey)),
       onTap: () {
         print(entity.entity.id);
