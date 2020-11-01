@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -32,7 +33,7 @@ class TimelineViewModel extends DiaViewModel {
 
     try {
       setLoading(true);
-      await withGeneralErrorHandlers(() async {
+      await withBackendErrorHandlers(() async {
         int limit = 10;
         List<UserDataEntity> moreEntries = await userDataServices.getUserData(
             olderThan: this._oldestRetrieved, limit: limit);

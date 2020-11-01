@@ -2,6 +2,7 @@ import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/feedback_requests/single_feedback_request_view.dart';
 import 'package:Dia/communications/view/messages/single_message_view.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
@@ -182,19 +183,21 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   }
 
   void _refreshCommunications() async {
-    List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-    List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
-    messages = _communicationsServices.onlySimpleMessages(messages);
-    for(Message message in messages) {
-      await widget.showWidget(
-        MessageWidget(message: message, onDismiss: widget.hideWidget)
-      );
-    }
-    for(FeedbackRequest request in feedbackRequests) {
-      await widget.showWidget(
-        FeedbackRequestWidget(request: request, onDismiss: widget.hideWidget)
-      );
-    }
+    await withBackendErrorHandlers(() async {
+      List<Message> messages = await _communicationsServices.getNotDismissedMessages();
+      List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
+      messages = _communicationsServices.onlySimpleMessages(messages);
+      for(Message message in messages) {
+        await widget.showWidget(
+            MessageWidget(message: message, onDismiss: widget.hideWidget)
+        );
+      }
+      for(FeedbackRequest request in feedbackRequests) {
+        await widget.showWidget(
+          FeedbackRequestWidget(request: request, onDismiss: widget.hideWidget)
+        );
+      }
+    });
   }
 
   void refresh() {

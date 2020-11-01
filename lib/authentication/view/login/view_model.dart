@@ -1,4 +1,5 @@
 import 'package:Dia/authentication/controller/services.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
@@ -70,7 +71,7 @@ class LoginViewModel extends DiaViewModel {
   Future<void> login() async {
     _validate();
     if (_isValid) {
-      await withGeneralErrorHandlers(() async {
+      await withBackendErrorHandlers(() async {
         try {
           setLoading(true);
           await authenticationServices.login(email, password);

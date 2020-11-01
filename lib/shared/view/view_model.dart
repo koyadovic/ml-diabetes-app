@@ -30,13 +30,4 @@ class DiaViewModel {
     return Translations.of(state.context).translate(key);
   }
 
-  Future<void> withGeneralErrorHandlers(Function function) async {
-    try {
-      await function();
-    } on NotLoggedIn catch (err) {
-      DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
-    } on BackendUnavailable catch (err) {
-      DiaMessages.getInstance().showInformation('Dia Services are unavailable. Try again later.');
-    }
-  }
 }

@@ -16,6 +16,11 @@ class BackendUnavailable extends BackendError {
   String toString() => "BackendUnavailable";
 }
 
+class BackendCriticalError extends BackendError {
+  const BackendCriticalError() : super('');
+  String toString() => "BackendUnavailable";
+}
+
 class BackendUnauthorized extends BackendError {
   const BackendUnauthorized(String message) : super(message);
 }
@@ -166,6 +171,9 @@ class ApiRestBackend {
       }
       else if(response.statusCode == 403) {
         throw BackendForbidden(message);
+      }
+      else if(response.statusCode == 500) {
+        throw BackendCriticalError();
       }
       print('${response.statusCode}: ${response.body}');
       throw BackendError('${response.statusCode}: ' + message);
