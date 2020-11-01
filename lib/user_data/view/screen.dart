@@ -185,16 +185,18 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   void _refreshCommunications() async {
     await withBackendErrorHandlers(() async {
       List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-      List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
       messages = _communicationsServices.onlySimpleMessages(messages);
       for(Message message in messages) {
         await widget.showWidget(
             MessageWidget(message: message, onDismiss: widget.hideWidget)
         );
       }
+    });
+    await withBackendErrorHandlers(() async {
+      List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
       for(FeedbackRequest request in feedbackRequests) {
         await widget.showWidget(
-          FeedbackRequestWidget(request: request, onDismiss: widget.hideWidget)
+            FeedbackRequestWidget(request: request, onDismiss: widget.hideWidget)
         );
       }
     });

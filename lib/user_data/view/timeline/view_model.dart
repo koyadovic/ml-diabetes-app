@@ -38,7 +38,9 @@ class TimelineViewModel extends DiaViewModel {
         List<UserDataEntity> moreEntries = await userDataServices.getUserData(
             olderThan: this._oldestRetrieved, limit: limit);
         _noMoreData = moreEntries.length < limit;
-        _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
+        if(moreEntries.length > 0) {
+          _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
+        }
         _entries.addAll(moreEntries.map((entity) => UserDataViewModelEntity.fromEntity(entity)));
         notifyChanges();
       });
