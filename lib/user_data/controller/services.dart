@@ -59,6 +59,12 @@ class UserDataServices {
     await _backend.post(url, {'level': level});
   }
 
+  Future<void> saveTraitMeasure(TraitType type, dynamic value) async {
+    await _backend.initialize();
+    String url = '/api/v1/trait-measures/';
+    await _backend.post(url, {'trait_type': type.slug, 'value': value});
+  }
+
   // TYPES!
   Future<List<ActivityType>> getActivityTypes() async {
     await _backend.initialize();

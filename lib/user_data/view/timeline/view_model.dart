@@ -84,7 +84,7 @@ class UserDataViewModelEntity {
 
       case 'TraitMeasure':
         TraitMeasure traitMeasure = entity as TraitMeasure;
-        String text = '${traitMeasure.traitType.name} ${traitMeasure.value.round()}';
+        String text = '${traitMeasure.traitType.name} ${traitMeasure.value}';
         return UserDataViewModelEntity(entity.eventDate, entity.entityType, text, entity);
 
       case 'Flag':
