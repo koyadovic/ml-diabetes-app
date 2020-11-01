@@ -37,6 +37,7 @@ class MessageWidgetState extends State<MessageWidget> {
     if(isSuggestion)
       return _SuggestionsMessageWidget(widget.message, dismissMessage);
 
+    return SizedBox.shrink();
   }
 }
 
