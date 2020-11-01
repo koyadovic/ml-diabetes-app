@@ -46,7 +46,7 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
           Text(widget.request.title, style: TextStyle(fontSize: 24)),
           SizedBox(height: 16),
           Text(widget.request.text, style: TextStyle(fontSize: 16)),
-          SizedBox(height: 16),
+          SizedBox(height: 12),
           if(!isFreeAnswer)
             for(String option in widget.request.options)
               RadioListTile(
@@ -63,6 +63,8 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
               ),
           if(isFreeAnswer)
             TextField(
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
               controller: _controller,
               onChanged: (value) {
                 setState(() {
@@ -71,7 +73,11 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
               },
             ),
           if(isFreeAnswer && _validationError != null)
-            Text(_validationError, style: TextStyle(color: Colors.red)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+              child: Text(_validationError, style: TextStyle(color: Colors.red)),
+            ),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
