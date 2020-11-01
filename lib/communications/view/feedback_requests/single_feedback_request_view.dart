@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class FeedbackRequestWidget extends StatefulWidget {
   final FeedbackRequest request;
-  final Function onFinish;
+  final Function(bool) onFinish;
 
   FeedbackRequestWidget({@required this.request, @required this.onFinish});
 
@@ -79,7 +79,7 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
                 child: Text('Ignore'),
                 onPressed: () async {
                   await _services.ignoreFeedbackRequest(widget.request);
-                  widget.onFinish();
+                  widget.onFinish(false);
                 },
               ),
               SizedBox(width: 16),
@@ -88,7 +88,7 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
                 onPressed: _answer == null ? null : () async {
                   try {
                     await _services.attendFeedbackRequest(widget.request, _answer);
-                    widget.onFinish();
+                    widget.onFinish(true);
                   } on BackendBadRequest catch (err) {
                     // Validation errors
                     setState(() {

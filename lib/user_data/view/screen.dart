@@ -180,10 +180,11 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 1), _refreshCommunications);
+    Future.delayed(Duration(milliseconds: 1500), _refreshCommunications);
   }
 
   void _refreshCommunications() async {
+
     // Messages
     await withBackendErrorHandlers(() async {
       List<Message> messages = await _communicationsServices.getNotDismissedMessages();
@@ -193,13 +194,21 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
       }
     });
 
+    bool reloadAgain = false;
+
     // Feedback Requests
     await withBackendErrorHandlers(() async {
       List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
       for(FeedbackRequest request in feedbackRequests) {
-        await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: widget.hideWidget));
+        await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
+          if(reload && !reloadAgain) reloadAgain = true;
+          widget.hideWidget();
+        }));
       }
     });
+
+    if(reloadAgain)
+      _refreshCommunications();
   }
 
   void refresh() {
