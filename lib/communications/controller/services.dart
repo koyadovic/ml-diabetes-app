@@ -37,6 +37,14 @@ class CommunicationsServices {
     return messages;
   }
 
+  List<Message> onlySimpleMessages(List<Message> messages) {
+    return messages.where((message) => ['information', 'warning', 'error'].indexOf(message.type) != -1).toList();
+  }
+
+  List<Message> onlySuggestionMessages(List<Message> messages) {
+    return messages.where((message) => message.type == 'suggestions').toList();
+  }
+
   Future<void> dismissMessage(Message message) async {
     await _backend.initialize();
     String url = '/api/v1/communications/messages/${message.id.toString()}/dismiss/';

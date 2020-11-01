@@ -11,7 +11,7 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
       id: json['id'],
-      createdDate: DateTime.fromMicrosecondsSinceEpoch(json['created_date'] * 1000000),
+      createdDate: DateTime.fromMicrosecondsSinceEpoch((json['created_date'] * 1000000).toInt()),
       type: json['type'],
       title: json['title'],
       text: json['text'],
@@ -38,8 +38,8 @@ class FeedbackRequest {
   factory FeedbackRequest.fromJson(Map<String, dynamic> json) {
     return FeedbackRequest(
       id: json['id'],
-      createdDate: DateTime.fromMicrosecondsSinceEpoch(json['created_date'] * 1000000),
-      deliveryDate: DateTime.fromMicrosecondsSinceEpoch(json['delivery_date'] * 1000000),
+      createdDate: DateTime.fromMicrosecondsSinceEpoch((json['created_date'] * 1000000).toInt()),
+      deliveryDate: DateTime.fromMicrosecondsSinceEpoch((json['delivery_date'] * 1000000).toInt()),
       title: json['title'],
       text: json['text'],
       options: List<String>.from(json['options']),

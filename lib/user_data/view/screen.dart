@@ -1,3 +1,6 @@
+import 'package:Dia/communications/controller/services.dart';
+import 'package:Dia/communications/model/entities.dart';
+import 'package:Dia/communications/view/messages/single_message_view.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
@@ -157,6 +160,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   Summary summary;
   Graphs graphs;
 
+  CommunicationsServices _communicationsServices = CommunicationsServices();
+
   @override
   void initState() {
     super.initState();
@@ -173,21 +178,12 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
     Si no, no se puede cerrar.
      */
 
-    Future.delayed(Duration(seconds: 1), () async {
-      await widget.showWidget(ListView(
-        children: [
-          Text('lalala1'),
-          FlatButton(child: Text('Close'), onPressed: widget.hideWidget)
-        ],
-      ));
-      await widget.showWidget(ListView(
-        children: [
-          Text('lalala2'),
-          FlatButton(child: Text('Close'), onPressed: widget.hideWidget)
-        ],
-      ));
+    _communicationsServices.getNotDismissedMessages().then((messages) async {
+      messages = _communicationsServices.onlySimpleMessages(messages);
+      for(Message message in messages) {
+        await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
+      }
     });
-
 
   }
 
