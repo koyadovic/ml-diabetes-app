@@ -123,7 +123,7 @@ class Feeding extends UserDataEntity {
 
 
 class Activity extends UserDataEntity {
-  final UserDataValueObject activityType;
+  final ActivityType activityType;
   final int minutes;
 
   Activity({int id, DateTime eventDate, int userId, String entityType, this.activityType, this.minutes}) : super(id, eventDate, userId, entityType);
@@ -146,7 +146,7 @@ class Activity extends UserDataEntity {
 }
 
 class InsulinInjection extends UserDataEntity {
-  final UserDataValueObject insulinType;
+  final InsulinType insulinType;
   final int units;
 
   InsulinInjection({int id, DateTime eventDate, int userId, String entityType, this.insulinType, this.units}) : super(id, eventDate, userId, entityType);

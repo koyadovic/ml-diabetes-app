@@ -57,9 +57,10 @@ class UserDataViewModelEntity {
   String type;
   dynamic value;
   String unit;
+  String text;
   UserDataEntity entity;
 
-  UserDataViewModelEntity({this.eventDate, this.type, this.value, this.unit, this.entity});
+  UserDataViewModelEntity({this.eventDate, this.type, this.value, this.unit, this.text, this.entity});
 
   factory UserDataViewModelEntity.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
@@ -70,6 +71,7 @@ class UserDataViewModelEntity {
           type: entity.entityType,
           value: glucoseLevel.level,
           unit: 'mg/dL',
+          text: 'Glucose Level' + ':',
           entity: glucoseLevel
         );
 
@@ -80,6 +82,7 @@ class UserDataViewModelEntity {
           type: entity.entityType,
           value: feeding.kCal.round(),
           unit: 'Kcal',
+          text: 'Feeding' + ':',
           entity: feeding
         );
 
@@ -89,7 +92,8 @@ class UserDataViewModelEntity {
             eventDate: entity.eventDate,
             type: entity.entityType,
             value: activity.minutes,
-            unit: 'm',
+            unit: 'minutes',
+            text: activity.activityType.name + ':',
             entity: activity
         );
 
@@ -100,6 +104,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: insulinInjection.units,
             unit: 'u',
+            text: insulinInjection.insulinType.name + ' ' + insulinInjection.insulinType.categories.join(', ') + ':',
             entity: insulinInjection
         );
 
@@ -110,6 +115,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: traitMeasure.value,
             unit: traitMeasure.traitType.unit,
+            text: traitMeasure.traitType.name + ':',
             entity: traitMeasure
         );
 
@@ -120,6 +126,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: flag.type,
             unit: '',
+            text: flag.type + ':',
             entity: flag
         );
     }

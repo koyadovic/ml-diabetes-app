@@ -103,7 +103,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
     double value;
     try{
-      value = entity.value.toInt();
+      value = entity.value.toDouble();
     } catch (err) {
       try {
         value = double.parse(entity.value);
@@ -115,12 +115,20 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     return ListTile(
       leading: leading,
       title: UnitTextField(
-          unit: entity.unit,
-          initialValue: value,
-          enabled: false,
-          onChange: null,
+        text: entity.text,
+        unit: entity.unit,
+        initialValue: value.toDouble(),
+        enabled: false,
+        colorDisabled: Colors.black87,
+        // colorEnabled: Colors.black87,
+        onChange: null,
       ),
-      subtitle: Text(entity.eventDate.toIso8601String(), style: TextStyle(color: Colors.grey)),
+      subtitle: Row(
+        children: [
+          Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+          Text(entity.eventDate.toIso8601String(), style: TextStyle(color: Colors.grey)),
+        ],
+      ),
       onTap: () {
         print(entity.entity.id);
       },

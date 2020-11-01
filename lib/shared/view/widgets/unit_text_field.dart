@@ -8,8 +8,22 @@ class UnitTextField extends StatefulWidget {
   final double max;
   final bool enabled;
   final bool autoFocus;
+  final String text;
+  final Color colorEnabled;
+  final Color colorDisabled;
 
-  UnitTextField({@required this.unit, @required this.onChange, this.initialValue, this.autoFocus : false, this.min, this.max, this.enabled : true});
+  UnitTextField({
+    @required this.unit,
+    @required this.onChange,
+    this.initialValue,
+    this.autoFocus : false,
+    this.min,
+    this.max,
+    this.enabled : true,
+    this.text : '',
+    this.colorEnabled: Colors.black,
+    this.colorDisabled: Colors.grey,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -87,11 +101,23 @@ class UnitTextFieldState extends State<UnitTextField> {
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
 
+    Color fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
+
     return GestureDetector(
       onTap: () => requestFocus(),
       child: Text.rich(
         TextSpan(
           children: <InlineSpan>[
+            if(widget.text != '')
+            WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 10.0),
+                child: Text(
+                    widget.text,
+                    style: TextStyle(fontSize: 20, color: fontColor, fontWeight: FontWeight.w400)
+                ),
+              ),
+            ),
             WidgetSpan(
               child: SizedBox(
                 width: w,
@@ -103,7 +129,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                  style: TextStyle(fontSize: 30, color: widget.enabled ? Colors.black : Colors.grey, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: 30, color: fontColor, fontWeight: FontWeight.w300),
                   keyboardType: TextInputType.number,
                   controller: _controller,
                 ),
