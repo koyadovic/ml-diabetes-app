@@ -1,12 +1,14 @@
+import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
+import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:flutter/material.dart';
 
-// TODO queda terminarlo
 class FeedbackRequestWidget extends StatefulWidget {
   final FeedbackRequest request;
-  final Function onDismiss;
+  final Function onFinish;
 
-  FeedbackRequestWidget({@required this.request, @required this.onDismiss});
+  FeedbackRequestWidget({@required this.request, @required this.onFinish});
 
   @override
   State<StatefulWidget> createState() {
@@ -16,8 +18,89 @@ class FeedbackRequestWidget extends StatefulWidget {
 
 
 class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
+  String _answer;
+  TextEditingController _controller;
+  String _validationError;
+
+  CommunicationsServices _services = CommunicationsServices();
+
+  bool get isFreeAnswer {
+    return widget.request.options == null;
+  }
+
+  @override
+  void initState() {
+    if(isFreeAnswer)
+      _controller = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(widget.request.title, style: TextStyle(fontSize: 24)),
+          SizedBox(height: 16),
+          Text(widget.request.text, style: TextStyle(fontSize: 16)),
+          SizedBox(height: 16),
+          if(!isFreeAnswer)
+            for(String option in widget.request.options)
+              RadioListTile(
+                value: option,
+                groupValue: _answer,
+                title: Text(option),
+                onChanged: (currentUser) {
+                  setState(() {
+                    _answer = option;
+                  });
+                },
+                selected: option == _answer,
+                activeColor: DiaTheme.primaryColor,
+              ),
+          if(isFreeAnswer)
+            TextField(
+              controller: _controller,
+              onChanged: (value) {
+                setState(() {
+                  _answer = value;
+                });
+              },
+            ),
+          if(isFreeAnswer && _validationError != null)
+            Text(_validationError, style: TextStyle(color: Colors.red)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FlatButton(
+                child: Text('Ignore'),
+                onPressed: () async {
+                  await _services.ignoreFeedbackRequest(widget.request);
+                  widget.onFinish();
+                },
+              ),
+              SizedBox(width: 16),
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: _answer == null ? null : () async {
+                  try {
+                    await _services.attendFeedbackRequest(widget.request, _answer);
+                    widget.onFinish();
+                  } on BackendBadRequest catch (err) {
+                    // Validation errors
+                    setState(() {
+                      _validationError = err.toString();
+                    });
+                  }
+                },
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

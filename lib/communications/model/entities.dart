@@ -31,7 +31,7 @@ class FeedbackRequest {
   final DateTime deliveryDate;
   final String title;
   final String text;
-  final List<String> options;
+  final List<String> options;  // can be null!
 
   FeedbackRequest({this.id, this.createdDate, this.deliveryDate, this.title, this.text, this.options});
 
@@ -42,7 +42,7 @@ class FeedbackRequest {
       deliveryDate: DateTime.fromMicrosecondsSinceEpoch((json['delivery_date'] * 1000000).toInt()),
       title: json['title'],
       text: json['text'],
-      options: List<String>.from(json['options']),
+      options: json['options'] == null ? null : List<String>.from(json['options']),
     );
   }
 

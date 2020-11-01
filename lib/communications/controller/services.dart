@@ -63,10 +63,10 @@ class CommunicationsServices {
     return requests;
   }
 
-  Future<void> attendFeedbackRequest(FeedbackRequest feedbackRequest) async {
+  Future<void> attendFeedbackRequest(FeedbackRequest feedbackRequest, String answer) async {
     await _backend.initialize();
     String url = '/api/v1/communications/feedbacks/${feedbackRequest.id.toString()}/attend/';
-    await _backend.post(url, {});
+    await _backend.post(url, {'answer': answer});
   }
 
   Future<void> ignoreFeedbackRequest(FeedbackRequest feedbackRequest) async {
