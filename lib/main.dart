@@ -89,9 +89,9 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
      */
   }
 
-  void showWidgetCallback(Widget widget) {
-    print('!!!! showWidgetCallback()');
-    showDialog(
+  Future<void> showWidget(Widget widget) async {
+    print('!!!! showWidget()');
+    await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context){
@@ -107,8 +107,8 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     );
   }
 
-  void hideWidgetCallback() {
-    print('!!!! hideWidgetCallback()');
+  Future<void> hideWidget() async {
+    print('!!!! hideWidget()');
     Navigator.pop(context);
   }
 
@@ -231,28 +231,28 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       case DiaScreen.USER_DATA:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
+          _currentScreenWidget = UserDataScreenWidget(this.showWidget, this.hideWidget);
         });
         break;
 
       case DiaScreen.LOGIN:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = LoginScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
+          _currentScreenWidget = LoginScreenWidget(this.showWidget, this.hideWidget);
         });
         break;
 
       case DiaScreen.SIGNUP:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = SignupScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);
+          _currentScreenWidget = SignupScreenWidget(this.showWidget, this.hideWidget);
         });
         break;
 
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidgetCallback, this.hideWidgetCallback);  // TODO
+          _currentScreenWidget = UserDataScreenWidget(this.showWidget, this.hideWidget);  // TODO
         });
         break;
 

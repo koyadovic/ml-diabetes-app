@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 
-typedef ShowWidgetCallback = void Function(Widget w);
-typedef HideWidgetCallback = void Function();
+typedef ShowWidget = Future<void> Function(Widget w);
+typedef HideWidget = Future<void> Function();
 
 
 abstract class DiaRootScreenStatefulWidget extends StatefulWidget {
-  final ShowWidgetCallback showWidget;
-  final HideWidgetCallback hideWidget;
+  final ShowWidget showWidget;
+  final HideWidget hideWidget;
 
   DiaRootScreenStatefulWidget({
     @required this.showWidget,

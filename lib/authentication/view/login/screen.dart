@@ -9,7 +9,7 @@ import 'view_model.dart';
 class LoginScreenWidget extends DiaRootScreenStatefulWidget {
   LoginScreenWidgetState _state;
 
-  LoginScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidget: showWidgetCallback, hideWidget: hideWidgetCallback);
+  LoginScreenWidget(ShowWidget showWidget, HideWidget hideWidget) : super(showWidget: showWidget, hideWidget: hideWidget);
 
   @override
   State<StatefulWidget> createState() {

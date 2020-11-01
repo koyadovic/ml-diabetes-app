@@ -18,7 +18,7 @@ import 'graphs/view.dart';
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
 
-  UserDataScreenWidget(ShowWidgetCallback showWidgetCallback, HideWidgetCallback hideWidgetCallback) : super(showWidget: showWidgetCallback, hideWidget: hideWidgetCallback);
+  UserDataScreenWidget(ShowWidget showWidget, HideWidget hideWidget) : super(showWidget: showWidget, hideWidget: hideWidget);
 
   @override
   bool hasAppBar() {
@@ -172,6 +172,23 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
     Tiene que ser 1 único widget a través del cual atender to.do lo que uno tiene
     Si no, no se puede cerrar.
      */
+
+    Future.delayed(Duration(seconds: 1), () async {
+      await widget.showWidget(ListView(
+        children: [
+          Text('lalala1'),
+          FlatButton(child: Text('Close'), onPressed: widget.hideWidget)
+        ],
+      ));
+      await widget.showWidget(ListView(
+        children: [
+          Text('lalala2'),
+          FlatButton(child: Text('Close'), onPressed: widget.hideWidget)
+        ],
+      ));
+    });
+
+
   }
 
   void refresh() {
