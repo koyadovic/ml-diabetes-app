@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'communications/controller/services.dart';
 import 'shared/view/utils/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/screen.dart';
@@ -62,8 +63,6 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ApiRestBackend _backend;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -81,12 +80,6 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       }
     });
 
-    /*
-    Usa communication services para traerse mensajes.
-    Si existen mensajes, crea el overlay para verlos.
-    El widget de communications tendrá que ofrecer pasarle un callback para cuando
-    to do sea finalizado y se puedan recargar los mensajes
-     */
   }
 
   Future<void> showWidget(Widget widget) async {

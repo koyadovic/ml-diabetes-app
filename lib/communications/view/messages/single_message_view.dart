@@ -85,7 +85,7 @@ class _SimpleMessageWidget extends StatelessWidget {
   }
 }
 
-
+// TODO queda terminarlo.
 class _SuggestionsMessageWidget extends StatefulWidget {
   final Message message;
   final Function onFinished;

@@ -1,5 +1,6 @@
 import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
+import 'package:Dia/communications/view/feedback_requests/single_feedback_request_view.dart';
 import 'package:Dia/communications/view/messages/single_message_view.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
@@ -59,7 +60,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               showWidget(AddTraitMeasureWidget(selfCloseCallback: (bool reload) {
-                if(reload) _refresh();
+                if(reload) {
+                  _refresh();
+                  _state._refreshCommunications();
+                }
                 hideWidget();
               }));
             },
@@ -75,7 +79,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               showWidget(AddActivityWidget(selfCloseCallback: (bool reload) {
-                if(reload) _refresh();
+                if(reload) {
+                  _refresh();
+                  _state._refreshCommunications();
+                }
                 hideWidget();
               }));
             },
@@ -104,7 +111,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               showWidget(AddInsulinInjectionWidget(selfCloseCallback: (bool reload) {
-                if(reload) _refresh();
+                if(reload) {
+                  _refresh();
+                  _state._refreshCommunications();
+                }
                 hideWidget();
               }));
             },
@@ -120,7 +130,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               showWidget(AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
-                if(reload) _refresh();
+                if(reload) {
+                  _refresh();
+                  _state._refreshCommunications();
+                }
                 hideWidget();
               }));
             },
@@ -165,26 +178,23 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   @override
   void initState() {
     super.initState();
-    /*
-    TODO get unattended feedback requests
-    TODO get not dismissed messages
-    TODO in messages will be suggestions
+    _refreshCommunications();
+  }
 
-    Hay que pensar cómo encerramos to.do en communications
-    Quizá podamos llamar aquí directamente a services y proveer con los datos
-    A los widgets expuestos en communications. Estos si no le son provisto datos
-    los recuperan ellos.
-    Tiene que ser 1 único widget a través del cual atender to.do lo que uno tiene
-    Si no, no se puede cerrar.
-     */
-
-    _communicationsServices.getNotDismissedMessages().then((messages) async {
-      messages = _communicationsServices.onlySimpleMessages(messages);
-      for(Message message in messages) {
-        await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
-      }
-    });
-
+  void _refreshCommunications() async {
+    List<Message> messages = await _communicationsServices.getNotDismissedMessages();
+    List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
+    messages = _communicationsServices.onlySimpleMessages(messages);
+    for(Message message in messages) {
+      await widget.showWidget(
+        MessageWidget(message: message, onDismiss: widget.hideWidget)
+      );
+    }
+    for(FeedbackRequest request in feedbackRequests) {
+      await widget.showWidget(
+        FeedbackRequestWidget(request: request, onDismiss: widget.hideWidget)
+      );
+    }
   }
 
   void refresh() {
