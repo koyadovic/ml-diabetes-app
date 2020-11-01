@@ -160,6 +160,18 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
   @override
   void initState() {
     super.initState();
+    /*
+    TODO get unattended feedback requests
+    TODO get not dismissed messages
+    TODO in messages will be suggestions
+
+    Hay que pensar cómo encerramos to.do en communications
+    Quizá podamos llamar aquí directamente a services y proveer con los datos
+    A los widgets expuestos en communications. Estos si no le son provisto datos
+    los recuperan ellos.
+    Tiene que ser 1 único widget a través del cual atender to.do lo que uno tiene
+    Si no, no se puede cerrar.
+     */
   }
 
   void refresh() {
