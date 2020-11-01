@@ -25,6 +25,11 @@ class Message {
 }
 
 
+enum AnswerTypeHint {
+  NUMERICAL,
+  TEXT
+}
+
 class FeedbackRequest {
   final int id;
   final DateTime createdDate;
@@ -32,8 +37,9 @@ class FeedbackRequest {
   final String title;
   final String text;
   final List<String> options;  // can be null!
+  final AnswerTypeHint answerTypeHint;
 
-  FeedbackRequest({this.id, this.createdDate, this.deliveryDate, this.title, this.text, this.options});
+  FeedbackRequest({this.id, this.createdDate, this.deliveryDate, this.title, this.text, this.options, this.answerTypeHint});
 
   factory FeedbackRequest.fromJson(Map<String, dynamic> json) {
     return FeedbackRequest(
@@ -43,6 +49,7 @@ class FeedbackRequest {
       title: json['title'],
       text: json['text'],
       options: json['options'] == null ? null : List<String>.from(json['options']),
+      answerTypeHint: json['answer_type_hint'] == 'txt' ? AnswerTypeHint.TEXT : AnswerTypeHint.NUMERICAL,
     );
   }
 

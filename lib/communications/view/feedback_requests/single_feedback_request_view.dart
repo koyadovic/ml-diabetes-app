@@ -66,6 +66,7 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
               controller: _controller,
+              keyboardType: widget.request.answerTypeHint == AnswerTypeHint.NUMERICAL ? TextInputType.number : TextInputType.text,
               onChanged: (value) {
                 setState(() {
                   _answer = value;
