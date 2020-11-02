@@ -2,6 +2,8 @@
 TYPES!
  */
 
+import 'package:Dia/shared/model/tools.dart';
+
 class UserDataValueObject {
   final String name;
   final String slug;
@@ -23,6 +25,15 @@ class TraitType extends UserDataValueObject {
       List<String>.from(json['options']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'slug': slug,
+      'unit': unit,
+      'options': options,
+    };
+  }
 }
 
 class ActivityType extends UserDataValueObject {
@@ -36,6 +47,14 @@ class ActivityType extends UserDataValueObject {
       json['slug'],
       json['METs'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'slug': slug,
+      'METs': mets,
+    };
   }
 }
 
@@ -53,6 +72,15 @@ class InsulinType extends UserDataValueObject {
       json['u_per_ml'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'slug': slug,
+      'categories': categories,
+      'u_per_ml': uPerMl,
+    };
+  }
 }
 
 /*
@@ -65,14 +93,16 @@ class UserDataEntity {
   final String entityType;
 
   UserDataEntity(this.id, this.eventDate, this.entityType);
-
 }
 
 
 class GlucoseLevel extends UserDataEntity {
   int level;
+  Map<String, dynamic> _original;
 
-  GlucoseLevel({int id, DateTime eventDate, String entityType, this.level}) : super(id, eventDate, entityType);
+  GlucoseLevel({int id, DateTime eventDate, String entityType, this.level}) : super(id, eventDate, entityType) {
+    _original = toJson();
+  }
 
   factory GlucoseLevel.fromJson(Map<String, dynamic> json) {
     return GlucoseLevel(
@@ -83,6 +113,18 @@ class GlucoseLevel extends UserDataEntity {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'level': level,
+    };
+  }
+
+  Map<String, dynamic> changesToJson() {
+    return mapDifferences(_original, toJson());
+  }
 }
 
 class Feeding extends UserDataEntity {
@@ -94,10 +136,18 @@ class Feeding extends UserDataEntity {
   double alcoholGrams;
   double saltGrams;
 
+  Map<String, dynamic> _original;
+
   Feeding({int id, DateTime eventDate, String entityType,
     this.carbGrams, this.carbSugarGrams, this.carbFiberGrams,
     this.proteinGrams, this.fatGrams, this.alcoholGrams, this.saltGrams
-  }) : super(id, eventDate, entityType);
+  }) : super(id, eventDate, entityType) {
+    _original = toJson();
+  }
+
+  double get kCal {
+    return (carbGrams - carbFiberGrams) * 4 + proteinGrams * 4 + fatGrams * 9 + alcoholGrams * 7;
+  }
 
   factory Feeding.fromJson(Map<String, dynamic> json) {
     return Feeding(
@@ -114,10 +164,24 @@ class Feeding extends UserDataEntity {
     );
   }
 
-  double get kCal {
-    return (carbGrams - carbFiberGrams) * 4 + proteinGrams * 4 + fatGrams * 9 + alcoholGrams * 7;
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'carb_g': carbGrams,
+      'carb_sugar_g': carbSugarGrams,
+      'carb_fiber_g': carbFiberGrams,
+      'protein_g': proteinGrams,
+      'fat_g': fatGrams,
+      'alcohol_g': alcoholGrams,
+      'salt_g': saltGrams,
+    };
   }
 
+  Map<String, dynamic> changesToJson() {
+    return mapDifferences(_original, toJson());
+  }
 }
 
 
@@ -125,7 +189,11 @@ class Activity extends UserDataEntity {
   ActivityType activityType;
   int minutes;
 
-  Activity({int id, DateTime eventDate, String entityType, this.activityType, this.minutes}) : super(id, eventDate, entityType);
+  Map<String, dynamic> _original;
+
+  Activity({int id, DateTime eventDate, String entityType, this.activityType, this.minutes}) : super(id, eventDate, entityType) {
+    _original = toJson();
+  }
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
@@ -137,18 +205,35 @@ class Activity extends UserDataEntity {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'activity_type': activityType.toJson(),
+      'minutes': minutes,
+    };
+  }
+
   double getKCalBurned (double kg) {
     double mets = activityType.mets * (minutes / 60.0);
     return mets * kg;
   }
 
+  Map<String, dynamic> changesToJson() {
+    return mapDifferences(_original, toJson());
+  }
 }
 
 class InsulinInjection extends UserDataEntity {
   InsulinType insulinType;
   int units;
 
-  InsulinInjection({int id, DateTime eventDate, String entityType, this.insulinType, this.units}) : super(id, eventDate, entityType);
+  Map<String, dynamic> _original;
+
+  InsulinInjection({int id, DateTime eventDate, String entityType, this.insulinType, this.units}) : super(id, eventDate, entityType) {
+    _original = toJson();
+  }
 
   factory InsulinInjection.fromJson(Map<String, dynamic> json) {
     return InsulinInjection(
@@ -160,13 +245,30 @@ class InsulinInjection extends UserDataEntity {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'insulin_type': insulinType.toJson(),
+      'units': units,
+    };
+  }
+
+  Map<String, dynamic> changesToJson() {
+    return mapDifferences(_original, toJson());
+  }
 }
 
 class TraitMeasure extends UserDataEntity {
   TraitType traitType;
   dynamic value;
 
-  TraitMeasure({int id, DateTime eventDate, String entityType, this.traitType, this.value}) : super(id, eventDate, entityType);
+  Map<String, dynamic> _original;
+
+  TraitMeasure({int id, DateTime eventDate, String entityType, this.traitType, this.value}) : super(id, eventDate, entityType) {
+    _original = toJson();
+  }
 
   factory TraitMeasure.fromJson(Map<String, dynamic> json) {
     return TraitMeasure(
@@ -178,6 +280,19 @@ class TraitMeasure extends UserDataEntity {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'trait_type': traitType.toJson(),
+      'value': value,
+    };
+  }
+
+  Map<String, dynamic> changesToJson() {
+    return mapDifferences(_original, toJson());
+  }
 }
 
 
@@ -195,4 +310,12 @@ class Flag extends UserDataEntity {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'entity_type': entityType,
+      'type': type,
+    };
+  }
 }
