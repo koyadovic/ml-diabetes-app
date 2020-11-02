@@ -26,29 +26,31 @@ class TraitType extends UserDataValueObject {
 }
 
 class ActivityType extends UserDataValueObject {
-  final double met;
+  final double mets;
 
-  ActivityType(name, slug, this.met) : super(name, slug);
+  ActivityType(name, slug, this.mets) : super(name, slug);
 
   factory ActivityType.fromJson(Map<String, dynamic> json) {
     return ActivityType(
       json['name'],
       json['slug'],
-      json['met'],
+      json['METs'],
     );
   }
 }
 
 class InsulinType extends UserDataValueObject {
   final List<String> categories;
+  final double uPerMl;
 
-  InsulinType(name, slug, this.categories) : super(name, slug);
+  InsulinType(name, slug, this.categories, this.uPerMl) : super(name, slug);
 
   factory InsulinType.fromJson(Map<String, dynamic> json) {
     return InsulinType(
       json['name'],
       json['slug'],
       List<String>.from(json['categories']),
+      json['u_per_ml'],
     );
   }
 }
@@ -60,10 +62,9 @@ Core Entities!
 class UserDataEntity {
   final int id;
   final DateTime eventDate;
-  final int userId;
   final String entityType;
 
-  UserDataEntity(this.id, this.eventDate, this.userId, this.entityType);
+  UserDataEntity(this.id, this.eventDate, this.entityType);
 
 }
 
@@ -71,13 +72,12 @@ class UserDataEntity {
 class GlucoseLevel extends UserDataEntity {
   final int level;
 
-  GlucoseLevel({int id, DateTime eventDate, int userId, String entityType, this.level}) : super(id, eventDate, userId, entityType);
+  GlucoseLevel({int id, DateTime eventDate, String entityType, this.level}) : super(id, eventDate, entityType);
 
   factory GlucoseLevel.fromJson(Map<String, dynamic> json) {
     return GlucoseLevel(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       level: json['level'].toInt(),
     );
@@ -94,16 +94,15 @@ class Feeding extends UserDataEntity {
   final double alcoholGrams;
   final double saltGrams;
 
-  Feeding({int id, DateTime eventDate, int userId, String entityType,
+  Feeding({int id, DateTime eventDate, String entityType,
     this.carbGrams, this.carbSugarGrams, this.carbFiberGrams,
     this.proteinGrams, this.fatGrams, this.alcoholGrams, this.saltGrams
-  }) : super(id, eventDate, userId, entityType);
+  }) : super(id, eventDate, entityType);
 
   factory Feeding.fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       carbGrams: json['carb_g'],
       carbSugarGrams: json['carb_sugar_g'],
@@ -126,21 +125,21 @@ class Activity extends UserDataEntity {
   final ActivityType activityType;
   final int minutes;
 
-  Activity({int id, DateTime eventDate, int userId, String entityType, this.activityType, this.minutes}) : super(id, eventDate, userId, entityType);
+  Activity({int id, DateTime eventDate, String entityType, this.activityType, this.minutes}) : super(id, eventDate, entityType);
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     return Activity(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       activityType: ActivityType.fromJson(json['activity_type']),
       minutes: json['minutes'],
     );
   }
 
-  double get kCalBurned {
-
+  double getKCalBurned (double kg) {
+    double mets = activityType.mets * (minutes / 60.0);
+    return mets * kg;
   }
 
 }
@@ -149,13 +148,12 @@ class InsulinInjection extends UserDataEntity {
   final InsulinType insulinType;
   final int units;
 
-  InsulinInjection({int id, DateTime eventDate, int userId, String entityType, this.insulinType, this.units}) : super(id, eventDate, userId, entityType);
+  InsulinInjection({int id, DateTime eventDate, String entityType, this.insulinType, this.units}) : super(id, eventDate, entityType);
 
   factory InsulinInjection.fromJson(Map<String, dynamic> json) {
     return InsulinInjection(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       insulinType: InsulinType.fromJson(json['insulin_type']),
       units: json['units'],
@@ -168,13 +166,12 @@ class TraitMeasure extends UserDataEntity {
   final TraitType traitType;
   final dynamic value;
 
-  TraitMeasure({int id, DateTime eventDate, int userId, String entityType, this.traitType, this.value}) : super(id, eventDate, userId, entityType);
+  TraitMeasure({int id, DateTime eventDate, String entityType, this.traitType, this.value}) : super(id, eventDate, entityType);
 
   factory TraitMeasure.fromJson(Map<String, dynamic> json) {
     return TraitMeasure(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       traitType: TraitType.fromJson(json['trait_type']),
       value: json['value'],
@@ -187,13 +184,12 @@ class TraitMeasure extends UserDataEntity {
 class Flag extends UserDataEntity {
   final String type;
 
-  Flag({int id, DateTime eventDate, int userId, String entityType, this.type}) : super(id, eventDate, userId, entityType);
+  Flag({int id, DateTime eventDate, String entityType, this.type}) : super(id, eventDate, entityType);
 
   factory Flag.fromJson(Map<String, dynamic> json) {
     return Flag(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()),
-      userId: json['user_id'],
       entityType: json['entity_type'],
       type: json['type'],
     );
