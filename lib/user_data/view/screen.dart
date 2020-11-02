@@ -221,6 +221,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    widget._state = this;
+
     timeline = Timeline(widget);
     summary = Summary(widget);
     graphs = Graphs(widget);
