@@ -116,8 +116,12 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       leading: leading,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(entity.text),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
+            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w300),),
+          ),
           UnitTextField(
             unitWidth: 60,
             unit: entity.unit,

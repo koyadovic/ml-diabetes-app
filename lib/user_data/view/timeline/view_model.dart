@@ -107,7 +107,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: insulinInjection.units,
             unit: 'u',
-            text: insulinInjection.insulinType.name + ' ' + insulinInjection.insulinType.categories.join(', '),
+            text: insulinInjection.insulinType.name, // + ' ' + insulinInjection.insulinType.categories.join(', '),
             entity: insulinInjection
         );
 
