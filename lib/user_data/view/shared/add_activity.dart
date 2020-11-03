@@ -27,12 +27,13 @@ class AddActivityWidget extends StatefulWidget {
 class AddActivityWidgetState extends State<AddActivityWidget> {
   UserDataServices _userDataServices = UserDataServices();
   List<ActivityType> _activityTypes = [];
-  ActivityType _selectedActivityType;
-  int _minutes;
+  Activity _activity;
 
   @override
   void initState() {
     super.initState();
+    _activity = Activity(eventDate: DateTime.now());
+
     _userDataServices.getActivityTypes().then((activityTypes) {
       setState(() {
         _activityTypes = activityTypes;
@@ -44,7 +45,7 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
 
   _selectTraitType(ActivityType type) {
     setState(() {
-      _selectedActivityType = type;
+      _activity.activityType = type;
     });
   }
 
@@ -62,7 +63,7 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
                 children: [
                   DropdownButton<ActivityType>(
                     //isExpanded: true,
-                    value: _selectedActivityType,
+                    value: _activity.activityType,
                     onChanged: (ActivityType newValue) {
                       _selectTraitType(newValue);
                     },
@@ -87,7 +88,7 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
                   min: 0.0, max: 600.0,
                   onChange: (value) {
                     setState(() {
-                      _minutes = value.toInt();
+                      _activity.minutes = value.toInt();
                     });
                   }
               ),
@@ -99,8 +100,8 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
               ),
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-                onPressed: () async {
-                  await _userDataServices.saveActivity(_selectedActivityType, _minutes);
+                onPressed: !_activity.hasChanged ? null : () async {
+                  await _userDataServices.saveActivity(_activity);
                   widget.selfCloseCallback(true);
                 },
               ),

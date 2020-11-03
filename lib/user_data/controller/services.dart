@@ -53,28 +53,64 @@ class UserDataServices {
     return entities;
   }
 
-  Future<void> saveGlucoseLevel(int level) async {
+  Future<void> saveGlucoseLevel(GlucoseLevel glucoseLevel) async {
     await _backend.initialize();
-    String url = '/api/v1/glucose-levels/';
-    await _backend.post(url, {'level': level});
+    String url;
+    Map<String, dynamic> data;
+    if(glucoseLevel.id == null) {
+      url = '/api/v1/glucose-levels/';
+      data = glucoseLevel.toJson();
+    } else {
+      url = '/api/v1/glucose-levels/${glucoseLevel.id}/';
+      data = glucoseLevel.changesToJson();
+      data['id'] = glucoseLevel.id;
+    }
+    await _backend.post(url, data);
   }
 
-  Future<void> saveTraitMeasure(TraitType type, dynamic value) async {
+  Future<void> saveTraitMeasure(TraitMeasure traitMeasure) async {
     await _backend.initialize();
     String url = '/api/v1/trait-measures/';
-    await _backend.post(url, {'trait_type': type.slug, 'value': value});
+    Map<String, dynamic> data;
+    if(traitMeasure.id == null) {
+      url = '/api/v1/trait-measures/';
+      data = traitMeasure.toJson();
+    } else {
+      url = '/api/v1/trait-measures/${traitMeasure.id}/';
+      data = traitMeasure.changesToJson();
+      data['id'] = traitMeasure.id;
+    }
+    await _backend.post(url, data);
   }
 
-  Future<void> saveActivity(ActivityType type, int minutes) async {
+  Future<void> saveActivity(Activity activity) async {
     await _backend.initialize();
-    String url = '/api/v1/activities/';
-    await _backend.post(url, {'activity_type': type.slug, 'minutes': minutes});
+    String url;
+    Map<String, dynamic> data;
+    if(activity.id == null) {
+      url = '/api/v1/activities/';
+      data = activity.toJson();
+    } else {
+      url = '/api/v1/activities/${activity.id}/';
+      data = activity.changesToJson();
+      data['id'] = activity.id;
+    }
+    await _backend.post(url, data);
   }
 
-  Future<void> saveInsulinInjection(InsulinType type, int units) async {
+  Future<void> saveInsulinInjection(InsulinInjection insulinInjection) async {
     await _backend.initialize();
     String url = '/api/v1/insulin-injections/';
-    await _backend.post(url, {'insulin_type': type.slug, 'units': units});
+    Map<String, dynamic> data;
+    if(insulinInjection.id == null) {
+      url = '/api/v1/insulin-injections/';
+      data = insulinInjection.toJson();
+    } else {
+      url = '/api/v1/insulin-injections/${insulinInjection.id}/';
+      data = insulinInjection.changesToJson();
+      data['id'] = insulinInjection.id;
+    }
+    await _backend.post(url, data);
   }
 
   // TYPES!

@@ -27,12 +27,12 @@ class AddTraitMeasureWidget extends StatefulWidget {
 class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
   UserDataServices _userDataServices = UserDataServices();
   List<TraitType> _traitTypes = [];
-  TraitType _selectedTraitType;
-  dynamic _measuredValue;
+  TraitMeasure _traitMeasure;
 
   @override
   void initState() {
     super.initState();
+    _traitMeasure = TraitMeasure(eventDate: DateTime.now());
     _userDataServices.getTraitTypes().then((traitTypes) {
       traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
       setState(() {
@@ -45,7 +45,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
 
   _selectTraitType(TraitType type) {
     setState(() {
-      _selectedTraitType = type;
+      _traitMeasure.traitType = type;
     });
   }
 
@@ -63,7 +63,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
                 children: [
                   DropdownButton<TraitType>(
                     //isExpanded: true,
-                    value: _selectedTraitType,
+                    value: _traitMeasure.traitType,
                     onChanged: (TraitType newValue) {
                       _selectTraitType(newValue);
                     },
@@ -84,11 +84,11 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                  unit: _selectedTraitType == null ? '' : _selectedTraitType.unit,
+                  unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
                   min: 0.0, max: 600.0,
                   onChange: (value) {
                     setState(() {
-                      _measuredValue = value;
+                      _traitMeasure.value = value;
                     });
                   }
               ),
@@ -101,7 +101,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
                 onPressed: () async {
-                  await _userDataServices.saveTraitMeasure(_selectedTraitType, _measuredValue);
+                  await _userDataServices.saveTraitMeasure(_traitMeasure);
                   widget.selfCloseCallback(true);
                 },
               ),

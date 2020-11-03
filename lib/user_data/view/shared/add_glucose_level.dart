@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
+import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class AddGlucoseLevelWidget extends StatefulWidget {
@@ -16,12 +17,12 @@ class AddGlucoseLevelWidget extends StatefulWidget {
 
 
 class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
-  int _glucoseLevel;
   UserDataServices _userDataServices = UserDataServices();
+  GlucoseLevel _glucoseLevel;
 
   @override
   void initState() {
-    _glucoseLevel = 0;
+    _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
     super.initState();
   }
 
@@ -38,7 +39,7 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
               autoFocus: true,
               onChange: (value) {
                 setState(() {
-                  _glucoseLevel = value.toInt();
+                  _glucoseLevel.level = value.toInt();
                 });
               }
           ),
@@ -48,8 +49,8 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
             onPressed: () => widget.selfCloseCallback(false),
           ),
           IconButton(
-            icon: Icon(Icons.done, color: _glucoseLevel == 0.0 ? Colors.grey : DiaTheme.primaryColor),
-            onPressed: _glucoseLevel == 0.0 ? null : () async {
+            icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
+            onPressed: !_glucoseLevel.hasChanged ? null : () async {
               await _userDataServices.saveGlucoseLevel(_glucoseLevel);
               widget.selfCloseCallback(true);
             },

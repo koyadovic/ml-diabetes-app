@@ -218,7 +218,7 @@ class Activity extends UserDataEntity {
       'id': id,
       'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
-      'activity_type': activityType.toJson(),
+      'activity_type': activityType != null ? activityType.toJson() : activityType,
       'minutes': minutes,
     };
   }
@@ -262,7 +262,7 @@ class InsulinInjection extends UserDataEntity {
       'id': id,
       'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
-      'insulin_type': insulinType.toJson(),
+      'insulin_type': insulinType != null ? insulinType.toJson() : null,
       'units': units,
     };
   }
@@ -301,7 +301,7 @@ class TraitMeasure extends UserDataEntity {
       'id': id,
       'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
-      'trait_type': traitType.toJson(),
+      'trait_type': traitType != null ? traitType.toJson() : null,
       'value': value,
     };
   }

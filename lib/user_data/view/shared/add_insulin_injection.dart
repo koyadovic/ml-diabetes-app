@@ -27,12 +27,12 @@ class AddInsulinInjectionWidget extends StatefulWidget {
 class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
   UserDataServices _userDataServices = UserDataServices();
   List<InsulinType> _insulinTypes = [];
-  InsulinType _selectedInsulinType;
-  int _units;
+  InsulinInjection _insulinInjection;
 
   @override
   void initState() {
     super.initState();
+    _insulinInjection = InsulinInjection(eventDate: DateTime.now());
     _userDataServices.getInsulinTypes().then((insulinTypes) {
       setState(() {
         _insulinTypes = insulinTypes;
@@ -44,7 +44,7 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
 
   _selectInsulinType(InsulinType type) {
     setState(() {
-      _selectedInsulinType = type;
+      _insulinInjection.insulinType = type;
     });
   }
 
@@ -62,7 +62,7 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
                 children: [
                   DropdownButton<InsulinType>(
                     //isExpanded: true,
-                    value: _selectedInsulinType,
+                    value: _insulinInjection.insulinType,
                     onChanged: (InsulinType newValue) {
                       _selectInsulinType(newValue);
                     },
@@ -87,7 +87,7 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
                   min: 0.0, max: 250.0,
                   onChange: (value) {
                     setState(() {
-                      _units = value.toInt();
+                      _insulinInjection.units = value.toInt();
                     });
                   }
               ),
@@ -100,7 +100,7 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
                 onPressed: () async {
-                  await _userDataServices.saveInsulinInjection(_selectedInsulinType, _units);
+                  await _userDataServices.saveInsulinInjection(_insulinInjection);
                   widget.selfCloseCallback(true);
                 },
               ),
