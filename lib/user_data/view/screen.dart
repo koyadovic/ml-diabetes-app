@@ -68,8 +68,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   await _userDataServices.saveTraitMeasure(traitMeasure);
 
                 if(reload) {
-                  _refresh();
-                  _state._refreshCommunications();
+                  _state.refresh();
+                  _state.refreshCommunications();
                 }
                 hideWidget();
               }));
@@ -89,8 +89,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                 if(activity != null)
                   await _userDataServices.saveActivity(activity);
                 if(reload) {
-                  _refresh();
-                  _state._refreshCommunications();
+                  _state.refresh();
+                  _state.refreshCommunications();
                 }
                 hideWidget();
               }));
@@ -123,8 +123,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                 if(insulinInjection != null)
                   await _userDataServices.saveInsulinInjection(insulinInjection);
                 if(reload) {
-                  _refresh();
-                  _state._refreshCommunications();
+                  _state.refresh();
+                  _state.refreshCommunications();
                 }
                 hideWidget();
               }));
@@ -144,8 +144,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                 if(glucoseLevel != null)
                   await _userDataServices.saveGlucoseLevel(glucoseLevel);
                 if(reload) {
-                  _refresh();
-                  _state._refreshCommunications();
+                  _state.refresh();
+                  _state.refreshCommunications();
                 }
                 hideWidget();
               }));
@@ -173,14 +173,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
     _state = UserDataScreenWidgetState();
     return _state;
   }
-
-  void _refresh() {
-    _state?.refresh();
-  }
 }
 
 
-class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
+class UserDataScreenWidgetState extends State<UserDataScreenWidget> with WidgetsBindingObserver {
 
   Timeline timeline;
   Summary summary;
@@ -190,13 +186,27 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
-
-    Future.delayed(Duration(milliseconds: 1500), _refreshCommunications);
   }
 
-  void _refreshCommunications() async {
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // this executes when the state is initialized and also when the app comes
+    // to foreground from the background.
+    // here we refresh pending messages, feedback requests, etc.
+    if (state == AppLifecycleState.resumed) {
+      Future.delayed(Duration(milliseconds: 1000), refreshCommunications);
+    }
+  }
+
+  void refreshCommunications() async {
     // Messages
     await withBackendErrorHandlers(() async {
       List<Message> messages = await _communicationsServices.getNotDismissedMessages();
@@ -224,7 +234,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
     });
 
     if(reloadAgain)
-      _refreshCommunications();
+      refreshCommunications();
   }
 
   void refresh() {
@@ -247,5 +257,4 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> {
       ],
     );
   }
-
 }
