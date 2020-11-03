@@ -53,27 +53,22 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Column(
             children: [
-              Column(
-                children: [
-                  DropdownButton<ActivityType>(
-                    //isExpanded: true,
-                    value: _activity.activityType,
-                    onChanged: (ActivityType newValue) {
-                      _selectTraitType(newValue);
-                    },
-                    items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
-                      return DropdownMenuItem<ActivityType>(
-                        value: type,
-                        child: Text(
-                            type.name
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+              DropdownButton<ActivityType>(
+                isExpanded: true,
+                value: _activity.activityType,
+                onChanged: (ActivityType newValue) {
+                  _selectTraitType(newValue);
+                },
+                items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
+                  return DropdownMenuItem<ActivityType>(
+                    value: type,
+                    child: Text(
+                        type.name
+                    ),
+                  );
+                }).toList(),
               ),
             ],
           ),

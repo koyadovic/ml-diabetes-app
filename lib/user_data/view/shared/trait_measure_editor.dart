@@ -61,27 +61,22 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Column(
             children: [
-              Column(
-                children: [
-                  DropdownButton<TraitType>(
-                    //isExpanded: true,
-                    value: _traitMeasure.traitType,
-                    onChanged: (TraitType newValue) {
-                      _selectTraitType(newValue);
-                    },
-                    items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
-                      return DropdownMenuItem<TraitType>(
-                        value: type,
-                        child: Text(
-                          type.name
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+              DropdownButton<TraitType>(
+                isExpanded: true,
+                value: _traitMeasure.traitType,
+                onChanged: (TraitType newValue) {
+                  _selectTraitType(newValue);
+                },
+                items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
+                  return DropdownMenuItem<TraitType>(
+                    value: type,
+                    child: Text(
+                        type.name
+                    ),
+                  );
+                }).toList(),
               ),
             ],
           ),
@@ -90,7 +85,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButton<String>(
-                  //isExpanded: true,
+                  isExpanded: true,
                   value: _traitMeasure.value,
                   onChanged: (String newValue) {
                     setState(() {
@@ -113,7 +108,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
               initialValue: DateTime.fromMillisecondsSinceEpoch(
-                  _traitMeasure.value != null ? _traitMeasure.value * 1000.0 : DateTime.now().millisecondsSinceEpoch
+                  _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
               onChanged: (birthDate) {
                 _traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();

@@ -54,27 +54,22 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
       child: ListView(
         shrinkWrap: true,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Column(
             children: [
-              Column(
-                children: [
-                  DropdownButton<InsulinType>(
-                    //isExpanded: true,
-                    value: _insulinInjection.insulinType,
-                    onChanged: (InsulinType newValue) {
-                      _selectInsulinType(newValue);
-                    },
-                    items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
-                      return DropdownMenuItem<InsulinType>(
-                        value: type,
-                        child: Text(
-                            type.name
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+              DropdownButton<InsulinType>(
+                isExpanded: true,
+                value: _insulinInjection.insulinType,
+                onChanged: (InsulinType newValue) {
+                  _selectInsulinType(newValue);
+                },
+                items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
+                  return DropdownMenuItem<InsulinType>(
+                    value: type,
+                    child: Text(
+                        type.name
+                    ),
+                  );
+                }).toList(),
               ),
             ],
           ),

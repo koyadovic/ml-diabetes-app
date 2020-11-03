@@ -135,8 +135,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             ),
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-              child: Text(entity.value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400)),
+              padding: const EdgeInsets.fromLTRB(0, 0, 65, 8.0),
+              child: Text(entity.value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w300)),
             ),
         ],
       ),
