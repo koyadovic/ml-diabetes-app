@@ -5,9 +5,10 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class GlucoseLevelEditorWidget extends StatefulWidget {
+  final GlucoseLevel glucoseLevelForEdition;
   final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
 
-  GlucoseLevelEditorWidget({this.selfCloseCallback});
+  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -17,12 +18,15 @@ class GlucoseLevelEditorWidget extends StatefulWidget {
 
 
 class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
-  UserDataServices _userDataServices = UserDataServices();
   GlucoseLevel _glucoseLevel;
 
   @override
   void initState() {
-    _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
+    if(widget.glucoseLevelForEdition != null) {
+      _glucoseLevel = GlucoseLevel.fromJson(widget.glucoseLevelForEdition.toJson());
+    } else {
+      _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
+    }
     super.initState();
   }
 

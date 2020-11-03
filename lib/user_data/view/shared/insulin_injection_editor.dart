@@ -5,17 +5,10 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class InsulinInjectionEditorWidget extends StatefulWidget {
-  /*
-  TODO que opcionalmente le puedan ser injectados desde fuera los tipos!
-    En este caso que no consulte al backend por ellos. Ya los tiene!
-
-   Esto Se puede aprovechar para pasarle solo [Altura].
-   No consultará tipos porque ya los tiene, es 1.
-   Además, en el selector no podrá cambiar Altura.
-   */
+  final InsulinInjection insulinInjectionForEdition;
   final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
 
-  InsulinInjectionEditorWidget({this.selfCloseCallback});
+  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,15 +24,20 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
   @override
   void initState() {
-    super.initState();
-    _insulinInjection = InsulinInjection(eventDate: DateTime.now());
-    _userDataServices.getInsulinTypes().then((insulinTypes) {
-      setState(() {
-        _insulinTypes = insulinTypes;
+    if(widget.insulinInjectionForEdition != null) {
+      _insulinInjection = InsulinInjection.fromJson(widget.insulinInjectionForEdition.toJson());
+      _insulinTypes = [_insulinInjection.insulinType];
+    } else {
+      _insulinInjection = InsulinInjection(eventDate: DateTime.now());
+      _userDataServices.getInsulinTypes().then((insulinTypes) {
+        setState(() {
+          _insulinTypes = insulinTypes;
+        });
+        if(_insulinTypes.length > 0)
+          _selectInsulinType(_insulinTypes[0]);
       });
-      if(_insulinTypes.length > 0)
-        _selectInsulinType(_insulinTypes[0]);
-    });
+    }
+    super.initState();
   }
 
   _selectInsulinType(InsulinType type) {

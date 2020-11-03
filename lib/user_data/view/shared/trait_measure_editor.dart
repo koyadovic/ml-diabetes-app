@@ -4,18 +4,14 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
-class TraitMeasureEditorWidget extends StatefulWidget {
-  /*
-  TODO que opcionalmente le puedan ser injectados desde fuera los tipos!
-    En este caso que no consulte al backend por ellos. Ya los tiene!
 
-   Esto Se puede aprovechar para pasarle solo [Altura].
-   No consultará tipos porque ya los tiene, es 1.
-   Además, en el selector no podrá cambiar Altura.
-   */
+// TODO añadir fecha de nacimiento y género
+
+class TraitMeasureEditorWidget extends StatefulWidget {
+  final TraitMeasure traitMeasureForEdition;
   final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
 
-  TraitMeasureEditorWidget({this.selfCloseCallback});
+  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,16 +27,25 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   @override
   void initState() {
-    super.initState();
-    _traitMeasure = TraitMeasure(eventDate: DateTime.now());
-    _userDataServices.getTraitTypes().then((traitTypes) {
-      traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
-      setState(() {
-        _traitTypes = traitTypes;
+    if(widget.traitMeasureForEdition != null) {
+      _traitMeasure = TraitMeasure.fromJson(widget.traitMeasureForEdition.toJson());
+      _traitTypes = [_traitMeasure.traitType];
+    } else {
+      _traitMeasure = TraitMeasure(eventDate: DateTime.now());
+      _userDataServices.getTraitTypes().then((traitTypes) {
+
+        // TODO quita este filtro. Tiene que tener todos!
+        // TODO al menos para testear que funciona
+
+        traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
+        setState(() {
+          _traitTypes = traitTypes;
+        });
+        if(_traitTypes.length > 0)
+          _selectTraitType(_traitTypes[0]);
       });
-      if(_traitTypes.length > 0)
-        _selectTraitType(_traitTypes[0]);
-    });
+    }
+    super.initState();
   }
 
   _selectTraitType(TraitType type) {

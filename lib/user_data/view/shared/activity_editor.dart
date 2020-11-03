@@ -5,17 +5,10 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class ActivityEditorWidget extends StatefulWidget {
-  /*
-  TODO que opcionalmente le puedan ser injectados desde fuera los tipos!
-    En este caso que no consulte al backend por ellos. Ya los tiene!
-
-   Esto Se puede aprovechar para pasarle solo [Correr].
-   No consultará tipos porque ya los tiene, es 1.
-   Además, en el selector no podrá cambiar Correr.
-   */
+  final Activity activityForEdition;
   final Function(bool, [Activity activity]) selfCloseCallback;
 
-  ActivityEditorWidget({this.selfCloseCallback});
+  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,16 +24,20 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   void initState() {
-    super.initState();
-    _activity = Activity(eventDate: DateTime.now());
-
-    _userDataServices.getActivityTypes().then((activityTypes) {
-      setState(() {
-        _activityTypes = activityTypes;
+    if(widget.activityForEdition != null) {
+      _activity = Activity.fromJson(widget.activityForEdition.toJson());
+      _activityTypes = [_activity.activityType];
+    } else {
+      _activity = Activity(eventDate: DateTime.now());
+      _userDataServices.getActivityTypes().then((activityTypes) {
+        setState(() {
+          _activityTypes = activityTypes;
+        });
+        if(_activityTypes.length > 0)
+          _selectTraitType(_activityTypes[0]);
       });
-      if(_activityTypes.length > 0)
-        _selectTraitType(_activityTypes[0]);
-    });
+    }
+    super.initState();
   }
 
   _selectTraitType(ActivityType type) {
