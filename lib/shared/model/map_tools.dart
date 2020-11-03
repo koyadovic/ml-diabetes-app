@@ -9,11 +9,14 @@ Map<String, dynamic> mapDifferences(Map<String, dynamic> original, Map<String, d
       } else {
         // aquí sabemos que son del mismo tipo
         if(newMap[key] is Map) {
-          for(var childKey in newMap[key]) {
-            if(!original[key].contains(childKey)) {
-              diff[key] = newMap[key];
-            } else if (original[key][childKey] != newMap[key][childKey]){
-              diff[key] = newMap[key];
+          Map<String, dynamic> newMapKey = Map<String, dynamic>.from(newMap[key]);
+          Map<String, dynamic> originalKey = Map<String, dynamic>.from(original[key]);
+
+          for(var childKey in newMapKey.keys) {
+            if(!originalKey.keys.contains(childKey)) {
+              diff[key] = newMapKey;
+            } else if (originalKey[childKey] != newMapKey[childKey]){
+              diff[key] = newMapKey;
             }
           }
         } else if (original[key] != newMap[key]) {
@@ -25,5 +28,5 @@ Map<String, dynamic> mapDifferences(Map<String, dynamic> original, Map<String, d
       diff[key] = newMap[key];
     }
   }
-  return diff;
+  return Map<String, dynamic>.from(diff);
 }

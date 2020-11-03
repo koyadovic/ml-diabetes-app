@@ -1,8 +1,8 @@
+import 'package:Dia/shared/model/map_tools.dart';
+
 /*
 TYPES!
  */
-
-import 'package:Dia/shared/model/tools.dart';
 
 class UserDataValueObject {
   final String name;
