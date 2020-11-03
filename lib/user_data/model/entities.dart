@@ -116,7 +116,7 @@ class GlucoseLevel extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'level': level,
     };
