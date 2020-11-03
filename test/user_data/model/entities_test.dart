@@ -36,5 +36,38 @@ void main() {
     });
   });
 
+  test('TraitMeasure changes', () {
+    TraitType tt1 = TraitType('Tipo 1', 'tipo-1', 'cm', []);
+    TraitType tt2 = TraitType('Tipo 2', 'tipo-2', 'm', []);
+
+    TraitMeasure tm = TraitMeasure(id: 1, traitType: tt1, value: 40);
+    tm.traitType = tt2;
+    expect(tm.changesToJson(), {
+      'trait_type': tt2.toJson()
+    });
+    tm.value = 41;
+    tm.traitType = tt1;
+    expect(tm.changesToJson(), {
+      'value': 41,
+    });
+  });
+
+  test('Activity changes', () {
+    ActivityType at1 = ActivityType('Tipo 1', 'tipo-1', 12);
+    ActivityType at2 = ActivityType('Tipo 2', 'tipo-2', 10);
+
+    Activity a = Activity(id: 1, activityType: at1, minutes: 10);
+    expect(a.changesToJson(), {});
+    a.minutes = 5;
+    expect(a.changesToJson(), {
+      'minutes': 5
+    });
+    a.minutes = 10;
+    a.activityType = at2;
+    expect(a.changesToJson(), {
+      'activity_type': at2.toJson()
+    });
+  });
+
 
 }
