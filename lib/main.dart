@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     // TODO we need to get the value from settings BC and set it globally
     // TODO maybe settings will need to expose some kind of observable/observer pattern to change here the most
     //   recent setting value
-    Intl.defaultLocale = 'en';
+    Intl.defaultLocale = 'es';
 
     DiaMessages.setMessagesHandler(this);
     DiaNavigation.setConcreteNavigator(this);

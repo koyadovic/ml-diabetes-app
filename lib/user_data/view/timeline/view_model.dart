@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
@@ -112,14 +113,37 @@ class UserDataViewModelEntity {
 
       case 'TraitMeasure':
         TraitMeasure traitMeasure = entity as TraitMeasure;
-        return UserDataViewModelEntity(
-            eventDate: entity.eventDate,
-            type: entity.entityType,
-            value: traitMeasure.value,
-            unit: traitMeasure.traitType.unit,
-            text: traitMeasure.traitType.name,
-            entity: traitMeasure
-        );
+        if(traitMeasure.traitType.slug != 'gender' && traitMeasure.traitType.slug != 'birth-seconds-epoch') {
+          return UserDataViewModelEntity(
+              eventDate: entity.eventDate,
+              type: entity.entityType,
+              value: double.parse(traitMeasure.value.toString()),
+              unit: traitMeasure.traitType.unit,
+              text: traitMeasure.traitType.name,
+              entity: traitMeasure
+          );
+        }
+        else if(traitMeasure.traitType.slug == 'gender') {
+          return UserDataViewModelEntity(
+              eventDate: entity.eventDate,
+              type: entity.entityType,
+              value: traitMeasure.value == 'male' ? 'Male' : 'Female',
+              unit: '',
+              text: traitMeasure.traitType.name,
+              entity: traitMeasure
+          );
+        }
+        else if(traitMeasure.traitType.slug == 'birth-seconds-epoch') {
+          return UserDataViewModelEntity(
+              eventDate: entity.eventDate,
+              type: entity.entityType,
+              value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
+              unit: '',
+              text: traitMeasure.traitType.name,
+              entity: traitMeasure
+          );
+        }
+        break;
 
       case 'Flag':
         Flag flag = entity as Flag;

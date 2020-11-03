@@ -102,16 +102,16 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         break;
     }
 
-    double value;
-    try{
-      value = entity.value.toDouble();
-    } catch (err) {
-      try {
-        value = double.parse(entity.value);
-      } catch(err) {
-        value = 0.0;
-      }
-    }
+    // double value;
+    // try{
+    //   value = entity.value.toDouble();
+    // } catch (err) {
+    //   try {
+    //     value = double.parse(entity.value);
+    //   } catch(err) {
+    //     value = 0.0;
+    //   }
+    // }
 
     return ListTile(
       leading: leading,
@@ -121,17 +121,23 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),),
+            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400)),
           ),
-          UnitTextField(
-            unitWidth: 60,
-            unit: entity.unit,
-            initialValue: value.toDouble(),
-            enabled: false,
-            colorDisabled: Colors.black87,
-            // colorEnabled: Colors.black87,
-            onChange: null,
-          ),
+          if(entity.value is int || entity.value is double)
+            UnitTextField(
+              unitWidth: 60,
+              unit: entity.unit,
+              initialValue: entity.value.toDouble(),
+              enabled: false,
+              colorDisabled: Colors.black87,
+              // colorEnabled: Colors.black87,
+              onChange: null,
+            ),
+          if(!(entity.value is int) && !(entity.value is double))
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
+              child: Text(entity.value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400)),
+            ),
         ],
       ),
       subtitle: Row(
