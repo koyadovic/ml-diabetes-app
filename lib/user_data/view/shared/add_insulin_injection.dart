@@ -84,7 +84,10 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
             children: [
               UnitTextField(
                   unit: 'u',
-                  min: 0.0, max: 250.0,
+                  processors: [
+                        (value) => value < 0.0 ? 0.0 : value,
+                        (value) => value > 250 ? 250.0 : value,
+                  ],
                   onChange: (value) {
                     setState(() {
                       _insulinInjection.units = value.toInt();

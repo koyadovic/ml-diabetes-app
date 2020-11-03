@@ -85,7 +85,10 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
             children: [
               UnitTextField(
                   unit: 'm',
-                  min: 0.0, max: 600.0,
+                  processors: [
+                      (value) => value < 0.0 ? 0.0 : value,
+                      (value) => value > 600 ? 600.0 : value,
+                  ],
                   onChange: (value) {
                     setState(() {
                       _activity.minutes = value.toInt();

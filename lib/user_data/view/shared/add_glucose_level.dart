@@ -35,7 +35,10 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
         children: [
           UnitTextField(
               unit: 'mg/dL',
-              min: 0.0, max: 600.0,
+              processors: [
+                    (value) => value < 0.0 ? 0.0 : value,
+                    (value) => value > 600 ? 600.0 : value,
+              ],
               autoFocus: true,
               onChange: (value) {
                 setState(() {

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+// if not valid throw ValidationError('Message');
+typedef ValueProcessor = double Function(double value);
+
+
 class UnitTextField extends StatefulWidget {
   final String unit;
   final Function(double) onChange;
   final double initialValue;
-  final double min;
-  final double max;
+  final List<ValueProcessor> processors;
   final bool enabled;
   final bool autoFocus;
   final Color colorEnabled;
@@ -17,8 +20,7 @@ class UnitTextField extends StatefulWidget {
     @required this.onChange,
     this.initialValue,
     this.autoFocus : false,
-    this.min,
-    this.max,
+    this.processors : const [],
     this.enabled : true,
     this.colorEnabled: Colors.black,
     this.colorDisabled: Colors.grey,
@@ -69,11 +71,8 @@ class UnitTextFieldState extends State<UnitTextField> {
   }
 
   double processValue(double value) {
-    if(widget.min != null && value < widget.min) {
-      return widget.min;
-    }
-    if(widget.max != null && value > widget.max) {
-      return widget.max;
+    for (ValueProcessor processor in widget.processors) {
+      value = processor(value);
     }
     return value;
   }

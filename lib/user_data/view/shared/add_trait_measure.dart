@@ -85,14 +85,16 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
             children: [
               UnitTextField(
                   unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
-                  min: 0.0, max: 600.0,
+                  processors: [
+                        (value) => value < 0.0 ? 0.0 : value,
+                        (value) => value > 600 ? 600.0 : value,
+                  ],
                   onChange: (value) {
                     setState(() {
                       _traitMeasure.value = value;
                     });
                   }
               ),
-
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
