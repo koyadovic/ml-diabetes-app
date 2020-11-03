@@ -94,7 +94,6 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
                   });
                 }
               ),
-
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close, color: DiaTheme.secondaryColor),

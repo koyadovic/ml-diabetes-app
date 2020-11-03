@@ -95,7 +95,6 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
                   });
                 }
               ),
-
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
