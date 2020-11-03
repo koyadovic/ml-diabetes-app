@@ -4,7 +4,7 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
-class AddInsulinInjectionWidget extends StatefulWidget {
+class TraitMeasureEditorWidget extends StatefulWidget {
   /*
   TODO que opcionalmente le puedan ser injectados desde fuera los tipos!
     En este caso que no consulte al backend por ellos. Ya los tiene!
@@ -13,38 +13,39 @@ class AddInsulinInjectionWidget extends StatefulWidget {
    No consultará tipos porque ya los tiene, es 1.
    Además, en el selector no podrá cambiar Altura.
    */
-  final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
+  final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
 
-  AddInsulinInjectionWidget({this.selfCloseCallback});
+  TraitMeasureEditorWidget({this.selfCloseCallback});
 
   @override
   State<StatefulWidget> createState() {
-    return AddInsulinInjectionWidgetState();
+    return TraitMeasureEditorWidgetState();
   }
 }
 
 
-class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
+class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
-  List<InsulinType> _insulinTypes = [];
-  InsulinInjection _insulinInjection;
+  List<TraitType> _traitTypes = [];
+  TraitMeasure _traitMeasure;
 
   @override
   void initState() {
     super.initState();
-    _insulinInjection = InsulinInjection(eventDate: DateTime.now());
-    _userDataServices.getInsulinTypes().then((insulinTypes) {
+    _traitMeasure = TraitMeasure(eventDate: DateTime.now());
+    _userDataServices.getTraitTypes().then((traitTypes) {
+      traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
       setState(() {
-        _insulinTypes = insulinTypes;
+        _traitTypes = traitTypes;
       });
-      if(_insulinTypes.length > 0)
-        _selectInsulinType(_insulinTypes[0]);
+      if(_traitTypes.length > 0)
+        _selectTraitType(_traitTypes[0]);
     });
   }
 
-  _selectInsulinType(InsulinType type) {
+  _selectTraitType(TraitType type) {
     setState(() {
-      _insulinInjection.insulinType = type;
+      _traitMeasure.traitType = type;
     });
   }
 
@@ -60,17 +61,17 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
             children: [
               Column(
                 children: [
-                  DropdownButton<InsulinType>(
+                  DropdownButton<TraitType>(
                     //isExpanded: true,
-                    value: _insulinInjection.insulinType,
-                    onChanged: (InsulinType newValue) {
-                      _selectInsulinType(newValue);
+                    value: _traitMeasure.traitType,
+                    onChanged: (TraitType newValue) {
+                      _selectTraitType(newValue);
                     },
-                    items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
-                      return DropdownMenuItem<InsulinType>(
+                    items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
+                      return DropdownMenuItem<TraitType>(
                         value: type,
                         child: Text(
-                            type.name
+                          type.name
                         ),
                       );
                     }).toList(),
@@ -83,14 +84,14 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                unit: 'u',
+                unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > 250 ? 250.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
                 ],
                 onChange: (value) {
                   setState(() {
-                    _insulinInjection.units = value.toInt();
+                    _traitMeasure.value = value;
                   });
                 }
               ),
@@ -101,9 +102,8 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
               ),
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-                onPressed: () async {
-                  await _userDataServices.saveInsulinInjection(_insulinInjection);
-                  widget.selfCloseCallback(true, _insulinInjection);
+                onPressed: !_traitMeasure.hasChanged ? null : () async {
+                  widget.selfCloseCallback(true, _traitMeasure);
                 },
               ),
             ],

@@ -4,48 +4,48 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
-class AddActivityWidget extends StatefulWidget {
+class InsulinInjectionEditorWidget extends StatefulWidget {
   /*
   TODO que opcionalmente le puedan ser injectados desde fuera los tipos!
     En este caso que no consulte al backend por ellos. Ya los tiene!
 
-   Esto Se puede aprovechar para pasarle solo [Correr].
+   Esto Se puede aprovechar para pasarle solo [Altura].
    No consultará tipos porque ya los tiene, es 1.
-   Además, en el selector no podrá cambiar Correr.
+   Además, en el selector no podrá cambiar Altura.
    */
-  final Function(bool, [Activity activity]) selfCloseCallback;
+  final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
 
-  AddActivityWidget({this.selfCloseCallback});
+  InsulinInjectionEditorWidget({this.selfCloseCallback});
 
   @override
   State<StatefulWidget> createState() {
-    return AddActivityWidgetState();
+    return InsulinInjectionEditorWidgetState();
   }
 }
 
 
-class AddActivityWidgetState extends State<AddActivityWidget> {
+class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
-  List<ActivityType> _activityTypes = [];
-  Activity _activity;
+  List<InsulinType> _insulinTypes = [];
+  InsulinInjection _insulinInjection;
 
   @override
   void initState() {
     super.initState();
-    _activity = Activity(eventDate: DateTime.now());
-
-    _userDataServices.getActivityTypes().then((activityTypes) {
+    _insulinInjection = InsulinInjection(eventDate: DateTime.now());
+    _userDataServices.getInsulinTypes().then((insulinTypes) {
       setState(() {
-        _activityTypes = activityTypes;
+        _insulinTypes = insulinTypes;
       });
-      if(_activityTypes.length > 0)
-        _selectTraitType(_activityTypes[0]);
+      if(_insulinTypes.length > 0)
+        _selectInsulinType(_insulinTypes[0]);
     });
   }
 
-  _selectTraitType(ActivityType type) {
+  _selectInsulinType(InsulinType type) {
+    print(type.toJson().toString());
     setState(() {
-      _activity.activityType = type;
+      _insulinInjection.insulinType = type;
     });
   }
 
@@ -61,14 +61,14 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
             children: [
               Column(
                 children: [
-                  DropdownButton<ActivityType>(
+                  DropdownButton<InsulinType>(
                     //isExpanded: true,
-                    value: _activity.activityType,
-                    onChanged: (ActivityType newValue) {
-                      _selectTraitType(newValue);
+                    value: _insulinInjection.insulinType,
+                    onChanged: (InsulinType newValue) {
+                      _selectInsulinType(newValue);
                     },
-                    items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
-                      return DropdownMenuItem<ActivityType>(
+                    items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
+                      return DropdownMenuItem<InsulinType>(
                         value: type,
                         child: Text(
                             type.name
@@ -84,14 +84,14 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                unit: 'm',
+                unit: 'u',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > 600 ? 600.0 : value,
+                  (value) => value > 250 ? 250.0 : value,
                 ],
                 onChange: (value) {
                   setState(() {
-                    _activity.minutes = value.toInt();
+                    _insulinInjection.units = value.toInt();
                   });
                 }
               ),
@@ -102,9 +102,8 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
               ),
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
-                onPressed: !_activity.hasChanged ? null : () async {
-                  await _userDataServices.saveActivity(_activity);
-                  widget.selfCloseCallback(true, _activity);
+                onPressed: !_insulinInjection.hasChanged ? null : () async {
+                  widget.selfCloseCallback(true, _insulinInjection);
                 },
               ),
             ],

@@ -4,19 +4,19 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
-class AddGlucoseLevelWidget extends StatefulWidget {
+class GlucoseLevelEditorWidget extends StatefulWidget {
   final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
 
-  AddGlucoseLevelWidget({this.selfCloseCallback});
+  GlucoseLevelEditorWidget({this.selfCloseCallback});
 
   @override
   State<StatefulWidget> createState() {
-    return AddGlucoseLevelWidgetState();
+    return GlucoseLevelEditorWidgetState();
   }
 }
 
 
-class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
+class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
   GlucoseLevel _glucoseLevel;
 
@@ -54,7 +54,6 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
           IconButton(
             icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
             onPressed: !_glucoseLevel.hasChanged ? null : () async {
-              await _userDataServices.saveGlucoseLevel(_glucoseLevel);
               widget.selfCloseCallback(true, _glucoseLevel);
             },
           ),

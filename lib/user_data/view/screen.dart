@@ -7,12 +7,13 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
+import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:Dia/user_data/view/summary/view.dart';
-import 'package:Dia/user_data/view/shared/add_activity.dart';
-import 'package:Dia/user_data/view/shared/add_glucose_level.dart';
-import 'package:Dia/user_data/view/shared/add_insulin_injection.dart';
-import 'package:Dia/user_data/view/shared/add_trait_measure.dart';
+import 'package:Dia/user_data/view/shared/activity_editor.dart';
+import 'package:Dia/user_data/view/shared/glucose_level_editor.dart';
+import 'package:Dia/user_data/view/shared/insulin_injection_editor.dart';
+import 'package:Dia/user_data/view/shared/trait_measure_editor.dart';
 import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,6 +24,7 @@ import 'graphs/view.dart';
 // ignore: must_be_immutable
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
+  UserDataServices _userDataServices = UserDataServices();
 
   UserDataScreenWidget(ShowWidget showWidget, HideWidget hideWidget) : super(showWidget: showWidget, hideWidget: hideWidget);
 
@@ -61,7 +63,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: TraitMeasureIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddTraitMeasureWidget(selfCloseCallback: (bool reload, [TraitMeasure traitMeasure]) {
+              showWidget(TraitMeasureEditorWidget(selfCloseCallback: (bool reload, [TraitMeasure traitMeasure]) async {
+                if(traitMeasure != null)
+                  await _userDataServices.saveTraitMeasure(traitMeasure);
+
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -80,7 +85,9 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: ActivityIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddActivityWidget(selfCloseCallback: (bool reload, [Activity activity]) {
+              showWidget(ActivityEditorWidget(selfCloseCallback: (bool reload, [Activity activity]) async {
+                if(activity != null)
+                  await _userDataServices.saveActivity(activity);
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -112,7 +119,9 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: InsulinInjectionIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddInsulinInjectionWidget(selfCloseCallback: (bool reload, [InsulinInjection insulinInjection]) {
+              showWidget(InsulinInjectionEditorWidget(selfCloseCallback: (bool reload, [InsulinInjection insulinInjection]) async {
+                if(insulinInjection != null)
+                  await _userDataServices.saveInsulinInjection(insulinInjection);
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -131,7 +140,9 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: GlucoseLevelIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddGlucoseLevelWidget(selfCloseCallback: (bool reload, [GlucoseLevel glucoseLevel]) {
+              showWidget(GlucoseLevelEditorWidget(selfCloseCallback: (bool reload, [GlucoseLevel glucoseLevel]) async {
+                if(glucoseLevel != null)
+                  await _userDataServices.saveGlucoseLevel(glucoseLevel);
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
