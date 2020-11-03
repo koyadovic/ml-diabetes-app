@@ -84,16 +84,16 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                  unit: 'm',
-                  processors: [
-                      (value) => value < 0.0 ? 0.0 : value,
-                      (value) => value > 600 ? 600.0 : value,
-                  ],
-                  onChange: (value) {
-                    setState(() {
-                      _activity.minutes = value.toInt();
-                    });
-                  }
+                unit: 'm',
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
+                ],
+                onChange: (value) {
+                  setState(() {
+                    _activity.minutes = value.toInt();
+                  });
+                }
               ),
 
               Spacer(),

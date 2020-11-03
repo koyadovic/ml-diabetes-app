@@ -84,16 +84,16 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                  unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
-                  processors: [
-                        (value) => value < 0.0 ? 0.0 : value,
-                        (value) => value > 600 ? 600.0 : value,
-                  ],
-                  onChange: (value) {
-                    setState(() {
-                      _traitMeasure.value = value;
-                    });
-                  }
+                unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
+                ],
+                onChange: (value) {
+                  setState(() {
+                    _traitMeasure.value = value;
+                  });
+                }
               ),
               Spacer(),
               IconButton(

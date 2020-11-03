@@ -34,17 +34,17 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           UnitTextField(
-              unit: 'mg/dL',
-              processors: [
-                    (value) => value < 0.0 ? 0.0 : value,
-                    (value) => value > 600 ? 600.0 : value,
-              ],
-              autoFocus: true,
-              onChange: (value) {
-                setState(() {
-                  _glucoseLevel.level = value.toInt();
-                });
-              }
+            unit: 'mg/dL',
+            processors: [
+              (value) => value < 0.0 ? 0.0 : value,
+              (value) => value > 600 ? 600.0 : value,
+            ],
+            autoFocus: true,
+            onChange: (value) {
+              setState(() {
+                _glucoseLevel.level = value.toInt();
+              });
+            }
           ),
           Spacer(),
           IconButton(

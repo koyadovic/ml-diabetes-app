@@ -83,16 +83,16 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                  unit: 'u',
-                  processors: [
-                        (value) => value < 0.0 ? 0.0 : value,
-                        (value) => value > 250 ? 250.0 : value,
-                  ],
-                  onChange: (value) {
-                    setState(() {
-                      _insulinInjection.units = value.toInt();
-                    });
-                  }
+                unit: 'u',
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 250 ? 250.0 : value,
+                ],
+                onChange: (value) {
+                  setState(() {
+                    _insulinInjection.units = value.toInt();
+                  });
+                }
               ),
 
               Spacer(),
