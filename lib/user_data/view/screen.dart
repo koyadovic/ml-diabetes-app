@@ -7,6 +7,7 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
+import 'package:Dia/user_data/model/entities.dart';
 import 'package:Dia/user_data/view/summary/view.dart';
 import 'package:Dia/user_data/view/shared/add_activity.dart';
 import 'package:Dia/user_data/view/shared/add_glucose_level.dart';
@@ -60,7 +61,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: TraitMeasureIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddTraitMeasureWidget(selfCloseCallback: (bool reload) {
+              showWidget(AddTraitMeasureWidget(selfCloseCallback: (bool reload, [TraitMeasure traitMeasure]) {
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -79,7 +80,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: ActivityIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddActivityWidget(selfCloseCallback: (bool reload) {
+              showWidget(AddActivityWidget(selfCloseCallback: (bool reload, [Activity activity]) {
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -111,7 +112,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: InsulinInjectionIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddInsulinInjectionWidget(selfCloseCallback: (bool reload) {
+              showWidget(AddInsulinInjectionWidget(selfCloseCallback: (bool reload, [InsulinInjection insulinInjection]) {
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();
@@ -130,7 +131,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: GlucoseLevelIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              showWidget(AddGlucoseLevelWidget(selfCloseCallback: (bool reload) {
+              showWidget(AddGlucoseLevelWidget(selfCloseCallback: (bool reload, [GlucoseLevel glucoseLevel]) {
                 if(reload) {
                   _refresh();
                   _state._refreshCommunications();

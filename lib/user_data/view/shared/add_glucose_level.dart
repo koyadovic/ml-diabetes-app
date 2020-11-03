@@ -5,7 +5,7 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class AddGlucoseLevelWidget extends StatefulWidget {
-  final Function(bool) selfCloseCallback;
+  final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
 
   AddGlucoseLevelWidget({this.selfCloseCallback});
 
@@ -52,7 +52,7 @@ class AddGlucoseLevelWidgetState extends State<AddGlucoseLevelWidget> {
             icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
             onPressed: !_glucoseLevel.hasChanged ? null : () async {
               await _userDataServices.saveGlucoseLevel(_glucoseLevel);
-              widget.selfCloseCallback(true);
+              widget.selfCloseCallback(true, _glucoseLevel);
             },
           ),
         ],

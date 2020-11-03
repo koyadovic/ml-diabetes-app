@@ -13,7 +13,7 @@ class AddTraitMeasureWidget extends StatefulWidget {
    No consultará tipos porque ya los tiene, es 1.
    Además, en el selector no podrá cambiar Altura.
    */
-  final Function(bool) selfCloseCallback;
+  final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
 
   AddTraitMeasureWidget({this.selfCloseCallback});
 
@@ -102,7 +102,7 @@ class AddTraitMeasureWidgetState extends State<AddTraitMeasureWidget> {
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
                 onPressed: () async {
                   await _userDataServices.saveTraitMeasure(_traitMeasure);
-                  widget.selfCloseCallback(true);
+                  widget.selfCloseCallback(true, _traitMeasure);
                 },
               ),
             ],

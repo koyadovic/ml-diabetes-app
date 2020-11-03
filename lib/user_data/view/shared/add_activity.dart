@@ -13,7 +13,7 @@ class AddActivityWidget extends StatefulWidget {
    No consultará tipos porque ya los tiene, es 1.
    Además, en el selector no podrá cambiar Correr.
    */
-  final Function(bool) selfCloseCallback;
+  final Function(bool, [Activity activity]) selfCloseCallback;
 
   AddActivityWidget({this.selfCloseCallback});
 
@@ -102,7 +102,7 @@ class AddActivityWidgetState extends State<AddActivityWidget> {
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
                 onPressed: !_activity.hasChanged ? null : () async {
                   await _userDataServices.saveActivity(_activity);
-                  widget.selfCloseCallback(true);
+                  widget.selfCloseCallback(true, _activity);
                 },
               ),
             ],

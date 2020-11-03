@@ -13,7 +13,7 @@ class AddInsulinInjectionWidget extends StatefulWidget {
    No consultará tipos porque ya los tiene, es 1.
    Además, en el selector no podrá cambiar Altura.
    */
-  final Function(bool) selfCloseCallback;
+  final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
 
   AddInsulinInjectionWidget({this.selfCloseCallback});
 
@@ -101,7 +101,7 @@ class AddInsulinInjectionWidgetState extends State<AddInsulinInjectionWidget> {
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),
                 onPressed: () async {
                   await _userDataServices.saveInsulinInjection(_insulinInjection);
-                  widget.selfCloseCallback(true);
+                  widget.selfCloseCallback(true, _insulinInjection);
                 },
               ),
             ],
