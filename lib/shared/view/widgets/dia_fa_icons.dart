@@ -59,7 +59,7 @@ class DiaMediumFaIcon extends StatelessWidget {
     return FaIcon(
       getIconData(entity),
       color: color,
-      size: 26,
+      size: 22,
     );
   }
 }

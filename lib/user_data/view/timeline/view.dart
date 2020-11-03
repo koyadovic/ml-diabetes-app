@@ -120,7 +120,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w300),),
+            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),),
           ),
           UnitTextField(
             unitWidth: 60,
