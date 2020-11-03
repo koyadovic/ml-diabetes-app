@@ -125,6 +125,10 @@ class GlucoseLevel extends UserDataEntity {
   Map<String, dynamic> changesToJson() {
     return mapDifferences(_original, toJson());
   }
+
+  bool get hasChanged {
+    return changesToJson().keys.length > 0;
+  }
 }
 
 class Feeding extends UserDataEntity {
@@ -182,6 +186,10 @@ class Feeding extends UserDataEntity {
   Map<String, dynamic> changesToJson() {
     return mapDifferences(_original, toJson());
   }
+
+  bool get hasChanged {
+    return changesToJson().keys.length > 0;
+  }
 }
 
 
@@ -223,6 +231,10 @@ class Activity extends UserDataEntity {
   Map<String, dynamic> changesToJson() {
     return mapDifferences(_original, toJson());
   }
+
+  bool get hasChanged {
+    return changesToJson().keys.length > 0;
+  }
 }
 
 class InsulinInjection extends UserDataEntity {
@@ -258,6 +270,10 @@ class InsulinInjection extends UserDataEntity {
   Map<String, dynamic> changesToJson() {
     return mapDifferences(_original, toJson());
   }
+
+  bool get hasChanged {
+    return changesToJson().keys.length > 0;
+  }
 }
 
 class TraitMeasure extends UserDataEntity {
@@ -292,6 +308,10 @@ class TraitMeasure extends UserDataEntity {
 
   Map<String, dynamic> changesToJson() {
     return mapDifferences(_original, toJson());
+  }
+
+  bool get hasChanged {
+    return changesToJson().keys.length > 0;
   }
 }
 
