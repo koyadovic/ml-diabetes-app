@@ -89,7 +89,7 @@ Core Entities!
 
 class UserDataEntity {
   final int id;
-  final DateTime eventDate;
+  DateTime eventDate;
   final String entityType;
 
   UserDataEntity(this.id, this.eventDate, this.entityType);
@@ -167,7 +167,7 @@ class Feeding extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'carb_g': carbGrams,
       'carb_sugar_g': carbSugarGrams,
@@ -208,7 +208,7 @@ class Activity extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'activity_type': activityType.toJson(),
       'minutes': minutes,
@@ -248,7 +248,7 @@ class InsulinInjection extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'insulin_type': insulinType.toJson(),
       'units': units,
@@ -283,7 +283,7 @@ class TraitMeasure extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'trait_type': traitType.toJson(),
       'value': value,
@@ -313,7 +313,7 @@ class Flag extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0,
+      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'type': type,
     };
