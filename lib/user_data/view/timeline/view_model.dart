@@ -47,7 +47,6 @@ class TimelineViewModel extends DiaViewModel {
     } on UserDataServicesError catch (e) {
       DiaMessages.getInstance().showInformation(e.toString());
     } finally {
-      _noMoreData = true;
       setLoading(false);
     }
   }
