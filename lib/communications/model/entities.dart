@@ -1,3 +1,53 @@
+import 'package:Dia/user_data/model/entities.dart';
+
+class Suggestion {
+  final String details;
+  final bool cancelable;
+  final bool editable;
+  final String userDataEntityType;
+  final UserDataEntity userDataEntity;
+
+  Suggestion({this.details, this.cancelable, this.editable, this.userDataEntityType, this.userDataEntity});
+
+  factory Suggestion.fromJson(Map<String, dynamic> json) {
+    String entityType = json['user_data_entity_type'];
+    Map<String, dynamic> serializedEntity = Map<String, dynamic>.from(json['user_data_entity']);
+
+    UserDataEntity entity = deserializeUserDataEntity(entityType, serializedEntity);
+
+    return Suggestion(
+      details: json['details'],
+      cancelable: json['cancelable'],
+      editable: json['editable'],
+      userDataEntityType: entityType,
+      userDataEntity: entity,
+    );
+  }
+
+  static UserDataEntity deserializeUserDataEntity(String entityType, Map<String, dynamic> serializedEntity) {
+    UserDataEntity entity;
+    switch(entityType) {
+      case 'GlucoseLevel':
+        entity = GlucoseLevel.fromJson(serializedEntity);
+        break;
+      case 'Feeding':
+        entity = Feeding.fromJson(serializedEntity);
+        break;
+      case 'Activity':
+        entity = Activity.fromJson(serializedEntity);
+        break;
+      case 'InsulinInjection':
+        entity = InsulinInjection.fromJson(serializedEntity);
+        break;
+      case 'TraitMeasure':
+        entity = TraitMeasure.fromJson(serializedEntity);
+        break;
+    }
+    return entity;
+  }
+}
+
+
 class Message {
   final int id;
   final DateTime createdDate;
