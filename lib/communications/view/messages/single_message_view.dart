@@ -35,7 +35,7 @@ class MessageWidgetState extends State<MessageWidget> {
       return _SimpleMessageWidget(widget.message, dismissMessage);
 
     if(isSuggestion)
-      return _SuggestionsMessageWidget(widget.message, dismissMessage);
+      return _SuggestionsGroupMessageWidget(widget.message, dismissMessage);
 
     return SizedBox.shrink();
   }
@@ -87,21 +87,71 @@ class _SimpleMessageWidget extends StatelessWidget {
 }
 
 // TODO queda terminarlo.
-class _SuggestionsMessageWidget extends StatefulWidget {
+
+class _SuggestionsGroupMessageWidget extends StatefulWidget {
   final Message message;
   final Function onFinished;
 
-  _SuggestionsMessageWidget(this.message, this.onFinished);
+  _SuggestionsGroupMessageWidget(this.message, this.onFinished);
 
   @override
   State<StatefulWidget> createState() {
-    return _SuggestionsMessageWidgetState();
+    return _SuggestionsGroupMessageWidgetState();
   }
 }
 
-class _SuggestionsMessageWidgetState extends State<_SuggestionsMessageWidget> {
+class _SuggestionsGroupMessageWidgetState extends State<_SuggestionsGroupMessageWidget> {
+  List<Suggestion> _suggestions = [];
+
+  @override
+  void initState() {
+    _suggestions = widget.message.payload['suggestions'].map((Map<String, dynamic> serializedSuggestion) => Suggestion.fromJson(serializedSuggestion));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return ListView(
+      children: [
+        ..._suggestions.map((suggestion) => _SuggestionWidget(suggestion)).toList(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FlatButton(
+              child: Text('Done'),
+              onPressed: () {
+                print('Done');
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+
+class _SuggestionWidget extends StatefulWidget {
+  final Suggestion suggestion;
+
+  _SuggestionWidget(this.suggestion);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _SuggestionWidgetState();
+  }
+}
+
+
+class _SuggestionWidgetState extends State<_SuggestionWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(widget.suggestion.details),
+        // TODO show generic entry widget about the entity.
+        //  A click must go to the editor defined in user data
+      ],
+    );
   }
 }
