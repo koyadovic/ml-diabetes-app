@@ -86,7 +86,30 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ],
           ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'gender')
-            Text('Gender'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DropdownButton<String>(
+                  //isExpanded: true,
+                  value: _traitMeasure.value,
+                  onChanged: (String newValue) {
+                    setState(() {
+                      _traitMeasure.value = newValue;
+                    });
+                  },
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: 'male',
+                      child: Text('Male'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'female',
+                      child: Text('Female'),
+                    )
+                  ],
+                ),
+              ],
+            ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
               initialValue: DateTime.fromMillisecondsSinceEpoch(
