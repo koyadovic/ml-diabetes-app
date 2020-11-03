@@ -5,6 +5,7 @@ import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
@@ -136,7 +137,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       subtitle: Row(
         children: [
           Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-          Text(entity.eventDate.toString(), style: TextStyle(color: Colors.grey)),
+          Text(DateFormat.yMMMMEEEEd().format(entity.eventDate), style: TextStyle(color: Colors.grey)),
         ],
       ),
       onTap: () {

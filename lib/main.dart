@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'communications/controller/services.dart';
 import 'shared/view/utils/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
@@ -66,6 +67,12 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   @override
   void initState() {
     super.initState();
+
+    // TODO this will be defined from the backend
+    // TODO we need to get the value from settings BC and set it globally
+    // TODO maybe settings will need to expose some kind of observable/observer pattern to change here the most
+    //   recent setting value
+    Intl.defaultLocale = 'es';
 
     DiaMessages.setMessagesHandler(this);
     DiaNavigation.setConcreteNavigator(this);
