@@ -74,7 +74,7 @@ class UserDataViewModelEntity {
           type: entity.entityType,
           value: glucoseLevel.level,
           unit: 'mg/dL',
-          text: 'Glucose Level' + ':',
+          text: 'Glucose Level',
           entity: glucoseLevel
         );
 
@@ -85,7 +85,7 @@ class UserDataViewModelEntity {
           type: entity.entityType,
           value: feeding.kCal.round(),
           unit: 'Kcal',
-          text: 'Feeding' + ':',
+          text: 'Feeding',
           entity: feeding
         );
 
@@ -96,7 +96,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: activity.minutes,
             unit: 'minutes',
-            text: activity.activityType.name + ':',
+            text: activity.activityType.name,
             entity: activity
         );
 
@@ -107,7 +107,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: insulinInjection.units,
             unit: 'u',
-            text: insulinInjection.insulinType.name + ' ' + insulinInjection.insulinType.categories.join(', ') + ':',
+            text: insulinInjection.insulinType.name + ' ' + insulinInjection.insulinType.categories.join(', '),
             entity: insulinInjection
         );
 
@@ -118,7 +118,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: traitMeasure.value,
             unit: traitMeasure.traitType.unit,
-            text: traitMeasure.traitType.name + ':',
+            text: traitMeasure.traitType.name,
             entity: traitMeasure
         );
 
@@ -129,7 +129,7 @@ class UserDataViewModelEntity {
             type: entity.entityType,
             value: flag.type,
             unit: '',
-            text: flag.type + ':',
+            text: flag.type,
             entity: flag
         );
     }

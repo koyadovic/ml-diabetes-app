@@ -114,19 +114,25 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
     return ListTile(
       leading: leading,
-      title: UnitTextField(
-        text: entity.text,
-        unit: entity.unit,
-        initialValue: value.toDouble(),
-        enabled: false,
-        colorDisabled: Colors.black87,
-        // colorEnabled: Colors.black87,
-        onChange: null,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(entity.text),
+          UnitTextField(
+            unitWidth: 60,
+            unit: entity.unit,
+            initialValue: value.toDouble(),
+            enabled: false,
+            colorDisabled: Colors.black87,
+            // colorEnabled: Colors.black87,
+            onChange: null,
+          ),
+        ],
       ),
       subtitle: Row(
         children: [
           Icon(Icons.calendar_today, size: 16, color: Colors.grey),
-          Text(entity.eventDate.toIso8601String(), style: TextStyle(color: Colors.grey)),
+          Text(entity.eventDate.toString(), style: TextStyle(color: Colors.grey)),
         ],
       ),
       onTap: () {

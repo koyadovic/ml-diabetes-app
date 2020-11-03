@@ -8,9 +8,9 @@ class UnitTextField extends StatefulWidget {
   final double max;
   final bool enabled;
   final bool autoFocus;
-  final String text;
   final Color colorEnabled;
   final Color colorDisabled;
+  final double unitWidth;
 
   UnitTextField({
     @required this.unit,
@@ -20,9 +20,9 @@ class UnitTextField extends StatefulWidget {
     this.min,
     this.max,
     this.enabled : true,
-    this.text : '',
     this.colorEnabled: Colors.black,
     this.colorDisabled: Colors.grey,
+    this.unitWidth: 55
   });
 
   @override
@@ -108,16 +108,6 @@ class UnitTextFieldState extends State<UnitTextField> {
       child: Text.rich(
         TextSpan(
           children: <InlineSpan>[
-            if(widget.text != '')
-            WidgetSpan(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 4.0, 10.0),
-                child: Text(
-                    widget.text,
-                    style: TextStyle(fontSize: 20, color: fontColor, fontWeight: FontWeight.w400)
-                ),
-              ),
-            ),
             WidgetSpan(
               child: SizedBox(
                 width: w,
@@ -136,11 +126,14 @@ class UnitTextFieldState extends State<UnitTextField> {
               )
             ),
             WidgetSpan(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: Text(
-                  widget.unit,
-                  style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+              child: Container(
+                width: widget.unitWidth,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                  child: Text(
+                    widget.unit,
+                    style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+                  ),
                 ),
               ),
             ),
