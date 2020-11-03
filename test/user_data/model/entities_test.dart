@@ -67,7 +67,10 @@ void main() {
     expect(a.changesToJson(), {
       'activity_type': at2.toJson()
     });
+    a.minutes = 9;
+    expect(a.changesToJson(), {
+      'minutes': 9,
+      'activity_type': at2.toJson()
+    });
   });
-
-
 }
