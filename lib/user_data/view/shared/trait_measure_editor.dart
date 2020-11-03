@@ -1,4 +1,5 @@
 import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/widgets/dates_time.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
@@ -33,11 +34,10 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
     } else {
       _traitMeasure = TraitMeasure(eventDate: DateTime.now());
       _userDataServices.getTraitTypes().then((traitTypes) {
-
         // TODO quita este filtro. Tiene que tener todos!
         // TODO al menos para testear que funciona
+        // traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
 
-        traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
         setState(() {
           _traitTypes = traitTypes;
         });
@@ -57,7 +57,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -85,9 +85,21 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               ),
             ],
           ),
+          if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'gender')
+            Text('Gender'),
+          if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
+            DiaDateField(
+              initialValue: DateTime.fromMillisecondsSinceEpoch(
+                  _traitMeasure.value != null ? _traitMeasure.value * 1000.0 : DateTime.now().millisecondsSinceEpoch
+              ),
+              onChanged: (birthDate) {
+                _traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
+              },
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug != 'gender' && _traitMeasure.traitType.slug != 'birth-seconds-epoch')
               UnitTextField(
                 unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
                 processors: [
