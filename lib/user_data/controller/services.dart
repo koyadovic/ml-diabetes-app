@@ -70,7 +70,7 @@ class UserDataServices {
 
   Future<void> saveTraitMeasure(TraitMeasure traitMeasure) async {
     await _backend.initialize();
-    String url = '/api/v1/trait-measures/';
+    String url;
     Map<String, dynamic> data;
     if(traitMeasure.id == null) {
       url = '/api/v1/trait-measures/';
@@ -100,7 +100,7 @@ class UserDataServices {
 
   Future<void> saveInsulinInjection(InsulinInjection insulinInjection) async {
     await _backend.initialize();
-    String url = '/api/v1/insulin-injections/';
+    String url;
     Map<String, dynamic> data;
     if(insulinInjection.id == null) {
       url = '/api/v1/insulin-injections/';
