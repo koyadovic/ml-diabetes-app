@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dates_time.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -55,6 +56,8 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
       child: ListView(
@@ -139,12 +142,12 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: !_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-                onPressed: !_traitMeasure.hasChanged ? null : () async {
+                icon: Icon(Icons.done, color: !enabled || !_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor),
+                onPressed: !enabled || !_traitMeasure.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _traitMeasure);
                 },
               ),

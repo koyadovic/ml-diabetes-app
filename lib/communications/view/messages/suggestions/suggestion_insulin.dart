@@ -1,4 +1,5 @@
 import 'package:Dia/communications/model/entities.dart';
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:Dia/user_data/view/shared/insulin_injection_editor.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,14 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          child: Text(widget.suggestion.details),
+          child: Text(widget.suggestion.details, style: TextStyle(color: !enabled ? Colors.grey : Colors.black)),
         ),
         InsulinInjectionEditorWidget(
           insulinInjectionForEdition: _insulinInjection,

@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 
 // if not valid throw ValidationError('Message');
@@ -103,17 +104,12 @@ class UnitTextFieldState extends State<UnitTextField> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
+
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
 
-    Color fontColor;
-    // if (widget.fixedColor == null) {
-    //   fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
-    // } else {
-    //   fontColor = widget.fixedColor;
-    // }
-
-    fontColor = widget.colorEnabled;
+    Color fontColor = enabled ? widget.colorEnabled : widget.colorDisabled;
 
     return GestureDetector(
       onTap: () => requestFocus(),

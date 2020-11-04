@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -49,6 +50,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
@@ -66,7 +68,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
                   return DropdownMenuItem<ActivityType>(
                     value: type,
-                    child: Text(type.name),
+                    child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
                   );
                 }).toList(),
               ),
@@ -89,12 +91,12 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: !_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-                onPressed: !_activity.hasChanged ? null : () async {
+                icon: Icon(Icons.done, color: !enabled || !_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor),
+                onPressed: !enabled || !_activity.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _activity);
                 },
               ),

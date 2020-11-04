@@ -21,6 +21,7 @@ class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidg
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,7 +32,7 @@ class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidg
         TraitMeasureEditorWidget(
           traitMeasureForEdition: widget.suggestion.userDataEntity as TraitMeasure,
           selfCloseCallback: (reload, [traitMeasure]) {
-            
+
           },
         ),
       ],

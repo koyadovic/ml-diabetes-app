@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -32,6 +33,8 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
       child: Row(
@@ -52,15 +55,15 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+            icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
             onPressed: () {
               _glucoseLevel.reset();
               widget.selfCloseCallback(false);
             },
           ),
           IconButton(
-            icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-            onPressed: !_glucoseLevel.hasChanged ? null : () async {
+            icon: Icon(Icons.done, color: !enabled || !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
+            onPressed: !enabled || !_glucoseLevel.hasChanged ? null : () async {
               widget.selfCloseCallback(true, _glucoseLevel);
             },
           ),
