@@ -98,13 +98,16 @@ class UnitTextFieldState extends State<UnitTextField> {
   }
 
   void requestFocus() {
-    // if(widget.enabled)
-    //   _focusNode.requestFocus();
+    bool enabled = EnabledStatus.of(context);
+    if(enabled)
+      _focusNode.requestFocus();
   }
 
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
+    if(!enabled)
+      _focusNode.previousFocus();
 
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
@@ -122,7 +125,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                 //height: 38,
                 child: TextField(
                   focusNode: _focusNode,
-                  //enabled: widget.enabled,
+                  enabled: enabled,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)

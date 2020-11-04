@@ -67,7 +67,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               DropdownButton<InsulinType>(
                 isExpanded: true,
                 value: _insulinInjection.insulinType,
-                onChanged: (InsulinType newValue) {
+                onChanged: !enabled ? null : (InsulinType newValue) {
                   _selectInsulinType(newValue);
                 },
                 items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
