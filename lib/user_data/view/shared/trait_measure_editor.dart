@@ -118,7 +118,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
               onChanged: (birthDate) {
-                _traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
+                if(birthDate != null) {
+                  setState(() {
+                    _traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
+                  });
+                }
               },
             ),
           Row(
