@@ -21,12 +21,14 @@ class InsulinInjectionEditorWidget extends StatefulWidget {
 
 class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
+  TextEditingController _externalController;
   List<InsulinType> _insulinTypes = [];
   InsulinInjection _insulinInjection;
 
   @override
   void initState() {
     initialize();
+    _externalController = TextEditingController(text: _insulinInjection.units.toString());
     super.initState();
   }
 
@@ -47,7 +49,6 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
   }
 
   _selectInsulinType(InsulinType type) {
-    print(type.toJson().toString());
     setState(() {
       _insulinInjection.insulinType = type;
     });
@@ -59,30 +60,26 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-      child: ListView(
-        shrinkWrap: true,
+      child: Column(
         children: [
-          Column(
-            children: [
-              DropdownButton<InsulinType>(
-                isExpanded: true,
-                value: _insulinInjection.insulinType,
-                onChanged: !enabled ? null : (InsulinType newValue) {
-                  _selectInsulinType(newValue);
-                },
-                items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
-                  return DropdownMenuItem<InsulinType>(
-                    value: type,
-                    child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
-                  );
-                }).toList(),
-              ),
-            ],
+          DropdownButton<InsulinType>(
+            isExpanded: true,
+            value: _insulinInjection.insulinType,
+            onChanged: !enabled ? null : (InsulinType newValue) {
+              _selectInsulinType(newValue);
+            },
+            items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
+              return DropdownMenuItem<InsulinType>(
+                value: type,
+                child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+              );
+            }).toList(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
+                externalController: _externalController,
                 initialValue: _insulinInjection.units != null ? _insulinInjection.units.toDouble() : 0.0,
                 unit: 'u',
                 processors: [
@@ -100,6 +97,10 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                 icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: !enabled ? null : () {
                   //initialize();
+                  setState(() {
+                    _insulinInjection.reset();
+                    _externalController.text = _insulinInjection.units.toString();
+                  });
                   widget.selfCloseCallback(false);
                 },
               ),

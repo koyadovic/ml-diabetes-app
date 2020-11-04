@@ -14,7 +14,7 @@ class UnitTextField extends StatefulWidget {
   final Color colorEnabled;
   final Color colorDisabled;
   final double unitWidth;
-  UnitTextFieldState state;
+  final TextEditingController externalController;
 
   UnitTextField({
     @required this.unit,
@@ -25,12 +25,12 @@ class UnitTextField extends StatefulWidget {
     this.colorEnabled: Colors.black,
     this.colorDisabled: Colors.grey,
     this.unitWidth: 55,
+    this.externalController,
   });
 
   @override
   State<StatefulWidget> createState() {
-    state = UnitTextFieldState();
-    return state;
+    return UnitTextFieldState();
   }
 }
 
@@ -39,17 +39,11 @@ class UnitTextFieldState extends State<UnitTextField> {
   double _lastValueEmitted;
   FocusNode _focusNode;
 
-  void setValue(double value) {
-    _controller.text = value.toString();
-  }
-
   @override
   void initState() {
-    widget.state = this;
-
     super.initState();
     _focusNode = FocusNode();
-    _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
+    _controller = widget.externalController ?? TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
     _controller.addListener(() {
       final text = _controller.text;
       double numericalValue = processStringValue(text);
