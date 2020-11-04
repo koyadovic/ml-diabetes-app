@@ -21,22 +21,7 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
 
   @override
   void initState() {
-    /*
-    if suggestion is not editable, _finalInsulinInjection == _insulinInjection
-    and we cannot clear _finalInsulinInjection
-
-
-    El funcionamiento es como sigue. Se muestra el elemento como sería en el timeline
-    Aparecerá un botón para editarlo en caso de ser editable.
-
-
-
-    Y cómo manejas cancelable. ????
-
-
-     */
     _insulinInjection = widget.suggestion.userDataEntity as InsulinInjection;
-    _controller = TextEditingController(text: _insulinInjection.units.toString());
     super.initState();
   }
 
@@ -56,13 +41,11 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
           child: Text(widget.suggestion.details),
         ),
         InsulinInjectionEditorWidget(
-          fixedColor: widget.isIgnored ? Colors.grey : null,
-          externalController: _controller,
-          insulinInjectionForEdition: widget.suggestion.userDataEntity as InsulinInjection,
+          insulinInjectionForEdition: _insulinInjection,
           selfCloseCallback: (reload, [insulinInjection]) {
             if(insulinInjection == null) {
+              _insulinInjection.reset();
               setState(() {
-                insulinInjection.reset();
               });
             }
           },

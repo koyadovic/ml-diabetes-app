@@ -8,11 +8,8 @@ import 'package:flutter/material.dart';
 class InsulinInjectionEditorWidget extends StatefulWidget {
   final InsulinInjection insulinInjectionForEdition;
   final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
-  final Color fixedColor;
 
-  final TextEditingController externalController;
-
-  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition, this.externalController, this.fixedColor});
+  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -34,7 +31,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
   void initialize() {
     if(widget.insulinInjectionForEdition != null) {
-      _insulinInjection = InsulinInjection.fromJson(widget.insulinInjectionForEdition.toJson());
+      _insulinInjection = widget.insulinInjectionForEdition;
       _insulinTypes = [_insulinInjection.insulinType];
     } else {
       _insulinInjection = InsulinInjection(eventDate: DateTime.now());
@@ -73,10 +70,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                 items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
                   return DropdownMenuItem<InsulinType>(
                     value: type,
-                    child: Text(
-                      type.name,
-                      style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
-                    ),
+                    child: Text(type.name),
                   );
                 }).toList(),
               ),
@@ -86,8 +80,6 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                fixedColor: widget.fixedColor,
-                externalController: widget.externalController,
                 initialValue: _insulinInjection.units != null ? _insulinInjection.units.toDouble() : 0.0,
                 unit: 'u',
                 processors: [
@@ -102,14 +94,14 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
                 onPressed: () {
                   initialize();
                   widget.selfCloseCallback(false);
                 },
               ),
               IconButton(
-                icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_insulinInjection.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
+                icon: Icon(Icons.done, color: !_insulinInjection.hasChanged ? Colors.grey : DiaTheme.primaryColor),
                 onPressed: !_insulinInjection.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _insulinInjection);
                 },

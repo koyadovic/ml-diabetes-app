@@ -4,7 +4,6 @@ import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -117,7 +116,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
               unitWidth: 60,
               unit: entity.unit,
               initialValue: entity.value.toDouble(),
-              enabled: false,
+              //enabled: false,
               colorDisabled: Colors.black87,
               // colorEnabled: Colors.black87,
               onChange: null,

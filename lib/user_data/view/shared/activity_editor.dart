@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
   final Function(bool, [Activity activity]) selfCloseCallback;
-  final TextEditingController externalController;
-  final Color fixedColor;
 
-  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.externalController, this.fixedColor});
+  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +26,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   @override
   void initState() {
     if(widget.activityForEdition != null) {
-      _activity = Activity.fromJson(widget.activityForEdition.toJson());
+      _activity = widget.activityForEdition;
       _activityTypes = [_activity.activityType];
     } else {
       _activity = Activity(eventDate: DateTime.now());
@@ -68,10 +66,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
                   return DropdownMenuItem<ActivityType>(
                     value: type,
-                    child: Text(
-                      type.name,
-                      style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
-                    ),
+                    child: Text(type.name),
                   );
                 }).toList(),
               ),
@@ -81,7 +76,6 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
-                externalController: widget.externalController,
                 unit: 'm',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
@@ -95,11 +89,11 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
+                icon: Icon(Icons.done, color: !_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor),
                 onPressed: !_activity.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _activity);
                 },

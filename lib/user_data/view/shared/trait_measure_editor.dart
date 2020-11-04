@@ -9,10 +9,8 @@ import 'package:flutter/material.dart';
 class TraitMeasureEditorWidget extends StatefulWidget {
   final TraitMeasure traitMeasureForEdition;
   final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
-  final TextEditingController externalController;
-  final Color fixedColor;
 
-  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition, this.externalController, this.fixedColor});
+  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,7 +27,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   @override
   void initState() {
     if(widget.traitMeasureForEdition != null) {
-      _traitMeasure = TraitMeasure.fromJson(widget.traitMeasureForEdition.toJson());
+      _traitMeasure = widget.traitMeasureForEdition;
       _traitTypes = [_traitMeasure.traitType];
     } else {
       _traitMeasure = TraitMeasure(eventDate: DateTime.now());
@@ -75,10 +73,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
                     return DropdownMenuItem<TraitType>(
                       value: type,
-                      child: Text(
-                        type.name,
-                        style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
-                      ),
+                      child: Text(type.name),
                     );
                   }).toList(),
                 ),
@@ -102,17 +97,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     items: [
                       DropdownMenuItem<String>(
                         value: 'male',
-                        child: Text(
-                          'Male',
-                          style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
-                        ),
+                        child: Text('Male'),
                       ),
                       DropdownMenuItem<String>(
                         value: 'female',
-                        child: Text(
-                          'Female',
-                          style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
-                        ),
+                        child: Text('Female'),
                       )
                     ],
                   ),
@@ -121,8 +110,6 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
-              fixedColor: widget.fixedColor,
-              externalController: widget.externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
@@ -152,11 +139,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
+                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
+                icon: Icon(Icons.done, color: !_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor),
                 onPressed: !_traitMeasure.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _traitMeasure);
                 },

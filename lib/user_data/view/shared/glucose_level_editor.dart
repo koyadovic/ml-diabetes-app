@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 class GlucoseLevelEditorWidget extends StatefulWidget {
   final GlucoseLevel glucoseLevelForEdition;
   final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
-  final TextEditingController externalController;
-  final Color fixedColor;
 
-  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition, this.externalController, this.fixedColor});
+  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +23,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
   @override
   void initState() {
     if(widget.glucoseLevelForEdition != null) {
-      _glucoseLevel = GlucoseLevel.fromJson(widget.glucoseLevelForEdition.toJson());
+      _glucoseLevel = widget.glucoseLevelForEdition;
     } else {
       _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
     }
@@ -40,7 +38,6 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           UnitTextField(
-            externalController: widget.externalController,
             unit: 'mg/dL',
             processors: [
               (value) => value < 0.0 ? 0.0 : value,
@@ -55,11 +52,14 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
-            onPressed: () => widget.selfCloseCallback(false),
+            icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+            onPressed: () {
+              _glucoseLevel.reset();
+              widget.selfCloseCallback(false);
+            },
           ),
           IconButton(
-            icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
+            icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
             onPressed: !_glucoseLevel.hasChanged ? null : () async {
               widget.selfCloseCallback(true, _glucoseLevel);
             },

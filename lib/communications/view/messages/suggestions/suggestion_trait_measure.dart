@@ -18,7 +18,6 @@ class TraitMeasureSuggestionWidget extends StatefulWidget {
 }
 
 class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidget> {
-  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +29,9 @@ class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidg
           child: Text(widget.suggestion.details),
         ),
         TraitMeasureEditorWidget(
-          externalController: _controller,
           traitMeasureForEdition: widget.suggestion.userDataEntity as TraitMeasure,
           selfCloseCallback: (reload, [traitMeasure]) {
-            if(traitMeasure == null) {
-
-            }
+            
           },
         ),
       ],

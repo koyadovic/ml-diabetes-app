@@ -9,15 +9,11 @@ class UnitTextField extends StatefulWidget {
   final Function(double) onChange;
   final double initialValue;
   final List<ValueProcessor> processors;
-  final bool enabled;
   final bool autoFocus;
   final Color colorEnabled;
   final Color colorDisabled;
   final double unitWidth;
-  final TextEditingController externalController;
   UnitTextFieldState state;
-
-  final Color fixedColor;
 
   UnitTextField({
     @required this.unit,
@@ -25,12 +21,9 @@ class UnitTextField extends StatefulWidget {
     this.initialValue,
     this.autoFocus : false,
     this.processors : const [],
-    this.enabled : true,
     this.colorEnabled: Colors.black,
     this.colorDisabled: Colors.grey,
     this.unitWidth: 55,
-    this.externalController,
-    this.fixedColor,
   });
 
   @override
@@ -55,7 +48,7 @@ class UnitTextFieldState extends State<UnitTextField> {
 
     super.initState();
     _focusNode = FocusNode();
-    _controller = widget.externalController ?? TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
+    _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
     _controller.addListener(() {
       final text = _controller.text;
       double numericalValue = processStringValue(text);
@@ -104,8 +97,8 @@ class UnitTextFieldState extends State<UnitTextField> {
   }
 
   void requestFocus() {
-    if(widget.enabled)
-      _focusNode.requestFocus();
+    // if(widget.enabled)
+    //   _focusNode.requestFocus();
   }
 
   @override
@@ -114,11 +107,13 @@ class UnitTextFieldState extends State<UnitTextField> {
     w = w < 13 ? 13 : w;
 
     Color fontColor;
-    if (widget.fixedColor == null) {
-      fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
-    } else {
-      fontColor = widget.fixedColor;
-    }
+    // if (widget.fixedColor == null) {
+    //   fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
+    // } else {
+    //   fontColor = widget.fixedColor;
+    // }
+
+    fontColor = widget.colorEnabled;
 
     return GestureDetector(
       onTap: () => requestFocus(),
@@ -131,7 +126,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                 //height: 38,
                 child: TextField(
                   focusNode: _focusNode,
-                  enabled: widget.enabled,
+                  //enabled: widget.enabled,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
