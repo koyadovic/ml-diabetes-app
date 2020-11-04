@@ -1,4 +1,5 @@
 import 'package:Dia/shared/model/map_tools.dart';
+import 'package:collection/collection.dart';
 
 /*
 TYPES!
@@ -34,6 +35,22 @@ class TraitType extends UserDataValueObject {
       'options': options,
     };
   }
+
+  @override
+  bool operator == (Object other) {
+    Function eq = const ListEquality().equals;
+    return identical(this, other) ||
+        other is TraitType &&
+            runtimeType == other.runtimeType &&
+            name == other.name &&
+            slug == other.slug &&
+            unit == other.unit &&
+            eq(options, other.options);
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ slug.hashCode ^ unit.hashCode ^ options.hashCode;
+
 }
 
 class ActivityType extends UserDataValueObject {
@@ -56,6 +73,19 @@ class ActivityType extends UserDataValueObject {
       'METs': mets,
     };
   }
+
+  @override
+  bool operator == (Object other) {
+    return identical(this, other) ||
+        other is ActivityType &&
+            runtimeType == other.runtimeType &&
+            name == other.name &&
+            slug == other.slug &&
+            mets == other.mets;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ slug.hashCode ^ mets.hashCode;
 }
 
 class InsulinType extends UserDataValueObject {
@@ -81,6 +111,21 @@ class InsulinType extends UserDataValueObject {
       'u_per_ml': uPerMl,
     };
   }
+
+  @override
+  bool operator == (Object other) {
+    Function eq = const ListEquality().equals;
+    return identical(this, other) ||
+        other is InsulinType &&
+            runtimeType == other.runtimeType &&
+            name == other.name &&
+            slug == other.slug &&
+            uPerMl == other.uPerMl &&
+            eq(categories, other.categories);
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ categories.hashCode;
 }
 
 /*
