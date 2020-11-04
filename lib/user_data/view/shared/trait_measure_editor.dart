@@ -50,6 +50,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   _selectTraitType(TraitType type) {
     setState(() {
+      _traitMeasure.value = null;
       _traitMeasure.traitType = type;
     });
   }
@@ -57,51 +58,57 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
       child: ListView(
         shrinkWrap: true,
         children: [
-          Column(
-            children: [
-              DropdownButton<TraitType>(
-                isExpanded: true,
-                value: _traitMeasure.traitType,
-                onChanged: (TraitType newValue) {
-                  _selectTraitType(newValue);
-                },
-                items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
-                  return DropdownMenuItem<TraitType>(
-                    value: type,
-                    child: Text(
-                        type.name
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
+            child: Column(
+              children: [
+                DropdownButton<TraitType>(
+                  isExpanded: true,
+                  value: _traitMeasure.traitType,
+                  onChanged: (TraitType newValue) {
+                    _selectTraitType(newValue);
+                  },
+                  items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
+                    return DropdownMenuItem<TraitType>(
+                      value: type,
+                      child: Text(
+                          type.name
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
           ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'gender')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DropdownButton<String>(
-                  isExpanded: true,
-                  value: _traitMeasure.value,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      _traitMeasure.value = newValue;
-                    });
-                  },
-                  items: [
-                    DropdownMenuItem<String>(
-                      value: 'male',
-                      child: Text('Male'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'female',
-                      child: Text('Female'),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _traitMeasure.value,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        _traitMeasure.value = newValue;
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem<String>(
+                        value: 'male',
+                        child: Text('Male'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'female',
+                        child: Text('Female'),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

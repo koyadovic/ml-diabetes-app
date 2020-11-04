@@ -202,43 +202,47 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     // to foreground from the background.
     // here we refresh pending messages, feedback requests, etc.
     if (state == AppLifecycleState.resumed) {
-      Future.delayed(Duration(milliseconds: 1000), refreshCommunications);
+      refreshCommunications();
     }
   }
 
   void refreshCommunications() async {
-    // Messages
-    await withBackendErrorHandlers(() async {
-      List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-      // first we show suggestions
-      for(Message message in _communicationsServices.onlySuggestionMessages(messages)) {
-        await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
-      }
-      // then show simple messages
-      for(Message message in _communicationsServices.onlySimpleMessages(messages)) {
-        await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
-      }
+    Future.delayed(Duration(milliseconds: 500), () async {
+      // Messages
+      await withBackendErrorHandlers(() async {
+        List<Message> messages = await _communicationsServices.getNotDismissedMessages();
+        // first we show suggestions
+        for(Message message in _communicationsServices.onlySuggestionMessages(messages)) {
+          await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
+        }
+        // then show simple messages
+        for(Message message in _communicationsServices.onlySimpleMessages(messages)) {
+          await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
+        }
+      });
+
+      bool reloadAgain = false;
+
+      // Feedback Requests
+      await withBackendErrorHandlers(() async {
+        List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
+        for(FeedbackRequest request in feedbackRequests) {
+          await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
+            if(reload && !reloadAgain) reloadAgain = true;
+            widget.hideWidget();
+          }));
+        }
+      });
+
+      if(reloadAgain)
+        refreshCommunications();
     });
-
-    bool reloadAgain = false;
-
-    // Feedback Requests
-    await withBackendErrorHandlers(() async {
-      List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
-      for(FeedbackRequest request in feedbackRequests) {
-        await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
-          if(reload && !reloadAgain) reloadAgain = true;
-          widget.hideWidget();
-        }));
-      }
-    });
-
-    if(reloadAgain)
-      refreshCommunications();
   }
 
   void refresh() {
-    timeline?.refresh();
+    Future.delayed(Duration(milliseconds: 500), () async {
+      timeline?.refresh();
+    });
   }
 
   @override

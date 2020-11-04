@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -16,6 +17,10 @@ class DiaDateField extends StatelessWidget {
     return Column(
       children: <Widget>[
         DateTimeField(
+          decoration: InputDecoration(
+            enabledBorder: InputBorder.none
+          ),
+          style: TextStyle(color: DiaTheme.primaryColor),
           initialValue: initialValue ?? DateTime.now(),
           format: customFormat ?? format,
           onChanged: onChanged,
