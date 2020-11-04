@@ -10,9 +10,10 @@ import 'package:flutter/material.dart';
 
 class TraitMeasureEditorWidget extends StatefulWidget {
   final TraitMeasure traitMeasureForEdition;
-  final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
+  final Function() selfCloseCallback;
+  final List<TraitType> traitTypes;
 
-  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition});
+  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition, this.traitTypes});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,25 +30,20 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   @override
   void initState() {
-    if(widget.traitMeasureForEdition != null) {
-      _traitMeasure = widget.traitMeasureForEdition;
-      _traitTypes = [_traitMeasure.traitType];
-    } else {
-      _traitMeasure = TraitMeasure(eventDate: DateTime.now());
+    if(widget.traitTypes == null) {
       _userDataServices.getTraitTypes().then((traitTypes) {
-        // TODO quita este filtro. Tiene que tener todos!
-        // TODO al menos para testear que funciona
-        // traitTypes = traitTypes.where((type) => type.slug != 'gender' && type.slug != 'birth-seconds-epoch').toList();
-
         setState(() {
           _traitTypes = traitTypes;
         });
         if(_traitTypes.length > 0)
           _selectTraitType(_traitTypes[0]);
+        });
+    } else {
+      setState(() {
+        _traitTypes = widget.traitTypes;
       });
     }
     _externalController = TextEditingController(text: _traitMeasure.value.toString());
-
     super.initState();
   }
 
@@ -132,7 +128,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               },
             ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug != 'gender' && _traitMeasure.traitType.slug != 'birth-seconds-epoch')
               UnitTextField(
@@ -148,15 +144,17 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   });
                 }
               ),
-              Spacer(),
               if(editable)
-              IconButton(
-                icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-                onPressed: () {
-                  _traitMeasure.reset();
-                  widget.selfCloseCallback(false);
-                }
-              ),
+              ...[
+                Spacer(),
+                IconButton(
+                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                    onPressed: () {
+                      _traitMeasure.reset();
+                      widget.selfCloseCallback();
+                    }
+                ),
+              ]
             ],
           ),
         ],

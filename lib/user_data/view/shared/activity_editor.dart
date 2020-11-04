@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
-  final Function(bool, [Activity activity]) selfCloseCallback;
+  final Function() selfCloseCallback;
+  final List<ActivityType> activityTypes;
 
-  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition});
+  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.activityTypes});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,24 +29,24 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   void initState() {
-    if(widget.activityForEdition != null) {
-      _activity = widget.activityForEdition;
-      _activityTypes = [_activity.activityType];
-    } else {
-      _activity = Activity(eventDate: DateTime.now());
+    if(widget.activityTypes == null) {
       _userDataServices.getActivityTypes().then((activityTypes) {
         setState(() {
           _activityTypes = activityTypes;
         });
         if(_activityTypes.length > 0)
-          _selectTraitType(_activityTypes[0]);
+          _selectActivityType(_activityTypes[0]);
+      });
+    } else {
+      setState(() {
+        _activityTypes = widget.activityTypes;
       });
     }
     _externalController = TextEditingController(text: _activity.minutes.toString());
     super.initState();
   }
 
-  _selectTraitType(ActivityType type) {
+  _selectActivityType(ActivityType type) {
     setState(() {
       _activity.activityType = type;
     });
@@ -68,7 +69,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 value: _activity.activityType,
                 onChanged: (ActivityType newValue) {
                   if(editable)
-                    _selectTraitType(newValue);
+                    _selectActivityType(newValue);
                 },
                 items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
                   return DropdownMenuItem<ActivityType>(
@@ -80,7 +81,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               UnitTextField(
                 externalController: _externalController,
@@ -95,18 +96,20 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                   });
                 }
               ),
-              Spacer(),
               if(editable)
-              IconButton(
-                icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-                onPressed: () {
-                  setState(() {
-                    _activity.reset();
-                    _externalController.text = _activity.minutes.toString();
-                  });
-                  widget.selfCloseCallback(false);
-                }
-              ),
+              ...[
+                Spacer(),
+                IconButton(
+                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                    onPressed: () {
+                      setState(() {
+                        _activity.reset();
+                        _externalController.text = _activity.minutes.toString();
+                      });
+                      widget.selfCloseCallback();
+                    }
+                ),
+              ]
             ],
           ),
         ],

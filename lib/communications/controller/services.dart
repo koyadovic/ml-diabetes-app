@@ -19,7 +19,8 @@ class CommunicationsServices {
     for(var content in contents) {
       messages.add(Message.fromJson(content));
     }
-    return messages;
+    return [];
+    //return messages;
   }
 
   List<Message> onlySimpleMessages(List<Message> messages) {

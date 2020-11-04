@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 
 class InsulinInjectionEditorWidget extends StatefulWidget {
   final InsulinInjection insulinInjectionForEdition;
-  final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
+  final Function() selfCloseCallback;
+  final List<InsulinType> insulinTypes;
 
-  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition});
+  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition, this.insulinTypes});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,17 +29,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
   @override
   void initState() {
-    initialize();
-    _externalController = TextEditingController(text: _insulinInjection.units.toString());
-    super.initState();
-  }
-
-  void initialize() {
-    if(widget.insulinInjectionForEdition != null) {
-      _insulinInjection = widget.insulinInjectionForEdition;
-      _insulinTypes = [_insulinInjection.insulinType];
-    } else {
-      _insulinInjection = InsulinInjection(eventDate: DateTime.now());
+    if(widget.insulinTypes == null) {
       _userDataServices.getInsulinTypes().then((insulinTypes) {
         setState(() {
           _insulinTypes = insulinTypes;
@@ -46,7 +37,13 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
         if(_insulinTypes.length > 0)
           _selectInsulinType(_insulinTypes[0]);
       });
+    } else {
+      setState(() {
+        _insulinTypes = widget.insulinTypes;
+      });
     }
+    _externalController = TextEditingController(text: _insulinInjection.units.toString());
+    super.initState();
   }
 
   _selectInsulinType(InsulinType type) {
@@ -96,19 +93,19 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                 }
               ),
               if(editable)
-                ...[
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-                    onPressed: !enabled ? null : () {
-                      setState(() {
-                        _insulinInjection.reset();
-                        _externalController.text = _insulinInjection.units.toString();
-                      });
-                      widget.selfCloseCallback(false);
-                    },
-                  ),
-                ]
+              ...[
+                Spacer(),
+                IconButton(
+                  icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                  onPressed: !enabled ? null : () {
+                    setState(() {
+                      _insulinInjection.reset();
+                      _externalController.text = _insulinInjection.units.toString();
+                    });
+                    widget.selfCloseCallback();
+                  },
+                ),
+              ]
             ],
           ),
         ],

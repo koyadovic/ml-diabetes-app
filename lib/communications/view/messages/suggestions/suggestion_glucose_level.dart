@@ -28,9 +28,7 @@ class GlucoseLevelSuggestionWidgetState extends State<GlucoseLevelSuggestionWidg
         ),
         GlucoseLevelEditorWidget(
           glucoseLevelForEdition: widget.suggestion.userDataEntity as GlucoseLevel,
-          selfCloseCallback: (reload, [glucoseLevel]) {
-
-          },
+          selfCloseCallback: () {},
         ),
       ],
     );

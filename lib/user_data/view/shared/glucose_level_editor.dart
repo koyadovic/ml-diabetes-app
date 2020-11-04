@@ -2,13 +2,12 @@ import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
-import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 class GlucoseLevelEditorWidget extends StatefulWidget {
   final GlucoseLevel glucoseLevelForEdition;
-  final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
+  final Function() selfCloseCallback;
 
   GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition});
 
@@ -42,7 +41,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           UnitTextField(
             externalController: _externalController,
@@ -58,15 +57,17 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
               });
             }
           ),
-          Spacer(),
           if(editable)
-          IconButton(
-            icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-            onPressed: () {
-              _glucoseLevel.reset();
-              widget.selfCloseCallback(false);
-            },
-          ),
+          ...[
+            Spacer(),
+            IconButton(
+              icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+              onPressed: () {
+                _glucoseLevel.reset();
+                widget.selfCloseCallback();
+              },
+            ),
+          ]
         ],
       ),
     );
