@@ -1,21 +1,6 @@
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/shared/model/api_rest_backend.dart';
 
-/*
-types: information, warning, error are simple
-
-type: suggestions
-payload structure:
-[
-  {
-    'action_type': String, [add],
-    'target': String, [target-rapid-insulin, target-intermediate-insulin, target-long-insulin, target-feeding],
-    'data': Map, {},
-    'details': String, '',
-  }
-]
- */
-
 
 class CommunicationsServices {
   ApiRestBackend _backend;
