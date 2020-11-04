@@ -33,23 +33,26 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
   @override
   Widget build(BuildContext context) {
     List<Widget> suggestionWidgets = [];
-    int i = 0;
-    for (Suggestion suggestion in _suggestions) {
+    for(int i=0; i<_suggestions.length; i++) {
       suggestionWidgets.add(
-        SuggestionWidget(
-          suggestion,
-          isIgnored: _ignoredIndexes.contains(i),
-          onToggleIgnore: () {
-            if(_ignoredIndexes.contains(i)){
-              _ignoredIndexes.remove(i);
-            } else {
-              _ignoredIndexes.add(i);
-            }
-          },
-        )
+          SuggestionWidget(
+            _suggestions[i],
+            isIgnored: _ignoredIndexes.contains(i),
+            onToggleIgnore: () {
+              if(_ignoredIndexes.contains(i)){
+                setState(() {
+                  _ignoredIndexes.remove(i);
+                });
+              } else {
+                setState(() {
+                  _ignoredIndexes.add(i);
+                });
+              }
+            },
+          )
       );
-      i++;
     }
+
     return ListView(
       shrinkWrap: true,
       children: [
@@ -102,10 +105,8 @@ class SuggestionWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FlatButton(
-                child: isIgnored ? Text('Attend') : Text('Ignore'),
-                onPressed: () {
-                  onToggleIgnore();
-                },
+                child: isIgnored ? Text('Attend', style: TextStyle(color: Colors.grey)) : Text('Ignore'),
+                onPressed: onToggleIgnore,
               ),
             ],
           ),

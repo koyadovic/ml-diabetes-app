@@ -56,6 +56,7 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
           child: Text(widget.suggestion.details),
         ),
         InsulinInjectionEditorWidget(
+          fixedColor: widget.isIgnored ? Colors.grey : null,
           externalController: _controller,
           insulinInjectionForEdition: widget.suggestion.userDataEntity as InsulinInjection,
           selfCloseCallback: (reload, [insulinInjection]) {

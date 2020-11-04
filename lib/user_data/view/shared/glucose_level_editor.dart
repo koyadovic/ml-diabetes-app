@@ -8,8 +8,9 @@ class GlucoseLevelEditorWidget extends StatefulWidget {
   final GlucoseLevel glucoseLevelForEdition;
   final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
   final TextEditingController externalController;
+  final Color fixedColor;
 
-  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition, this.externalController});
+  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition, this.externalController, this.fixedColor});
 
   @override
   State<StatefulWidget> createState() {
@@ -54,11 +55,11 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           ),
           Spacer(),
           IconButton(
-            icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+            icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
             onPressed: () => widget.selfCloseCallback(false),
           ),
           IconButton(
-            icon: Icon(Icons.done, color: !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
+            icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
             onPressed: !_glucoseLevel.hasChanged ? null : () async {
               widget.selfCloseCallback(true, _glucoseLevel);
             },

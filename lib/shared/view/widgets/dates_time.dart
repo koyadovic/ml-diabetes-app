@@ -10,8 +10,9 @@ class DiaDateField extends StatelessWidget {
   final DateFormat customFormat;
   final Function(DateTime) onChanged;
   final TextEditingController externalController;
+  final Color fixedColor;
 
-  DiaDateField({this.customFormat, this.onChanged, this.initialValue, this.externalController});
+  DiaDateField({this.customFormat, this.onChanged, this.initialValue, this.externalController, this.fixedColor});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class DiaDateField extends StatelessWidget {
           decoration: InputDecoration(
             enabledBorder: InputBorder.none
           ),
-          style: TextStyle(color: DiaTheme.primaryColor),
+          style: TextStyle(color: fixedColor == null ? DiaTheme.primaryColor : fixedColor),
           initialValue: initialValue ?? DateTime.now(),
           format: customFormat ?? format,
           onChanged: onChanged,
@@ -45,13 +46,15 @@ class DiaTimeField extends StatelessWidget {
   final Function(DateTime) onChanged;
   final DateTime initialValue;
   final TextEditingController externalController;
+  final Color fixedColor;
 
-  DiaTimeField({this.customFormat, this.onChanged, this.initialValue, this.externalController});
+  DiaTimeField({this.customFormat, this.onChanged, this.initialValue, this.externalController, this.fixedColor});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       DateTimeField(
+        style: fixedColor == null ? null : TextStyle(color: fixedColor),
         controller: externalController,
         initialValue: initialValue ?? DateTime.now(),
         format: customFormat ?? format,

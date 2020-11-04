@@ -9,8 +9,9 @@ class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
   final Function(bool, [Activity activity]) selfCloseCallback;
   final TextEditingController externalController;
+  final Color fixedColor;
 
-  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.externalController});
+  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.externalController, this.fixedColor});
 
   @override
   State<StatefulWidget> createState() {
@@ -68,7 +69,8 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                   return DropdownMenuItem<ActivityType>(
                     value: type,
                     child: Text(
-                        type.name
+                      type.name,
+                      style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
                     ),
                   );
                 }).toList(),
@@ -93,11 +95,11 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: DiaTheme.primaryColor),
+                icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
                 onPressed: !_activity.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _activity);
                 },

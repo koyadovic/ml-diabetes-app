@@ -17,6 +17,8 @@ class UnitTextField extends StatefulWidget {
   final TextEditingController externalController;
   UnitTextFieldState state;
 
+  final Color fixedColor;
+
   UnitTextField({
     @required this.unit,
     @required this.onChange,
@@ -28,6 +30,7 @@ class UnitTextField extends StatefulWidget {
     this.colorDisabled: Colors.grey,
     this.unitWidth: 55,
     this.externalController,
+    this.fixedColor,
   });
 
   @override
@@ -110,7 +113,12 @@ class UnitTextFieldState extends State<UnitTextField> {
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
 
-    Color fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
+    Color fontColor;
+    if (widget.fixedColor == null) {
+      fontColor = widget.enabled ? widget.colorEnabled : widget.colorDisabled;
+    } else {
+      fontColor = widget.fixedColor;
+    }
 
     return GestureDetector(
       onTap: () => requestFocus(),

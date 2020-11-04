@@ -10,8 +10,9 @@ class TraitMeasureEditorWidget extends StatefulWidget {
   final TraitMeasure traitMeasureForEdition;
   final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
   final TextEditingController externalController;
+  final Color fixedColor;
 
-  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition, this.externalController});
+  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition, this.externalController, this.fixedColor});
 
   @override
   State<StatefulWidget> createState() {
@@ -75,7 +76,8 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     return DropdownMenuItem<TraitType>(
                       value: type,
                       child: Text(
-                          type.name
+                        type.name,
+                        style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
                       ),
                     );
                   }).toList(),
@@ -100,11 +102,17 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     items: [
                       DropdownMenuItem<String>(
                         value: 'male',
-                        child: Text('Male'),
+                        child: Text(
+                          'Male',
+                          style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
+                        ),
                       ),
                       DropdownMenuItem<String>(
                         value: 'female',
-                        child: Text('Female'),
+                        child: Text(
+                          'Female',
+                          style: widget.fixedColor == null ? null : TextStyle(color: widget.fixedColor),
+                        ),
                       )
                     ],
                   ),
@@ -113,6 +121,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
+              fixedColor: widget.fixedColor,
               externalController: widget.externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
@@ -143,11 +152,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
+                icon: Icon(Icons.close, color: widget.fixedColor == null ? DiaTheme.secondaryColor : widget.fixedColor),
                 onPressed: () => widget.selfCloseCallback(false),
               ),
               IconButton(
-                icon: Icon(Icons.done, color: DiaTheme.primaryColor),
+                icon: Icon(Icons.done, color: widget.fixedColor == null ? (!_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor) : widget.fixedColor),
                 onPressed: !_traitMeasure.hasChanged ? null : () async {
                   widget.selfCloseCallback(true, _traitMeasure);
                 },
