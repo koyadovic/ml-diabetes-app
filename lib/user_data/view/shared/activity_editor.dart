@@ -4,11 +4,13 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
+
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
   final Function(bool, [Activity activity]) selfCloseCallback;
+  final TextEditingController externalController;
 
-  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition});
+  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.externalController});
 
   @override
   State<StatefulWidget> createState() {
@@ -48,6 +50,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
       child: ListView(
@@ -76,6 +79,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
+                externalController: widget.externalController,
                 unit: 'm',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,

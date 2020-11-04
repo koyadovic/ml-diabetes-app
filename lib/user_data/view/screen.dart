@@ -1,7 +1,7 @@
 import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/feedback_requests/single_feedback_request_view.dart';
-import 'package:Dia/communications/view/messages/single_message_view.dart';
+import 'package:Dia/communications/view/messages/messages_view.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
@@ -186,6 +186,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
 
   @override
   void initState() {
+    refreshCommunications();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -213,11 +214,11 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         // first we show suggestions
         for(Message message in _communicationsServices.onlySuggestionMessages(messages)) {
-          await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
+          await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
         }
         // then show simple messages
         for(Message message in _communicationsServices.onlySimpleMessages(messages)) {
-          await widget.showWidget(MessageWidget(message: message, onDismiss: widget.hideWidget));
+          await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
         }
       });
 

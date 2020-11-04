@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class GlucoseLevelEditorWidget extends StatefulWidget {
   final GlucoseLevel glucoseLevelForEdition;
   final Function(bool, [GlucoseLevel glucoseLevel]) selfCloseCallback;
+  final TextEditingController externalController;
 
-  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition});
+  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition, this.externalController});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,6 +39,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           UnitTextField(
+            externalController: widget.externalController,
             unit: 'mg/dL',
             processors: [
               (value) => value < 0.0 ? 0.0 : value,

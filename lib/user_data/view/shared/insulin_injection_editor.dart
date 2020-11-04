@@ -4,11 +4,14 @@ import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
+
 class InsulinInjectionEditorWidget extends StatefulWidget {
   final InsulinInjection insulinInjectionForEdition;
   final Function(bool, [InsulinInjection insulinInjection]) selfCloseCallback;
 
-  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition});
+  final TextEditingController externalController;
+
+  InsulinInjectionEditorWidget({this.selfCloseCallback, this.insulinInjectionForEdition, this.externalController});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,6 +27,11 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
   @override
   void initState() {
+    initialize();
+    super.initState();
+  }
+
+  void initialize() {
     if(widget.insulinInjectionForEdition != null) {
       _insulinInjection = InsulinInjection.fromJson(widget.insulinInjectionForEdition.toJson());
       _insulinTypes = [_insulinInjection.insulinType];
@@ -37,7 +45,6 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
           _selectInsulinType(_insulinTypes[0]);
       });
     }
-    super.initState();
   }
 
   _selectInsulinType(InsulinType type) {
@@ -65,9 +72,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                 items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
                   return DropdownMenuItem<InsulinType>(
                     value: type,
-                    child: Text(
-                        type.name
-                    ),
+                    child: Text(type.name),
                   );
                 }).toList(),
               ),
@@ -77,10 +82,12 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
+                externalController: widget.externalController,
+                initialValue: _insulinInjection.units != null ? _insulinInjection.units.toDouble() : 0.0,
                 unit: 'u',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > 250 ? 250.0 : value,
+                  (value) => value > 100.0 ? 100.0 : value,
                 ],
                 onChange: (value) {
                   setState(() {
@@ -91,7 +98,10 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close, color: DiaTheme.secondaryColor),
-                onPressed: () => widget.selfCloseCallback(false),
+                onPressed: () {
+                  initialize();
+                  widget.selfCloseCallback(false);
+                },
               ),
               IconButton(
                 icon: Icon(Icons.done, color: DiaTheme.primaryColor),

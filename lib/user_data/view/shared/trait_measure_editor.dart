@@ -6,13 +6,12 @@ import 'package:Dia/user_data/model/entities.dart';
 import 'package:flutter/material.dart';
 
 
-// TODO añadir fecha de nacimiento y género
-
 class TraitMeasureEditorWidget extends StatefulWidget {
   final TraitMeasure traitMeasureForEdition;
   final Function(bool, [TraitMeasure traitMeasure]) selfCloseCallback;
+  final TextEditingController externalController;
 
-  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition});
+  TraitMeasureEditorWidget({this.selfCloseCallback, this.traitMeasureForEdition, this.externalController});
 
   @override
   State<StatefulWidget> createState() {
@@ -114,6 +113,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
+              externalController: widget.externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
