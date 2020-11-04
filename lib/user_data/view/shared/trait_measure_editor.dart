@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dates_time.dart';
@@ -24,6 +25,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
   List<TraitType> _traitTypes = [];
   TraitMeasure _traitMeasure;
+  TextEditingController _externalController;
 
   @override
   void initState() {
@@ -44,6 +46,8 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
           _selectTraitType(_traitTypes[0]);
       });
     }
+    _externalController = TextEditingController(text: _traitMeasure.value.toString());
+
     super.initState();
   }
 
@@ -57,6 +61,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
+    bool editable = EditableStatus.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
@@ -71,7 +76,8 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   isExpanded: true,
                   value: _traitMeasure.traitType,
                   onChanged: (TraitType newValue) {
-                    _selectTraitType(newValue);
+                    if(editable)
+                      _selectTraitType(newValue);
                   },
                   items: _traitTypes.map<DropdownMenuItem<TraitType>>((TraitType type) {
                     return DropdownMenuItem<TraitType>(
@@ -113,6 +119,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
+              externalController: _externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   _traitMeasure.value != null ? _traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
@@ -129,6 +136,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             children: [
               if(_traitMeasure.traitType != null && _traitMeasure.traitType.slug != 'gender' && _traitMeasure.traitType.slug != 'birth-seconds-epoch')
               UnitTextField(
+                externalController: _externalController,
                 unit: _traitMeasure.traitType == null ? '' : _traitMeasure.traitType.unit,
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
@@ -141,18 +149,13 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                 }
               ),
               Spacer(),
+              if(editable)
               IconButton(
                 icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: () {
-
+                  _traitMeasure.reset();
                   widget.selfCloseCallback(false);
                 }
-              ),
-              IconButton(
-                icon: Icon(Icons.done, color: !enabled || !_traitMeasure.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-                onPressed: !enabled || !_traitMeasure.hasChanged ? null : () async {
-                  widget.selfCloseCallback(true, _traitMeasure);
-                },
               ),
             ],
           ),

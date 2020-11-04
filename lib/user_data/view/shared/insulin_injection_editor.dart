@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -57,6 +58,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
+    bool editable = EditableStatus.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
@@ -66,7 +68,8 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
             isExpanded: true,
             value: _insulinInjection.insulinType,
             onChanged: !enabled ? null : (InsulinType newValue) {
-              _selectInsulinType(newValue);
+              if(editable)
+                _selectInsulinType(newValue);
             },
             items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
               return DropdownMenuItem<InsulinType>(
@@ -76,7 +79,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
             }).toList(),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               UnitTextField(
                 externalController: _externalController,
@@ -92,24 +95,20 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                   });
                 }
               ),
-              Spacer(),
-              IconButton(
-                icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-                onPressed: !enabled ? null : () {
-                  //initialize();
-                  setState(() {
-                    _insulinInjection.reset();
-                    _externalController.text = _insulinInjection.units.toString();
-                  });
-                  widget.selfCloseCallback(false);
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.done, color: !enabled || !_insulinInjection.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-                onPressed: !enabled || !_insulinInjection.hasChanged ? null : () async {
-                  widget.selfCloseCallback(true, _insulinInjection);
-                },
-              ),
+              if(editable)
+                ...[
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                    onPressed: !enabled ? null : () {
+                      setState(() {
+                        _insulinInjection.reset();
+                        _externalController.text = _insulinInjection.units.toString();
+                      });
+                      widget.selfCloseCallback(false);
+                    },
+                  ),
+                ]
             ],
           ),
         ],

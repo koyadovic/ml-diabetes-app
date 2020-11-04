@@ -2,6 +2,7 @@ import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_glucose_level.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_insulin.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_trait_measure.dart';
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 
@@ -99,21 +100,25 @@ class SuggestionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EnabledStatus(
-      isEnabled: !isIgnored,
-      child: Column(
-          children: [
-            getConcreteWidget(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FlatButton(
-                  child: isIgnored ? Text('Attend', style: TextStyle(color: Colors.grey)) : Text('Ignore'),
-                  onPressed: onToggleIgnore,
-                ),
-              ],
-            ),
-          ],
+    return EditableStatus(
+      isEditable: suggestion.editable,
+      child: EnabledStatus(
+        isEnabled: !isIgnored,
+        child: Column(
+            children: [
+              getConcreteWidget(),
+              if(suggestion.cancelable)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                    child: isIgnored ? Text('Attend', style: TextStyle(color: Colors.grey)) : Text('Ignore'),
+                    onPressed: onToggleIgnore,
+                  ),
+                ],
+              ),
+            ],
+        ),
       ),
     );
   }

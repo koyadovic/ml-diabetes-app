@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -21,6 +22,7 @@ class ActivityEditorWidget extends StatefulWidget {
 
 class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
+  TextEditingController _externalController;
   List<ActivityType> _activityTypes = [];
   Activity _activity;
 
@@ -39,6 +41,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
           _selectTraitType(_activityTypes[0]);
       });
     }
+    _externalController = TextEditingController(text: _activity.minutes.toString());
     super.initState();
   }
 
@@ -51,6 +54,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
+    bool editable = EditableStatus.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
@@ -63,7 +67,8 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 isExpanded: true,
                 value: _activity.activityType,
                 onChanged: (ActivityType newValue) {
-                  _selectTraitType(newValue);
+                  if(editable)
+                    _selectTraitType(newValue);
                 },
                 items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
                   return DropdownMenuItem<ActivityType>(
@@ -78,6 +83,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               UnitTextField(
+                externalController: _externalController,
                 unit: 'm',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
@@ -90,18 +96,16 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 }
               ),
               Spacer(),
+              if(editable)
               IconButton(
                 icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: () {
-
+                  setState(() {
+                    _activity.reset();
+                    _externalController.text = _activity.minutes.toString();
+                  });
                   widget.selfCloseCallback(false);
                 }
-              ),
-              IconButton(
-                icon: Icon(Icons.done, color: !enabled || !_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-                onPressed: !enabled || !_activity.hasChanged ? null : () async {
-                  widget.selfCloseCallback(true, _activity);
-                },
               ),
             ],
           ),

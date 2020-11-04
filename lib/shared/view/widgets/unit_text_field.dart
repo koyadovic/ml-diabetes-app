@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 
@@ -93,15 +94,15 @@ class UnitTextFieldState extends State<UnitTextField> {
 
   void requestFocus() {
     bool enabled = EnabledStatus.of(context);
-    if(enabled)
+    bool editable = EditableStatus.of(context);
+    if(enabled && editable)
       _focusNode.requestFocus();
   }
 
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
-    if(!enabled)
-      _focusNode.previousFocus();
+    bool editable = EditableStatus.of(context);
 
     double w = (_controller.text.length.toDouble()) * 17.5;
     w = w < 13 ? 13 : w;
@@ -119,7 +120,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                 //height: 38,
                 child: TextField(
                   focusNode: _focusNode,
-                  enabled: enabled,
+                  enabled: enabled && editable,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)

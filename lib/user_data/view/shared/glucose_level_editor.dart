@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -19,6 +20,7 @@ class GlucoseLevelEditorWidget extends StatefulWidget {
 
 
 class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
+  TextEditingController _externalController;
   GlucoseLevel _glucoseLevel;
 
   @override
@@ -28,12 +30,14 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
     } else {
       _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
     }
+    _externalController = TextEditingController(text: _glucoseLevel.level.toString());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
+    bool editable = EditableStatus.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
@@ -41,6 +45,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           UnitTextField(
+            externalController: _externalController,
             unit: 'mg/dL',
             processors: [
               (value) => value < 0.0 ? 0.0 : value,
@@ -54,17 +59,12 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
             }
           ),
           Spacer(),
+          if(editable)
           IconButton(
             icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
             onPressed: () {
-              // _glucoseLevel.reset();
+              _glucoseLevel.reset();
               widget.selfCloseCallback(false);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.done, color: !enabled || !_glucoseLevel.hasChanged ? Colors.grey : DiaTheme.primaryColor),
-            onPressed: !enabled || !_glucoseLevel.hasChanged ? null : () async {
-              widget.selfCloseCallback(true, _glucoseLevel);
             },
           ),
         ],
