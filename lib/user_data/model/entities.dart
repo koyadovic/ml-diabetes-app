@@ -89,8 +89,8 @@ Core Entities!
 
 class UserDataEntity {
   final int id;
-  DateTime eventDate;
   final String entityType;
+  DateTime eventDate;
 
   UserDataEntity(this.id, this.eventDate, this.entityType);
 }
@@ -128,6 +128,16 @@ class GlucoseLevel extends UserDataEntity {
 
   bool get hasChanged {
     return changesToJson().keys.length > 0;
+  }
+
+  GlucoseLevel clone() {
+    return GlucoseLevel.fromJson(toJson());
+  }
+
+  void reset() {
+    GlucoseLevel original = GlucoseLevel.fromJson(_original);
+    this.eventDate = original.eventDate;
+    this.level = original.level;
   }
 }
 
@@ -190,13 +200,28 @@ class Feeding extends UserDataEntity {
   bool get hasChanged {
     return changesToJson().keys.length > 0;
   }
+
+  Feeding clone() {
+    return Feeding.fromJson(toJson());
+  }
+
+  void reset() {
+    Feeding original = Feeding.fromJson(_original);
+    this.eventDate = original.eventDate;
+    this.carbGrams = original.carbGrams;
+    this.carbSugarGrams = original.carbSugarGrams;
+    this.carbFiberGrams = original.carbFiberGrams;
+    this.proteinGrams = original.proteinGrams;
+    this.fatGrams = original.fatGrams;
+    this.alcoholGrams = original.alcoholGrams;
+    this.saltGrams = original.saltGrams;
+  }
 }
 
 
 class Activity extends UserDataEntity {
   ActivityType activityType;
   int minutes;
-
   Map<String, dynamic> _original;
 
   Activity({int id, DateTime eventDate, String entityType, this.activityType, this.minutes}) : super(id, eventDate, entityType) {
@@ -234,6 +259,17 @@ class Activity extends UserDataEntity {
 
   bool get hasChanged {
     return changesToJson().keys.length > 0;
+  }
+
+  Activity clone() {
+    return Activity.fromJson(toJson());
+  }
+
+  void reset() {
+    Activity original = Activity.fromJson(_original);
+    this.eventDate = original.eventDate;
+    this.activityType = original.activityType;
+    this.minutes = original.minutes;
   }
 }
 
@@ -274,12 +310,22 @@ class InsulinInjection extends UserDataEntity {
   bool get hasChanged {
     return changesToJson().keys.length > 0;
   }
+
+  InsulinInjection clone() {
+    return InsulinInjection.fromJson(toJson());
+  }
+
+  void reset() {
+    InsulinInjection original = InsulinInjection.fromJson(_original);
+    this.eventDate = original.eventDate;
+    this.insulinType = original.insulinType;
+    this.units = original.units;
+  }
 }
 
 class TraitMeasure extends UserDataEntity {
   TraitType traitType;
   dynamic value;
-
   Map<String, dynamic> _original;
 
   TraitMeasure({int id, DateTime eventDate, String entityType, this.traitType, this.value}) : super(id, eventDate, entityType) {
@@ -312,6 +358,17 @@ class TraitMeasure extends UserDataEntity {
 
   bool get hasChanged {
     return changesToJson().keys.length > 0;
+  }
+
+  TraitMeasure clone() {
+    return TraitMeasure.fromJson(toJson());
+  }
+
+  void reset() {
+    TraitMeasure original = TraitMeasure.fromJson(_original);
+    this.eventDate = original.eventDate;
+    this.traitType = original.traitType;
+    this.value = original.value;
   }
 }
 

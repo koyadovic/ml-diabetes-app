@@ -86,11 +86,9 @@ class ApiRestBackend {
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
-    print('GET $uri | headers: $headers');
     try {
       http.Response response = await http.get(uri, headers: headers);
-      print('Response headers');
-      print(response.headers.toString());
+      print('GET $uri | Response status: ${response.statusCode}');
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());
@@ -105,11 +103,9 @@ class ApiRestBackend {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
-    print('POST $uri | body: $body | headers: $headers');
     try {
       http.Response response = await http.post(uri, headers: headers, body: body);
-      print('Response headers');
-      print(response.headers.toString());
+      print('POST $uri | Response status: ${response.statusCode} | body: $body');
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());
@@ -124,11 +120,9 @@ class ApiRestBackend {
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
-    print('PATCH $uri | body: $body | headers: $headers');
     try {
       http.Response response = await http.patch(uri, headers: headers, body: body);
-      print('Response headers');
-      print(response.headers.toString());
+      print('PATCH $uri | Response status: ${response.statusCode} | body: $body');
       return _decodeResponseBody(response);
     } on SocketException catch(e) {
       print(e.toString());

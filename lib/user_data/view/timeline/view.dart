@@ -102,17 +102,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         break;
     }
 
-    // double value;
-    // try{
-    //   value = entity.value.toDouble();
-    // } catch (err) {
-    //   try {
-    //     value = double.parse(entity.value);
-    //   } catch(err) {
-    //     value = 0.0;
-    //   }
-    // }
-
     return ListTile(
       leading: leading,
       title: Row(
