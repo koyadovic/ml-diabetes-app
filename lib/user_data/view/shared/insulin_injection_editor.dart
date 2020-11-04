@@ -99,7 +99,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               IconButton(
                 icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                 onPressed: !enabled ? null : () {
-                  initialize();
+                  //initialize();
                   widget.selfCloseCallback(false);
                 },
               ),

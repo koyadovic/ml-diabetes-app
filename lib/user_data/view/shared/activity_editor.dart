@@ -92,7 +92,10 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
-                onPressed: () => widget.selfCloseCallback(false),
+                onPressed: () {
+
+                  widget.selfCloseCallback(false);
+                }
               ),
               IconButton(
                 icon: Icon(Icons.done, color: !enabled || !_activity.hasChanged ? Colors.grey : DiaTheme.primaryColor),

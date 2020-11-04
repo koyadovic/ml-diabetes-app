@@ -57,7 +57,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           IconButton(
             icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
             onPressed: () {
-              _glucoseLevel.reset();
+              // _glucoseLevel.reset();
               widget.selfCloseCallback(false);
             },
           ),
