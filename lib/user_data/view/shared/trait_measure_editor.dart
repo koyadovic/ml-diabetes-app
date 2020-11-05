@@ -150,6 +150,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               if(editable)
               ...[
                 Spacer(),
+                if(traitMeasure.hasChanged)
                 IconButton(
                     icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                     onPressed: () {
