@@ -294,6 +294,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         for(Message message in _communicationsServices.onlySimpleMessages(messages)) {
           await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
         }
+        refresh();
       });
 
       bool reloadAgain = false;

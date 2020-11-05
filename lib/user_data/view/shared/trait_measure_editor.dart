@@ -157,12 +157,12 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   });
                 }
               ),
-              if(editable)
+              if(editable && traitMeasure.traitType.slug != 'birth-seconds-epoch')
               ...[
                 Spacer(),
                 if(traitMeasure.hasChanged)
                 IconButton(
-                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                    icon: Icon(Icons.close, color: Colors.grey),
                     onPressed: () {
                       if(_externalController != null)
                         _externalController.text = '';
