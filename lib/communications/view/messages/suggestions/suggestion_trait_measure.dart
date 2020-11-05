@@ -1,6 +1,5 @@
 import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/user_data/model/entities.dart';
-import 'package:Dia/user_data/view/shared/insulin_injection_editor.dart';
+import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:Dia/user_data/view/shared/trait_measure_editor.dart';
 import 'package:flutter/material.dart';
 

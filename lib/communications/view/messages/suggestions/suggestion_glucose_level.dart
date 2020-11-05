@@ -1,7 +1,6 @@
 import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/user_data/model/entities.dart';
+import 'package:Dia/user_data/model/entities/glucose.dart';
 import 'package:Dia/user_data/view/shared/glucose_level_editor.dart';
-import 'package:Dia/user_data/view/shared/insulin_injection_editor.dart';
 import 'package:flutter/material.dart';
 
 class GlucoseLevelSuggestionWidget extends StatefulWidget {

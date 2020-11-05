@@ -2,7 +2,13 @@ import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/controller/services.dart';
-import 'package:Dia/user_data/model/entities.dart';
+import 'package:Dia/user_data/model/entities/activities.dart';
+import 'package:Dia/user_data/model/entities/base.dart';
+import 'package:Dia/user_data/model/entities/feeding.dart';
+import 'package:Dia/user_data/model/entities/flags.dart';
+import 'package:Dia/user_data/model/entities/glucose.dart';
+import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

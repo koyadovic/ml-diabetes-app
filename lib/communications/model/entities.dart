@@ -1,4 +1,10 @@
-import 'package:Dia/user_data/model/entities.dart';
+
+import 'package:Dia/user_data/model/entities/activities.dart';
+import 'package:Dia/user_data/model/entities/base.dart';
+import 'package:Dia/user_data/model/entities/feeding.dart';
+import 'package:Dia/user_data/model/entities/glucose.dart';
+import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:Dia/user_data/model/entities/traits.dart';
 
 class Suggestion {
   final String details;

@@ -4,7 +4,7 @@ import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dates_time.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
-import 'package:Dia/user_data/model/entities.dart';
+import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 
 
