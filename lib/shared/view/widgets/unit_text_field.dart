@@ -45,23 +45,6 @@ class UnitTextFieldState extends State<UnitTextField> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    _controller = widget.externalController ?? TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
-    _controller.addListener(() {
-      final text = _controller.text;
-      double numericalValue = processStringValue(text);
-
-      if (numericalValue != _lastValueEmitted) {
-        widget.onChange(numericalValue);
-        _lastValueEmitted = numericalValue;
-      }
-
-      _controller.value = _controller.value.copyWith(
-        text: approximateDouble(numericalValue),
-        selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
-        composing: TextRange.empty,
-      );
-      setState(() {});
-    });
 
     if(widget.autoFocus) {
       Future.delayed(Duration(milliseconds: 300), () => requestFocus());
@@ -100,15 +83,57 @@ class UnitTextFieldState extends State<UnitTextField> {
       _focusNode.requestFocus();
   }
 
+  TextEditingController updateController() {
+    if(widget.externalController == null) {
+
+    } else {
+      _controller = widget.externalController;
+    }
+  }
+
+  void checkController() {
+    bool addListener = false;
+    if(widget.externalController != null) {
+      if(_controller != widget.externalController) {
+        _controller = widget.externalController;
+        addListener = true;
+      }
+    } else {
+      _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? approximateDouble(widget.initialValue) : '0');
+      addListener = true;
+    }
+
+    if(addListener) {
+      _controller.addListener(() {
+        final text = _controller.text;
+        double numericalValue = processStringValue(text);
+
+        if (numericalValue != _lastValueEmitted) {
+          widget.onChange(numericalValue);
+          _lastValueEmitted = numericalValue;
+        }
+
+        _controller.value = _controller.value.copyWith(
+          text: approximateDouble(numericalValue),
+          selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
+          composing: TextRange.empty,
+        );
+        setState(() {});
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkController();
+
     bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
     double scalingFactor = screenSizeScalingFactor(context);
 
     double w = (_controller.text.length.toDouble()) * 17.5 * scalingFactor;
-    w = w < 13 ? 13 : w;
+    w = w < 13 * scalingFactor ? 13 * scalingFactor : w;
 
     Color fontColor = enabled ? widget.colorEnabled : widget.colorDisabled;
 

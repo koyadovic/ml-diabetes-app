@@ -46,11 +46,6 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
         _traitTypes = widget.traitTypes;
       });
     }
-
-    // TODO y si es fecha? tendría que ser formateado.
-    /*
-    El value tiene que ser pasado a los child components que se encargarán de "procesar" y mostrar el verdadero texto a mostrar.
-     */
     _externalController = TextEditingController(text: traitMeasure.value.toString());
     super.initState();
   }
@@ -58,6 +53,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   _selectTraitType(TraitType type) {
     traitMeasure.value = type.getDefaultValue();
     traitMeasure.traitType = type;
+    print('New type is ${traitMeasure.traitType.slug}');
     if(type.slug == 'birth-seconds-epoch') {
       _externalController = null;
     } else {
@@ -128,7 +124,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(traitMeasure.traitType != null && traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
-              externalController: _externalController,
+              //externalController: _externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   traitMeasure.value != null ? traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
@@ -157,17 +153,18 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   });
                 }
               ),
-              if(editable && traitMeasure.traitType.slug != 'birth-seconds-epoch')
+              if(editable && traitMeasure.traitType.slug != 'birth-seconds-epoch' && traitMeasure.traitType.slug != 'gender')
               ...[
                 Spacer(),
-                if(traitMeasure.hasChanged)
+                if(traitMeasure.value != traitMeasure.traitType.getDefaultValue())
                 IconButton(
                     icon: Icon(Icons.close, color: Colors.grey),
                     onPressed: () {
-                      if(_externalController != null)
-                        _externalController.text = '';
-                      traitMeasure.reset();
-                      _selectTraitType(traitMeasure.traitType);
+                      setState(() {
+                        traitMeasure.value = traitMeasure.traitType.getDefaultValue();
+                        _externalController = TextEditingController(text: traitMeasure.value.toString());
+                        _externalController.selection = TextSelection.fromPosition(TextPosition(offset: _externalController.text.length));
+                      });
                     }
                 ),
               ]

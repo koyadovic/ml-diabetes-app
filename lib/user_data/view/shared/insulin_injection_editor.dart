@@ -104,12 +104,12 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               if(editable)
               ...[
                 Spacer(),
-                if(insulinInjection.hasChanged)
+                if(insulinInjection.units != null && insulinInjection.units != 0)
                 IconButton(
-                  icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                  icon: Icon(Icons.close, color: Colors.grey),
                   onPressed: !enabled ? null : () {
                     setState(() {
-                      insulinInjection.reset();
+                      insulinInjection.units = 0;
                       _externalController.text = insulinInjection.units.toString();
                     });
                   },

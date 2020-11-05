@@ -102,12 +102,12 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               if(editable)
               ...[
                 Spacer(),
-                if(activity.hasChanged)
+                if(activity.minutes != null && activity.minutes != 0)
                 IconButton(
-                    icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+                    icon: Icon(Icons.close, color: Colors.grey),
                     onPressed: () {
                       setState(() {
-                        activity.reset();
+                        activity.minutes = 0;
                         _externalController.text = activity.minutes.toString();
                       });
                     }

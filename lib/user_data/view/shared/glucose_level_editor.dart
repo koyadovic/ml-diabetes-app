@@ -62,7 +62,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
             Spacer(),
             if(_glucoseLevel.hasChanged)
             IconButton(
-              icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
+              icon: Icon(Icons.close, color: Colors.grey),
               onPressed: () {
                 _glucoseLevel.reset();
                 _externalController.text = _glucoseLevel.level.toString();
