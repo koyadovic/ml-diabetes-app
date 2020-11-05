@@ -9,8 +9,9 @@ Function eq = const ListEquality().equals;
 class InsulinType extends UserDataValueObject {
   final List<String> categories;
   final int uPerMl;
+  final String color;
 
-  InsulinType(name, slug, this.categories, this.uPerMl) : super(name, slug);
+  InsulinType(name, slug, this.categories, this.uPerMl, this.color) : super(name, slug);
 
   factory InsulinType.fromJson(Map<String, dynamic> json) {
     return InsulinType(
@@ -18,6 +19,7 @@ class InsulinType extends UserDataValueObject {
       json['slug'],
       List<String>.from(json['categories']),
       json['u_per_ml'],
+      json['color'],
     );
   }
 
@@ -27,6 +29,7 @@ class InsulinType extends UserDataValueObject {
       'slug': slug,
       'categories': categories,
       'u_per_ml': uPerMl,
+      'color': color,
     };
   }
 
@@ -39,11 +42,12 @@ class InsulinType extends UserDataValueObject {
             name == other.name &&
             slug == other.slug &&
             uPerMl == other.uPerMl &&
+            color == other.color &&
             eq(categories, other.categories);
   }
 
   @override
-  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ categories.hashCode;
+  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode;
 }
 
 
