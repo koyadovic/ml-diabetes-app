@@ -46,14 +46,24 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
         _traitTypes = widget.traitTypes;
       });
     }
+
+    // TODO y si es fecha? tendría que ser formateado.
+    /*
+    El value tiene que ser pasado a los child components que se encargarán de "procesar" y mostrar el verdadero texto a mostrar.
+     */
     _externalController = TextEditingController(text: traitMeasure.value.toString());
     super.initState();
   }
 
   _selectTraitType(TraitType type) {
+    traitMeasure.value = type.getDefaultValue();
+    traitMeasure.traitType = type;
+    if(type.slug == 'birth-seconds-epoch') {
+      _externalController = null;
+    } else {
+      _externalController = TextEditingController(text: traitMeasure.value.toString());
+    }
     setState(() {
-      traitMeasure.value = type.getDefaultValue();
-      traitMeasure.traitType = type;
     });
   }
 
@@ -154,11 +164,10 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                 IconButton(
                     icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                     onPressed: () {
-                      setState(() {
-                        traitMeasure.reset();
-                        // TODO if is a birth, format date
-                        _externalController.text = traitMeasure.value;
-                      });
+                      if(_externalController != null)
+                        _externalController.text = '';
+                      traitMeasure.reset();
+                      _selectTraitType(traitMeasure.traitType);
                     }
                 ),
               ]
