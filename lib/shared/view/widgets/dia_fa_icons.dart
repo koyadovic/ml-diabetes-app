@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,7 +43,7 @@ class DiaSmallFaIcon extends StatelessWidget {
     return FaIcon(
       getIconData(entity),
       color: color,
-      size: 18,
+      size: 20 * screenSizeScalingFactor(context),
     );
   }
 }
@@ -59,7 +60,7 @@ class DiaMediumFaIcon extends StatelessWidget {
     return FaIcon(
       getIconData(entity),
       color: color,
-      size: 22,
+      size: 26 * screenSizeScalingFactor(context),
     );
   }
 }
@@ -76,7 +77,7 @@ class DiaBigFaIcon extends StatelessWidget {
     return FaIcon(
       getIconData(entity),
       color: color,
-      size: 36,
+      size: 36 * screenSizeScalingFactor(context),
     );
   }
 }

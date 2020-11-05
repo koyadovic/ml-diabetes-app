@@ -112,7 +112,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w400)),
+            child: Text(entity.text, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w400)),
           ),
           if(entity.value is int || entity.value is double)
             UnitTextField(
@@ -127,13 +127,13 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 60 * scalingFactor, 8.0),
-              child: Text(entity.value, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w300)),
+              child: Text(entity.value, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w300)),
             ),
         ],
       ),
       subtitle: Row(
         children: [
-          Icon(Icons.calendar_today, size: 16, color: Colors.grey),
+          Icon(Icons.calendar_today, size: smallSize(context), color: Colors.grey),
           Text(DateFormat.yMMMMEEEEd().format(entity.eventDate), style: TextStyle(color: Colors.grey)),
         ],
       ),

@@ -10,23 +10,23 @@ double screenSizeScalingFactor(BuildContext context) {
   return 1.0;
 }
 
-double verySmallFontSize(BuildContext context) {
+double verySmallSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
   return 12.0 * scalingFactor;
 }
 
-double smallFontSize(BuildContext context) {
+double smallSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
   return 16.0 * scalingFactor;
 }
 
-double mediumFontSize(BuildContext context) {
+double mediumSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
   return 24.0 * scalingFactor;
 
 }
 
-double bigFontSize(BuildContext context) {
+double bigSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
   return 30.0 * scalingFactor;
 }

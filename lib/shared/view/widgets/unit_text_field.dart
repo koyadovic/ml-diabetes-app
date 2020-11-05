@@ -128,7 +128,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                  style: TextStyle(fontSize: bigFontSize(context), color: fontColor, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: bigSize(context), color: fontColor, fontWeight: FontWeight.w300),
                   keyboardType: TextInputType.number,
                   controller: _controller,
                 ),
@@ -141,7 +141,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
                   child: Text(
                     widget.unit,
-                    style: TextStyle(fontSize: smallFontSize(context), color: Colors.grey, fontWeight: FontWeight.w600)
+                    style: TextStyle(fontSize: smallSize(context), color: Colors.grey, fontWeight: FontWeight.w600)
                   ),
                 ),
               ),
