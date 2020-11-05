@@ -1,5 +1,6 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
 // if not valid throw ValidationError('Message');
@@ -125,7 +126,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                  style: TextStyle(fontSize: 30, color: fontColor, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: bigFontSize(context), color: fontColor, fontWeight: FontWeight.w300),
                   keyboardType: TextInputType.number,
                   controller: _controller,
                 ),
@@ -135,10 +136,10 @@ class UnitTextFieldState extends State<UnitTextField> {
               child: Container(
                 width: widget.unitWidth,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
                   child: Text(
                     widget.unit,
-                    style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w600)
+                    style: TextStyle(fontSize: smallFontSize(context), color: Colors.grey, fontWeight: FontWeight.w600)
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -109,7 +110,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400)),
+            child: Text(entity.text, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w400)),
           ),
           if(entity.value is int || entity.value is double)
             UnitTextField(
@@ -124,7 +125,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 65, 8.0),
-              child: Text(entity.value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w300)),
+              child: Text(entity.value, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w300)),
             ),
         ],
       ),

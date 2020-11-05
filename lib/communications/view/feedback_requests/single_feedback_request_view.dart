@@ -1,6 +1,7 @@
 import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -43,9 +44,9 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(widget.request.title, style: TextStyle(fontSize: 24)),
+          Text(widget.request.title, style: TextStyle(fontSize: smallFontSize(context))),
           SizedBox(height: 16),
-          Text(widget.request.text, style: TextStyle(fontSize: 16)),
+          Text(widget.request.text, style: TextStyle(fontSize: smallFontSize(context))),
           SizedBox(height: 12),
           if(!isFreeAnswer)
             for(String option in widget.request.options)
@@ -64,7 +65,7 @@ class FeedbackRequestWidgetState extends State<FeedbackRequestWidget> {
           if(isFreeAnswer)
             TextField(
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
+              style: TextStyle(fontSize: bigFontSize(context), fontWeight: FontWeight.w300),
               controller: _controller,
               keyboardType: widget.request.answerTypeHint == AnswerTypeHint.NUMERICAL ? TextInputType.number : TextInputType.text,
               onChanged: (value) {
