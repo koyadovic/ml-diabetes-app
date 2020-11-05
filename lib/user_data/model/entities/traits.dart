@@ -30,6 +30,17 @@ class TraitType extends UserDataValueObject {
     };
   }
 
+  dynamic getDefaultValue() {
+    switch (slug) {
+      case 'gender':
+        return 'male';
+      case 'birth-seconds-epoch':
+        return DateTime.now().millisecondsSinceEpoch.toDouble() / 1000.0;
+      default:
+        return 0.0;
+    }
+  }
+
   @override
   bool operator == (Object other) {
     return identical(this, other) ||

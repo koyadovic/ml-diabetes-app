@@ -71,7 +71,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
               TraitMeasure traitMeasure;
               List<TraitType> traitTypes = await _userDataServices.getTraitTypes();
               if(traitTypes.length > 0) {
-                traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: '0', traitType: traitTypes[0]);
+                traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: traitTypes[0].getDefaultValue(), traitType: traitTypes[0]);
               } else {
                 traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: '0');
               }
