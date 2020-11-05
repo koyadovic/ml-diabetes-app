@@ -1,9 +1,14 @@
+import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_glucose_level.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_insulin.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_trait_measure.dart';
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
+import 'package:Dia/user_data/controller/services.dart';
+import 'package:Dia/user_data/model/entities/glucose.dart';
+import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionsGroupMessageWidget extends StatefulWidget {
@@ -21,6 +26,8 @@ class SuggestionsGroupMessageWidget extends StatefulWidget {
 class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWidget> {
   List<Suggestion> _suggestions = [];
   List<int> _ignoredIndexes = [];
+  UserDataServices _userDataServices = UserDataServices();
+  CommunicationsServices _communicationsServices = CommunicationsServices();
 
   @override
   void initState() {
@@ -64,11 +71,31 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
           children: [
             RaisedButton(
               child: Text('Finish'),
-              onPressed: () {
-                for(int i=0; i<_suggestions.length; i++) {
-                  if(_ignoredIndexes.contains(i)) continue;
-                  Suggestion suggestion = _suggestions[i];
-                  print('Attending suggestion $suggestion');
+              onPressed: () async {
+                try {
+                  for(int i=0; i<_suggestions.length; i++) {
+                    if(_ignoredIndexes.contains(i)) continue;
+                    Suggestion suggestion = _suggestions[i];
+                    switch(suggestion.userDataEntityType) {
+                      case 'InsulinInjection':
+                        InsulinInjection entity = suggestion.userDataEntity as InsulinInjection;
+                        await _userDataServices.saveInsulinInjection(entity);
+                        break;
+                      case 'GlucoseLevel':
+                        GlucoseLevel entity = suggestion.userDataEntity as GlucoseLevel;
+                        await _userDataServices.saveGlucoseLevel(entity);
+                        break;
+                      case 'TraitMeasure':
+                        TraitMeasure entity = suggestion.userDataEntity as TraitMeasure;
+                        await _userDataServices.saveTraitMeasure(entity);
+                        break;
+                    }
+                    print('Attending suggestion $suggestion');
+                  }
+                  _communicationsServices.dismissMessage(widget.message);
+                  widget.onFinished();
+                } catch (err) {
+                  print(err);
                 }
               },
             )
