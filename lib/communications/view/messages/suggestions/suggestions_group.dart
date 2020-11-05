@@ -65,10 +65,10 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
             RaisedButton(
               child: Text('Finish'),
               onPressed: () {
-                int j = 0;
-                for(Suggestion suggestion in _suggestions) {
-                  if(_ignoredIndexes.contains(j)) continue;
-                  // TODO save suggestion
+                for(int i=0; i<_suggestions.length; i++) {
+                  if(_ignoredIndexes.contains(i)) continue;
+                  Suggestion suggestion = _suggestions[i];
+                  print('Attending suggestion $suggestion');
                 }
               },
             )
@@ -95,6 +95,8 @@ class SuggestionWidget extends StatelessWidget {
         return TraitMeasureSuggestionWidget(suggestion, isIgnored);
       case 'GlucoseLevel':
         return GlucoseLevelSuggestionWidget(suggestion, isIgnored);
+      default:
+        return SizedBox.shrink();
     }
   }
 
@@ -123,3 +125,4 @@ class SuggestionWidget extends StatelessWidget {
     );
   }
 }
+

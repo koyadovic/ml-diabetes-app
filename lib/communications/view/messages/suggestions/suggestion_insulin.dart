@@ -44,10 +44,10 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
           child: Text(widget.suggestion.details, style: TextStyle(color: !enabled ? Colors.grey : Colors.black)),
         ),
         InsulinInjectionEditorWidget(
+          insulinTypes: [_insulinInjection.insulinType],
           insulinInjectionForEdition: _insulinInjection,
           onFinish: () {},
         ),
-        // TODO if _finalInsulinInjection != null hay que mostrar el elemento con posibilidad de limpiarlo, si es editable, claro.
       ],
     );
   }

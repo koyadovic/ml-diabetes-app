@@ -18,6 +18,7 @@ class GlucoseLevelSuggestionWidget extends StatefulWidget {
 class GlucoseLevelSuggestionWidgetState extends State<GlucoseLevelSuggestionWidget> {
   @override
   Widget build(BuildContext context) {
+    GlucoseLevel glucoseLevel = widget.suggestion.userDataEntity as GlucoseLevel;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,7 +27,7 @@ class GlucoseLevelSuggestionWidgetState extends State<GlucoseLevelSuggestionWidg
           child: Text(widget.suggestion.details),
         ),
         GlucoseLevelEditorWidget(
-          glucoseLevelForEdition: widget.suggestion.userDataEntity as GlucoseLevel,
+          glucoseLevelForEdition: glucoseLevel,
           onFinish: () {},
         ),
       ],
