@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
-  final Function() selfCloseCallback;
+  final Function() onFinish;
   final List<ActivityType> activityTypes;
 
-  ActivityEditorWidget({this.selfCloseCallback, this.activityForEdition, this.activityTypes});
+  ActivityEditorWidget({this.onFinish, this.activityForEdition, this.activityTypes});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +25,10 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   UserDataServices _userDataServices = UserDataServices();
   TextEditingController _externalController;
   List<ActivityType> _activityTypes = [];
-  Activity _activity;
+
+  Activity get activity {
+    return widget.activityForEdition;
+  }
 
   @override
   void initState() {
@@ -42,13 +45,13 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
         _activityTypes = widget.activityTypes;
       });
     }
-    _externalController = TextEditingController(text: _activity.minutes.toString());
+    _externalController = TextEditingController(text: activity.minutes.toString());
     super.initState();
   }
 
   _selectActivityType(ActivityType type) {
     setState(() {
-      _activity.activityType = type;
+      activity.activityType = type;
     });
   }
 
@@ -66,7 +69,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             children: [
               DropdownButton<ActivityType>(
                 isExpanded: true,
-                value: _activity.activityType,
+                value: activity.activityType,
                 onChanged: (ActivityType newValue) {
                   if(editable)
                     _selectActivityType(newValue);
@@ -92,21 +95,21 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 ],
                 onChange: (value) {
                   setState(() {
-                    _activity.minutes = value.toInt();
+                    activity.minutes = value.toInt();
                   });
                 }
               ),
               if(editable)
               ...[
                 Spacer(),
+                if(activity.hasChanged)
                 IconButton(
                     icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
                     onPressed: () {
                       setState(() {
-                        _activity.reset();
-                        _externalController.text = _activity.minutes.toString();
+                        activity.reset();
+                        _externalController.text = activity.minutes.toString();
                       });
-                      widget.selfCloseCallback();
                     }
                 ),
               ]

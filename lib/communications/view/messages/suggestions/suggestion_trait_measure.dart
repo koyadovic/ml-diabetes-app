@@ -31,7 +31,7 @@ class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidg
         ),
         TraitMeasureEditorWidget(
           traitMeasureForEdition: widget.suggestion.userDataEntity as TraitMeasure,
-          selfCloseCallback: () {},
+          onFinish: () {},
         ),
       ],
     );

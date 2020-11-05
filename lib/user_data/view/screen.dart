@@ -62,21 +62,32 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           backgroundColor: Colors.grey[100],
           child: IconButton(
             icon: TraitMeasureIconSmall(),
-            onPressed: (){
+            onPressed: () async {
               severalFloatingActionButton.state.toggle();
-              TraitMeasure traitMeasure = TraitMeasure(eventDate: DateTime.now());
+
+              TraitMeasure traitMeasure;
+              List<TraitType> traitTypes = await _userDataServices.getTraitTypes();
+              if(traitTypes.length > 0) {
+                traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: '', traitType: traitTypes[0]);
+              } else {
+                traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: '');
+              }
+
               showWidget(
                 ParentEditorWidget(
                   child: TraitMeasureEditorWidget(
+                    traitTypes: traitTypes,
                     traitMeasureForEdition: traitMeasure,
-                    selfCloseCallback: hideWidget,
+                    onFinish: hideWidget,
                   ),
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      await _userDataServices.saveTraitMeasure(traitMeasure);
-                      _state.refresh();
-                      _state.refreshCommunications();
+                      if(traitMeasure.hasChanged) {
+                        await _userDataServices.saveTraitMeasure(traitMeasure);
+                        _state.refresh();
+                        _state.refreshCommunications();
+                      }
                       hideWidget();
                     }),
                   ],
@@ -92,21 +103,32 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           backgroundColor: Colors.grey[100],
           child: IconButton(
             icon: ActivityIconSmall(),
-            onPressed: (){
+            onPressed: () async {
               severalFloatingActionButton.state.toggle();
-              Activity activity = Activity(eventDate: DateTime.now());
+
+              List<ActivityType> activityTypes = await _userDataServices.getActivityTypes();
+              Activity activity;
+              if(activityTypes.length > 0) {
+                activity = Activity(eventDate: DateTime.now(), minutes: 0, activityType: activityTypes[0]);
+              } else {
+                activity = Activity(eventDate: DateTime.now(), minutes: 0);
+              }
+
               showWidget(
                 ParentEditorWidget(
                   child: ActivityEditorWidget(
+                    activityTypes: activityTypes,
                     activityForEdition: activity,
-                    selfCloseCallback: hideWidget,
+                    onFinish: hideWidget,
                   ),
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      await _userDataServices.saveActivity(activity);
-                      _state.refresh();
-                      _state.refreshCommunications();
+                      if (activity.hasChanged) {
+                        await _userDataServices.saveActivity(activity);
+                        _state.refresh();
+                        _state.refreshCommunications();
+                      }
                       hideWidget();
                     }),
                   ],
@@ -135,21 +157,32 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           backgroundColor: Colors.grey[100],
           child: IconButton(
             icon: InsulinInjectionIconSmall(),
-            onPressed: (){
+            onPressed: () async {
               severalFloatingActionButton.state.toggle();
-              InsulinInjection insulinInjection = InsulinInjection(eventDate: DateTime.now());
+
+              InsulinInjection insulinInjection;
+              List<InsulinType> insulinTypes = await _userDataServices.getInsulinTypes();
+              if(insulinTypes.length > 0) {
+                insulinInjection = InsulinInjection(eventDate: DateTime.now(), units: 0, insulinType: insulinTypes[0]);
+              } else {
+                insulinInjection = InsulinInjection(eventDate: DateTime.now(), units: 0);
+              }
+
               showWidget(
                 ParentEditorWidget(
                   child: InsulinInjectionEditorWidget(
+                    insulinTypes: insulinTypes,
                     insulinInjectionForEdition: insulinInjection,
-                    selfCloseCallback: hideWidget,
+                    onFinish: hideWidget,
                   ),
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      await _userDataServices.saveInsulinInjection(insulinInjection);
-                      _state.refresh();
-                      _state.refreshCommunications();
+                      if(insulinInjection.hasChanged) {
+                        await _userDataServices.saveInsulinInjection(insulinInjection);
+                        _state.refresh();
+                        _state.refreshCommunications();
+                      }
                       hideWidget();
                     }),
                   ],
@@ -167,19 +200,21 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: GlucoseLevelIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              GlucoseLevel glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
+              GlucoseLevel glucoseLevel = GlucoseLevel(eventDate: DateTime.now(), level: 0);
               showWidget(
                 ParentEditorWidget(
                   child: GlucoseLevelEditorWidget(
                     glucoseLevelForEdition: glucoseLevel,
-                    selfCloseCallback: hideWidget,
+                    onFinish: hideWidget,
                   ),
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      await _userDataServices.saveGlucoseLevel(glucoseLevel);
-                      _state.refresh();
-                      _state.refreshCommunications();
+                      if(glucoseLevel.hasChanged) {
+                        await _userDataServices.saveGlucoseLevel(glucoseLevel);
+                        _state.refresh();
+                        _state.refreshCommunications();
+                      }
                       hideWidget();
                     }),
                   ],

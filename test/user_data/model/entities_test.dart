@@ -1,5 +1,6 @@
 import 'package:Dia/user_data/model/entities.dart';
 import 'package:test/test.dart';
+import 'package:collection/collection.dart';
 
 
 void main() {
@@ -73,4 +74,56 @@ void main() {
       'activity_type': at2.toJson()
     });
   });
+
+  test('Test insulin types equality', () {
+    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100);
+    InsulinType it2 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100);
+    expect(true, it1 == it2);
+    InsulinType it3 = InsulinType.fromJson({
+      'name': 'Tipo 1',
+      'slug': 'tipo-1',
+      'categories': ['rapid'],
+      'u_per_ml': 100,
+    });
+    expect(true, it1 == it3);
+    expect(true, it2 == it3);
+  });
+
+  test('Insulin injection reset', () {
+    InsulinType it = InsulinType('Aspart', 'aspart', ['rapid-insulin'], 100);
+    InsulinInjection i = InsulinInjection(eventDate: DateTime.now(), units: 0, insulinType: it);
+    i.units = 12;
+    expect(i.changesToJson(), {'units': 12});
+    i.reset();
+    expect(i.changesToJson(), {});
+  });
+
+  test('List equality', () {
+    Function eq = const ListEquality().equals;
+    expect(eq([1,2], [1,2]), true);
+    expect(eq([2], [1]), false);
+    expect(eq([], []), true);
+    expect(eq(['rapid'], ['rapid']), true);
+    expect(eq([1], ['1']), false);
+  });
+
+  test('Trait measure reset', () {
+    TraitType tt = TraitType('Tipo 1', 'tipo-1', 'cm', []);
+    TraitMeasure tm = TraitMeasure(eventDate: DateTime.now(), traitType: tt, value: 0);
+    tm.value = 1;
+    expect(tm.changesToJson(), {'value': 1});
+    tm.reset();
+    expect(tm.changesToJson(), {});
+  });
+
+  test('Activity reset', () {
+    ActivityType at = ActivityType('Tipo 1', 'tipo-1', 12);
+    Activity a = Activity(eventDate: DateTime.now(), activityType: at, minutes: 0);
+    a.minutes = 1;
+    expect(a.changesToJson(), {'minutes': 1});
+    a.reset();
+    expect(a.changesToJson(), {});
+  });
+
+
 }

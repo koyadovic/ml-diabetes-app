@@ -45,7 +45,7 @@ class InsulinSuggestionWidgetState extends State<InsulinSuggestionWidget> {
         ),
         InsulinInjectionEditorWidget(
           insulinInjectionForEdition: _insulinInjection,
-          selfCloseCallback: () {},
+          onFinish: () {},
         ),
         // TODO if _finalInsulinInjection != null hay que mostrar el elemento con posibilidad de limpiarlo, si es editable, claro.
       ],

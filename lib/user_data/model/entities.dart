@@ -44,12 +44,11 @@ class TraitType extends UserDataValueObject {
             runtimeType == other.runtimeType &&
             name == other.name &&
             slug == other.slug &&
-            unit == other.unit &&
-            eq(options, other.options);
+            unit == other.unit;
   }
 
   @override
-  int get hashCode => name.hashCode ^ slug.hashCode ^ unit.hashCode ^ options.hashCode;
+  int get hashCode => name.hashCode ^ slug.hashCode ^ unit.hashCode;
 
 }
 
@@ -278,7 +277,7 @@ class Activity extends UserDataEntity {
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'Activity',
-      activityType: ActivityType.fromJson(json['activity_type']),
+      activityType: json['activity_type'] != null ? ActivityType.fromJson(json['activity_type']) : null,
       minutes: json['minutes'],
     );
   }
@@ -333,7 +332,7 @@ class InsulinInjection extends UserDataEntity {
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'InsulinInjection',
-      insulinType: InsulinType.fromJson(json['insulin_type']),
+      insulinType: json['insulin_type'] != null ? InsulinType.fromJson(json['insulin_type']) : null,
       units: json['units'],
     );
   }
@@ -353,6 +352,7 @@ class InsulinInjection extends UserDataEntity {
   }
 
   bool get hasChanged {
+    print('hasChanged ${changesToJson().toString()}');
     return changesToJson().keys.length > 0;
   }
 
@@ -382,7 +382,7 @@ class TraitMeasure extends UserDataEntity {
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'TraitMeasure',
-      traitType: TraitType.fromJson(json['trait_type']),
+      traitType: json['trait_type'] != null ? TraitType.fromJson(json['trait_type']) : null,
       value: json['value'],
     );
   }

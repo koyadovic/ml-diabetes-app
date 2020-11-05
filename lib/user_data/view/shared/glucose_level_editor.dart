@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class GlucoseLevelEditorWidget extends StatefulWidget {
   final GlucoseLevel glucoseLevelForEdition;
-  final Function() selfCloseCallback;
+  final Function() onFinish;
 
-  GlucoseLevelEditorWidget({this.selfCloseCallback, this.glucoseLevelForEdition});
+  GlucoseLevelEditorWidget({this.onFinish, this.glucoseLevelForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -60,11 +60,12 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           if(editable)
           ...[
             Spacer(),
+            if(_glucoseLevel.hasChanged)
             IconButton(
               icon: Icon(Icons.close, color: enabled ? DiaTheme.secondaryColor : Colors.grey),
               onPressed: () {
                 _glucoseLevel.reset();
-                widget.selfCloseCallback();
+                _externalController.text = _glucoseLevel.level.toString();
               },
             ),
           ]
