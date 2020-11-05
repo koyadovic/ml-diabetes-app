@@ -105,7 +105,9 @@ class UnitTextFieldState extends State<UnitTextField> {
     bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
-    double w = (_controller.text.length.toDouble()) * 17.5;
+    double scalingFactor = screenSizeScalingFactor(context);
+
+    double w = (_controller.text.length.toDouble()) * 17.5 * scalingFactor;
     w = w < 13 ? 13 : w;
 
     Color fontColor = enabled ? widget.colorEnabled : widget.colorDisabled;
@@ -118,7 +120,7 @@ class UnitTextFieldState extends State<UnitTextField> {
             WidgetSpan(
               child: SizedBox(
                 width: w,
-                //height: 38,
+                height: 62 * scalingFactor,
                 child: TextField(
                   focusNode: _focusNode,
                   enabled: enabled && editable,

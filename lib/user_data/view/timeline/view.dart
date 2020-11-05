@@ -102,6 +102,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         break;
     }
 
+    double scalingFactor = screenSizeScalingFactor(context);
+
     return ListTile(
       leading: leading,
       title: Row(
@@ -109,12 +111,12 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 5, 8.0),
+            padding: EdgeInsets.fromLTRB(0, 0, 5, 8.0),
             child: Text(entity.text, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w400)),
           ),
           if(entity.value is int || entity.value is double)
             UnitTextField(
-              unitWidth: 60,
+              unitWidth: 60 * scalingFactor,
               unit: entity.unit,
               initialValue: entity.value.toDouble(),
               //enabled: false,
@@ -124,7 +126,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             ),
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 65, 8.0),
+              padding: EdgeInsets.fromLTRB(0, 0, 60 * scalingFactor, 8.0),
               child: Text(entity.value, style: TextStyle(fontSize: mediumFontSize(context), fontWeight: FontWeight.w300)),
             ),
         ],
