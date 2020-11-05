@@ -181,33 +181,58 @@ class ApiRestBackend {
     _tokenExpiresMilliseconds = await _storage.get('api-token-expires');
   }
 
+  /*
+  El uso de isTokenRenewing intenta resolver el bug siguiente:
+  I/flutter (20900): POST http://192.168.1.250:5000/api/v1/auth/renew-token/ | Response status: 201 | body: {"refresh_token":"b6954a0dad6259dd80c26fa23e984a4f7ec60b5754687b73be1387bc7e9df43d"}
+  I/flutter (20900): POST http://192.168.1.250:5000/api/v1/auth/renew-token/ | Response status: 400 | body: {"refresh_token":"b6954a0dad6259dd80c26fa23e984a4f7ec60b5754687b73be1387bc7e9df43d"}
+  I/flutter (20900): We don't have token. Returning null
+
+  Cuando el token expira y la app lanza varios requests, el primero renueva token, el segundo usa para renovar un token que ya no sirve y se desloga.
+  Intentamos usar un booleano para que si el 1 request tiene token caducado, ponga isTokenRenewing a true, así el segundo esperará
+  hasta que isTokenRenewing sea false.
+   */
+  bool isTokenRenewing = false;
+
   Future<String> _getToken() async {
     if(_haveToken()) {
       if(!_isTokenExpired()) {
         return _token;
       } else {
-        try{
-          dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
-          if (data == null) {
-            removeToken();
-          } else {
-            String token = data['token'];
-            String refreshToken = data['refresh_token'];
-            double expires = data['expires'] * 1000.0;
-            saveToken(token, refreshToken, expires);
-            return token;
+        if(isTokenRenewing) {
+          // Esperar hasta que isTokenRenewing sea false y retornar lo que tengamos.
+          while(isTokenRenewing) {
+            sleep(const Duration(milliseconds: 200));
           }
-        } on BackendBadRequest catch (err) {
-          await removeToken();
-          // error 400, bad request when refreshing the token, means that need to log in again with user/password
+          if(isAuthenticated()) {
+            return _token;
+          }
           throw NotLoggedIn('Need to log in again with user/password');
+        } else {
+          isTokenRenewing = true;
+          try{
+            dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
+            if (data == null) {
+              removeToken();
+            } else {
+              String token = data['token'];
+              String refreshToken = data['refresh_token'];
+              double expires = data['expires'] * 1000.0;
+              saveToken(token, refreshToken, expires);
+              return token;
+            }
+          } on BackendBadRequest catch (err) {
+            await removeToken();
+            // error 400, bad request when refreshing the token, means that need to log in again with user/password
+            throw NotLoggedIn('Need to log in again with user/password');
+
+          } finally {
+            isTokenRenewing = false;
+          }
         }
       }
-    } else {
-      print('We don\'t have token. Returning null');
-      return null;
     }
-
+    print('We don\'t have token. Returning null');
+    return null;
   }
 
   bool _isTokenExpired() {

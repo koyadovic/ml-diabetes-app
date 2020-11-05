@@ -72,12 +72,17 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               if(editable)
                 _selectInsulinType(newValue);
             },
-            items: _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
+            items: editable ? _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
               return DropdownMenuItem<InsulinType>(
                 value: type,
                 child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
               );
-            }).toList(),
+            }).toList() : [
+              DropdownMenuItem<InsulinType>(
+                value: insulinInjection.insulinType,
+                child: Text(insulinInjection.insulinType.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+              )
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
