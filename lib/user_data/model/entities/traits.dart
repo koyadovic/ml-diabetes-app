@@ -35,9 +35,9 @@ class TraitType extends UserDataValueObject {
       case 'gender':
         return 'male';
       case 'birth-seconds-epoch':
-        return DateTime.now().millisecondsSinceEpoch.toDouble() / 1000.0;
+        return DateTime.now().millisecondsSinceEpoch.toDouble() ~/ 1000.0;
       default:
-        return 0.0;
+        return 0;
     }
   }
 

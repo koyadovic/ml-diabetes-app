@@ -52,7 +52,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   _selectTraitType(TraitType type) {
     setState(() {
-      traitMeasure.value = null;
+      traitMeasure.value = type.getDefaultValue();
       traitMeasure.traitType = type;
     });
   }
