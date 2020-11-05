@@ -120,7 +120,7 @@ class UnitTextFieldState extends State<UnitTextField> {
             WidgetSpan(
               child: SizedBox(
                 width: w,
-                height: 62 * scalingFactor,
+                //height: 62 * scalingFactor,
                 child: TextField(
                   focusNode: _focusNode,
                   enabled: enabled && editable,

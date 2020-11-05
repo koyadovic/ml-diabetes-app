@@ -22,11 +22,11 @@ double smallSize(BuildContext context) {
 
 double mediumSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
-  return 24.0 * scalingFactor;
+  return 20.0 * scalingFactor;
 
 }
 
 double bigSize(BuildContext context) {
   double scalingFactor = screenSizeScalingFactor(context);
-  return 30.0 * scalingFactor;
+  return 28.0 * scalingFactor;
 }
