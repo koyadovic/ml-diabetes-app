@@ -29,8 +29,8 @@ void main() {
   });
 
   test('InsulinInjection changes', () {
-    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100);
-    InsulinType it2 = InsulinType('Tipo 2', 'tipo-2', ['rapid'], 100);
+    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
+    InsulinType it2 = InsulinType('Tipo 2', 'tipo-2', ['rapid'], 100, '#000000');
 
     InsulinInjection i = InsulinInjection(id: 1, insulinType: it1, units: 4);
     i.insulinType = it2;
@@ -80,8 +80,8 @@ void main() {
   });
 
   test('Test insulin types equality', () {
-    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100);
-    InsulinType it2 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100);
+    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
+    InsulinType it2 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
     expect(true, it1 == it2);
     InsulinType it3 = InsulinType.fromJson({
       'name': 'Tipo 1',
@@ -94,7 +94,7 @@ void main() {
   });
 
   test('Insulin injection reset', () {
-    InsulinType it = InsulinType('Aspart', 'aspart', ['rapid-insulin'], 100);
+    InsulinType it = InsulinType('Aspart', 'aspart', ['rapid-insulin'], 100, '#000000');
     InsulinInjection i = InsulinInjection(eventDate: DateTime.now(), units: 0, insulinType: it);
     i.units = 12;
     expect(i.changesToJson(), {'units': 12});
