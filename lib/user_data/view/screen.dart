@@ -285,6 +285,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;
       // Messages
+      // TODO tendrán que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
       await withBackendErrorHandlers(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         for(Message message in messages) {
@@ -297,15 +298,17 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
       });
 
       // Feedback Requests
-      await withBackendErrorHandlers(() async {
-        List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
-        for(FeedbackRequest request in feedbackRequests) {
-          await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
-            if(reload) reloadAgain = true;
-            widget.hideWidget();
-          }));
-        }
-      });
+      if(!reloadAgain) {
+        await withBackendErrorHandlers(() async {
+          List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
+          for(FeedbackRequest request in feedbackRequests) {
+            await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
+              if(reload) reloadAgain = true;
+              widget.hideWidget();
+            }));
+          }
+        });
+      }
 
       if(reloadAgain)
         refreshCommunications();

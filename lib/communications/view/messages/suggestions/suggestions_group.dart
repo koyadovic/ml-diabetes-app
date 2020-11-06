@@ -1,4 +1,3 @@
-import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_glucose_level.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_insulin.dart';
@@ -27,7 +26,6 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
   List<Suggestion> _suggestions = [];
   List<int> _ignoredIndexes = [];
   UserDataServices _userDataServices = UserDataServices();
-  CommunicationsServices _communicationsServices = CommunicationsServices();
 
   @override
   void initState() {
@@ -62,51 +60,53 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
       );
     }
 
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        ...suggestionWidgets,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FlatButton(
-              child: Row(
-                children: [
-                  Icon(Icons.done),
-                  Text('Finish'),
-                ],
-              ),
-              onPressed: () async {
-                try {
-                  for(int i=0; i<_suggestions.length; i++) {
-                    if(_ignoredIndexes.contains(i)) continue;
-                    Suggestion suggestion = _suggestions[i];
-                    switch(suggestion.userDataEntityType) {
-                      case 'InsulinInjection':
-                        InsulinInjection entity = suggestion.userDataEntity as InsulinInjection;
-                        await _userDataServices.saveInsulinInjection(entity);
-                        break;
-                      case 'GlucoseLevel':
-                        GlucoseLevel entity = suggestion.userDataEntity as GlucoseLevel;
-                        await _userDataServices.saveGlucoseLevel(entity);
-                        break;
-                      case 'TraitMeasure':
-                        TraitMeasure entity = suggestion.userDataEntity as TraitMeasure;
-                        await _userDataServices.saveTraitMeasure(entity);
-                        break;
+    return Container(
+      color: Colors.black12,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          ...suggestionWidgets,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(Icons.done),
+                    Text('Finish'),
+                  ],
+                ),
+                onPressed: () async {
+                  try {
+                    for(int i=0; i<_suggestions.length; i++) {
+                      if(_ignoredIndexes.contains(i)) continue;
+                      Suggestion suggestion = _suggestions[i];
+                      switch(suggestion.userDataEntityType) {
+                        case 'InsulinInjection':
+                          InsulinInjection entity = suggestion.userDataEntity as InsulinInjection;
+                          await _userDataServices.saveInsulinInjection(entity);
+                          break;
+                        case 'GlucoseLevel':
+                          GlucoseLevel entity = suggestion.userDataEntity as GlucoseLevel;
+                          await _userDataServices.saveGlucoseLevel(entity);
+                          break;
+                        case 'TraitMeasure':
+                          TraitMeasure entity = suggestion.userDataEntity as TraitMeasure;
+                          await _userDataServices.saveTraitMeasure(entity);
+                          break;
+                      }
+                      print('Attending suggestion $suggestion');
                     }
-                    print('Attending suggestion $suggestion');
+                    widget.onFinished();
+                  } catch (err) {
+                    print(err);
                   }
-                  _communicationsServices.dismissMessage(widget.message);
-                  widget.onFinished();
-                } catch (err) {
-                  print(err);
-                }
-              },
-            )
-          ],
-        )
-      ],
+                },
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -138,20 +138,23 @@ class SuggestionWidget extends StatelessWidget {
       isEditable: suggestion.editable,
       child: EnabledStatus(
         isEnabled: !isIgnored,
-        child: Column(
-            children: [
-              getConcreteWidget(),
-              if(suggestion.cancelable)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FlatButton(
-                    child: isIgnored ? Text('Attend', style: TextStyle(color: Colors.grey)) : Text('Ignore'),
-                    onPressed: onToggleIgnore,
-                  ),
-                ],
-              ),
-            ],
+        child: Card(
+          elevation: 2,
+          child: Column(
+              children: [
+                getConcreteWidget(),
+                if(suggestion.cancelable)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FlatButton(
+                      child: isIgnored ? Text('Attend', style: TextStyle(color: Colors.grey)) : Text('Ignore'),
+                      onPressed: onToggleIgnore,
+                    ),
+                  ],
+                ),
+              ],
+          ),
         ),
       ),
     );
