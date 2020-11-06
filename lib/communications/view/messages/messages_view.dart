@@ -29,7 +29,8 @@ class MessagesWidgetState extends State<MessagesWidget> {
   }
 
   dismissMessage() async {
-    await _services.dismissMessage(widget.message);
+    // TODO remove this. Currently is useful for testing
+    // await _services.dismissMessage(widget.message);
     widget.onDismiss();
   }
 

@@ -69,8 +69,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
-      child: ListView(
-        shrinkWrap: true,
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),

@@ -50,7 +50,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
               (value) => value < 0.0 ? 0.0 : value,
               (value) => value > 600 ? 600.0 : value,
             ],
-            autoFocus: true,
+            autoFocus: false,
             onChange: (value) {
               setState(() {
                 _glucoseLevel.level = value.toInt();
