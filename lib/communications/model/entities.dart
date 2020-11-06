@@ -15,7 +15,7 @@ class Suggestion {
 
   Suggestion({this.details, this.cancelable, this.editable, this.userDataEntityType, this.userDataEntity});
 
-  factory Suggestion.fromJson(Map<String, dynamic> json) {
+  static Suggestion fromJson(Map<String, dynamic> json) {
     String entityType = json['user_data_entity_type'];
     Map<String, dynamic> serializedEntity = Map<String, dynamic>.from(json['user_data_entity']);
 
@@ -64,7 +64,7 @@ class Message {
 
   Message({this.id, this.createdDate, this.type, this.title, this.text, this.payload});
 
-  factory Message.fromJson(Map<String, dynamic> json) {
+  static Message fromJson(Map<String, dynamic> json) {
     return Message(
       id: json['id'],
       createdDate: DateTime.fromMicrosecondsSinceEpoch((json['created_date'] * 1000000).toInt()).toLocal(),
@@ -97,7 +97,7 @@ class FeedbackRequest {
 
   FeedbackRequest({this.id, this.createdDate, this.deliveryDate, this.title, this.text, this.options, this.answerTypeHint});
 
-  factory FeedbackRequest.fromJson(Map<String, dynamic> json) {
+  static FeedbackRequest fromJson(Map<String, dynamic> json) {
     return FeedbackRequest(
       id: json['id'],
       createdDate: DateTime.fromMicrosecondsSinceEpoch((json['created_date'] * 1000000).toInt()).toLocal(),

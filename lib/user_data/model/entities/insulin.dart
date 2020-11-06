@@ -61,7 +61,7 @@ class InsulinInjection extends UserDataEntity {
     _original = toJson();
   }
 
-  factory InsulinInjection.fromJson(Map<String, dynamic> json) {
+  static InsulinInjection fromJson(Map<String, dynamic> json) {
     return InsulinInjection(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),

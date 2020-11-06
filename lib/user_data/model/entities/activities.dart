@@ -7,7 +7,7 @@ class ActivityType extends UserDataValueObject {
 
   ActivityType(name, slug, this.mets) : super(name, slug);
 
-  factory ActivityType.fromJson(Map<String, dynamic> json) {
+  static ActivityType fromJson(Map<String, dynamic> json) {
     return ActivityType(
       json['name'],
       json['slug'],

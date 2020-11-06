@@ -67,7 +67,7 @@ class TraitMeasure extends UserDataEntity {
     _original = toJson();
   }
 
-  factory TraitMeasure.fromJson(Map<String, dynamic> json) {
+  static TraitMeasure fromJson(Map<String, dynamic> json) {
     return TraitMeasure(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
