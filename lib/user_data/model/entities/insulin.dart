@@ -13,7 +13,7 @@ class InsulinType extends UserDataValueObject {
 
   InsulinType(name, slug, this.categories, this.uPerMl, this.color) : super(name, slug);
 
-  factory InsulinType.fromJson(Map<String, dynamic> json) {
+  static InsulinType fromJson(Map<String, dynamic> json) {
     return InsulinType(
       json['name'],
       json['slug'],

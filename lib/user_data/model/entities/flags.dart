@@ -6,7 +6,7 @@ class Flag extends UserDataEntity {
 
   Flag({int id, DateTime eventDate, String entityType, this.type}) : super(id, eventDate, entityType);
 
-  factory Flag.fromJson(Map<String, dynamic> json) {
+  static Flag fromJson(Map<String, dynamic> json) {
     return Flag(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),

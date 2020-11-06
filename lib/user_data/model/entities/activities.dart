@@ -48,7 +48,7 @@ class Activity extends UserDataEntity {
     _original = toJson();
   }
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
+  static Activity fromJson(Map<String, dynamic> json) {
     return Activity(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),

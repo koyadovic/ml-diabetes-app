@@ -12,7 +12,7 @@ class TraitType extends UserDataValueObject {
 
   TraitType(name, slug, this.unit, this.options) : super(name, slug);
 
-  factory TraitType.fromJson(Map<String, dynamic> json) {
+  static TraitType fromJson(Map<String, dynamic> json) {
     return TraitType(
       json['name'],
       json['slug'],

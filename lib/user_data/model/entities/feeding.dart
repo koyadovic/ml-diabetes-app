@@ -25,7 +25,7 @@ class Feeding extends UserDataEntity {
     return (carbGrams - carbFiberGrams) * 4 + proteinGrams * 4 + fatGrams * 9 + alcoholGrams * 7;
   }
 
-  factory Feeding.fromJson(Map<String, dynamic> json) {
+  static Feeding fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
