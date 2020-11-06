@@ -1,3 +1,4 @@
+import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
 
 import 'base.dart';
@@ -91,4 +92,27 @@ class Activity extends UserDataEntity {
     this.activityType = original.activityType;
     this.minutes = original.minutes;
   }
+
+  /*
+  Validations
+   */
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'activityType': activityType,
+      'minutes': minutes,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'minutes': [NotNullValidator(), OneOrGreaterPositiveNumberValidator()],
+    'activityType': [NotNullValidator(),],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return Activity.validators;
+  }
+
 }

@@ -1,3 +1,4 @@
+import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
 import 'package:collection/collection.dart';
 import 'base.dart';
@@ -99,5 +100,27 @@ class InsulinInjection extends UserDataEntity {
     this.eventDate = original.eventDate;
     this.insulinType = original.insulinType;
     this.units = original.units;
+  }
+
+  /*
+  Validations
+   */
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'insulinType': insulinType,
+      'units': units,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'insulinType': [NotNullValidator()],
+    'units': [NotNullValidator(), OneOrGreaterPositiveNumberValidator()],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return InsulinInjection.validators;
   }
 }

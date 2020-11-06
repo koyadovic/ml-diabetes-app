@@ -58,6 +58,7 @@ class UserDataServices {
   }
 
   Future<void> saveGlucoseLevel(GlucoseLevel glucoseLevel) async {
+    glucoseLevel.validate();
     String url;
     Map<String, dynamic> data;
     if(glucoseLevel.id == null) {

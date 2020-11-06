@@ -2,7 +2,9 @@
 TYPES!
  */
 
-class UserDataValueObject {
+import 'package:Dia/shared/model/validations.dart';
+
+abstract class UserDataValueObject {
   final String name;
   final String slug;
   UserDataValueObject(this.name, this.slug);
@@ -12,7 +14,7 @@ class UserDataValueObject {
 Core Entities!
  */
 
-class UserDataEntity {
+abstract class UserDataEntity extends WithValidations {
   final int id;
   final String entityType;
   DateTime eventDate;

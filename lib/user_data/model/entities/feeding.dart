@@ -1,4 +1,5 @@
 
+import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
 
 import 'base.dart';
@@ -77,6 +78,38 @@ class Feeding extends UserDataEntity {
     this.fatGrams = original.fatGrams;
     this.alcoholGrams = original.alcoholGrams;
     this.saltGrams = original.saltGrams;
+  }
+
+  /*
+  Validations
+   */
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'carbGrams': carbGrams,
+      'carbSugarGrams': carbSugarGrams,
+      'carbFiberGrams': carbFiberGrams,
+      'proteinGrams': proteinGrams,
+      'fatGrams': fatGrams,
+      'alcoholGrams': alcoholGrams,
+      'saltGrams': saltGrams,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'carbGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'carbSugarGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'carbFiberGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'proteinGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'fatGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'alcoholGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+    'saltGrams': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return Feeding.validators;
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
 import 'package:collection/collection.dart';
 import 'base.dart';
@@ -105,4 +106,27 @@ class TraitMeasure extends UserDataEntity {
     this.traitType = original.traitType;
     this.value = original.value;
   }
+
+  /*
+  Validations
+   */
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'traitType': traitType,
+      'value': value,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'traitType': [NotNullValidator()],
+    'value': [NotNullValidator()],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return TraitMeasure.validators;
+  }
+
 }

@@ -1,4 +1,4 @@
-
+import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
 
 import 'base.dart';
@@ -46,4 +46,22 @@ class GlucoseLevel extends UserDataEntity {
     this.eventDate = original.eventDate;
     this.level = original.level;
   }
+
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'level': level,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'level': [NotNullValidator(), OneOrGreaterPositiveNumberValidator()],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return GlucoseLevel.validators;
+  }
+
 }

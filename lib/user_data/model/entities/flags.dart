@@ -1,3 +1,5 @@
+import 'package:Dia/shared/model/validations.dart';
+
 import 'base.dart';
 
 
@@ -23,4 +25,25 @@ class Flag extends UserDataEntity {
       'type': type,
     };
   }
+
+  /*
+  Validations
+   */
+
+  @override
+  Map<String, dynamic> toMapForValidation() {
+    return {
+      'type': type,
+    };
+  }
+
+  static Map<String, List<Validator>> validators = {
+    'type': [InValidator<String>(['insulin-regimen-change-time', 'hypoglycemia'])],
+  };
+
+  @override
+  Map<String, List<Validator>> getValidators() {
+    return Flag.validators;
+  }
+
 }
