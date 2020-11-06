@@ -88,6 +88,7 @@ void main() {
       'slug': 'tipo-1',
       'categories': ['rapid'],
       'u_per_ml': 100,
+      'color': '#000000',
     });
     expect(true, it1 == it3);
     expect(true, it2 == it3);
