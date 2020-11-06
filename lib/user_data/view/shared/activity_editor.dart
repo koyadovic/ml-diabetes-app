@@ -104,13 +104,13 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 Spacer(),
                 if(activity.minutes != null && activity.minutes != 0)
                 IconButton(
-                    icon: Icon(Icons.close, color: Colors.grey),
-                    onPressed: () {
-                      setState(() {
-                        activity.minutes = 0;
-                        _externalController.text = activity.minutes.toString();
-                      });
-                    }
+                  icon: Icon(Icons.close, color: Colors.grey),
+                  onPressed: () {
+                    setState(() {
+                      activity.minutes = 0;
+                      _externalController.text = activity.minutes.toString();
+                    });
+                  }
                 ),
               ]
             ],

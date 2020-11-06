@@ -86,6 +86,9 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
+
+                      // TODO verificar que es válido
+
                       if(traitMeasure.hasChanged) {
                         await _userDataServices.saveTraitMeasure(traitMeasure);
                         _state.refresh();
@@ -127,6 +130,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
+                      // TODO verificar que es válido
+
                       if (activity.hasChanged) {
                         await _userDataServices.saveActivity(activity);
                         _state.refresh();
@@ -181,6 +186,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
+                      // TODO verificar que es válido
+
                       if(insulinInjection.hasChanged) {
                         await _userDataServices.saveInsulinInjection(insulinInjection);
                         _state.refresh();
@@ -213,6 +220,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
+                      // TODO verificar que es válido
+
                       if(glucoseLevel.hasChanged) {
                         await _userDataServices.saveGlucoseLevel(glucoseLevel);
                         _state.refresh();
@@ -285,7 +294,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;
       // Messages
-      // TODO tendrán que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
+      // TODO deberían que tener que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
       await withBackendErrorHandlers(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         for(Message message in messages) {

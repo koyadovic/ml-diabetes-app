@@ -78,6 +78,8 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                 ),
                 onPressed: () async {
                   try {
+                    // TODO primera pasada para verificar que son válidas
+
                     for(int i=0; i<_suggestions.length; i++) {
                       if(_ignoredIndexes.contains(i)) continue;
                       Suggestion suggestion = _suggestions[i];
