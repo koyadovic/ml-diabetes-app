@@ -108,7 +108,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       leading: leading,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 5, 8.0),
