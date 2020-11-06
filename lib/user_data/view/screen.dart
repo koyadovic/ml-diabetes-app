@@ -283,15 +283,17 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
 
   void refreshCommunications() async {
     Future.delayed(Duration(milliseconds: 500), () async {
+      bool reloadAgain = false;
       // Messages
       await withBackendErrorHandlers(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         for(Message message in messages) {
           await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
         }
+        if(messages.length > 0) {
+          refresh();
+        }
       });
-
-      bool reloadAgain = false;
 
       // Feedback Requests
       await withBackendErrorHandlers(() async {

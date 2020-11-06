@@ -69,8 +69,13 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
-              child: Text('Finish'),
+            FlatButton(
+              child: Row(
+                children: [
+                  Icon(Icons.done),
+                  Text('Finish'),
+                ],
+              ),
               onPressed: () async {
                 try {
                   for(int i=0; i<_suggestions.length; i++) {
