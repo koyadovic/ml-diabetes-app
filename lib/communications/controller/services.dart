@@ -1,5 +1,5 @@
 import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
 
 
 class CommunicationsServices {

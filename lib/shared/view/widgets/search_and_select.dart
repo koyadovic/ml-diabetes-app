@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:Dia/shared/model/api_rest_backend.dart';
-import 'package:Dia/shared/model/uris.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
+import 'package:Dia/shared/tools/uris.dart';
 import 'package:flutter/material.dart';
 
 class SearchAndSelect<T> extends StatefulWidget {

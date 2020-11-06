@@ -8,7 +8,7 @@ import 'package:Dia/authentication/view/login/screen.dart';
 import 'package:Dia/authentication/view/signup/screen.dart';
 import 'package:Dia/communications/model/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
-import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';

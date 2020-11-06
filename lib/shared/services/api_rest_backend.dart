@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:Dia/shared/model/storage.dart';
-import 'package:Dia/shared/model/uris.dart';
+import 'package:Dia/shared/services/storage.dart';
+import 'package:Dia/shared/tools/uris.dart';
 import 'package:http/http.dart' as http;
 
 

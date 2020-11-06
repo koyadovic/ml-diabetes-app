@@ -1,6 +1,6 @@
 import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:flutter/material.dart';

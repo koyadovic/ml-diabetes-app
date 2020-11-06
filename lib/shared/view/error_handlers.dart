@@ -1,4 +1,4 @@
-import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 
