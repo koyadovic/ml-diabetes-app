@@ -3,6 +3,7 @@ import 'package:localstorage/localstorage.dart';
 class Storage {
   Future<void> set (String key, dynamic data) async {}
   Future<dynamic> get(String key) async {}
+  Future<void> del(String key) async {}
 }
 
 Storage getLocalStorage() {
@@ -23,5 +24,10 @@ class _FlutterLocalStorage implements Storage {
     var value = _storage.getItem(key);
     // print('Store get $key: $value');
     return value;
+  }
+
+  Future<void> del(String key) async {
+    await _storage.ready;
+    await _storage.deleteItem(key);
   }
 }

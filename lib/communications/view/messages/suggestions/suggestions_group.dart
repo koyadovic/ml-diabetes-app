@@ -2,6 +2,7 @@ import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_glucose_level.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_insulin.dart';
 import 'package:Dia/communications/view/messages/suggestions/suggestion_trait_measure.dart';
+import 'package:Dia/shared/model/storage.dart';
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -9,6 +10,8 @@ import 'package:Dia/user_data/model/entities/glucose.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+
 
 class SuggestionsGroupMessageWidget extends StatefulWidget {
   final Message message;
@@ -24,8 +27,11 @@ class SuggestionsGroupMessageWidget extends StatefulWidget {
 
 class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWidget> {
   List<Suggestion> _suggestions = [];
-  List<int> _ignoredIndexes = [];
   UserDataServices _userDataServices = UserDataServices();
+  Storage _storage = getLocalStorage();
+
+  List<int> _ignoredIndexes = [];
+  List<int> _handledIndexes = [];
 
   @override
   void initState() {
@@ -35,29 +41,57 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
         )
     );
     super.initState();
+    _reloadHandledIndexes();
+  }
+
+  Future<void> _saveHandledIndexes() async {
+    await _storage.set(_getStorageKey(), json.encode(_handledIndexes));
+  }
+
+  Future<void> _reloadHandledIndexes() async {
+    await _storage.get(_getStorageKey()).then((value) {
+      if (value == null) {
+        setState(() {
+          _handledIndexes = [];
+        });
+      } else {
+        setState(() {
+          _handledIndexes = List<int>.from(json.decode(value));
+        });
+      }
+    });
+  }
+
+  Future<void> _removeHandledIndexes() async {
+    await _storage.del(_getStorageKey());
+  }
+
+  String _getStorageKey() {
+    return 'suggestions_handled_indexes_' + widget.message.id.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> suggestionWidgets = [];
     for(int i=0; i<_suggestions.length; i++) {
-      suggestionWidgets.add(
-          SuggestionWidget(
-            _suggestions[i],
-            isIgnored: _ignoredIndexes.contains(i),
-            onToggleIgnore: () {
-              if(_ignoredIndexes.contains(i)){
-                setState(() {
-                  _ignoredIndexes.remove(i);
-                });
-              } else {
-                setState(() {
-                  _ignoredIndexes.add(i);
-                });
-              }
-            },
-          )
-      );
+      if(!_handledIndexes.contains(i))
+        suggestionWidgets.add(
+            SuggestionWidget(
+              _suggestions[i],
+              isIgnored: _ignoredIndexes.contains(i),
+              onToggleIgnore: () {
+                if(_ignoredIndexes.contains(i)){
+                  setState(() {
+                    _ignoredIndexes.remove(i);
+                  });
+                } else {
+                  setState(() {
+                    _ignoredIndexes.add(i);
+                  });
+                }
+              },
+            )
+        );
     }
 
     return Container(
@@ -81,7 +115,9 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                     // TODO primera pasada para verificar que son válidas
 
                     for(int i=0; i<_suggestions.length; i++) {
-                      if(_ignoredIndexes.contains(i)) continue;
+                      // continue if handled or ignored by user
+                      if(_ignoredIndexes.contains(i) || _handledIndexes.contains(i)) continue;
+
                       Suggestion suggestion = _suggestions[i];
                       switch(suggestion.userDataEntityType) {
                         case 'InsulinInjection':
@@ -97,8 +133,13 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                           await _userDataServices.saveTraitMeasure(entity);
                           break;
                       }
+                      _handledIndexes.add(i);
+                      await _saveHandledIndexes();
+                      setState(() {
+                      });
                       print('Attending suggestion $suggestion');
                     }
+                    await _removeHandledIndexes();
                     widget.onFinished();
                   } catch (err) {
                     print(err);
