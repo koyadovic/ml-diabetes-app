@@ -14,7 +14,7 @@ class GlucoseLevel extends UserDataEntity {
   static GlucoseLevel fromJson(Map<String, dynamic> json) {
     return GlucoseLevel(
       id: json['id'],
-      eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'GlucoseLevel',
       level: json['level'].toInt(),
     );

@@ -17,7 +17,10 @@ class CommunicationsServices {
     for(var content in contents) {
       messages.add(Message.fromJson(content));
     }
-    //return [];
+
+    // from older to newer
+    messages.sort((a, b) => a.createdDate.millisecondsSinceEpoch.compareTo(b.createdDate.millisecondsSinceEpoch));
+
     return messages;
   }
 

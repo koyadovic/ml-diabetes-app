@@ -286,12 +286,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
       // Messages
       await withBackendErrorHandlers(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-        // first we show suggestions
-        for(Message message in _communicationsServices.onlySuggestionMessages(messages)) {
-          await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
-        }
-        // then show simple messages
-        for(Message message in _communicationsServices.onlySimpleMessages(messages)) {
+        for(Message message in messages) {
           await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
         }
       });

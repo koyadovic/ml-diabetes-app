@@ -70,7 +70,7 @@ class TraitMeasure extends UserDataEntity {
   static TraitMeasure fromJson(Map<String, dynamic> json) {
     return TraitMeasure(
       id: json['id'],
-      eventDate: DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'TraitMeasure',
       traitType: json['trait_type'] != null ? TraitType.fromJson(json['trait_type']) : null,
       value: json['value'],
