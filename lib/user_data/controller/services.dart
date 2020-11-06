@@ -129,7 +129,9 @@ class UserDataServices {
   Future<List<TraitType>> getTraitTypes() async {
     String url = '/api/v1/trait-types/';
     dynamic contents = await _backend.get(url);
-    return List<TraitType>.from(contents.map((content) => TraitType.fromJson(content)));
+    List<TraitType> types =  List<TraitType>.from(contents.map((content) => TraitType.fromJson(content)));
+    types = types.where((type) => type.slug != 'birth-seconds-epoch' && type.slug != 'gender').toList();
+    return types;
   }
 
 }

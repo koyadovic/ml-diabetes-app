@@ -251,7 +251,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidget, this.hideWidget);  // TODO
+          _currentScreenWidget = UserDataScreenWidget(this.showWidget, this.hideWidget);  // TODO settings screen
         });
         break;
 

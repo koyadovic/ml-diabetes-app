@@ -53,7 +53,6 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   _selectTraitType(TraitType type) {
     traitMeasure.value = type.getDefaultValue();
     traitMeasure.traitType = type;
-    print('New type is ${traitMeasure.traitType.slug}');
     if(type.slug == 'birth-seconds-epoch') {
       _externalController = null;
     } else {
@@ -65,7 +64,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    bool enabled = EnabledStatus.of(context);
+    // bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
     return Padding(
