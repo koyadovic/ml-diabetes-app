@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:Dia/shared/services/storage.dart';
@@ -41,11 +42,11 @@ class NotLoggedIn extends BackendError {
 
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
-  String _token;
-  String _refreshToken;
-  double _tokenExpiresMilliseconds;
+  static String _token;
+  static String _refreshToken;
+  static double _tokenExpiresMilliseconds;
 
-  String _baseUrl = 'http://192.168.1.250:5000';
+  static String _baseUrl = 'http://192.168.1.250:5000';
 
   // Singleton
   static final ApiRestBackend _instance = ApiRestBackend._internal();
@@ -191,24 +192,19 @@ class ApiRestBackend {
   Intentamos usar un booleano para que si el 1 request tiene token caducado, ponga isTokenRenewing a true, así el segundo esperará
   hasta que isTokenRenewing sea false.
    */
-  bool isTokenRenewing = false;
+  static Future<Null> isTokenRenewing;
 
   Future<String> _getToken() async {
     if(_haveToken()) {
       if(!_isTokenExpired()) {
         return _token;
       } else {
-        if(isTokenRenewing) {
-          // Esperar hasta que isTokenRenewing sea false y retornar lo que tengamos.
-          while(isTokenRenewing) {
-            sleep(const Duration(milliseconds: 200));
-          }
-          if(isAuthenticated()) {
-            return _token;
-          }
-          throw NotLoggedIn('Need to log in again with user/password');
+        if(isTokenRenewing != null) {
+          await isTokenRenewing;
+          return await _getToken();
         } else {
-          isTokenRenewing = true;
+          var completer = new Completer<Null>();
+          isTokenRenewing = completer.future;
           try{
             dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
             if (data == null) {
@@ -218,21 +214,21 @@ class ApiRestBackend {
               String refreshToken = data['refresh_token'];
               double expires = data['expires'] * 1000.0;
               saveToken(token, refreshToken, expires);
+              completer.complete();
+              isTokenRenewing = null;
               return token;
             }
           } on BackendBadRequest catch (err) {
             await removeToken();
+            completer.complete();
+            isTokenRenewing = null;
             // error 400, bad request when refreshing the token, means that need to log in again with user/password
             throw NotLoggedIn('Need to log in again with user/password');
-
-          } finally {
-            isTokenRenewing = false;
           }
         }
       }
     }
-    print('We don\'t have token. Returning null');
-    return null;
+    throw NotLoggedIn('Need to log in again with user/password');
   }
 
   bool _isTokenExpired() {
