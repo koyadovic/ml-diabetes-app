@@ -292,6 +292,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         }
         if(messages.length > 0) {
           refresh();
+          reloadAgain = true;
         }
       });
 
@@ -300,7 +301,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
         for(FeedbackRequest request in feedbackRequests) {
           await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
-            if(reload && !reloadAgain) reloadAgain = true;
+            if(reload) reloadAgain = true;
             widget.hideWidget();
           }));
         }
