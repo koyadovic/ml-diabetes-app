@@ -10,8 +10,6 @@ class CommunicationsServices {
   }
 
   Future<List<Message>> getNotDismissedMessages() async {
-    await _backend.initialize();
-
     String url = '/api/v1/communications/messages/';
     dynamic contents = await _backend.get(url);
 
@@ -32,13 +30,11 @@ class CommunicationsServices {
   }
 
   Future<void> dismissMessage(Message message) async {
-    await _backend.initialize();
     String url = '/api/v1/communications/messages/${message.id.toString()}/dismiss/';
     await _backend.post(url, {});
   }
 
   Future<List<FeedbackRequest>> getUnattendedFeedbackRequests() async {
-    await _backend.initialize();
     String url = '/api/v1/communications/feedbacks/';
     dynamic contents = await _backend.get(url);
 
@@ -50,13 +46,11 @@ class CommunicationsServices {
   }
 
   Future<void> attendFeedbackRequest(FeedbackRequest feedbackRequest, String answer) async {
-    await _backend.initialize();
     String url = '/api/v1/communications/feedbacks/${feedbackRequest.id.toString()}/attend/';
     await _backend.post(url, {'answer': answer});
   }
 
   Future<void> ignoreFeedbackRequest(FeedbackRequest feedbackRequest) async {
-    await _backend.initialize();
     String url = '/api/v1/communications/feedbacks/${feedbackRequest.id.toString()}/ignore/';
     await _backend.post(url, {});
   }

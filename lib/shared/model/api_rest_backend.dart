@@ -84,6 +84,7 @@ class ApiRestBackend {
   }
 
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     try {
@@ -100,6 +101,7 @@ class ApiRestBackend {
   }
 
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
@@ -117,6 +119,7 @@ class ApiRestBackend {
   }
 
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
+    await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
     var uri = _fixURI(_baseUrl + endpoint);
     var body = json.encode(data);

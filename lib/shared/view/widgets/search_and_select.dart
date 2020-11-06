@@ -46,7 +46,6 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect> {
   }
 
   void performSearch(String term) async {
-    await _backend.initialize();
     String url = '${widget.endpoint}/?${widget.queryParameterName}=$term';
     url = url.replaceAll('//', '/');
     dynamic contents = await _backend.get(url);
