@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Dia/shared/model/api_rest_backend.dart';
+import 'package:Dia/shared/model/uris.dart';
 import 'package:flutter/material.dart';
 
 class SearchAndSelect<T> extends StatefulWidget {
@@ -46,8 +47,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect> {
   }
 
   void performSearch(String term) async {
-    String url = '${widget.endpoint}/?${widget.queryParameterName}=$term';
-    url = url.replaceAll('//', '/');
+    String url = fixURI('${widget.endpoint}/?${widget.queryParameterName}=$term');
     dynamic contents = await _backend.get(url);
     List<T> items = [];
     for(var content in contents) {

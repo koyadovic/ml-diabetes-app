@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Dia/shared/model/storage.dart';
+import 'package:Dia/shared/model/uris.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -86,7 +87,7 @@ class ApiRestBackend {
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
-    var uri = _fixURI(_baseUrl + endpoint);
+    var uri = fixURI(_baseUrl + endpoint);
     try {
       http.Response response = await http.get(uri, headers: headers);
       print('GET $uri | Response status: ${response.statusCode}');
@@ -103,7 +104,7 @@ class ApiRestBackend {
   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
-    var uri = _fixURI(_baseUrl + endpoint);
+    var uri = fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
     try {
       http.Response response = await http.post(uri, headers: headers, body: body);
@@ -121,7 +122,7 @@ class ApiRestBackend {
   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     await initialize();
     var headers = await _getHeaders(withAuth, additionalHeaders);
-    var uri = _fixURI(_baseUrl + endpoint);
+    var uri = fixURI(_baseUrl + endpoint);
     var body = json.encode(data);
     try {
       http.Response response = await http.patch(uri, headers: headers, body: body);
@@ -149,10 +150,6 @@ class ApiRestBackend {
       headers['Authorization'] = 'Bearer $token';
     }
     return headers;
-  }
-
-  String _fixURI(String uri) {
-    return uri.replaceAll('//', '/').replaceAll(':/', '://');
   }
 
   dynamic _decodeResponseBody(http.Response response) {
