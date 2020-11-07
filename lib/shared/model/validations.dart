@@ -33,14 +33,18 @@ abstract class WithValidations {
           try {
             validator.validate(value);
           } on ValidationError catch(err) {
-            if(!validatorResults.containsKey(k)) {
-              validatorResults[k] = [];
-            }
-            validatorResults[k].add(err.toString());
+            addPropertyValidationText(k, err.toString());
           }
         }
       }
     }
+  }
+
+  void addPropertyValidationText(String property, String text) {
+    if(!validatorResults.containsKey(property)) {
+      validatorResults[property] = [];
+    }
+    validatorResults[property].add(text);
   }
 
   bool get isValid {
@@ -54,6 +58,26 @@ abstract class WithValidations {
   String getPropertyValidationText(String property) {
     if (isPropertyValid(property)) return '';
     return validatorResults[property].join(', ');
+  }
+
+  String getFullValidationText({bool includePropertyNames: false}) {
+    String text = '';
+    for(String k in validatorResults.keys) {
+      if(text != '') {
+        if(includePropertyNames) {
+          text += '\n$k: ${validatorResults[k].join(", ")}';
+        } else {
+          text += '\n${validatorResults[k].join(", ")}';
+        }
+      } else {
+        if(includePropertyNames) {
+          text += '$k: ${validatorResults[k].join(", ")}';
+        } else {
+          text += '${validatorResults[k].join(", ")}';
+        }
+      }
+    }
+    return text;
   }
 
   Map<String, dynamic> toMapForValidation(){

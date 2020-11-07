@@ -116,7 +116,7 @@ class Feeding extends UserDataEntity {
   void validate() {
     super.validate();
     if((_n(carbGrams) + _n(carbSugarGrams) + _n(carbFiberGrams) + _n(proteinGrams) + _n(fatGrams) + _n(alcoholGrams) + _n(saltGrams)) == 0) {
-      validatorResults['__global__'] = ['All properties are zero'];
+      validatorResults['global'] = ['All properties are zero'];
     }
   }
 

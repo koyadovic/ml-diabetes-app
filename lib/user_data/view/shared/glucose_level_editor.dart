@@ -40,37 +40,52 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          UnitTextField(
-            externalController: _externalController,
-            unit: 'mg/dL',
-            processors: [
-              (value) => value < 0.0 ? 0.0 : value,
-              (value) => value > 600 ? 600.0 : value,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              UnitTextField(
+                externalController: _externalController,
+                unit: 'mg/dL',
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
+                ],
+                autoFocus: false,
+                onChange: (value) {
+                  _glucoseLevel.level = value.toInt();
+                  setState(() {
+                    _glucoseLevel.validate();
+                  });
+                }
+              ),
+              if(editable)
+              ...[
+                Spacer(),
+                if(_glucoseLevel.hasChanged)
+                IconButton(
+                  icon: Icon(Icons.close, color: Colors.grey),
+                  onPressed: () {
+                    _glucoseLevel.reset();
+                    _externalController.text = _glucoseLevel.level.toString();
+                    setState(() {
+                      _glucoseLevel.validate();
+                    });
+                  },
+                ),
+              ]
             ],
-            autoFocus: false,
-            onChange: (value) {
-              setState(() {
-                _glucoseLevel.level = value.toInt();
-              });
-            }
           ),
-          if(editable)
-          ...[
-            Spacer(),
-            if(_glucoseLevel.hasChanged)
-            IconButton(
-              icon: Icon(Icons.close, color: Colors.grey),
-              onPressed: () {
-                _glucoseLevel.reset();
-                _externalController.text = _glucoseLevel.level.toString();
-              },
-            ),
-          ]
+          if(!_glucoseLevel.isValid)
+            Column(
+              children: [
+                Text(_glucoseLevel.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+              ],
+            )
         ],
       ),
+
     );
   }
 }

@@ -50,8 +50,9 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   }
 
   _selectActivityType(ActivityType type) {
+    activity.activityType = type;
     setState(() {
-      activity.activityType = type;
+      activity.validate();
     });
   }
 
@@ -94,8 +95,9 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                   (value) => value > 600 ? 600.0 : value,
                 ],
                 onChange: (value) {
+                  activity.minutes = value.toInt();
                   setState(() {
-                    activity.minutes = value.toInt();
+                    activity.validate();
                   });
                 }
               ),
@@ -106,15 +108,22 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 IconButton(
                   icon: Icon(Icons.close, color: Colors.grey),
                   onPressed: () {
+                    activity.minutes = 0;
+                    _externalController.text = activity.minutes.toString();
                     setState(() {
-                      activity.minutes = 0;
-                      _externalController.text = activity.minutes.toString();
+                      activity.validate();
                     });
                   }
                 ),
               ]
             ],
           ),
+          if(!activity.isValid)
+            Column(
+              children: [
+                Text(activity.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+              ],
+            )
         ],
       ),
     );

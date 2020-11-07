@@ -53,6 +53,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
   _selectTraitType(TraitType type) {
     traitMeasure.value = type.getDefaultValue();
     traitMeasure.traitType = type;
+    traitMeasure.validate();
     if(type.slug == 'birth-seconds-epoch') {
       _externalController = null;
     } else {
@@ -102,8 +103,9 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     isExpanded: true,
                     value: traitMeasure.value,
                     onChanged: (String newValue) {
+                      traitMeasure.value = newValue;
                       setState(() {
-                        traitMeasure.value = newValue;
+                        traitMeasure.validate();
                       });
                     },
                     items: [
@@ -128,8 +130,9 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
               ),
               onChanged: (birthDate) {
                 if(birthDate != null) {
+                  traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
                   setState(() {
-                    traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
+                    traitMeasure.validate();
                   });
                 }
               },
@@ -146,11 +149,13 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   (value) => value > 600 ? 600.0 : value,
                 ],
                 onChange: (value) {
+                  traitMeasure.value = value;
                   setState(() {
-                    traitMeasure.value = value;
+                    traitMeasure.validate();
                   });
                 }
               ),
+
               if(editable && traitMeasure.traitType.slug != 'birth-seconds-epoch' && traitMeasure.traitType.slug != 'gender')
               ...[
                 Spacer(),
@@ -158,16 +163,23 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                 IconButton(
                     icon: Icon(Icons.close, color: Colors.grey),
                     onPressed: () {
+                      traitMeasure.value = traitMeasure.traitType.getDefaultValue();
+                      _externalController = TextEditingController(text: traitMeasure.value.toString());
+                      _externalController.selection = TextSelection.fromPosition(TextPosition(offset: _externalController.text.length));
                       setState(() {
-                        traitMeasure.value = traitMeasure.traitType.getDefaultValue();
-                        _externalController = TextEditingController(text: traitMeasure.value.toString());
-                        _externalController.selection = TextSelection.fromPosition(TextPosition(offset: _externalController.text.length));
+                        traitMeasure.validate();
                       });
                     }
                 ),
               ]
             ],
           ),
+          if(!traitMeasure.isValid)
+          Column(
+            children: [
+              Text(traitMeasure.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+            ],
+          )
         ],
       ),
     );

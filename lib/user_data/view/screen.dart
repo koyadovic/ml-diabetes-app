@@ -4,6 +4,7 @@ import 'package:Dia/communications/view/feedback_requests/single_feedback_reques
 import 'package:Dia/communications/view/messages/messages_view.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
@@ -86,17 +87,15 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
-
-                      // TODO verificar que es válido
-
-                      if(traitMeasure.hasChanged) {
+                      traitMeasure.validate();
+                      if(traitMeasure.hasChanged && traitMeasure.isValid) {
                         withBackendErrorHandlers(() async {
                           await _userDataServices.saveTraitMeasure(traitMeasure);
                           _state.refresh();
                           _state.refreshCommunications();
                         });
+                        hideWidget();
                       }
-                      hideWidget();
                     }),
                   ],
                 ),
@@ -132,16 +131,15 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: () => hideWidget()),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      // TODO verificar que es válido
-
-                      if (activity.hasChanged) {
+                      activity.validate();
+                      if (activity.hasChanged && activity.isValid) {
                         withBackendErrorHandlers(() async {
                           await _userDataServices.saveActivity(activity);
                           _state.refresh();
                           _state.refreshCommunications();
                         });
+                        hideWidget();
                       }
-                      hideWidget();
                     }),
                   ],
                 ),
@@ -158,7 +156,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             icon: FeedingIconSmall(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
-              print('Inside');
+              print('New feeding');
             },
           ),
         ),
@@ -190,16 +188,15 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      // TODO verificar que es válido
-
-                      if(insulinInjection.hasChanged) {
+                      insulinInjection.validate();
+                      if(insulinInjection.hasChanged && insulinInjection.isValid) {
                         withBackendErrorHandlers(() async {
                           await _userDataServices.saveInsulinInjection(insulinInjection);
                           _state.refresh();
                           _state.refreshCommunications();
                         });
+                        hideWidget();
                       }
-                      hideWidget();
                     }),
                   ],
                 ),
@@ -226,17 +223,16 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                   actionButtons: [
                     FlatButton(child: Text('Cancel'), onPressed: hideWidget),
                     FlatButton(child: Text('Save'), onPressed: () async {
-                      // TODO verificar que es válido
+                      glucoseLevel.validate();
 
-                      if(glucoseLevel.hasChanged) {
+                      if(glucoseLevel.hasChanged && glucoseLevel.isValid) {
                         withBackendErrorHandlers(() async {
                           await _userDataServices.saveGlucoseLevel(glucoseLevel);
                           _state.refresh();
                           _state.refreshCommunications();
                         });
-
+                        hideWidget();
                       }
-                      hideWidget();
                     }),
                   ],
                 ),

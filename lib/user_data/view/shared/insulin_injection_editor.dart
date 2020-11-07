@@ -51,8 +51,9 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
   }
 
   _selectInsulinType(InsulinType type) {
+    insulinInjection.insulinType = type;
     setState(() {
-      insulinInjection.insulinType = type;
+      insulinInjection.validate();
     });
   }
 
@@ -96,8 +97,9 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                   (value) => value > 100.0 ? 100.0 : value,
                 ],
                 onChange: (value) {
+                  insulinInjection.units = value.toInt();
                   setState(() {
-                    insulinInjection.units = value.toInt();
+                    insulinInjection.validate();
                   });
                 }
               ),
@@ -108,15 +110,22 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                 IconButton(
                   icon: Icon(Icons.close, color: Colors.grey),
                   onPressed: !enabled ? null : () {
+                    insulinInjection.units = 0;
+                    _externalController.text = insulinInjection.units.toString();
                     setState(() {
-                      insulinInjection.units = 0;
-                      _externalController.text = insulinInjection.units.toString();
+                      insulinInjection.validate();
                     });
                   },
                 ),
               ]
             ],
           ),
+          if(!insulinInjection.isValid)
+            Column(
+              children: [
+                Text(insulinInjection.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+              ],
+            )
         ],
       ),
     );

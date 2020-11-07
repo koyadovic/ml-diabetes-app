@@ -213,6 +213,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     int seconds = ((message.split(' ').length / 2.0) + 1.0).ceil();
     Duration duration = Duration(seconds: seconds);
     SnackBar bar = SnackBar(content: Text('$message'), duration: duration);
+    print('Showing $message for $duration seconds');
     _scaffoldKey.currentState.showSnackBar(bar);
     return;
   }

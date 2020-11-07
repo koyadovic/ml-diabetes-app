@@ -129,4 +129,26 @@ class TraitMeasure extends UserDataEntity {
     return TraitMeasure.validators;
   }
 
+  @override
+  void validate() {
+    super.validate();
+    if(isValid) {
+      switch(traitType.slug) {
+        case 'birth-seconds-epoch':
+          // TODO try to parse value as DateTime.. if fails.. field is invalid
+          addPropertyValidationText('value', 'Invalid always');
+          break;
+        case 'gender':
+          if(!(value is String) && !['male', 'female'].contains(value)) {
+            addPropertyValidationText('value', 'Value not is male or female');
+          }
+          break;
+        default:
+          if(value < 1) {
+            addPropertyValidationText('value', 'Value cannot be zero');
+          }
+      }
+    }
+  }
+
 }
