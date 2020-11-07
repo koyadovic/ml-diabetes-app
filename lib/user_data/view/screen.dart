@@ -334,7 +334,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
   }
 
   void refresh() {
-    Future.delayed(Duration(milliseconds: 1000), () async {
+    Future.delayed(Duration(milliseconds: 500), () async {
       timeline?.refresh();
     });
   }
