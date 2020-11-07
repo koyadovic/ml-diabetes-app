@@ -36,6 +36,8 @@ class ActivityType extends UserDataValueObject {
 
   @override
   int get hashCode => name.hashCode ^ slug.hashCode ^ mets.hashCode;
+
+  String toString() => name;
 }
 
 

@@ -30,23 +30,35 @@ class SearchAndSelect<T> extends StatefulWidget {
 }
 
 class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _controller;
   List<T> _results = [];
   Timer _delayedSearch;
 
   bool _editing = false;
 
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.currentValue != null ? widget.currentValue.toString() : '');
+    super.initState();
+  }
+
   void _searchChanged(String term) {
     if(_delayedSearch != null)
       _delayedSearch.cancel();
-    _delayedSearch = Timer(Duration(milliseconds: 500), () => performSearch(term));
+    _delayedSearch = Timer(Duration(milliseconds: 300), () => performSearch(term));
   }
 
   void performSearch(String terms) async {
-    List<T> items = await widget.source.performSearch(terms);
-    setState(() {
-      _results = items;
-    });
+    if(terms == '') {
+      setState(() {
+        _results = [];
+      });
+    } else {
+      List<T> items = await widget.source.performSearch(terms);
+      setState(() {
+        _results = items;
+      });
+    }
     _delayedSearch = null;
   }
 
@@ -60,7 +72,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _controller.text = widget.currentValue.toString() ?? '';
+              _controller.text = widget.currentValue != null ? widget.currentValue.toString() : '';
               _editing = true;
             });
           },

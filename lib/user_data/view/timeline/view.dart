@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
+import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +127,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     );
   }
 
-  String searchAndSelectSelection = 'Vacío';
+  ActivityType searchAndSelectSelection;
 
   @override
   Widget build(BuildContext context) {
@@ -146,21 +147,21 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       },
       child: ListView(
         children: [
-          SearchAndSelect<String>(
+          SearchAndSelect<ActivityType>(
             currentValue: searchAndSelectSelection,
-            source: LocalSource<String>(
-              data: ['Yes', 'No', 'Maybe'],
-              matcher: (String element, String term) {
-                return element.toLowerCase().contains(term.toLowerCase());
-              }
+            source: APIRestSource<ActivityType>(
+              endpoint: '/api/v1/activity-types/',
+              queryParameterName: 'search',
+              toUniqueValue: (ActivityType at) => at.slug,
+              deserializer: ActivityType.fromJson,
             ),
-            onSelected: (String value) {
+            onSelected: (ActivityType value) {
               print('Selected $value');
               setState(() {
                 searchAndSelectSelection = value;
               });
             },
-            renderItem: (String value) => Text(value ?? '', style: TextStyle(color: Colors.indigo)),
+            renderItem: (ActivityType value) => Text(value != null ? value.name : 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
           ),
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
