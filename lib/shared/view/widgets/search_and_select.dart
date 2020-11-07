@@ -50,13 +50,14 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
         if(!_editing)
         GestureDetector(
           onTap: () {
             setState(() {
-              _controller.text = widget.currentValue ?? '';
+              _controller.text = widget.currentValue.toString() ?? '';
               _editing = true;
             });
           },
