@@ -30,6 +30,8 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
   UserDataServices _userDataServices = UserDataServices();
   Storage _storage = getLocalStorage();
 
+  bool _saving = false;
+
   List<int> _ignoredIndexes = [];
   List<int> _handledIndexes = [];
 
@@ -78,6 +80,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
         suggestionWidgets.add(
             SuggestionWidget(
               _suggestions[i],
+              isSaving: _saving,
               isIgnored: _ignoredIndexes.contains(i),
               onToggleIgnore: () {
                 if(_ignoredIndexes.contains(i)){
@@ -111,6 +114,9 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                   ],
                 ),
                 onPressed: () async {
+                  setState(() {
+                    _saving = true;
+                  });
                   try {
                     bool anyInvalid = false;
                     for(int i=0; i<_suggestions.length; i++) {
@@ -159,6 +165,10 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                     widget.onFinished();
                   } catch (err) {
                     print(err);
+                  } finally {
+                    setState(() {
+                      _saving = false;
+                    });
                   }
                 },
               )
@@ -174,11 +184,14 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
 class SuggestionWidget extends StatelessWidget {
   final Suggestion suggestion;
   final bool isIgnored;
+  final bool isSaving;
   final Function onToggleIgnore;
 
-  SuggestionWidget(this.suggestion, {this.isIgnored, this.onToggleIgnore});
+  SuggestionWidget(this.suggestion, {this.isIgnored, this.onToggleIgnore, this.isSaving});
 
   Widget getConcreteWidget(){
+    if(isSaving) return SizedBox.shrink();
+    
     switch(suggestion.userDataEntityType) {
       case 'InsulinInjection':
         return InsulinSuggestionWidget(suggestion, isIgnored);

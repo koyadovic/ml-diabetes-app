@@ -291,11 +291,15 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     // to foreground from the background.
     // here we refresh pending messages, feedback requests, etc.
     if (state == AppLifecycleState.resumed) {
-      refreshCommunications();
+      if(!_refreshingCommunications)
+        refreshCommunications();
     }
   }
 
+  bool _refreshingCommunications = false;
+
   void refreshCommunications() async {
+    _refreshingCommunications = true;
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;
       // Messages
@@ -323,6 +327,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
           }
         });
       }
+
+      _refreshingCommunications = false;
 
       if(reloadAgain)
         refreshCommunications();

@@ -103,7 +103,7 @@ class NotNullValidator extends Validator {
   @override
   validate(value) {
     if(value == null)
-      throw ValidationError('Property is null');
+      throw ValidationError('Not set yet');
   }
 }
 
@@ -112,10 +112,10 @@ class ZeroOrPositiveNumberValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Property is not a number');
+      throw ValidationError('Not a number');
     }
     if (value < 0) {
-      throw ValidationError('Number must be zero or greater than zero');
+      throw ValidationError('Must be zero or greater than zero');
     }
   }
 }
@@ -125,10 +125,10 @@ class OneOrGreaterPositiveNumberValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Property is not a number');
+      throw ValidationError('Not a number');
     }
     if (value < 1) {
-      throw ValidationError('Number must be zero or greater than zero');
+      throw ValidationError('Must be zero or greater than zero');
     }
   }
 }
@@ -143,10 +143,10 @@ class NumberBetweenValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Property is not a number');
+      throw ValidationError('Not a number');
     }
     if (!(minimum <= value && value <= maximum)) {
-      throw ValidationError('Number must be between $minimum and $maximum');
+      throw ValidationError('Must be between $minimum and $maximum');
     }
   }
 }
@@ -160,9 +160,9 @@ class InValidator<T> extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != T)
-      throw ValidationError('Property is not of type $T');
+      throw ValidationError('Not of type $T');
     if (!possibilities.contains(value)) {
-      throw ValidationError('Value $value not in ${possibilities.join(", ")}');
+      throw ValidationError('$value not in ${possibilities.join(", ")}');
     }
   }
 }

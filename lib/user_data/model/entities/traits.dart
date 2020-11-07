@@ -139,9 +139,17 @@ class TraitMeasure extends UserDataEntity {
             addPropertyValidationText('value', 'Invalid Date time');
           } else {
             try {
-              DateTime.fromMillisecondsSinceEpoch((value * 1000.0).round(), isUtc: true);
+              DateTime now = DateTime.now();
+              int year = DateTime.now().year;
+              DateTime eighteenYearsAgo = DateTime(year - 18, now.month, now.day, now.hour, now.minute, now.second, now.millisecond, now.microsecond);
+
+              DateTime parsed = DateTime.fromMillisecondsSinceEpoch((value * 1000.0).round(), isUtc: true);
+              // Disabled by now
+              // if(parsed.millisecondsSinceEpoch > eighteenYearsAgo.millisecondsSinceEpoch) {
+              //   addPropertyValidationText('value', 'You don\'t have a minimum of 18 years old.');
+              // }
             } catch (err) {
-              addPropertyValidationText('value', 'Invalid Date time');
+              addPropertyValidationText('value', 'Invalid date');
             }
           }
           break;
