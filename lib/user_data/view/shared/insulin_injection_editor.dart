@@ -68,6 +68,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
         children: [
           DropdownButton<InsulinType>(
             isExpanded: true,
+            isDense: true,
             value: insulinInjection.insulinType,
             onChanged: !enabled ? null : (InsulinType newValue) {
               if(editable)
@@ -85,6 +86,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               )
             ],
           ),
+          SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -123,7 +125,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
           if(!insulinInjection.isValid)
             Column(
               children: [
-                Text(insulinInjection.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+                Text(insulinInjection.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
               ],
             )
         ],

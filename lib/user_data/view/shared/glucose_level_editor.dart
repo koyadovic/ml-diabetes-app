@@ -80,7 +80,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
           if(!_glucoseLevel.isValid)
             Column(
               children: [
-                Text(_glucoseLevel.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+                Text(_glucoseLevel.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
               ],
             )
         ],

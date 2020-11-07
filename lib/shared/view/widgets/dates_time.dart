@@ -24,7 +24,7 @@ class DiaDateField extends StatelessWidget {
           decoration: InputDecoration(
             enabledBorder: InputBorder.none
           ),
-          style: TextStyle(color: fixedColor == null ? DiaTheme.primaryColor : fixedColor),
+          //style: TextStyle(color: fixedColor == null ? DiaTheme.primaryColor : fixedColor),
           initialValue: initialValue ?? DateTime.now(),
           format: customFormat ?? format,
           onChanged: onChanged,

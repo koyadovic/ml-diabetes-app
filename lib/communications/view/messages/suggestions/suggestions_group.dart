@@ -112,7 +112,23 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                 ),
                 onPressed: () async {
                   try {
-                    // TODO primera pasada para verificar que son válidas
+                    bool anyInvalid = false;
+                    for(int i=0; i<_suggestions.length; i++) {
+                      if (_ignoredIndexes.contains(i) ||
+                          _handledIndexes.contains(i)) continue;
+
+                      Suggestion suggestion = _suggestions[i];
+                      suggestion.userDataEntity.validate();
+
+                      if(!suggestion.userDataEntity.isValid) anyInvalid = true;
+
+                    }
+
+                    if(anyInvalid) {
+                      setState(() {
+                      });
+                      return;
+                    }
 
                     for(int i=0; i<_suggestions.length; i++) {
                       // continue if handled or ignored by user
@@ -182,7 +198,7 @@ class SuggestionWidget extends StatelessWidget {
       child: EnabledStatus(
         isEnabled: !isIgnored,
         child: Card(
-          elevation: 2,
+          elevation: isIgnored ? 0 : 5,
           child: Column(
               children: [
                 getConcreteWidget(),

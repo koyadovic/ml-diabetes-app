@@ -121,7 +121,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
           if(!activity.isValid)
             Column(
               children: [
-                Text(activity.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+                Text(activity.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
               ],
             )
         ],

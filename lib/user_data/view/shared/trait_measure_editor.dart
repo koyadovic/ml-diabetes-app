@@ -65,7 +65,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // bool enabled = EnabledStatus.of(context);
+    bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
     return Padding(
@@ -73,11 +73,12 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 10.0),
             child: Column(
               children: [
                 DropdownButton<TraitType>(
                   isExpanded: true,
+                  isDense: true,
                   value: traitMeasure.traitType,
                   onChanged: (TraitType newValue) {
                     if(editable)
@@ -101,6 +102,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
                   child: DropdownButton<String>(
                     isExpanded: true,
+                    isDense: true,
                     value: traitMeasure.value,
                     onChanged: (String newValue) {
                       traitMeasure.value = newValue;
@@ -177,7 +179,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
           if(!traitMeasure.isValid)
           Column(
             children: [
-              Text(traitMeasure.getFullValidationText(includePropertyNames: false), style: TextStyle(color: Colors.red)),
+              Text(traitMeasure.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
             ],
           )
         ],
