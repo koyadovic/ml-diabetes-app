@@ -69,11 +69,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
     bool editable = EditableStatus.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 0.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 16.0, 10.0),
             child: Column(
               children: [
                 DropdownButton<TraitType>(

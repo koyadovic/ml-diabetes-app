@@ -146,7 +146,7 @@ class NumberBetweenValidator extends Validator {
       throw ValidationError('Not a number');
     }
     if (!(minimum <= value && value <= maximum)) {
-      throw ValidationError('Must be between $minimum and $maximum');
+      throw ValidationError('Must be between ${minimum.round()} and ${maximum.round()}');
     }
   }
 }

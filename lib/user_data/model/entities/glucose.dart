@@ -56,7 +56,7 @@ class GlucoseLevel extends UserDataEntity {
   }
 
   static Map<String, List<Validator>> validators = {
-    'level': [NotNullValidator(), OneOrGreaterPositiveNumberValidator()],
+    'level': [NotNullValidator(), NumberBetweenValidator(20, 600)],
   };
 
   @override
