@@ -52,7 +52,7 @@ class Activity extends UserDataEntity {
   static Activity fromJson(Map<String, dynamic> json) {
     return Activity(
       id: json['id'],
-      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'Activity',
       activityType: json['activity_type'] != null ? ActivityType.fromJson(json['activity_type']) : null,
       minutes: json['minutes'],
@@ -62,7 +62,7 @@ class Activity extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
+      'event_date': eventDate != null ? eventDate.toUtc().microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'activity_type': activityType != null ? activityType.toJson() : activityType,
       'minutes': minutes,

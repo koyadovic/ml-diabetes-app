@@ -138,15 +138,15 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                       switch(suggestion.userDataEntityType) {
                         case 'InsulinInjection':
                           InsulinInjection entity = suggestion.userDataEntity as InsulinInjection;
-                          _userDataServices.saveInsulinInjection(entity);
+                          await _userDataServices.saveInsulinInjection(entity);
                           break;
                         case 'GlucoseLevel':
                           GlucoseLevel entity = suggestion.userDataEntity as GlucoseLevel;
-                          _userDataServices.saveGlucoseLevel(entity);
+                          await _userDataServices.saveGlucoseLevel(entity);
                           break;
                         case 'TraitMeasure':
                           TraitMeasure entity = suggestion.userDataEntity as TraitMeasure;
-                          _userDataServices.saveTraitMeasure(entity);
+                          await _userDataServices.saveTraitMeasure(entity);
                           break;
                       }
                       _handledIndexes.add(i);

@@ -29,7 +29,7 @@ class Feeding extends UserDataEntity {
   static Feeding fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
-      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round()).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toLocal(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'Feeding',
       carbGrams: json['carb_g'],
       carbSugarGrams: json['carb_sugar_g'],
@@ -44,7 +44,7 @@ class Feeding extends UserDataEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'event_date': eventDate != null ? eventDate.microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
+      'event_date': eventDate != null ? eventDate.toUtc().microsecondsSinceEpoch.toDouble() / 1000000.0 : null,
       'entity_type': entityType,
       'carb_g': carbGrams,
       'carb_sugar_g': carbSugarGrams,
