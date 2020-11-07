@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:Dia/shared/services/storage.dart';
 import 'package:Dia/shared/tools/uris.dart';
 import 'package:http/http.dart' as http;
+import 'package:mutex/mutex.dart';
 
 
 class BackendError implements Exception {
@@ -42,6 +43,7 @@ class NotLoggedIn extends BackendError {
 
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
+
   static String _token;
   static String _refreshToken;
   static double _tokenExpiresMilliseconds;
@@ -84,6 +86,8 @@ class ApiRestBackend {
     _refreshToken = null;
     _tokenExpiresMilliseconds = null;
   }
+
+  final Mutex mutex = Mutex();
 
   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders}) async {
     await initialize();
@@ -183,19 +187,15 @@ class ApiRestBackend {
     _tokenExpiresMilliseconds = await _storage.get('api-token-expires');
   }
 
-  static Future<Null> isTokenRenewing;
 
   Future<String> _getToken() async {
-    if(_haveToken()) {
-      if(!_isTokenExpired()) {
-        return _token;
-      } else {
-        if(isTokenRenewing != null) {
-          await isTokenRenewing;
-          return await _getToken();
+    await mutex.acquire();
+    String currentToken;
+    try{
+      if(_haveToken()) {
+        if(!_isTokenExpired()) {
+          currentToken = _token;
         } else {
-          var completer = new Completer<Null>();
-          isTokenRenewing = completer.future;
           try{
             dynamic data = await post('/api/v1/auth/renew-token/', {'refresh_token': _refreshToken}, withAuth: false);
             if (data == null) {
@@ -204,22 +204,20 @@ class ApiRestBackend {
               String token = data['token'];
               String refreshToken = data['refresh_token'];
               double expires = data['expires'] * 1000.0;
-              saveToken(token, refreshToken, expires);
-              completer.complete();
-              isTokenRenewing = null;
-              return token;
+              await saveToken(token, refreshToken, expires);
+              currentToken = token;
             }
           } on BackendBadRequest catch (err) {
             await removeToken();
-            completer.complete();
-            isTokenRenewing = null;
             // error 400, bad request when refreshing the token, means that need to log in again with user/password
             throw NotLoggedIn('Need to log in again with user/password');
           }
         }
       }
+    } finally {
+      mutex.release();
     }
-    return null;
+    return currentToken;
   }
 
   bool _isTokenExpired() {
