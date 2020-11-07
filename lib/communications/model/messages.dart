@@ -76,6 +76,8 @@ class _FirebaseMessageSource extends MessageSource {
             await _backend.post('/api/v1/communications/receiver-details/', {'token': token});
             _waitUntilAuthenticated.cancel();
           }
+        } else {
+          _waitUntilAuthenticated.cancel();
         }
       });
     }

@@ -84,7 +84,7 @@ class LoginViewModel extends DiaViewModel {
           DiaMessages.getInstance().showInformation(translate('Welcome!'));
           DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA);
         }
-      });
+      }, unauthorizedToLogin: false);
     }
   }
 

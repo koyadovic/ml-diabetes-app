@@ -90,9 +90,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       // TODO verificar que es válido
 
                       if(traitMeasure.hasChanged) {
-                        await _userDataServices.saveTraitMeasure(traitMeasure);
-                        _state.refresh();
-                        _state.refreshCommunications();
+                        withBackendErrorHandlers(() async {
+                          await _userDataServices.saveTraitMeasure(traitMeasure);
+                          _state.refresh();
+                          _state.refreshCommunications();
+                        });
                       }
                       hideWidget();
                     }),
@@ -133,9 +135,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       // TODO verificar que es válido
 
                       if (activity.hasChanged) {
-                        await _userDataServices.saveActivity(activity);
-                        _state.refresh();
-                        _state.refreshCommunications();
+                        withBackendErrorHandlers(() async {
+                          await _userDataServices.saveActivity(activity);
+                          _state.refresh();
+                          _state.refreshCommunications();
+                        });
                       }
                       hideWidget();
                     }),
@@ -189,9 +193,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       // TODO verificar que es válido
 
                       if(insulinInjection.hasChanged) {
-                        await _userDataServices.saveInsulinInjection(insulinInjection);
-                        _state.refresh();
-                        _state.refreshCommunications();
+                        withBackendErrorHandlers(() async {
+                          await _userDataServices.saveInsulinInjection(insulinInjection);
+                          _state.refresh();
+                          _state.refreshCommunications();
+                        });
                       }
                       hideWidget();
                     }),
@@ -223,9 +229,12 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       // TODO verificar que es válido
 
                       if(glucoseLevel.hasChanged) {
-                        await _userDataServices.saveGlucoseLevel(glucoseLevel);
-                        _state.refresh();
-                        _state.refreshCommunications();
+                        withBackendErrorHandlers(() async {
+                          await _userDataServices.saveGlucoseLevel(glucoseLevel);
+                          _state.refresh();
+                          _state.refreshCommunications();
+                        });
+
                       }
                       hideWidget();
                     }),
