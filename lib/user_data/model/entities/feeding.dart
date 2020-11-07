@@ -111,5 +111,17 @@ class Feeding extends UserDataEntity {
   Map<String, List<Validator>> getValidators() {
     return Feeding.validators;
   }
+
+  @override
+  void validate() {
+    super.validate();
+    if((_n(carbGrams) + _n(carbSugarGrams) + _n(carbFiberGrams) + _n(proteinGrams) + _n(fatGrams) + _n(alcoholGrams) + _n(saltGrams)) == 0) {
+      validatorResults['__global__'] = ['All properties are zero'];
+    }
+  }
+
+  double _n(double n) {
+    return n ?? 0.0;
+  }
 }
 

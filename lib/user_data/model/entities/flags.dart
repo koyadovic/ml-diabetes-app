@@ -4,6 +4,8 @@ import 'base.dart';
 
 
 class Flag extends UserDataEntity {
+  static const String TYPE_INSULIN_REGIMEN_CHANGED = 'insulin-regimen-change-time';
+  static const String TYPE_HYPOGLYCEMIA = 'hypoglycemia';
   final String type;
 
   Flag({int id, DateTime eventDate, String entityType, this.type}) : super(id, eventDate, entityType);
@@ -38,7 +40,7 @@ class Flag extends UserDataEntity {
   }
 
   static Map<String, List<Validator>> validators = {
-    'type': [InValidator<String>(['insulin-regimen-change-time', 'hypoglycemia'])],
+    'type': [InValidator<String>([Flag.TYPE_INSULIN_REGIMEN_CHANGED, Flag.TYPE_HYPOGLYCEMIA])],
   };
 
   @override
