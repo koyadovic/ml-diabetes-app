@@ -140,9 +140,7 @@ class TraitMeasure extends UserDataEntity {
           } else {
             try {
               DateTime now = DateTime.now();
-              int year = DateTime.now().year;
-              DateTime eighteenYearsAgo = DateTime(year - 18, now.month, now.day, now.hour, now.minute, now.second, now.millisecond, now.microsecond);
-
+              DateTime eighteenYearsAgo = DateTime(now.year - 18, now.month, now.day, now.hour, now.minute, now.second, now.millisecond, now.microsecond);
               DateTime parsed = DateTime.fromMillisecondsSinceEpoch((value * 1000.0).round(), isUtc: true);
               // Disabled by now
               // if(parsed.millisecondsSinceEpoch > eighteenYearsAgo.millisecondsSinceEpoch) {
@@ -165,5 +163,8 @@ class TraitMeasure extends UserDataEntity {
       }
     }
   }
+
+  bool operator == (o) => o is TraitMeasure && o.id == id && o.traitType == traitType && o.value == value && o.eventDate == eventDate;
+  int get hashCode => id.hashCode ^ traitType.hashCode ^ value.hashCode ^ eventDate.hashCode;
 
 }

@@ -48,4 +48,7 @@ class Flag extends UserDataEntity {
     return Flag.validators;
   }
 
+  bool operator == (o) => o is Flag && o.id == id && o.eventDate == eventDate && o.type == type;
+  int get hashCode => id.hashCode ^ eventDate.hashCode ^ type.hashCode;
+
 }

@@ -123,5 +123,10 @@ class Feeding extends UserDataEntity {
   double _n(double n) {
     return n ?? 0.0;
   }
-}
+  bool operator == (o) => o is Feeding && o.id == id && o.eventDate == eventDate &&
+      o.carbGrams == carbGrams && o.carbSugarGrams == carbSugarGrams && o.carbFiberGrams == carbFiberGrams &&
+      o.proteinGrams == proteinGrams && o.fatGrams == fatGrams && o.alcoholGrams == alcoholGrams && o.saltGrams == saltGrams;
 
+  int get hashCode => id.hashCode ^ eventDate.hashCode ^ carbGrams.hashCode ^ carbSugarGrams.hashCode ^
+    carbFiberGrams.hashCode ^ proteinGrams.hashCode ^ fatGrams.hashCode ^ alcoholGrams.hashCode ^ saltGrams.hashCode;
+}

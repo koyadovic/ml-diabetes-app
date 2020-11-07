@@ -64,4 +64,7 @@ class GlucoseLevel extends UserDataEntity {
     return GlucoseLevel.validators;
   }
 
+  bool operator == (o) => o is GlucoseLevel && o.id == id && o.eventDate == eventDate && o.level == level;
+  int get hashCode => id.hashCode ^ eventDate.hashCode ^ level.hashCode;
+
 }

@@ -115,4 +115,6 @@ class Activity extends UserDataEntity {
     return Activity.validators;
   }
 
+  bool operator == (o) => o is Activity && o.id == id && o.activityType == activityType && o.minutes == minutes && o.eventDate == eventDate;
+  int get hashCode => id.hashCode ^ activityType.hashCode ^ minutes.hashCode ^ eventDate.hashCode;
 }

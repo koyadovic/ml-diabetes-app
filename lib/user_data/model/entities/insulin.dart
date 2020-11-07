@@ -123,4 +123,7 @@ class InsulinInjection extends UserDataEntity {
   Map<String, List<Validator>> getValidators() {
     return InsulinInjection.validators;
   }
+
+  bool operator == (o) => o is InsulinInjection && o.id == id && o.insulinType == insulinType && o.units == units && o.eventDate == eventDate;
+  int get hashCode => id.hashCode ^ insulinType.hashCode ^ units.hashCode ^ eventDate.hashCode;
 }

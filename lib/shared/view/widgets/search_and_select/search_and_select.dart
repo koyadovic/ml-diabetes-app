@@ -4,12 +4,12 @@ import 'dart:async';
 
 
 class SearchAndSelect<T> extends StatefulWidget {
-  final T currentEntity;
+  final T currentValue;
   final Source<T> source;
   final Function(T) onSelected;
 
   SearchAndSelect({
-    this.currentEntity,
+    this.currentValue,
     @required this.source,
     @required this.onSelected,
   });
