@@ -7,17 +7,20 @@ import 'dart:async';
 
 
 typedef Null OnSelected<S> (S s);
+typedef Widget RenderItem<S> (S s);
 
 
 class SearchAndSelect<T> extends StatefulWidget {
   final T currentValue;
   final Source<T> source;
   final OnSelected<T> onSelected;
+  final RenderItem<T> renderItem;
 
   SearchAndSelect({
     this.currentValue,
     @required this.source,
     @required this.onSelected,
+    @required this.renderItem,
   });
 
   @override
@@ -61,9 +64,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
               _editing = true;
             });
           },
-          child: Text(
-            widget.currentValue.toString()
-          )
+          child: widget.renderItem(widget.currentValue),
         ),
 
         if(_editing)
@@ -76,17 +77,15 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         ListView(
           shrinkWrap: true,
           children: _results.map(
-            (entity) => GestureDetector(
+            (item) => GestureDetector(
               onTap: () {
-                widget.onSelected(entity);
+                widget.onSelected(item);
                 setState(() {
                   _editing = false;
                   _results = [];
                 });
               },
-              child: Text(
-                entity.toString()
-              ),
+              child: widget.renderItem(item),
             )
           ).toList(),
         )

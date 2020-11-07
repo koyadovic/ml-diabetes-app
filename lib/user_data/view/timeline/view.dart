@@ -126,7 +126,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     );
   }
 
-  String searchAndSelectSelection;
+  String searchAndSelectSelection = 'Vacío';
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +160,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                 searchAndSelectSelection = value;
               });
             },
+            renderItem: (String value) => Text(value ?? '', style: TextStyle(color: Colors.indigo)),
           ),
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
