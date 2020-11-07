@@ -78,6 +78,12 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   void _searchChanged(String term) {
     if(_delayedSearch != null)
       _delayedSearch.cancel();
@@ -101,9 +107,8 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      
       children: [
-
         if(!_editing)
         GestureDetector(
           onTap: () {
@@ -112,7 +117,9 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
               _editing = true;
             });
           },
-          child: widget.renderItem(widget.currentValue),
+          child: ListTile(
+            title: widget.renderItem(widget.currentValue),
+          ),
         ),
 
         if(_editing)
@@ -122,20 +129,25 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         ),
 
         if(_controller.text != '' && _editing)
-        ListView(
-          shrinkWrap: true,
-          children: _results.map(
-            (item) => GestureDetector(
-              onTap: () {
-                widget.onSelected(item);
-                setState(() {
-                  _editing = false;
-                  _results = [];
-                });
-              },
-              child: widget.renderItem(item),
-            )
-          ).toList(),
+        Container(
+          color: Colors.grey,
+          child: ListView(
+            shrinkWrap: true,
+            children: _results.map(
+              (item) => GestureDetector(
+                onTap: () {
+                  widget.onSelected(item);
+                  setState(() {
+                    _editing = false;
+                    _results = [];
+                  });
+                },
+                child: ListTile(
+                  title: widget.renderItem(item),
+                ),
+              )
+            ).toList(),
+          ),
         )
       ],
     );

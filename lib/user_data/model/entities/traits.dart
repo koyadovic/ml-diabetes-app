@@ -55,6 +55,8 @@ class TraitType extends UserDataValueObject {
   @override
   int get hashCode => name.hashCode ^ slug.hashCode ^ unit.hashCode;
 
+  String toString() => name;
+
 }
 
 

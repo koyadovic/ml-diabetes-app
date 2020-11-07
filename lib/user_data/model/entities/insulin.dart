@@ -49,6 +49,8 @@ class InsulinType extends UserDataValueObject {
 
   @override
   int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode;
+
+  String toString() => name;
 }
 
 
