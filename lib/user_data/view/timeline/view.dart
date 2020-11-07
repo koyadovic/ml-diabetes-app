@@ -2,6 +2,7 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
+import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +126,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     );
   }
 
+  String searchAndSelectSelection;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -143,6 +146,21 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       },
       child: ListView(
         children: [
+          SearchAndSelect<String>(
+            currentValue: searchAndSelectSelection,
+            source: LocalSource<String>(
+              data: ['Yes', 'No', 'Maybe'],
+              matcher: (String element, String term) {
+                return element.toLowerCase().contains(term.toLowerCase());
+              }
+            ),
+            onSelected: (String value) {
+              print('Selected $value');
+              setState(() {
+                searchAndSelectSelection = value;
+              });
+            },
+          ),
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
         ],
