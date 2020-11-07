@@ -191,7 +191,7 @@ class SuggestionWidget extends StatelessWidget {
 
   Widget getConcreteWidget(){
     if(isSaving) return SizedBox.shrink();
-    
+
     switch(suggestion.userDataEntityType) {
       case 'InsulinInjection':
         return InsulinSuggestionWidget(suggestion, isIgnored);
