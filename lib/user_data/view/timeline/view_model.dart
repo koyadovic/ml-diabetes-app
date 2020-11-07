@@ -37,7 +37,6 @@ class TimelineViewModel extends DiaViewModel {
   }
 
   Future<void> moreData() async {
-    print('moreData');
     if(_noMoreData || isLoading()) return;
 
     try {
