@@ -11,6 +11,42 @@ typedef Widget RenderItem<S> (S s);
 
 
 class SearchAndSelect<T> extends StatefulWidget {
+  /*
+  Here two examples for simple String types and local source and other with complex types and remote restful api
+
+  // local example
+  SearchAndSelect<String>(
+    currentValue: searchAndSelectSelection,
+    source: LocalSource<String>(
+      data: ['Yes', 'No', 'Maybe'],
+      matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm),
+    ),
+    onSelected: (String value) {
+      print('Selected $value');
+      setState(() {
+        searchAndSelectSelection = value;
+      });
+    },
+    renderItem: (String value) => Text(value ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+  ),
+
+  // restful api example
+  SearchAndSelect<ActivityType>(
+    currentValue: searchAndSelectSelection,
+    source: APIRestSource<ActivityType>(
+      endpoint: '/api/v1/activity-types/',
+      queryParameterName: 'search',
+      deserializer: ActivityType.fromJson,
+    ),
+    onSelected: (ActivityType value) {
+      print('Selected $value');
+      setState(() {
+        searchAndSelectSelection = value;
+      });
+    },
+    renderItem: (ActivityType value) => Text(value != null ? value.name : 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+  ),
+   */
   final T currentValue;
   final Source<T> source;
   final OnSelected<T> onSelected;
@@ -134,14 +170,13 @@ class LocalSource<T> extends Source<T> {
 class APIRestSource<T> extends Source<T> {
   final String endpoint;
   final String queryParameterName;
-  final String Function(T) toUniqueValue;
   final T Function(Map<String, dynamic>) deserializer;
-  ApiRestBackend _backend = ApiRestBackend();
+
+  final ApiRestBackend _backend = ApiRestBackend();
 
   APIRestSource({
     this.endpoint,
     this.queryParameterName,
-    this.toUniqueValue,
     this.deserializer,
   });
 

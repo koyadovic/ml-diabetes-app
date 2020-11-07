@@ -127,7 +127,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     );
   }
 
-  ActivityType searchAndSelectSelection;
+  String searchAndSelectSelection;
 
   @override
   Widget build(BuildContext context) {
@@ -147,21 +147,19 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       },
       child: ListView(
         children: [
-          SearchAndSelect<ActivityType>(
+          SearchAndSelect<String>(
             currentValue: searchAndSelectSelection,
-            source: APIRestSource<ActivityType>(
-              endpoint: '/api/v1/activity-types/',
-              queryParameterName: 'search',
-              toUniqueValue: (ActivityType at) => at.slug,
-              deserializer: ActivityType.fromJson,
+            source: LocalSource<String>(
+              data: ['Yes', 'No', 'Maybe'],
+              matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm),
             ),
-            onSelected: (ActivityType value) {
+            onSelected: (String value) {
               print('Selected $value');
               setState(() {
                 searchAndSelectSelection = value;
               });
             },
-            renderItem: (ActivityType value) => Text(value != null ? value.name : 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+            renderItem: (String value) => Text(value ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
           ),
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
