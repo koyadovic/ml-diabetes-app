@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'feedings/view/screen.dart';
-import 'shared/view/utils/theme.dart';
+import 'shared/view/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/screen.dart';
 import 'package:Dia/authentication/view/signup/screen.dart';
 import 'package:Dia/communications/model/messages.dart';
-import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
@@ -111,6 +111,15 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     Navigator.pop(context);
   }
 
+  ListTile buildDrawerItem(DiaScreen diaScreen, String text, IconData iconData, Function onTap) {
+    return ListTile(
+      selected: _currentScreen == diaScreen,
+      leading: IconButton(icon: FaIcon(iconData, size: 18, color: _currentScreen == diaScreen ? DiaTheme.primaryColor : Colors.black), onPressed: null),
+      title: Text(text),
+      onTap: onTap,
+    );
+  }
+
   Drawer getDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -123,36 +132,22 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
               color: Colors.grey[200],
             ),
           ),
-          ListTile(
-            selected: _currentScreen == DiaScreen.USER_DATA,
-            leading: IconButton(icon: FaIcon(FontAwesomeIcons.home, size: 18, color: _currentScreen == DiaScreen.USER_DATA ? DiaTheme.primaryColor : Colors.black), onPressed: null),
-            title: Text('User Data'),
-            onTap: () {
-              requestScreenChange(DiaScreen.USER_DATA);
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            selected: _currentScreen == DiaScreen.SETTINGS,
-            leading: IconButton(icon: FaIcon(FontAwesomeIcons.wrench, size: 18, color: _currentScreen == DiaScreen.USER_DATA ? DiaTheme.primaryColor : Colors.black), onPressed: null),
-            title: Text('Settings'),
-            onTap: () {
-              requestScreenChange(DiaScreen.SETTINGS);
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: Text('Logout'),
-            leading: IconButton(icon: FaIcon(FontAwesomeIcons.signOutAlt, size: 18, color: Colors.black), onPressed: null),
-            onTap: () async {
-              final AuthenticationServices authenticationServices = AuthenticationServices();
-              await authenticationServices.logout();
-              showInformation('See you soon!');
-              _screens = [];
-              requestScreenChange(DiaScreen.LOGIN);
-              Navigator.pop(context);
-            },
-          ),
+          buildDrawerItem(DiaScreen.USER_DATA, 'User Data', FontAwesomeIcons.home, () {
+            requestScreenChange(DiaScreen.USER_DATA);
+            Navigator.pop(context);
+          }),
+          buildDrawerItem(DiaScreen.SETTINGS, 'Settings', FontAwesomeIcons.wrench, () {
+            requestScreenChange(DiaScreen.SETTINGS);
+            Navigator.pop(context);
+          }),
+          buildDrawerItem(DiaScreen.LOGIN, 'Logout', FontAwesomeIcons.signOutAlt, () async {
+            final AuthenticationServices authenticationServices = AuthenticationServices();
+            await authenticationServices.logout();
+            showInformation('See you soon!');
+            _screens = [];
+            requestScreenChange(DiaScreen.LOGIN);
+            Navigator.pop(context);
+          }),
         ],
       ),
     );
@@ -164,59 +159,50 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       return Center(child: CircularProgressIndicator());
 
     AppBar appBar;
+    IconThemeData actionsIconTheme = IconThemeData(color: DiaTheme.primaryColor);
+    IconThemeData iconTheme = IconThemeData(color: DiaTheme.primaryColor);
+    Color backgroundColor = Colors.grey[200];
+    List<Widget> appBarActions = _currentScreenWidget.getAppBarActions();
+    PreferredSizeWidget appBarBottom = _currentScreenWidget.getAppBarTabs() != null ? TabBar(tabs: _currentScreenWidget.getAppBarTabs()) : null;
+
+    String title = '';
     if (_currentScreenWidget.hasAppBar()) {
-      String title = _currentScreenWidget.getAppBarTitle();
-      if(title == null || title == '')
+      title = _currentScreenWidget.getAppBarTitle();
+      if (title == null || title == '')
         title = widget.title;
-
-      if(_currentScreenWidget.getAppBarTabs() != null) {
-        appBar = AppBar(
-          actionsIconTheme: IconThemeData(
-              color: DiaTheme.primaryColor
-          ),
-          iconTheme: IconThemeData(
-              color: DiaTheme.primaryColor
-          ),
-          backgroundColor: Colors.grey[200],
-          title: Text(title, style: TextStyle(color: DiaTheme.primaryColor)),
-          actions: _currentScreenWidget.getAppBarActions(),
-          bottom: TabBar(
-              tabs: _currentScreenWidget.getAppBarTabs()
-          ),
-        );
-
-        return WillPopScope(
-          onWillPop: backScreen,
-          child: DefaultTabController(
-            length: _currentScreenWidget.getAppBarTabs().length,
-            child: Scaffold(
-              key: _scaffoldKey,
-              appBar: appBar,
-              body: _currentScreenWidget,
-              drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
-              floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
-            ),
-          ),
-        );
-
-      } else {
-        appBar = AppBar(
-          title: Text(title),
-          actions: _currentScreenWidget.getAppBarActions(),
-        );
-      }
     }
-    return WillPopScope(
-      onWillPop: backScreen,
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: appBar,
-        body: _currentScreenWidget,
-        drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
-        floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
-      ),
+
+    appBar = AppBar(
+      actionsIconTheme: actionsIconTheme,
+      iconTheme: iconTheme,
+      backgroundColor: backgroundColor,
+      title: Text(title, style: TextStyle(color: DiaTheme.primaryColor)),
+      actions: appBarActions,
+      bottom: appBarBottom,
     );
 
+    Scaffold scaffold = Scaffold(
+      key: _scaffoldKey,
+      appBar: appBar,
+      body: _currentScreenWidget,
+      drawer: _currentScreenWidget.hasDrawer() ? getDrawer(context) : null,
+      floatingActionButton: _currentScreenWidget.getFloatingActionButton(),
+    );
+
+    if (_currentScreenWidget.hasAppBar() && _currentScreenWidget.getAppBarTabs() != null) {
+      return WillPopScope(
+        onWillPop: backScreen,
+        child: DefaultTabController(
+          length: _currentScreenWidget.getAppBarTabs().length,
+          child: scaffold,
+        ),
+      );
+    } else {
+      return WillPopScope(
+        onWillPop: backScreen,
+        child: scaffold,
+      );
+    }
   }
 
   @override
@@ -224,7 +210,6 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     int seconds = ((message.split(' ').length / 2.0) + 1.0).ceil();
     Duration duration = Duration(seconds: seconds);
     SnackBar bar = SnackBar(content: Text('$message'), duration: duration);
-    print('Showing $message for $duration seconds');
     _scaffoldKey.currentState.showSnackBar(bar);
     return;
   }

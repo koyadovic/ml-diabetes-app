@@ -1,7 +1,7 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
@@ -55,7 +55,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       case 'Feeding':
         leading = IconButton(
           icon: FeedingIconMedium(),
-          color: DiaTheme.primaryColor,
           onPressed: (){},
         );
         break;
