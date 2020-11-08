@@ -132,6 +132,32 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
     bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
+    Widget suffixIcon;
+    if(enabled && editable) {
+      if(_delayedSearch != null) {
+        // searching!
+        suffixIcon = Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SizedBox(height: 2, width: 2, child: CircularProgressIndicator()),
+        );
+      }
+      else if (_controller.text.isNotEmpty) {
+        suffixIcon = IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () {
+            closeResults();
+            setState(() {
+              _controller.text = '';
+              _results = [];
+            });
+            widget.onSelected(null);
+          },
+        );
+      } else {
+        suffixIcon = Icon(Icons.search);
+      }
+    }
+
     return Column(
       key: key,
       children: [
@@ -141,17 +167,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
           onChanged: _searchChanged,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            suffixIcon: enabled && editable && _controller.text.isNotEmpty ? IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                closeResults();
-                setState(() {
-                  _controller.text = '';
-                  _results = [];
-                });
-                widget.onSelected(null);
-              },
-            ) : null
+            suffixIcon: suffixIcon,
           ),
         ),
       ],
