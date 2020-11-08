@@ -16,7 +16,9 @@ import 'package:intl/intl.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
-  List<UserDataViewModelEntity> _entries = [];
+  List<ViewModelDay> _days = [];
+  List<ViewModelEntry> _entries = [];
+  
   DateTime _oldestRetrieved;
   bool _noMoreData = false;
 
@@ -24,7 +26,7 @@ class TimelineViewModel extends DiaViewModel {
 
   TimelineViewModel(State state) : super(state);
 
-  List<UserDataViewModelEntity> get entries {
+  List<ViewModelEntry> get entries {
     if(_oldestRetrieved == null) moreData();
     return _entries;
   }
@@ -34,6 +36,26 @@ class TimelineViewModel extends DiaViewModel {
     _oldestRetrieved = null;
     _noMoreData = false;
     await moreData();
+  }
+  
+  void _rebuildDays() {
+    int lastDay;
+    List<ViewModelDay> days = [];
+
+    ViewModelDay currentDay = ViewModelDay();
+    for(ViewModelEntry entry in entries) {
+      if(lastDay != null && entry.eventDate.day != lastDay) {
+        days.add(currentDay);
+        currentDay = ViewModelDay();
+      }
+      currentDay.entries.add(entry);
+      lastDay = entry.eventDate.day;
+    }
+    if (currentDay.entries.length > 0) {
+      days.add(currentDay);
+    }
+    print('N days: ' + days.length.toString());
+    _days = days;
   }
 
   Future<void> moreData() async {
@@ -49,7 +71,8 @@ class TimelineViewModel extends DiaViewModel {
         if(moreEntries.length > 0) {
           _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
         }
-        _entries.addAll(moreEntries.map((entity) => UserDataViewModelEntity.fromEntity(entity)));
+        _entries.addAll(moreEntries.map((entity) => ViewModelEntry.fromEntity(entity)));
+        //_rebuildDays();
         notifyChanges();
       });
     } on UserDataServicesError catch (e) {
@@ -62,7 +85,13 @@ class TimelineViewModel extends DiaViewModel {
 }
 
 
-class UserDataViewModelEntity {
+class ViewModelDay {
+  List<ViewModelEntry> entries = [];
+
+}
+
+
+class ViewModelEntry {
   DateTime eventDate;
   String type;
   dynamic value;
@@ -70,13 +99,13 @@ class UserDataViewModelEntity {
   String text;
   UserDataEntity entity;
 
-  UserDataViewModelEntity({this.eventDate, this.type, this.value, this.unit, this.text, this.entity});
+  ViewModelEntry({this.eventDate, this.type, this.value, this.unit, this.text, this.entity});
 
-  factory UserDataViewModelEntity.fromEntity(UserDataEntity entity) {
+  factory ViewModelEntry.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
       case 'GlucoseLevel':
         GlucoseLevel glucoseLevel = entity as GlucoseLevel;
-        return UserDataViewModelEntity(
+        return ViewModelEntry(
           eventDate: entity.eventDate,
           type: entity.entityType,
           value: glucoseLevel.level,
@@ -87,7 +116,7 @@ class UserDataViewModelEntity {
 
       case 'Feeding':
         Feeding feeding = entity as Feeding;
-        return UserDataViewModelEntity(
+        return ViewModelEntry(
           eventDate: entity.eventDate,
           type: entity.entityType,
           value: feeding.kCal.round(),
@@ -98,7 +127,7 @@ class UserDataViewModelEntity {
 
       case 'Activity':
         Activity activity = entity as Activity;
-        return UserDataViewModelEntity(
+        return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
             value: activity.minutes,
@@ -109,7 +138,7 @@ class UserDataViewModelEntity {
 
       case 'InsulinInjection':
         InsulinInjection insulinInjection = entity as InsulinInjection;
-        return UserDataViewModelEntity(
+        return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
             value: insulinInjection.units,
@@ -121,7 +150,7 @@ class UserDataViewModelEntity {
       case 'TraitMeasure':
         TraitMeasure traitMeasure = entity as TraitMeasure;
         if(traitMeasure.traitType.slug != 'gender' && traitMeasure.traitType.slug != 'birth-seconds-epoch') {
-          return UserDataViewModelEntity(
+          return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
               value: double.parse(traitMeasure.value.toString()),
@@ -131,7 +160,7 @@ class UserDataViewModelEntity {
           );
         }
         else if(traitMeasure.traitType.slug == 'gender') {
-          return UserDataViewModelEntity(
+          return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
               value: traitMeasure.value == 'male' ? 'Male' : 'Female',
@@ -141,7 +170,7 @@ class UserDataViewModelEntity {
           );
         }
         else if(traitMeasure.traitType.slug == 'birth-seconds-epoch') {
-          return UserDataViewModelEntity(
+          return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
               value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
@@ -154,7 +183,7 @@ class UserDataViewModelEntity {
 
       case 'Flag':
         Flag flag = entity as Flag;
-        return UserDataViewModelEntity(
+        return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
             value: flag.type,
@@ -165,9 +194,4 @@ class UserDataViewModelEntity {
     }
     return null;
   }
-
-  factory UserDataViewModelEntity.fromMessage(UserDataEntity entity) {
-
-  }
-
 }
