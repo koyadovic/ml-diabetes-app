@@ -126,24 +126,38 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   Widget build(BuildContext context) {
     super.build(context);
 
-    return SmartRefresher(
-      controller: _refreshController,
-      enablePullDown: true,
-      enablePullUp: true,
-      onRefresh: () async {
-        await _viewModel.refreshAll();
-        _refreshController.refreshCompleted();
-      },
-      onLoading: () async {
-        await _viewModel.moreData();
-        _refreshController.loadComplete();
-      },
-      child: Container(
+    return Scrollbar(
+      child: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        onRefresh: () async {
+          await _viewModel.refreshAll();
+          _refreshController.refreshCompleted();
+        },
+        onLoading: () async {
+          await _viewModel.moreData();
+          _refreshController.loadComplete();
+        },
         child: ListView(
-          primary: false,
           children: [
             if (_viewModel != null)
-              ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
+              ..._viewModel.days.map((day) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TitledCardContainer(
+                  title: day.date.toLocal().day.toString(),
+                  children: [
+                    ...day.entries.map((entry) => InnerCardItem(
+                      title: entry.entity.entityType,
+                      color: entry.color,
+                      child: Text(entry.text),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            // if (_viewModel != null)
+            //   ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
           ],
         ),
       ),

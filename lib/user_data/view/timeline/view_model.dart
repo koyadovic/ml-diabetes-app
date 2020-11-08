@@ -31,6 +31,11 @@ class TimelineViewModel extends DiaViewModel {
     return _entries;
   }
 
+  List<ViewModelDay> get days {
+    if(_oldestRetrieved == null) moreData();
+    return _days;
+  }
+
   Future<void> refreshAll() async {
     _entries = [];
     _oldestRetrieved = null;
@@ -48,6 +53,8 @@ class TimelineViewModel extends DiaViewModel {
         days.add(currentDay);
         currentDay = ViewModelDay();
       }
+      if(currentDay.date == null)
+        currentDay.date = entry.eventDate;
       currentDay.entries.add(entry);
       lastDay = entry.eventDate.day;
     }
@@ -72,7 +79,7 @@ class TimelineViewModel extends DiaViewModel {
           _oldestRetrieved = moreEntries[moreEntries.length - 1].eventDate;
         }
         _entries.addAll(moreEntries.map((entity) => ViewModelEntry.fromEntity(entity)));
-        //_rebuildDays();
+        _rebuildDays();
         notifyChanges();
       });
     } on UserDataServicesError catch (e) {
@@ -86,8 +93,8 @@ class TimelineViewModel extends DiaViewModel {
 
 
 class ViewModelDay {
+  DateTime date;
   List<ViewModelEntry> entries = [];
-
 }
 
 
@@ -98,8 +105,9 @@ class ViewModelEntry {
   String unit;
   String text;
   UserDataEntity entity;
+  Color color;
 
-  ViewModelEntry({this.eventDate, this.type, this.value, this.unit, this.text, this.entity});
+  ViewModelEntry({this.eventDate, this.type, this.value, this.unit, this.text, this.entity, this.color});
 
   factory ViewModelEntry.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
@@ -111,7 +119,8 @@ class ViewModelEntry {
           value: glucoseLevel.level,
           unit: 'mg/dL',
           text: 'Glucose Level',
-          entity: glucoseLevel
+          entity: glucoseLevel,
+          color: Colors.redAccent,
         );
 
       case 'Feeding':
@@ -122,7 +131,8 @@ class ViewModelEntry {
           value: feeding.kCal.round(),
           unit: 'Kcal',
           text: 'Feeding',
-          entity: feeding
+          entity: feeding,
+          color: Colors.greenAccent,
         );
 
       case 'Activity':
@@ -133,7 +143,8 @@ class ViewModelEntry {
             value: activity.minutes,
             unit: 'mins',
             text: activity.activityType.name,
-            entity: activity
+            entity: activity,
+            color: Colors.blueAccent,
         );
 
       case 'InsulinInjection':
@@ -144,19 +155,21 @@ class ViewModelEntry {
             value: insulinInjection.units,
             unit: 'u',
             text: insulinInjection.insulinType.name, // + ' ' + insulinInjection.insulinType.categories.join(', '),
-            entity: insulinInjection
+            entity: insulinInjection,
+            color: Colors.yellow,
         );
 
       case 'TraitMeasure':
         TraitMeasure traitMeasure = entity as TraitMeasure;
         if(traitMeasure.traitType.slug != 'gender' && traitMeasure.traitType.slug != 'birth-seconds-epoch') {
           return ViewModelEntry(
-              eventDate: entity.eventDate,
-              type: entity.entityType,
-              value: double.parse(traitMeasure.value.toString()),
-              unit: traitMeasure.traitType.unit,
-              text: traitMeasure.traitType.name,
-              entity: traitMeasure
+            eventDate: entity.eventDate,
+            type: entity.entityType,
+            value: double.parse(traitMeasure.value.toString()),
+            unit: traitMeasure.traitType.unit,
+            text: traitMeasure.traitType.name,
+            entity: traitMeasure,
+            color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'gender') {
@@ -166,7 +179,8 @@ class ViewModelEntry {
               value: traitMeasure.value == 'male' ? 'Male' : 'Female',
               unit: '',
               text: traitMeasure.traitType.name,
-              entity: traitMeasure
+              entity: traitMeasure,
+              color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'birth-seconds-epoch') {
@@ -176,7 +190,8 @@ class ViewModelEntry {
               value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
               unit: '',
               text: traitMeasure.traitType.name,
-              entity: traitMeasure
+              entity: traitMeasure,
+              color: Colors.greenAccent
           );
         }
         break;
@@ -189,7 +204,8 @@ class ViewModelEntry {
             value: flag.type,
             unit: '',
             text: flag.type,
-            entity: flag
+            entity: flag,
+            color: Colors.red,
         );
     }
     return null;
