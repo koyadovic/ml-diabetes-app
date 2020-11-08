@@ -103,6 +103,9 @@ class ApiRestBackend {
     } on HttpException catch (e) {
       print(e.toString());
       throw BackendUnavailable();
+    } on http.ClientException catch(e) {
+      print(e.toString());
+      throw BackendUnavailable();
     }
   }
 
@@ -121,6 +124,9 @@ class ApiRestBackend {
     } on HttpException catch (e) {
       print(e.toString());
       throw BackendUnavailable();
+    } on http.ClientException catch(e) {
+      print(e.toString());
+      throw BackendUnavailable();
     }
   }
 
@@ -137,6 +143,9 @@ class ApiRestBackend {
       print(e.toString());
       throw BackendUnavailable();
     } on HttpException catch (e) {
+      print(e.toString());
+      throw BackendUnavailable();
+    } on http.ClientException catch(e) {
       print(e.toString());
       throw BackendUnavailable();
     }
