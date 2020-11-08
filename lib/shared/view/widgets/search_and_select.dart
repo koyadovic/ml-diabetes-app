@@ -83,6 +83,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
 
   final GlobalKey key = GlobalKey();
   OverlayEntry _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
 
   @override
   void initState() {
@@ -162,19 +163,22 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
       }
     }
 
-    return Column(
-      key: key,
-      children: [
-        TextField(
-          enabled: enabled && editable,
-          controller: _controller,
-          onChanged: _searchChanged,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            suffixIcon: suffixIcon,
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: Column(
+        key: key,
+        children: [
+          TextField(
+            enabled: enabled && editable,
+            controller: _controller,
+            onChanged: _searchChanged,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              suffixIcon: suffixIcon,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -211,16 +215,17 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   OverlayEntry _createOverlayEntry(Widget w) {
     RenderBox renderBox = key.currentContext.findRenderObject();
     var size = renderBox.size;
-    Offset position = renderBox.localToGlobal(Offset.zero);
-
     return OverlayEntry(
       builder: (context) => Positioned(
-        left: position.dx,
-        top: position.dy + size.height,
         width: size.width,
-        child: Material(
-          elevation: 2,
-          child: w
+        child: CompositedTransformFollower(
+          link: _layerLink,
+          showWhenUnlinked: false,
+          offset: Offset(0.0, size.height + 1.0),
+          child: Material(
+            elevation: 2,
+            child: w
+          ),
         ),
       )
     );
