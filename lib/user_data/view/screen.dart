@@ -4,7 +4,6 @@ import 'package:Dia/communications/view/feedback_requests/single_feedback_reques
 import 'package:Dia/communications/view/messages/messages_view.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';

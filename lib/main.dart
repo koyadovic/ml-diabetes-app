@@ -1,7 +1,9 @@
+import 'package:Dia/settings/view/screen.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
+import 'feedings/view/screen.dart';
 import 'shared/view/utils/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/authentication/view/login/screen.dart';
@@ -88,8 +90,8 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   }
 
-  Future<void> showWidget(Widget widget) async {
-    await showDialog(
+  Future<dynamic> showWidget(Widget widget) async {
+    return await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context){
@@ -127,6 +129,15 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
             title: Text('User Data'),
             onTap: () {
               requestScreenChange(DiaScreen.USER_DATA);
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            selected: _currentScreen == DiaScreen.SETTINGS,
+            leading: IconButton(icon: FaIcon(FontAwesomeIcons.wrench, size: 18, color: _currentScreen == DiaScreen.USER_DATA ? DiaTheme.primaryColor : Colors.black), onPressed: null),
+            title: Text('Settings'),
+            onTap: () {
+              requestScreenChange(DiaScreen.SETTINGS);
               Navigator.pop(context);
             },
           ),
@@ -250,7 +261,14 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       case DiaScreen.SETTINGS:
         this.setState(() {
           _currentScreen = screen;
-          _currentScreenWidget = UserDataScreenWidget(this.showWidget, this.hideWidget);  // TODO settings screen
+          _currentScreenWidget = SettingsScreenWidget(this.showWidget, this.hideWidget);
+        });
+        break;
+
+      case DiaScreen.FEEDINGS:
+        this.setState(() {
+          _currentScreen = screen;
+          _currentScreenWidget = FeedingsScreenWidget(this.showWidget, this.hideWidget);
         });
         break;
 

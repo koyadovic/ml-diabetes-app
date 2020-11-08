@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-typedef ShowWidget = Future<void> Function(Widget w);
+typedef ShowWidget = Future<dynamic> Function(Widget w);
 typedef HideWidget = Future<void> Function();
 
 

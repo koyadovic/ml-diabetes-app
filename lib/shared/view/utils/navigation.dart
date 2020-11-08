@@ -3,6 +3,7 @@ enum DiaScreen {
   LOGIN,
   SIGNUP,
   USER_DATA,
+  FEEDINGS,
   SETTINGS,
 }
 

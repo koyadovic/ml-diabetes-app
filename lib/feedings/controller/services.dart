@@ -1,9 +1,9 @@
 import 'package:Dia/shared/services/api_rest_backend.dart';
 
-class SettingsServices {
+class FeedingsServices {
   ApiRestBackend _backend;
 
-  SettingsServices() {
+  FeedingsServices() {
     _backend = ApiRestBackend();
   }
 }
