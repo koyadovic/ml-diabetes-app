@@ -126,12 +126,9 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         ),
 
         if(_editing)
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
-          child: TextField(
-            controller: _controller,
-            onChanged: _searchChanged,
-          ),
+        TextField(
+          controller: _controller,
+          onChanged: _searchChanged,
         ),
       ],
     );
@@ -174,9 +171,9 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
 
     return OverlayEntry(
       builder: (context) => Positioned(
-        left: position.dx + 10,
+        left: position.dx,
         top: position.dy + size.height,
-        width: size.width - 20,
+        width: size.width,
         child: Material(
           elevation: 2,
           child: w
