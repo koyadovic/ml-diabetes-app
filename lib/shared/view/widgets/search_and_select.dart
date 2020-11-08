@@ -17,9 +17,10 @@ class SearchAndSelect<T> extends StatefulWidget {
   // local example
   SearchAndSelect<String>(
     currentValue: searchAndSelectSelection,
+    delayMilliseconds: 0,
     source: LocalSource<String>(
       data: ['Yes', 'No', 'Maybe'],
-      matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm),
+      matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm.toLowerCase()),
     ),
     onSelected: (String value) {
       print('Selected $value');
@@ -32,7 +33,8 @@ class SearchAndSelect<T> extends StatefulWidget {
 
   // restful api example
   SearchAndSelect<ActivityType>(
-    currentValue: searchAndSelectSelection,
+    hintText: 'Search for activity',
+    currentValue: null,
     source: APIRestSource<ActivityType>(
       endpoint: '/api/v1/activity-types/',
       queryParameterName: 'search',
@@ -40,11 +42,12 @@ class SearchAndSelect<T> extends StatefulWidget {
     ),
     onSelected: (ActivityType value) {
       print('Selected $value');
-      setState(() {
-        searchAndSelectSelection = value;
-      });
     },
-    renderItem: (ActivityType value) => Text(value != null ? value.name : 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+    renderItem: (ActivityType value) => ListTile(
+      leading: Icon(Icons.directions_run),
+      title: Text(value.name),
+      subtitle: Text(value.mets.toString() + ' METs'),
+    ),
   ),
    */
   final T currentValue;
@@ -53,6 +56,7 @@ class SearchAndSelect<T> extends StatefulWidget {
   final RenderItem<T> renderItem;
   final Function(T) itemToString;
   final String hintText;
+  final int delayMilliseconds;
 
   SearchAndSelect({
     this.currentValue,
@@ -61,6 +65,7 @@ class SearchAndSelect<T> extends StatefulWidget {
     @required this.renderItem,
     this.itemToString,
     this.hintText,
+    this.delayMilliseconds
   });
 
   @override
@@ -99,7 +104,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   void _searchChanged(String term) {
     if(_delayedSearch != null)
       _delayedSearch.cancel();
-    _delayedSearch = Timer(Duration(milliseconds: 300), () => performSearch(term));
+    _delayedSearch = Timer(Duration(milliseconds: widget.delayMilliseconds ?? 300), () => performSearch(term));
     setState(() {
     });
   }
@@ -138,6 +143,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
                   _controller.text = '';
                   _results = [];
                 });
+                widget.onSelected(null);
               },
             ) : null
           ),
