@@ -163,9 +163,9 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                 });
               },
               renderItem: (ActivityType value) => ListTile(
-                leading: Icon(Icons.announcement),
-                title: Text(value != null ? value.name : 'Pulse para seleccionar'),
-                subtitle: Text('Entry'),
+                  leading: Icon(Icons.announcement),
+                  title: Text(value != null ? value.name : 'Pulse para seleccionar'),
+                  subtitle: Text('Entry'),
               ),
             ),
           ),
