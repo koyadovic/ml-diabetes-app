@@ -1,6 +1,7 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
@@ -10,9 +11,8 @@ import 'package:flutter/material.dart';
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
   final Function() onFinish;
-  final List<ActivityType> activityTypes;
 
-  ActivityEditorWidget({this.onFinish, this.activityForEdition, this.activityTypes});
+  ActivityEditorWidget({this.onFinish, this.activityForEdition});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,9 +22,7 @@ class ActivityEditorWidget extends StatefulWidget {
 
 
 class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
-  UserDataServices _userDataServices = UserDataServices();
   TextEditingController _externalController;
-  List<ActivityType> _activityTypes = [];
 
   Activity get activity {
     return widget.activityForEdition;
@@ -32,19 +30,6 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   void initState() {
-    if(widget.activityTypes == null) {
-      _userDataServices.getActivityTypes().then((activityTypes) {
-        setState(() {
-          _activityTypes = activityTypes;
-        });
-        if(_activityTypes.length > 0)
-          _selectActivityType(_activityTypes[0]);
-      });
-    } else {
-      setState(() {
-        _activityTypes = widget.activityTypes;
-      });
-    }
     _externalController = TextEditingController(text: activity.minutes.toString());
     super.initState();
   }
@@ -66,23 +51,23 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Column(
-            children: [
-              DropdownButton<ActivityType>(
-                isExpanded: true,
-                value: activity.activityType,
-                onChanged: (ActivityType newValue) {
-                  if(editable)
-                    _selectActivityType(newValue);
-                },
-                items: _activityTypes.map<DropdownMenuItem<ActivityType>>((ActivityType type) {
-                  return DropdownMenuItem<ActivityType>(
-                    value: type,
-                    child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
-                  );
-                }).toList(),
-              ),
-            ],
+          SearchAndSelect<ActivityType>(
+            hintText: 'Search for activity',
+            currentValue: activity.activityType,
+            source: APIRestSource<ActivityType>(
+              endpoint: '/api/v1/activity-types/',
+              queryParameterName: 'search',
+              deserializer: ActivityType.fromJson,
+            ),
+            onSelected: (ActivityType value) {
+              if(editable)
+                _selectActivityType(value);
+            },
+            renderItem: (ActivityType value) => ListTile(
+              leading: Icon(Icons.directions_run),
+              title: Text(value.name),
+              subtitle: Text(value.mets.toString() + ' METs'),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

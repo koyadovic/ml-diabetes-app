@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/tools/uris.dart';
+import 'package:Dia/shared/view/utils/editable_status.dart';
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -127,15 +129,19 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
 
   @override
   Widget build(BuildContext context) {
+    bool enabled = EnabledStatus.of(context);
+    bool editable = EditableStatus.of(context);
+
     return Column(
       key: key,
       children: [
         TextField(
+          enabled: enabled && editable,
           controller: _controller,
           onChanged: _searchChanged,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            suffixIcon: _controller.text.isNotEmpty ? IconButton(
+            suffixIcon: enabled && editable && _controller.text.isNotEmpty ? IconButton(
               icon: Icon(Icons.clear),
               onPressed: () {
                 closeResults();

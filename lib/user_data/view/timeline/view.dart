@@ -98,7 +98,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           ),
           if(entity.value is int || entity.value is double)
             UnitTextField(
-              unitWidth: 60 * scalingFactor,
+              unitWidth: 59 * scalingFactor,
               unit: entity.unit,
               initialValue: entity.value.toDouble(),
               //enabled: false,
@@ -108,7 +108,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             ),
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 60 * scalingFactor, 8.0),
+              padding: EdgeInsets.fromLTRB(0, 0, 59 * scalingFactor, 8.0),
               child: Text(entity.value, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w300)),
             ),
         ],

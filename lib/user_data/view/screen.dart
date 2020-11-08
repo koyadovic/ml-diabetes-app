@@ -113,18 +113,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             onPressed: () async {
               severalFloatingActionButton.state.toggle();
 
-              List<ActivityType> activityTypes = await _userDataServices.getActivityTypes();
-              Activity activity;
-              if(activityTypes.length > 0) {
-                activity = Activity(eventDate: DateTime.now(), minutes: 0, activityType: activityTypes[0]);
-              } else {
-                activity = Activity(eventDate: DateTime.now(), minutes: 0);
-              }
+              Activity activity = Activity(eventDate: DateTime.now(), minutes: 0);
 
               showWidget(
                 ParentEditorWidget(
                   child: ActivityEditorWidget(
-                    activityTypes: activityTypes,
                     activityForEdition: activity,
                     onFinish: hideWidget,
                   ),
