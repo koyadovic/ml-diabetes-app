@@ -1,5 +1,6 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/model/entities/glucose.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,10 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
       _glucoseLevel = GlucoseLevel(eventDate: DateTime.now());
     }
     _externalController = TextEditingController(text: _glucoseLevel.level.toString());
+    _glucoseLevel.addValidationListener(() {
+      setState(() {
+      });
+    });
     super.initState();
   }
 
@@ -45,6 +50,8 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               UnitTextField(
+                valueSize: bigSize(context),
+                unitSize: verySmallSize(context),
                 externalController: _externalController,
                 unit: 'mg/dL',
                 processors: [
@@ -55,7 +62,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
                 onChange: (value) {
                   _glucoseLevel.level = value.toInt();
                   setState(() {
-                    _glucoseLevel.validate();
+                    if(!_glucoseLevel.isValid) _glucoseLevel.validate();
                   });
                 }
               ),
@@ -69,7 +76,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
                     _glucoseLevel.reset();
                     _externalController.text = _glucoseLevel.level.toString();
                     setState(() {
-                      _glucoseLevel.validate();
+                      if(!_glucoseLevel.isValid) _glucoseLevel.validate();
                     });
                   },
                 ),

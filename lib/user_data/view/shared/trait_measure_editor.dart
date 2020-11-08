@@ -1,6 +1,6 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/widgets/dates_time.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -47,19 +47,23 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
       });
     }
     _externalController = TextEditingController(text: traitMeasure.value.toString());
+    traitMeasure.addValidationListener(() {
+      setState(() {
+      });
+    });
     super.initState();
   }
 
   _selectTraitType(TraitType type) {
-    traitMeasure.value = type.getDefaultValue();
     traitMeasure.traitType = type;
-    traitMeasure.validate();
+    traitMeasure.value = type.getDefaultValue();
     if(type.slug == 'birth-seconds-epoch') {
       _externalController = null;
     } else {
       _externalController = TextEditingController(text: traitMeasure.value.toString());
     }
     setState(() {
+      if(!traitMeasure.isValid) traitMeasure.validate();
     });
   }
 
@@ -105,9 +109,9 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     isDense: true,
                     value: traitMeasure.value,
                     onChanged: (String newValue) {
-                      traitMeasure.value = newValue;
                       setState(() {
-                        traitMeasure.validate();
+                        traitMeasure.value = newValue;
+                        if(!traitMeasure.isValid) traitMeasure.validate();
                       });
                     },
                     items: [
@@ -126,15 +130,15 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             ),
           if(traitMeasure.traitType != null && traitMeasure.traitType.slug == 'birth-seconds-epoch')
             DiaDateField(
-              //externalController: _externalController,
               initialValue: DateTime.fromMillisecondsSinceEpoch(
                   traitMeasure.value != null ? traitMeasure.value * 1000 : DateTime.now().millisecondsSinceEpoch
               ),
               onChanged: (birthDate) {
                 if(birthDate != null) {
-                  traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
                   setState(() {
-                    traitMeasure.validate();
+                    traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
+                    if(!traitMeasure.isValid) traitMeasure.validate();
+
                   });
                 }
               },
@@ -144,6 +148,8 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
             children: [
               if(traitMeasure.traitType != null && traitMeasure.traitType.slug != 'gender' && traitMeasure.traitType.slug != 'birth-seconds-epoch')
               UnitTextField(
+                valueSize: bigSize(context),
+                unitSize: verySmallSize(context),
                 externalController: _externalController,
                 unit: traitMeasure.traitType == null ? '' : traitMeasure.traitType.unit,
                 processors: [
@@ -151,9 +157,9 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   (value) => value > 600 ? 600.0 : value,
                 ],
                 onChange: (value) {
-                  traitMeasure.value = value;
                   setState(() {
-                    traitMeasure.validate();
+                    traitMeasure.value = value;
+                    if(!traitMeasure.isValid) traitMeasure.validate();
                   });
                 }
               ),
@@ -165,11 +171,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                 IconButton(
                     icon: Icon(Icons.close, color: Colors.grey),
                     onPressed: () {
-                      traitMeasure.value = traitMeasure.traitType.getDefaultValue();
-                      _externalController = TextEditingController(text: traitMeasure.value.toString());
-                      _externalController.selection = TextSelection.fromPosition(TextPosition(offset: _externalController.text.length));
                       setState(() {
-                        traitMeasure.validate();
+                        traitMeasure.value = traitMeasure.traitType.getDefaultValue();
+                        _externalController = TextEditingController(text: traitMeasure.value.toString());
+                        _externalController.selection = TextSelection.fromPosition(TextPosition(offset: _externalController.text.length));
+                        if(!traitMeasure.isValid) traitMeasure.validate();
                       });
                     }
                 ),

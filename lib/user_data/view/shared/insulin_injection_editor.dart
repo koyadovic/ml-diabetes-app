@@ -1,5 +1,6 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/controller/services.dart';
@@ -47,13 +48,17 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
       print(insulinInjection.toJson().toString());
     }
     _externalController = TextEditingController(text: insulinInjection.units.toString());
+    insulinInjection.addValidationListener(() {
+      setState(() {
+      });
+    });
     super.initState();
   }
 
   _selectInsulinType(InsulinType type) {
     insulinInjection.insulinType = type;
     setState(() {
-      insulinInjection.validate();
+      if(!insulinInjection.isValid) insulinInjection.validate();
     });
   }
 
@@ -93,6 +98,8 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 UnitTextField(
+                  valueSize: bigSize(context),
+                  unitSize: verySmallSize(context),
                   externalController: _externalController,
                   initialValue: insulinInjection.units != null ? insulinInjection.units.toDouble() : 0.0,
                   unit: 'u',
@@ -103,7 +110,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                   onChange: (value) {
                     insulinInjection.units = value.toInt();
                     setState(() {
-                      insulinInjection.validate();
+                      if(!insulinInjection.isValid) insulinInjection.validate();
                     });
                   }
                 ),
@@ -117,7 +124,7 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
                       insulinInjection.units = 0;
                       _externalController.text = insulinInjection.units.toString();
                       setState(() {
-                        insulinInjection.validate();
+                        if(!insulinInjection.isValid) insulinInjection.validate();
                       });
                     },
                   ),

@@ -3,6 +3,8 @@
 Errors
  */
 
+import 'package:flutter/cupertino.dart';
+
 class NotImplemented {
 }
 
@@ -22,6 +24,16 @@ abstract class WithValidations {
   Map<String, List<String>> validatorResults = {};
   Map<String, List<Validator>> getValidators();
 
+  final List<VoidCallback> validationListeners = [];
+
+  void addValidationListener(VoidCallback callback) {
+    validationListeners.add(callback);
+  }
+
+  void _notifyValidationListeners() {
+    for(VoidCallback cb in validationListeners) cb();
+  }
+
   void validate() {
     validatorResults = {};
     Map<String, dynamic> mapInstance = toMapForValidation();
@@ -38,6 +50,7 @@ abstract class WithValidations {
         }
       }
     }
+    _notifyValidationListeners();
   }
 
   void addPropertyValidationText(String property, String text) {

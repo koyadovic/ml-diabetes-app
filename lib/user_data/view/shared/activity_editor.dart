@@ -1,9 +1,8 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/theme.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
-import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:flutter/material.dart';
 
@@ -31,13 +30,17 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   @override
   void initState() {
     _externalController = TextEditingController(text: activity.minutes.toString());
+    activity.addValidationListener(() {
+      setState(() {
+      });
+    });
     super.initState();
   }
 
   _selectActivityType(ActivityType type) {
     activity.activityType = type;
     setState(() {
-      activity.validate();
+      if(!activity.isValid) activity.validate();
     });
   }
 
@@ -73,6 +76,8 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               UnitTextField(
+                valueSize: bigSize(context),
+                unitSize: verySmallSize(context),
                 externalController: _externalController,
                 unit: 'm',
                 processors: [
@@ -82,7 +87,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 onChange: (value) {
                   activity.minutes = value.toInt();
                   setState(() {
-                    activity.validate();
+                    if(!activity.isValid) activity.validate();
                   });
                 }
               ),
@@ -96,7 +101,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                     activity.minutes = 0;
                     _externalController.text = activity.minutes.toString();
                     setState(() {
-                      activity.validate();
+                      if(!activity.isValid) activity.validate();
                     });
                   }
                 ),

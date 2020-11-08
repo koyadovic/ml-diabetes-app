@@ -93,7 +93,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w400)),
+            child: Text(entity.text, style: TextStyle(fontSize: smallSize(context), fontWeight: FontWeight.w400)),
           ),
           if(entity.value is int || entity.value is double)
             EnabledStatus(
