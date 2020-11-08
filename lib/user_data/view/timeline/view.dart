@@ -85,8 +85,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         break;
     }
 
-    double scalingFactor = screenSizeScalingFactor(context);
-
     return ListTile(
       leading: leading,
       title: Row(
@@ -101,20 +99,15 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             EnabledStatus(
               isEnabled: false,
               child: UnitTextField(
-                unitWidth: 59 * scalingFactor,
                 unit: entity.unit,
                 initialValue: entity.value.toDouble(),
-                //enabled: false,
-                colorDisabled: Colors.black87,
-                // colorEnabled: Colors.black87,
                 onChange: null,
+                valueSize: bigSize(context),
+                unitSize: verySmallSize(context),
               ),
             ),
           if(!(entity.value is int) && !(entity.value is double))
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 59 * scalingFactor, 8.0),
-              child: Text(entity.value, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w300)),
-            ),
+            Text(entity.value, style: TextStyle(fontSize: mediumSize(context))),
         ],
       ),
       subtitle: Row(

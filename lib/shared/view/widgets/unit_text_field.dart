@@ -4,19 +4,18 @@ import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
 // if not valid throw ValidationError('Message');
-typedef ValueProcessor = double Function(double value);
+typedef ValueProcessor = dynamic Function(dynamic value);
 
 
 class UnitTextField extends StatefulWidget {
   final String unit;
-  final Function(double) onChange;
-  final double initialValue;
+  final Function(dynamic) onChange;
+  final dynamic initialValue;
   final List<ValueProcessor> processors;
   final bool autoFocus;
-  final Color colorEnabled;
-  final Color colorDisabled;
-  final double unitWidth;
   final TextEditingController externalController;
+  final double unitSize;
+  final double valueSize;
 
   UnitTextField({
     @required this.unit,
@@ -24,10 +23,9 @@ class UnitTextField extends StatefulWidget {
     this.initialValue,
     this.autoFocus : false,
     this.processors : const [],
-    this.colorEnabled: Colors.black,
-    this.colorDisabled: Colors.grey,
-    this.unitWidth: 55,
     this.externalController,
+    this.unitSize : 12.0,
+    this.valueSize : 12.0,
   });
 
   @override
@@ -132,10 +130,8 @@ class UnitTextFieldState extends State<UnitTextField> {
 
     double scalingFactor = screenSizeScalingFactor(context);
 
-    double w = (_controller.text.length.toDouble()) * 17.5 * scalingFactor;
+    double w = (_controller.text.length.toDouble()) * 20 * scalingFactor;
     w = w < 13 * scalingFactor ? 13 * scalingFactor : w;
-
-    Color fontColor = enabled ? widget.colorEnabled : widget.colorDisabled;
 
     return GestureDetector(
       onTap: () => requestFocus(),
@@ -152,7 +148,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                  style: TextStyle(fontSize: bigSize(context), color: fontColor, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: widget.valueSize),
                   keyboardType: TextInputType.number,
                   controller: _controller,
                 ),
@@ -160,12 +156,11 @@ class UnitTextFieldState extends State<UnitTextField> {
             ),
             WidgetSpan(
               child: Container(
-                width: widget.unitWidth,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0 / scalingFactor),
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 7.5 / scalingFactor),
                   child: Text(
                     widget.unit,
-                    style: TextStyle(fontSize: smallSize(context), color: Colors.grey, fontWeight: FontWeight.w600)
+                    style: TextStyle(fontSize: widget.unitSize, color: Colors.grey)
                   ),
                 ),
               ),

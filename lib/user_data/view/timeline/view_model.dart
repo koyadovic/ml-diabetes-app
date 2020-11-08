@@ -102,7 +102,7 @@ class UserDataViewModelEntity {
             eventDate: entity.eventDate,
             type: entity.entityType,
             value: activity.minutes,
-            unit: 'minutes',
+            unit: 'mins',
             text: activity.activityType.name,
             entity: activity
         );
