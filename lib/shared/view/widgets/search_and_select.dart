@@ -70,6 +70,8 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   List<T> _results = [];
   Timer _delayedSearch;
 
+  final GlobalKey key = GlobalKey();
+  OverlayEntry _overlayEntry;
   bool _editing = false;
 
   @override
@@ -95,11 +97,14 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
       setState(() {
         _results = [];
       });
+      closeResults();
     } else {
       List<T> items = await widget.source.performSearch(terms);
+      print('For search $terms this is the results: $items');
       setState(() {
         _results = items;
       });
+      if(items.length > 0) openResults();
     }
     _delayedSearch = null;
   }
@@ -107,7 +112,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      
+      key: key,
       children: [
         if(!_editing)
         GestureDetector(
@@ -117,39 +122,66 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
               _editing = true;
             });
           },
-          child: ListTile(
-            title: widget.renderItem(widget.currentValue),
-          ),
+          child: widget.renderItem(widget.currentValue),
         ),
 
         if(_editing)
-        TextField(
-          controller: _controller,
-          onChanged: _searchChanged,
-        ),
-
-        if(_controller.text != '' && _editing)
-        Container(
-          color: Colors.grey,
-          child: ListView(
-            shrinkWrap: true,
-            children: _results.map(
-              (item) => GestureDetector(
-                onTap: () {
-                  widget.onSelected(item);
-                  setState(() {
-                    _editing = false;
-                    _results = [];
-                  });
-                },
-                child: ListTile(
-                  title: widget.renderItem(item),
-                ),
-              )
-            ).toList(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+          child: TextField(
+            controller: _controller,
+            onChanged: _searchChanged,
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  void openResults() {
+    closeResults();
+    this._overlayEntry = this._createOverlayEntry(
+      ListView(
+        shrinkWrap: true,
+        children: _results.map(
+          (item) => GestureDetector(
+            onTap: () {
+              widget.onSelected(item);
+              setState(() {
+                _editing = false;
+                _results = [];
+              });
+              closeResults();
+            },
+            child: widget.renderItem(item),
+          )
+        ).toList(),
+      ),
+    );
+    Overlay.of(context).insert(this._overlayEntry);
+  }
+
+  void closeResults() {
+    try {
+      this._overlayEntry?.remove();
+    } catch (e) {}
+    this._overlayEntry = null;
+  }
+
+  OverlayEntry _createOverlayEntry(Widget w) {
+    RenderBox renderBox = key.currentContext.findRenderObject();
+    var size = renderBox.size;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        left: position.dx + 10,
+        top: position.dy + size.height,
+        width: size.width - 20,
+        child: Material(
+          elevation: 2,
+          child: w
+        ),
+      )
     );
   }
 }

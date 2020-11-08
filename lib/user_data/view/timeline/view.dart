@@ -147,19 +147,26 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       },
       child: ListView(
         children: [
-          SearchAndSelect<String>(
-            currentValue: searchAndSelectSelection,
-            source: LocalSource<String>(
-              data: ['Yes', 'No', 'Maybe'],
-              matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SearchAndSelect<String>(
+              currentValue: searchAndSelectSelection,
+              source: LocalSource<String>(
+                data: ['Yes', 'No', 'Maybe'],
+                matcher: (String item, String searchTerm) => item.toLowerCase().contains(searchTerm.toLowerCase()),
+              ),
+              onSelected: (String value) {
+                print('Selected $value');
+                setState(() {
+                  searchAndSelectSelection = value;
+                });
+              },
+              renderItem: (String value) => ListTile(
+                leading: Icon(Icons.announcement),
+                title: Text(value ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+                subtitle: Text('Entry'),
+              ),
             ),
-            onSelected: (String value) {
-              print('Selected $value');
-              setState(() {
-                searchAndSelectSelection = value;
-              });
-            },
-            renderItem: (String value) => Text(value ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
           ),
           if (_viewModel != null)
             ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
