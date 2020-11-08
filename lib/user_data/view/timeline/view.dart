@@ -2,6 +2,7 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/theme.dart';
+import 'package:Dia/shared/view/widgets/day_container.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
@@ -137,11 +138,50 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         await _viewModel.moreData();
         _refreshController.loadComplete();
       },
-      child: ListView(
-        children: [
-          if (_viewModel != null)
-            ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-        ],
+      child: Container(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TitledCardContainer(
+                title: 'Nov 9',
+                children: [
+                  InnerCardItem(
+                    title: 'Glucosa',
+                    color: Colors.redAccent,
+                    child: Column(
+                      children: [
+                        Text('Su nivel de glucosa'),
+                        EnabledStatus(
+                          isEnabled: false,
+                          child: UnitTextField(
+                            unit: 'mg/dL',
+                            initialValue: 120.0,
+                            onChange: null,
+                            valueSize: bigSize(context),
+                            unitSize: verySmallSize(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  InnerCardItem(
+                    title: 'Actividad física',
+                    color: Colors.blue,
+                    child: Text('Correr, 12 minutos. A ver si para la próxima te metes un poco más de caña, cabrón.'),
+                  ),
+                  InnerCardItem(
+                    title: 'Alimentación',
+                    color: Colors.greenAccent,
+                    child: Text('345 kcal'),
+                  ),
+                ],
+              ),
+            ),
+            if (_viewModel != null)
+              ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
+          ],
+        ),
       ),
     );
 
