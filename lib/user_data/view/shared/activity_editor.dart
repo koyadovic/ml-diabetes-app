@@ -63,7 +63,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               if(editable)
                 _selectActivityType(value);
             },
-            renderItem: (ActivityType value) => ListTile(
+            renderItem: (ActivityType value) => ListTile( // TODO change this
               leading: Icon(Icons.directions_run),
               title: Text(value.name),
               subtitle: Text(value.mets.toString() + ' METs'),
