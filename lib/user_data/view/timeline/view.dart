@@ -140,8 +140,8 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
       },
       child: Container(
         child: ListView(
+          primary: false,
           children: [
-            
             if (_viewModel != null)
               ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
           ],
