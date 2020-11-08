@@ -150,6 +150,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SearchAndSelect<ActivityType>(
+              hintText: 'Search for activity',
               currentValue: searchAndSelectSelection,
               source: APIRestSource<ActivityType>(
                 endpoint: '/api/v1/activity-types/',
@@ -163,7 +164,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                 });
               },
               renderItem: (ActivityType value) => ListTile(
-                  leading: Icon(Icons.announcement),
+                  leading: Icon(Icons.local_cafe),
                   title: Text(value != null ? value.name : 'Pulse para seleccionar'),
                   subtitle: Text('Entry'),
               ),

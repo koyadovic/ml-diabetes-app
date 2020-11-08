@@ -51,12 +51,16 @@ class SearchAndSelect<T> extends StatefulWidget {
   final Source<T> source;
   final OnSelected<T> onSelected;
   final RenderItem<T> renderItem;
+  final Function(T) itemToString;
+  final String hintText;
 
   SearchAndSelect({
     this.currentValue,
     @required this.source,
     @required this.onSelected,
     @required this.renderItem,
+    this.itemToString,
+    this.hintText,
   });
 
   @override
@@ -72,11 +76,17 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
 
   final GlobalKey key = GlobalKey();
   OverlayEntry _overlayEntry;
-  bool _editing = false;
 
   @override
   void initState() {
-    _controller = TextEditingController(text: widget.currentValue != null ? widget.currentValue.toString() : '');
+    _controller = TextEditingController(
+      text: widget.currentValue != null ?
+        widget.itemToString != null ?
+          widget.itemToString(widget.currentValue)
+            :
+          widget.currentValue.toString()
+        :
+        '');
     super.initState();
   }
 
@@ -90,6 +100,8 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
     if(_delayedSearch != null)
       _delayedSearch.cancel();
     _delayedSearch = Timer(Duration(milliseconds: 300), () => performSearch(term));
+    setState(() {
+    });
   }
 
   void performSearch(String terms) async {
@@ -100,7 +112,6 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
       closeResults();
     } else {
       List<T> items = await widget.source.performSearch(terms);
-      print('For search $terms this is the results: $items');
       setState(() {
         _results = items;
       });
@@ -114,21 +125,22 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
     return Column(
       key: key,
       children: [
-        if(!_editing)
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _controller.text = widget.currentValue != null ? widget.currentValue.toString() : '';
-              _editing = true;
-            });
-          },
-          child: widget.renderItem(widget.currentValue),
-        ),
-
-        if(_editing)
         TextField(
           controller: _controller,
           onChanged: _searchChanged,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            suffixIcon: _controller.text.isNotEmpty ? IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                closeResults();
+                setState(() {
+                  _controller.text = '';
+                  _results = [];
+                });
+              },
+            ) : null
+          ),
         ),
       ],
     );
@@ -144,7 +156,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
             onTap: () {
               widget.onSelected(item);
               setState(() {
-                _editing = false;
+                _controller.text = widget.itemToString != null ? widget.itemToString(item) : item.toString();
                 _results = [];
               });
               closeResults();
