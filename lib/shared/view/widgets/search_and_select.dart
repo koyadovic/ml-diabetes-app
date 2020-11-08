@@ -138,7 +138,11 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         // searching!
         suffixIcon = Padding(
           padding: const EdgeInsets.all(12.0),
-          child: SizedBox(height: 2, width: 2, child: CircularProgressIndicator()),
+          child: SizedBox(
+            height: 2,
+            width: 2,
+            child: CircularProgressIndicator(strokeWidth: 2.0)
+          ),
         );
       }
       else if (_controller.text.isNotEmpty) {
