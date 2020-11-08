@@ -221,8 +221,9 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 1.0),
+          offset: Offset(0.0, size.height + 5.0),
           child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
             elevation: 2,
             child: w
           ),
