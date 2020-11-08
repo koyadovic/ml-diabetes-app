@@ -64,71 +64,74 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-      child: Column(
-        children: [
-          DropdownButton<InsulinType>(
-            isExpanded: true,
-            isDense: true,
-            value: insulinInjection.insulinType,
-            onChanged: !enabled ? null : (InsulinType newValue) {
-              if(editable)
-                _selectInsulinType(newValue);
-            },
-            items: editable ? _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
-              return DropdownMenuItem<InsulinType>(
-                value: type,
-                child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
-              );
-            }).toList() : [
-              DropdownMenuItem<InsulinType>(
-                value: insulinInjection.insulinType,
-                child: Text(insulinInjection.insulinType.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
-              )
-            ],
-          ),
-          SizedBox(height: 10,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              UnitTextField(
-                externalController: _externalController,
-                initialValue: insulinInjection.units != null ? insulinInjection.units.toDouble() : 0.0,
-                unit: 'u',
-                processors: [
-                  (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > 100.0 ? 100.0 : value,
-                ],
-                onChange: (value) {
-                  insulinInjection.units = value.toInt();
-                  setState(() {
-                    insulinInjection.validate();
-                  });
-                }
-              ),
-              if(editable)
-              ...[
-                Spacer(),
-                if(insulinInjection.units != null && insulinInjection.units != 0)
-                IconButton(
-                  icon: Icon(Icons.close, color: Colors.grey),
-                  onPressed: !enabled ? null : () {
-                    insulinInjection.units = 0;
-                    _externalController.text = insulinInjection.units.toString();
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 10.0, 16.0, 10.0),
+        child: Column(
+          children: [
+            DropdownButton<InsulinType>(
+              isExpanded: true,
+              isDense: true,
+              value: insulinInjection.insulinType,
+              onChanged: !enabled ? null : (InsulinType newValue) {
+                if(editable)
+                  _selectInsulinType(newValue);
+              },
+              items: editable ? _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
+                return DropdownMenuItem<InsulinType>(
+                  value: type,
+                  child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                );
+              }).toList() : [
+                DropdownMenuItem<InsulinType>(
+                  value: insulinInjection.insulinType,
+                  child: Text(insulinInjection.insulinType.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                )
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                UnitTextField(
+                  externalController: _externalController,
+                  initialValue: insulinInjection.units != null ? insulinInjection.units.toDouble() : 0.0,
+                  unit: 'u',
+                  processors: [
+                    (value) => value < 0.0 ? 0.0 : value,
+                    (value) => value > 100.0 ? 100.0 : value,
+                  ],
+                  onChange: (value) {
+                    insulinInjection.units = value.toInt();
                     setState(() {
                       insulinInjection.validate();
                     });
-                  },
+                  }
                 ),
-              ]
-            ],
-          ),
-          if(!insulinInjection.isValid)
-            Column(
-              children: [
-                Text(insulinInjection.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
+                if(editable)
+                ...[
+                  Spacer(),
+                  if(insulinInjection.units != null && insulinInjection.units != 0)
+                  IconButton(
+                    icon: Icon(Icons.close, color: Colors.grey),
+                    onPressed: !enabled ? null : () {
+                      insulinInjection.units = 0;
+                      _externalController.text = insulinInjection.units.toString();
+                      setState(() {
+                        insulinInjection.validate();
+                      });
+                    },
+                  ),
+                ]
               ],
-            )
-        ],
+            ),
+            if(!insulinInjection.isValid)
+              Column(
+                children: [
+                  Text(insulinInjection.getFullValidationText(includePropertyNames: false), style: TextStyle(color: enabled ? Colors.red : Colors.grey)),
+                ],
+              )
+          ],
+        ),
       ),
     );
   }

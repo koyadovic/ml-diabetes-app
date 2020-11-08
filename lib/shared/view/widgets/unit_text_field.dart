@@ -145,7 +145,6 @@ class UnitTextFieldState extends State<UnitTextField> {
             WidgetSpan(
               child: SizedBox(
                 width: w,
-                //height: 62 * scalingFactor,
                 child: TextField(
                   focusNode: _focusNode,
                   enabled: enabled && editable,
@@ -163,7 +162,7 @@ class UnitTextFieldState extends State<UnitTextField> {
               child: Container(
                 width: widget.unitWidth,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0 / scalingFactor),
                   child: Text(
                     widget.unit,
                     style: TextStyle(fontSize: smallSize(context), color: Colors.grey, fontWeight: FontWeight.w600)

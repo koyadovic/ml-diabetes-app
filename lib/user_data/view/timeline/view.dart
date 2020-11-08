@@ -1,4 +1,5 @@
 import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/theme.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
@@ -97,14 +98,17 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             child: Text(entity.text, style: TextStyle(fontSize: mediumSize(context), fontWeight: FontWeight.w400)),
           ),
           if(entity.value is int || entity.value is double)
-            UnitTextField(
-              unitWidth: 59 * scalingFactor,
-              unit: entity.unit,
-              initialValue: entity.value.toDouble(),
-              //enabled: false,
-              colorDisabled: Colors.black87,
-              // colorEnabled: Colors.black87,
-              onChange: null,
+            EnabledStatus(
+              isEnabled: false,
+              child: UnitTextField(
+                unitWidth: 59 * scalingFactor,
+                unit: entity.unit,
+                initialValue: entity.value.toDouble(),
+                //enabled: false,
+                colorDisabled: Colors.black87,
+                // colorEnabled: Colors.black87,
+                onChange: null,
+              ),
             ),
           if(!(entity.value is int) && !(entity.value is double))
             Padding(
