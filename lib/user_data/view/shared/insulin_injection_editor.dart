@@ -48,11 +48,19 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
       print(insulinInjection.toJson().toString());
     }
     _externalController = TextEditingController(text: insulinInjection.units.toString());
-    insulinInjection.addValidationListener(() {
-      setState(() {
-      });
-    });
+    insulinInjection.addValidationListener(whenValidated);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    insulinInjection.removeValidationListener(whenValidated);
+    super.dispose();
+  }
+
+  void whenValidated() {
+    setState(() {
+    });
   }
 
   _selectInsulinType(InsulinType type) {

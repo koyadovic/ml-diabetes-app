@@ -30,11 +30,19 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   @override
   void initState() {
     _externalController = TextEditingController(text: activity.minutes.toString());
-    activity.addValidationListener(() {
-      setState(() {
-      });
-    });
+    activity.addValidationListener(whenValidated);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    activity.removeValidationListener(whenValidated);
+    super.dispose();
+  }
+
+  void whenValidated() {
+    setState(() {
+    });
   }
 
   _selectActivityType(ActivityType type) {
@@ -72,6 +80,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               subtitle: Text(value.mets.toString() + ' METs'),
             ),
           ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

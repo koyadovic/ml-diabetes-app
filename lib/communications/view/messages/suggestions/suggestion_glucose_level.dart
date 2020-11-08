@@ -19,6 +19,10 @@ class GlucoseLevelSuggestionWidget extends StatefulWidget {
 
 class GlucoseLevelSuggestionWidgetState extends State<GlucoseLevelSuggestionWidget> {
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
 

@@ -47,11 +47,19 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
       });
     }
     _externalController = TextEditingController(text: traitMeasure.value.toString());
-    traitMeasure.addValidationListener(() {
-      setState(() {
-      });
-    });
+    traitMeasure.addValidationListener(whenValidated);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    traitMeasure.removeValidationListener(whenValidated);
+    super.dispose();
+  }
+
+  void whenValidated() {
+    setState(() {
+    });
   }
 
   _selectTraitType(TraitType type) {

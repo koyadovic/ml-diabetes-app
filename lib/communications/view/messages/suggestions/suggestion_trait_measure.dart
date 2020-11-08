@@ -19,6 +19,10 @@ class TraitMeasureSuggestionWidget extends StatefulWidget {
 }
 
 class TraitMeasureSuggestionWidgetState extends State<TraitMeasureSuggestionWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

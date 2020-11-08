@@ -30,6 +30,10 @@ abstract class WithValidations {
     validationListeners.add(callback);
   }
 
+  void removeValidationListener(VoidCallback callback) {
+    validationListeners.remove(callback);
+  }
+
   void _notifyValidationListeners() {
     for(VoidCallback cb in validationListeners) cb();
   }
