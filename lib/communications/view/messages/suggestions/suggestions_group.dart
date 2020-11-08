@@ -125,9 +125,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
 
                       Suggestion suggestion = _suggestions[i];
                       suggestion.userDataEntity.validate();
-
                       if(!suggestion.userDataEntity.isValid) anyInvalid = true;
-
                     }
 
                     if(anyInvalid) {
@@ -215,6 +213,7 @@ class SuggestionWidget extends StatelessWidget {
           child: Column(
               children: [
                 getConcreteWidget(),
+                SizedBox(height: 10),
                 if(suggestion.cancelable)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

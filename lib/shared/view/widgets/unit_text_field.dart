@@ -148,7 +148,7 @@ class UnitTextFieldState extends State<UnitTextField> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0)
                   ),
-                  style: TextStyle(fontSize: widget.valueSize),
+                  style: TextStyle(fontSize: widget.valueSize, color: !enabled ? Colors.grey : null),
                   keyboardType: TextInputType.number,
                   controller: _controller,
                 ),
