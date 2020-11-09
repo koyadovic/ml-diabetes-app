@@ -1,6 +1,7 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/shared/view/view_model.dart';
+import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 
@@ -27,13 +28,35 @@ class SettingsViewModel extends DiaViewModel {
     await settingServices.saveSetting(category, setting, value);
   }
 
+  Future<List<InsulinType>> getInsulinTypes() async {
+    return await settingServices.getInsulinTypes();
+  }
+
   String getCategoryLabel(Category category) {
-    // TODO
+    // TODO translations
+    switch(category.key) {
+      case 'localization':
+        return 'Localization';
+      case 'insulin-types-category':
+        return 'Insulin Types';
+    }
     return category.key;
   }
 
   String getSettingLabel(Setting setting) {
-    // TODO
+    // TODO translations
+    switch(setting.key) {
+      case 'timezone':
+        return 'Time zone';
+      case 'language':
+        return 'Language';
+      case 'insulin-type-1':
+        return 'Insulin type No.1';
+      case 'insulin-type-2':
+        return 'Insulin type No.2';
+      case 'insulin-type-3':
+        return 'Insulin type No.3';
+    }
     return setting.key;
   }
 

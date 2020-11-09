@@ -18,7 +18,7 @@ class SettingSpecification {
 
 class Setting {
   final String key;
-  final String value;
+  String value;
   final SettingSpecification specification;
 
   Setting({this.key, this.value, this.specification});

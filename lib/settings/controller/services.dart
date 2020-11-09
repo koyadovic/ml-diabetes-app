@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/services/storage.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
+import 'package:Dia/user_data/model/entities/insulin.dart';
 
 
 typedef SettingChangeListener = void Function(String value);
@@ -11,14 +9,12 @@ typedef SettingChangeListener = void Function(String value);
 
 class SettingsServices {
   final ApiRestBackend _backend = ApiRestBackend();
-  final Storage _storage = getLocalStorage();
 
   static final SettingsServices _instance = SettingsServices._internal();
   factory SettingsServices() {
     return _instance;
   }
-  SettingsServices._internal() {
-  }
+  SettingsServices._internal();
 
   Map<String, List<SettingChangeListener>> _listeners = {};
   Future<List<Category>> getAllSettings() async {
@@ -44,6 +40,7 @@ class SettingsServices {
     await withBackendErrorHandlers(() async {
       await _backend.post('/api/v1/settings/${category.key}/${setting.key}/', {'value': value});
     });
+    setting.value = value;
     _notifyListeners(category.key, setting.key, value);
   }
 
@@ -74,6 +71,12 @@ class SettingsServices {
     for(var listener in listeners) {
       listener(value);
     }
+  }
+
+  Future<List<InsulinType>> getInsulinTypes() async {
+    String url = '/api/v1/insulin-types/';
+    dynamic contents = await _backend.get(url);
+    return List<InsulinType>.from(contents.map((content) => InsulinType.fromJson(content)));
   }
 
   Future<String> getLanguage() async {

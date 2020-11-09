@@ -1,9 +1,6 @@
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 
-import 'utils/navigation.dart';
 
 class DiaViewModel {
   bool _loading = false;
@@ -15,7 +12,6 @@ class DiaViewModel {
   void notifyChanges() {
     if(this.state.mounted)
       this.state.setState(() {});
-    print('Notificando a todos los hijos de puta de cambios');
   }
 
   bool isLoading() {
