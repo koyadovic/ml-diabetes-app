@@ -1,5 +1,6 @@
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/shared/services/api_rest_backend.dart';
+import 'package:Dia/shared/services/storage.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 
@@ -9,6 +10,7 @@ typedef SettingChangeListener = void Function(String value);
 
 class SettingsServices {
   final ApiRestBackend _backend = ApiRestBackend();
+  final Storage _storage = getLocalStorage();
 
   static final SettingsServices _instance = SettingsServices._internal();
   factory SettingsServices() {
@@ -30,6 +32,7 @@ class SettingsServices {
         Map<String, dynamic> serializedSetting = Map<String, dynamic>.from(categorySettings[settingKey]);
         Setting setting = Setting.deserialize(settingKey, serializedSetting);
         category.addSetting(setting);
+        await _saveSettingInLocalStorage(categoryKey, settingKey, setting.value);
       }
       categories.add(category);
     }
@@ -42,6 +45,7 @@ class SettingsServices {
     });
     setting.value = value;
     _notifyListeners(category.key, setting.key, value);
+    await _saveSettingInLocalStorage(category.key, setting.key, setting.value);
   }
 
   void addLanguageChangeListener(SettingChangeListener listener) {
@@ -80,10 +84,18 @@ class SettingsServices {
   }
 
   Future<String> getLanguage() async {
-
+    await _retrieveSettingInLocalStorage('localization', 'language');
   }
 
   Future<String> getTimezone() async {
+    await _retrieveSettingInLocalStorage('localization', 'timezone');
+  }
 
+  Future<void> _saveSettingInLocalStorage(String category, String key, String value) async {
+    await _storage.set('settings_${category}_$key', value);
+  }
+
+  Future<void> _retrieveSettingInLocalStorage(String category, String key) async {
+    return await _storage.get('settings_${category}_$key');
   }
 }
