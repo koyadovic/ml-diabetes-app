@@ -29,7 +29,7 @@ class Feeding extends UserDataEntity {
   static Feeding fromJson(Map<String, dynamic> json) {
     return Feeding(
       id: json['id'],
-      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toUtc(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'Feeding',
       carbGrams: json['carb_g'],
       carbSugarGrams: json['carb_sugar_g'],

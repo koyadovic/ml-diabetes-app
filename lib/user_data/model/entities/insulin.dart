@@ -67,7 +67,7 @@ class InsulinInjection extends UserDataEntity {
   static InsulinInjection fromJson(Map<String, dynamic> json) {
     return InsulinInjection(
       id: json['id'],
-      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toLocal(),
+      eventDate: json['event_date'] == null ? null : DateTime.fromMicrosecondsSinceEpoch((json['event_date'] * 1000000.0).round(), isUtc: true).toUtc(),
       entityType: json['entity_type'] != null ? json['entity_type'] : 'InsulinInjection',
       insulinType: json['insulin_type'] != null ? InsulinType.fromJson(json['insulin_type']) : null,
       units: json['units'],
