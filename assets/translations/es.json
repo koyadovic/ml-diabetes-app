@@ -1,3 +1,9 @@
 {
-  "Welcome!": "Bienvenido!"
+  "Timezone": "Huso horario",
+  "Localization": "Localización",
+  "Language": "Idioma",
+  "Insulin Types": "Tipos de insulina",
+  "Insulin type No.1": "Tipo de insulina 1",
+  "Insulin type No.2": "Tipo de insulina 2",
+  "Insulin type No.3": "Tipo de insulina 3"
 }

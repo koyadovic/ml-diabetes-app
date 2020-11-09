@@ -50,9 +50,6 @@ class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
 
   @override
   void initState() {
-    settingsServices.addLanguageChangeListener(() {
-      setState(() {});
-    });
     _viewModel = SettingsViewModel(this);
     _viewModel.getInsulinTypes().then((types) => setState((){insulinTypes = types;}));
     super.initState();

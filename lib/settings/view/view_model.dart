@@ -3,6 +3,7 @@ import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class SettingsViewModel extends DiaViewModel {
@@ -36,9 +37,9 @@ class SettingsViewModel extends DiaViewModel {
     // TODO translations
     switch(category.key) {
       case 'localization':
-        return 'Localization';
+        return 'Localization'.tr();
       case 'insulin-types-category':
-        return 'Insulin Types';
+        return 'Insulin Types'.tr();
     }
     return category.key;
   }
@@ -47,15 +48,15 @@ class SettingsViewModel extends DiaViewModel {
     // TODO translations
     switch(setting.key) {
       case 'timezone':
-        return 'Timezone';
+        return 'Timezone'.tr();
       case 'language':
-        return 'Language';
+        return 'Language'.tr();
       case 'insulin-type-1':
-        return 'Insulin type No.1';
+        return 'Insulin type No.1'.tr();
       case 'insulin-type-2':
-        return 'Insulin type No.2';
+        return 'Insulin type No.2'.tr();
       case 'insulin-type-3':
-        return 'Insulin type No.3';
+        return 'Insulin type No.3'.tr();
     }
     return setting.key;
   }

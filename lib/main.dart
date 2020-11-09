@@ -1,6 +1,5 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/view/screen.dart';
-import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'feedings/view/screen.dart';
@@ -19,6 +18,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 Future<List<int>> loadTZDatabase() async {
@@ -33,7 +33,14 @@ void main() {
     tz.initializeDatabase(rawData);
     tz.initializeTimeZones();
   });
-  runApp(DiaApp());
+  runApp(
+      EasyLocalization(
+          supportedLocales: [Locale('en'), Locale('es')],
+          path: 'assets/translations',
+          fallbackLocale: Locale('en'),
+          child: DiaApp()
+      )
+  );
 }
 
 class DiaApp extends StatefulWidget {
@@ -44,32 +51,36 @@ class DiaApp extends StatefulWidget {
 }
 
 class DiaAppState extends State<DiaApp> {
+  final SettingsServices settingsServices = SettingsServices();
 
   @override
   void initState() {
+    settingsServices.getLanguage().then((String lang) {
+      print('Changing locale to $lang');
+      context.locale = Locale(lang);
+    });
+    settingsServices.addLanguageChangeListener(() async {
+      String lang = await settingsServices.getLanguage();
+      print('Changing locale to $lang');
+      context.locale = Locale(lang);
+    });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dia',
       theme: ThemeData(
         fontFamily: 'Roboto',
         primarySwatch: DiaTheme.primarySwatch,
         primaryColor: DiaTheme.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: 'Dia',
       home: MainScreen(title: 'Dia'),
-      localizationsDelegates: [
-        const TranslationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('en'),
-        const Locale('es'),
-      ],
     );
   }
 }

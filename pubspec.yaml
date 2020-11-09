@@ -45,6 +45,8 @@ dependencies:
   # locales
   intl: ^0.16.1
   timezone: ^0.5.9
+  easy_localization: 2.3.3
+
 
 dev_dependencies:
   flutter_test:

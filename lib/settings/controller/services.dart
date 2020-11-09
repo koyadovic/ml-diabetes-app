@@ -6,7 +6,7 @@ import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:timezone/timezone.dart';
 
 
-typedef SettingChangeListener = void Function();
+typedef SettingChangeListener = Future Function();
 
 
 class SettingsServices {
@@ -85,7 +85,7 @@ class SettingsServices {
   }
 
   Future<String> getLanguage() async {
-    await _retrieveSettingInLocalStorage('localization', 'language');
+    return await _retrieveSettingInLocalStorage('localization', 'language');
   }
 
   Future<Location> getTimezone() async {
