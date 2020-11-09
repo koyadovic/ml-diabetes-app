@@ -3,9 +3,10 @@ import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/services/storage.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:timezone/timezone.dart';
 
 
-typedef SettingChangeListener = void Function(String value);
+typedef SettingChangeListener = void Function();
 
 
 class SettingsServices {
@@ -73,7 +74,7 @@ class SettingsServices {
     List<SettingChangeListener> listeners = _listeners[k];
     if(listeners == null) return;
     for(var listener in listeners) {
-      listener(value);
+      listener();
     }
   }
 
@@ -87,15 +88,17 @@ class SettingsServices {
     await _retrieveSettingInLocalStorage('localization', 'language');
   }
 
-  Future<String> getTimezone() async {
-    await _retrieveSettingInLocalStorage('localization', 'timezone');
+  Future<Location> getTimezone() async {
+    String tzString = await _retrieveSettingInLocalStorage('localization', 'timezone');
+    Location location = getLocation(tzString);
+    return location;
   }
 
   Future<void> _saveSettingInLocalStorage(String category, String key, String value) async {
     await _storage.set('settings_${category}_$key', value);
   }
 
-  Future<void> _retrieveSettingInLocalStorage(String category, String key) async {
+  Future<String> _retrieveSettingInLocalStorage(String category, String key) async {
     return await _storage.get('settings_${category}_$key');
   }
 }

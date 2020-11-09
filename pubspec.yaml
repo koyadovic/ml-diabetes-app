@@ -44,7 +44,8 @@ dependencies:
 
   # locales
   intl: ^0.16.1
-  time_machine: ^0.9.15
+  # time_machine: ^0.9.15
+  timezone: ^0.5.9
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
+    - assets/db/2020d_2015-2025.tzf
 
   fonts:
     - family: Raleway

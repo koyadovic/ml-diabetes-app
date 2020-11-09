@@ -427,13 +427,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4+1"
-  resource:
-    dependency: transitive
-    description:
-      name: resource
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.7"
   shelf:
     dependency: transitive
     description:
@@ -537,13 +530,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.10"
-  time_machine:
+  timezone:
     dependency: "direct main"
     description:
-      name: time_machine
+      name: timezone
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.15"
+    version: "0.5.9"
   typed_data:
     dependency: transitive
     description:

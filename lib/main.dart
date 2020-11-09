@@ -1,6 +1,7 @@
 import 'package:Dia/settings/view/screen.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'feedings/view/screen.dart';
@@ -16,9 +17,22 @@ import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/user_data/view/screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+
+
+Future<List<int>> loadTZDatabase() async {
+  var byteData = await rootBundle.load('assets/db/2020d_2015-2025.tzf');
+  return byteData.buffer.asUint8List();
+}
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  loadTZDatabase().then((rawData) {
+    tz.initializeDatabase(rawData);
+    tz.initializeTimeZones();
+  });
   runApp(DiaApp());
 }
 
