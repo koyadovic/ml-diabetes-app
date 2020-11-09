@@ -1,14 +1,12 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/settings/view/view_model.dart';
-import 'package:Dia/shared/tools/dates.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:flutter/material.dart';
-import 'package:timezone/timezone.dart';
 
 // ignore: must_be_immutable
 class SettingsScreenWidget extends DiaRootScreenStatefulWidget {
@@ -48,9 +46,13 @@ class SettingsScreenWidget extends DiaRootScreenStatefulWidget {
 class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
   SettingsViewModel _viewModel;
   List<InsulinType> insulinTypes = [];
+  final SettingsServices settingsServices = SettingsServices();
 
   @override
   void initState() {
+    settingsServices.addLanguageChangeListener(() {
+      setState(() {});
+    });
     _viewModel = SettingsViewModel(this);
     _viewModel.getInsulinTypes().then((types) => setState((){insulinTypes = types;}));
     super.initState();

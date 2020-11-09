@@ -11,7 +11,6 @@ import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:Dia/shared/view/view_model.dart';
-import 'package:Dia/user_data/view/timeline/view_model.i18n.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
@@ -117,7 +116,7 @@ class ViewModelEntry {
           type: entity.entityType,
           value: glucoseLevel.level,
           unit: 'mg/dL',
-          text: 'Su nivel de glucosa quedó registrado como 0 mg/dL'.plural(glucoseLevel.level),
+          text: 'Su nivel de glucosa quedó registrado como ${glucoseLevel.level} mg/dL',
           entity: glucoseLevel,
           color: Colors.redAccent,
         );

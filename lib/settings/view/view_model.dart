@@ -47,7 +47,7 @@ class SettingsViewModel extends DiaViewModel {
     // TODO translations
     switch(setting.key) {
       case 'timezone':
-        return 'Time zone';
+        return 'Timezone';
       case 'language':
         return 'Language';
       case 'insulin-type-1':

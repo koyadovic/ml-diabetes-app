@@ -3,7 +3,6 @@ import 'package:Dia/settings/view/screen.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'feedings/view/screen.dart';
 import 'shared/view/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
@@ -19,7 +18,6 @@ import 'package:Dia/user_data/view/screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:i18n_extension/i18n_widget.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 
@@ -46,17 +44,9 @@ class DiaApp extends StatefulWidget {
 }
 
 class DiaAppState extends State<DiaApp> {
-  SettingsServices settingServices = SettingsServices();
-  Locale initialLocale = Locale('en');
 
   @override
   void initState() {
-    settingServices.addLanguageChangeListener(() async {
-      String lang = await settingServices.getLanguage();
-      setState(() {
-        initialLocale = Locale(lang);
-      });
-    });
     super.initState();
   }
   @override
@@ -69,10 +59,7 @@ class DiaAppState extends State<DiaApp> {
         primaryColor: DiaTheme.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: I18n(
-        initialLocale: initialLocale,
-        child: MainScreen(title: 'Dia'),
-      ),
+      home: MainScreen(title: 'Dia'),
       localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
@@ -80,8 +67,8 @@ class DiaAppState extends State<DiaApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        const Locale('en', "US"),
-        const Locale('es', "ES"),
+        const Locale('en'),
+        const Locale('es'),
       ],
     );
   }
@@ -98,7 +85,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> implements MessagesHandler, ConcreteNavigator {
-
+  SettingsServices settingServices = SettingsServices();
   final MessageSource messageSource = getMessagesSource();
 
   List<DiaScreen> _screens = [];
@@ -110,12 +97,6 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   @override
   void initState() {
     super.initState();
-
-    // TODO this will be defined from the backend
-    // TODO we need to get the value from settings BC and set it globally
-    // TODO maybe settings will need to expose some kind of observable/observer pattern to change here the most
-    //   recent setting value
-    Intl.defaultLocale = 'es';
 
     DiaMessages.setMessagesHandler(this);
     DiaNavigation.setConcreteNavigator(this);
