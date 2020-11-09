@@ -1,8 +1,11 @@
 import 'package:timezone/timezone.dart' as tz;
 
-tz.TZDateTime makeAwareDateTime(DateTime dateTime, tz.Location timezone) {
-  if(timezone == null) {
-    timezone = tz.UTC;
+
+extension AsTimezone on DateTime {
+  tz.TZDateTime asTimezone(tz.Location timezone) {
+    if(timezone == null) {
+      timezone = tz.UTC;
+    }
+    return tz.TZDateTime.fromMillisecondsSinceEpoch(timezone, this.toUtc().millisecondsSinceEpoch);
   }
-  return tz.TZDateTime.fromMillisecondsSinceEpoch(timezone, dateTime.toUtc().millisecondsSinceEpoch);
 }
