@@ -1,8 +1,5 @@
-import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
-import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:Dia/user_data/model/entities/base.dart';
@@ -13,6 +10,8 @@ import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:Dia/shared/view/view_model.dart';
+import 'package:Dia/user_data/view/timeline/view_model.i18n.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
@@ -118,7 +117,7 @@ class ViewModelEntry {
           type: entity.entityType,
           value: glucoseLevel.level,
           unit: 'mg/dL',
-          text: 'Su nivel de glucosa quedó registrado como ${glucoseLevel.level} mg/dL',
+          text: 'Su nivel de glucosa quedó registrado como 0 mg/dL'.plural(glucoseLevel.level),
           entity: glucoseLevel,
           color: Colors.redAccent,
         );

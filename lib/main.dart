@@ -1,8 +1,8 @@
+import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/view/screen.dart';
 import 'package:Dia/shared/view/utils/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'feedings/view/screen.dart';
 import 'shared/view/theme.dart';
@@ -19,6 +19,8 @@ import 'package:Dia/user_data/view/screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:i18n_extension/i18n_widget.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 Future<List<int>> loadTZDatabase() async {
@@ -36,7 +38,27 @@ void main() {
   runApp(DiaApp());
 }
 
-class DiaApp extends StatelessWidget {
+class DiaApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return DiaAppState();
+  }
+}
+
+class DiaAppState extends State<DiaApp> {
+  SettingsServices settingServices = SettingsServices();
+  Locale initialLocale = Locale('en');
+
+  @override
+  void initState() {
+    settingServices.addLanguageChangeListener(() async {
+      String lang = await settingServices.getLanguage();
+      setState(() {
+        initialLocale = Locale(lang);
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,14 +69,20 @@ class DiaApp extends StatelessWidget {
         primaryColor: DiaTheme.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScreen(title: 'Dia'),
+      home: I18n(
+        initialLocale: initialLocale,
+        child: MainScreen(title: 'Dia'),
+      ),
       localizationsDelegates: [
         const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: translationApp.supportedLocales(),
+      supportedLocales: [
+        const Locale('en', "US"),
+        const Locale('es', "ES"),
+      ],
     );
   }
 }

@@ -44,7 +44,7 @@ dependencies:
 
   # locales
   intl: ^0.16.1
-  # time_machine: ^0.9.15
+  i18n_extension: ^1.4.5
   timezone: ^0.5.9
 
 dev_dependencies:
