@@ -1,3 +1,5 @@
+import 'package:Dia/settings/model/entities.dart';
+import 'package:Dia/settings/view/view_model.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +39,49 @@ class SettingsScreenWidget extends DiaRootScreenStatefulWidget {
 
 
 class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
+  SettingsViewModel _viewModel;
+
+  @override
+  void initState() {
+    _viewModel = SettingsViewModel(this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Text('Settings');
+    List<Widget> categoryWidgets = _viewModel != null ?
+      _viewModel.categories.map((category) => CategoryWidget(category, _viewModel)).toList()
+      : [];
+
+    return ListView(
+      children: categoryWidgets
+    );
   }
 }
+
+
+class CategoryWidget extends StatelessWidget {
+  final Category category;
+  final SettingsViewModel viewModel;
+
+  CategoryWidget(this.category, this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(viewModel.getCategoryLabel(category)),
+        ...category.settings.map((setting) => getSettingWidget(setting)),
+      ],
+    );
+  }
+
+  Widget getSettingWidget(Setting setting) {
+    switch(setting.key) {
+      case 'timezone':
+        return Text(setting.key);
+    }
+    return Text(setting.key);
+  }
+}
+

@@ -15,6 +15,7 @@ class DiaViewModel {
   void notifyChanges() {
     if(this.state.mounted)
       this.state.setState(() {});
+    print('Notificando a todos los hijos de puta de cambios');
   }
 
   bool isLoading() {
