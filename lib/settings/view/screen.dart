@@ -100,7 +100,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -111,7 +111,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
               color: DiaTheme.primaryColor,
             )
           ),
-          SizedBox(height: 1, child: Container(color: DiaTheme.primaryColor)),
+          SizedBox(height: 2, child: Container(color: DiaTheme.primaryColor)),
           ...widget.category.settings.map(
             (setting) => Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -122,8 +122,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
                     widget.viewModel.getSettingLabel(setting),
                     style: TextStyle(
                       fontSize: verySmallSize(context),
-                      color: Colors.black87,
-                      decoration: TextDecoration.underline
+                      color: DiaTheme.primaryColor,
                     )
                   ),
                   getSettingWidget(setting, context),
