@@ -131,12 +131,6 @@ class CategoryWidgetState extends State<CategoryWidget> {
     );
   }
 
-  /*
-  TODO hay que pillar todos los tipos de insulina para traducir el setting de insulina al slug y al guardar que se guarde el slug
-   */
-
-
-
   Widget getSettingWidget(Setting setting, BuildContext context) {
     switch(setting.key) {
       case 'timezone':
