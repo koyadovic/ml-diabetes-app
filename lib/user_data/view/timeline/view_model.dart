@@ -118,7 +118,7 @@ class ViewModelEntry {
           type: entity.entityType,
           value: glucoseLevel.level,
           unit: 'mg/dL',
-          text: 'Glucose Level',
+          text: 'Su nivel de glucosa quedó registrado como ${glucoseLevel.level} mg/dL',
           entity: glucoseLevel,
           color: Colors.redAccent,
         );

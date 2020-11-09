@@ -86,15 +86,12 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     }
 
     return ListTile(
-      leading: leading,
+      leading: Text(DateFormat.Hm().format(entity.eventDate), style: TextStyle(color: Colors.grey, fontSize: mediumSize(context))),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 5, 8.0),
-            child: Text(entity.text, style: TextStyle(fontSize: smallSize(context), fontWeight: FontWeight.w400)),
-          ),
+          leading,
           if(entity.value is int || entity.value is double)
             EnabledStatus(
               isEnabled: false,
@@ -108,12 +105,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
             ),
           if(!(entity.value is int) && !(entity.value is double))
             Text(entity.value, style: TextStyle(fontSize: mediumSize(context))),
-        ],
-      ),
-      subtitle: Row(
-        children: [
-          Icon(Icons.calendar_today, size: smallSize(context), color: Colors.grey),
-          Text(DateFormat.yMMMMEEEEd().format(entity.eventDate), style: TextStyle(color: Colors.grey)),
         ],
       ),
       onTap: () {
@@ -146,12 +137,12 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
               ..._viewModel.days.map((day) => Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TitledCardContainer(
-                  title: day.date.toLocal().day.toString(),
+                  title: DateFormat.MMMMd().format(day.date.toLocal()).toString(),
                   children: [
                     ...day.entries.map((entry) => InnerCardItem(
-                      title: entry.entity.entityType,
+                      title: entry.text,
                       color: entry.color,
-                      child: Text(entry.text),
+                      child: userDataViewModelEntityToListTile(entry),
                     )),
                   ],
                 ),

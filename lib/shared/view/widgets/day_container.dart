@@ -22,7 +22,7 @@ class TitledCardContainer extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey,
                   shadows: [
-                    Shadow(color: Colors.black26, blurRadius: 3, offset: Offset(3, 3))
+                    //Shadow(color: Colors.black26, blurRadius: 3, offset: Offset(3, 3))
                   ]
                 )
               ),
@@ -52,7 +52,7 @@ class InnerCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 5,
+      elevation: 2,
       color: Colors.white,
       shape: Border(
         left: BorderSide(
