@@ -22,7 +22,7 @@ import 'package:timezone/data/latest.dart' as tz;
 
 
 Future<List<int>> loadTZDatabase() async {
-  var byteData = await rootBundle.load('assets/db/2020d_2015-2025.tzf');
+  var byteData = await rootBundle.load('assets/db/2020d_all.tzf');
   return byteData.buffer.asUint8List();
 }
 
