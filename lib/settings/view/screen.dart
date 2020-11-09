@@ -49,22 +49,10 @@ class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
   SettingsViewModel _viewModel;
   List<InsulinType> insulinTypes = [];
 
-  final SettingsServices settingServices = SettingsServices();
-
-  DateTime now = DateTime.now().toUtc();
-  Location tz;
-
   @override
   void initState() {
     _viewModel = SettingsViewModel(this);
     _viewModel.getInsulinTypes().then((types) => setState((){insulinTypes = types;}));
-
-    settingServices.addTimezoneChangeListener(() async {
-      Location loc = await settingServices.getTimezone();
-      setState(() {
-        tz = loc;
-      });
-    });
     super.initState();
   }
 
@@ -76,7 +64,6 @@ class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
 
     return ListView(
       children: [
-        Text(makeAwareDateTime(now, tz).toIso8601String()),
         ...categoryWidgets
       ]
     );

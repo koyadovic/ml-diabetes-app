@@ -45,8 +45,8 @@ class SettingsServices {
       await _backend.post('/api/v1/settings/${category.key}/${setting.key}/', {'value': value});
     });
     setting.value = value;
-    _notifyListeners(category.key, setting.key, value);
     await _saveSettingInLocalStorage(category.key, setting.key, setting.value);
+    _notifyListeners(category.key, setting.key, value);
   }
 
   void addLanguageChangeListener(SettingChangeListener listener) {
