@@ -108,6 +108,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   void setLanguage(String lang) {
     context.locale = Locale(lang);
+    Intl.defaultLocale = lang;
     Future.delayed(Duration(milliseconds: 500), () {
       rebuildAllChildren(context);
     });
