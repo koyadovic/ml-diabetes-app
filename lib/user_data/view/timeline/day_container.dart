@@ -39,6 +39,99 @@ class InnerCardItem extends StatelessWidget {
   final String text;
 
   InnerCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
+  
+  Widget getLinesAndIconWidget(BuildContext context) {
+    Color lineColor = Colors.grey;
+
+    Container line = Container(
+      decoration: BoxDecoration(
+        color: lineColor,
+      ),
+      height: 35 * screenSizeScalingFactor(context),
+      width: 2,
+    );
+
+    return Container(
+      width: 60 * screenSizeScalingFactor(context),
+      child: Stack(
+        children: [
+          if(lineToBottom)
+            Align(alignment: Alignment.bottomCenter, child: line),
+          if(lineToTop)
+            Align(alignment: Alignment.topCenter, child: line),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+                color: lineColor,
+              ),
+              width: 50 * screenSizeScalingFactor(context),
+              height: 50 * screenSizeScalingFactor(context),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ]
+              ),
+              width: 45 * screenSizeScalingFactor(context),
+              height: 45 * screenSizeScalingFactor(context),
+              child: Center(child: icon),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getMinuteHourWidget(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      width: 70 * screenSizeScalingFactor(context),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 10 * screenSizeScalingFactor(context), 0),
+        child: Text(
+            hourMinute,
+            style: TextStyle(
+              fontSize: smallSize(context),
+              fontWeight: FontWeight.w300,
+            )
+        ),
+      ),
+    );
+  }
+
+  Widget getTextWidget(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+        child: Container(
+          child: Padding(
+            padding: EdgeInsets.all(8.0 * screenSizeScalingFactor(context)),
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: verySmallSize(context, scale: false),
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 5,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,105 +141,9 @@ class InnerCardItem extends StatelessWidget {
       child: IntrinsicWidth(
         child: Row(
           children: [
-            // lines and icon
-            Container(
-              width: 60 * screenSizeScalingFactor(context),
-              child: Stack(
-                children: [
-                  if(lineToBottom)
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: DiaTheme.primaryColor,
-                        ),
-                        height: 35 * screenSizeScalingFactor(context),
-                        width: 2,
-                      ),
-                    ),
-                  if(lineToTop)
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: DiaTheme.primaryColor,
-                        ),
-                        height: 35 * screenSizeScalingFactor(context),
-                        width: 2,
-                      ),
-                    ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          //border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          //color: Color(0xFFFAFAFA),
-                          color: DiaTheme.primaryColor,
-                      ),
-                      width: 50 * screenSizeScalingFactor(context),
-                      height: 50 * screenSizeScalingFactor(context),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          //border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          //color: Color(0xFFFAFAFA),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 5), // changes position of shadow
-                            ),
-                          ]
-                      ),
-                      width: 45 * screenSizeScalingFactor(context),
-                      height: 45 * screenSizeScalingFactor(context),
-                      child: Center(child: icon),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // hour of the event
-            Container(
-              alignment: Alignment.center,
-              width: 70 * screenSizeScalingFactor(context),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 10 * screenSizeScalingFactor(context), 0),
-                child: Text(
-                    hourMinute,
-                    style: TextStyle(
-                      fontSize: smallSize(context),
-                      fontWeight: FontWeight.w300,
-                    )
-                ),
-              ),
-            ),
-            // text
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: Container(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0 * screenSizeScalingFactor(context)),
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        fontSize: verySmallSize(context, scale: false),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 5,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            getLinesAndIconWidget(context),
+            getMinuteHourWidget(context),
+            getTextWidget(context),
           ],
         ),
       ),
