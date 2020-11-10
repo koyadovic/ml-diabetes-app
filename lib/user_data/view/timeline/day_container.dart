@@ -74,7 +74,7 @@ class InnerCardItem extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.white,
+                  color: Color(0xFFFCFCFC),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
