@@ -2,7 +2,7 @@ import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/widgets/day_container.dart';
+import 'package:Dia/user_data/view/timeline/day_container.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/view/timeline/view_model.dart';
