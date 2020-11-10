@@ -135,6 +135,13 @@ class CategoryWidgetState extends State<CategoryWidget> {
     );
   }
 
+  void unFocus(BuildContext c) {
+    FocusScopeNode currentFocus = FocusScope.of(c);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
   Widget getSettingWidget(Setting setting, BuildContext context) {
     switch(setting.key) {
       case 'timezone':
@@ -148,6 +155,10 @@ class CategoryWidgetState extends State<CategoryWidget> {
           onSelected: (String value) {
             if(value != null) {
               widget.viewModel.saveSetting(widget.category, setting, value).then((_) {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
                 setState(() {
                 });
               });
@@ -168,6 +179,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
           ),
           onSelected: (InsulinType type) {
             widget.viewModel.saveSetting(widget.category, setting, type != null ? type.slug : '').then((_) {
+              unFocus(context);
               setState(() {
               });
             });
@@ -182,6 +194,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
           onChanged: (String newValue) {
             if(newValue != null) {
               widget.viewModel.saveSetting(widget.category, setting, newValue).then((_) {
+                unFocus(context);
                 setState(() {
                 });
               });

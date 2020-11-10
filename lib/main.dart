@@ -98,15 +98,26 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   final SettingsServices settingsServices = SettingsServices();
 
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+    (context as Element).visitChildren(rebuild);
+  }
+
   void setLanguage(String lang) {
-    print('Setting locale to $lang');
     context.locale = Locale(lang);
+    Future.delayed(Duration(milliseconds: 500), () {
+      rebuildAllChildren(context);
+    });
   }
 
   @override
   void initState() {
     super.initState();
-
+    // this follows language changes, set the locale and rebuild all the widgets to
+    // apply new translations to whole app.
     settingsServices.getLanguage().then(setLanguage);
     settingsServices.addLanguageChangeListener(() async {
       String lang = await settingsServices.getLanguage();

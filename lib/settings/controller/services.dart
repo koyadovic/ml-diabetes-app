@@ -40,13 +40,17 @@ class SettingsServices {
     return categories;
   }
 
-  Future<void> saveSetting(Category category, Setting setting, String value) async {
+  Future<bool> saveSetting(Category category, Setting setting, String value) async {
+    String storedValue = await _retrieveSettingInLocalStorage(category.key, setting.key);
+    if (storedValue == value) return false;
+
     await withBackendErrorHandlers(() async {
       await _backend.post('/api/v1/settings/${category.key}/${setting.key}/', {'value': value});
     });
     setting.value = value;
     await _saveSettingInLocalStorage(category.key, setting.key, setting.value);
     _notifyListeners(category.key, setting.key, value);
+    return true;
   }
 
   void addLanguageChangeListener(SettingChangeListener listener) {

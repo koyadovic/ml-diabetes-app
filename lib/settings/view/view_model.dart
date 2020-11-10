@@ -1,9 +1,10 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 
 class SettingsViewModel extends DiaViewModel {
@@ -26,7 +27,14 @@ class SettingsViewModel extends DiaViewModel {
   }
 
   Future<void> saveSetting(Category category, Setting setting, String value) async {
-    await settingServices.saveSetting(category, setting, value);
+    bool changed = await settingServices.saveSetting(category, setting, value);
+
+    if (changed) {
+      Future.delayed(Duration(milliseconds: 500), () {
+        DiaMessages.getInstance().showInformation('Settings saved!'.tr());
+      });
+    }
+
   }
 
   Future<List<InsulinType>> getInsulinTypes() async {
@@ -34,7 +42,6 @@ class SettingsViewModel extends DiaViewModel {
   }
 
   String getCategoryLabel(Category category) {
-    // TODO translations
     switch(category.key) {
       case 'localization':
         return 'Localization'.tr();
@@ -45,7 +52,6 @@ class SettingsViewModel extends DiaViewModel {
   }
 
   String getSettingLabel(Setting setting) {
-    // TODO translations
     switch(setting.key) {
       case 'timezone':
         return 'Timezone'.tr();
