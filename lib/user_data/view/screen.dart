@@ -162,7 +162,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
               severalFloatingActionButton.state.toggle();
 
               InsulinInjection insulinInjection;
-              List<InsulinType> insulinTypes = await _userDataServices.getInsulinTypes();
+              List<InsulinType> insulinTypes = await _userDataServices.getMyInsulinTypes();
               if(insulinTypes.length > 0) {
                 insulinInjection = InsulinInjection(eventDate: DateTime.now(), units: 0, insulinType: insulinTypes[0]);
               } else {

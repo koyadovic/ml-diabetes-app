@@ -127,6 +127,12 @@ class UserDataServices {
     return List<InsulinType>.from(contents.map((content) => InsulinType.fromJson(content)));
   }
 
+  Future<List<InsulinType>> getMyInsulinTypes() async {
+    String url = '/api/v1/my-insulin-types/';
+    dynamic contents = await _backend.get(url);
+    return List<InsulinType>.from(contents.map((content) => InsulinType.fromJson(content)));
+  }
+
   Future<List<TraitType>> getTraitTypes() async {
     String url = '/api/v1/trait-types/';
     dynamic contents = await _backend.get(url);
