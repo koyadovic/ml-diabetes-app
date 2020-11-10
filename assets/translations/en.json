@@ -7,6 +7,12 @@
   "Insulin type No.2": "Insulin type No.2",
   "Insulin type No.3": "Insulin type No.3",
   "Settings saved!": "Settings saved!",
+  "language_es": "Spanish",
+  "language_en": "English",
+  "Saved!": "Saved!",
   "{} for {} minutes": "{} for {} minutes",
-  "Your glucose level was {} mg/dL": "Glucose level of {} mg/dL"
+  "Your glucose level was {} mg/dL": "Glucose level of {} mg/dL",
+  "You injected {} units of insulin {}": "You injected {} units of insulin {}",
+  "You changed your {}: {}{}": "You changed your {}: {}{}",
+  "Search for activity": "Search for activity"
 }

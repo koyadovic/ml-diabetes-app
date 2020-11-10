@@ -7,6 +7,12 @@
   "Insulin type No.2": "Tipo de insulina 2",
   "Insulin type No.3": "Tipo de insulina 3",
   "Settings saved!": "¡Configuración guardada!",
+  "language_es": "Español",
+  "language_en": "Inglés",
+  "Saved!": "¡Guardado!",
   "{} for {} minutes": "{} por {} minutos",
-  "Your glucose level was {} mg/dL": "Nivel de glucosa de {} mg/dL"
+  "Your glucose level was {} mg/dL": "Nivel de glucosa de {} mg/dL",
+  "You injected {} units of insulin {}": "Se inyectó {} unidades de insulina {}",
+  "You changed your {}: {}{}": "Cambió su {}: {}{}",
+  "Search for activity": "Busque por actividad"
 }

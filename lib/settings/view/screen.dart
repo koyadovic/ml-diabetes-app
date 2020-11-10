@@ -4,9 +4,11 @@ import 'package:Dia/settings/view/view_model.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
 class SettingsScreenWidget extends DiaRootScreenStatefulWidget {
@@ -161,7 +163,10 @@ class CategoryWidgetState extends State<CategoryWidget> {
               });
             }
           },
-          renderItem: (String value) => Text(value ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+          renderItem: (String value) => ListTile(
+            leading: Icon(Icons.location_on),
+            title: Text(value),
+          ),
         );
       case 'insulin-type-1':
       case 'insulin-type-2':
@@ -181,7 +186,11 @@ class CategoryWidgetState extends State<CategoryWidget> {
               });
             });
           },
-          renderItem: (InsulinType value) => Text(value.toString() ?? 'Pulse para seleccionar', style: TextStyle(color: Colors.indigo)),
+          renderItem: (InsulinType value) => ListTile(
+            leading: InsulinInjectionIconSmall(),
+            title: Text(value.name),
+            subtitle: Text(value.categories.join(', ').toString()),
+          ),
         );
       default:
         return DropdownButton<String>(
@@ -198,11 +207,12 @@ class CategoryWidgetState extends State<CategoryWidget> {
             }
           },
           items: List<DropdownMenuItem<String>>.from(setting.specification.options.map((Map<String, dynamic> option) {
+
             return DropdownMenuItem<String>(
               value: option['value'],
               child: ListTile(
                 title: Text(option['display'], style: TextStyle(fontSize: smallSize(context))),
-                subtitle: Text('Blah'),
+                subtitle: Text('language_${option["display"]}'.tr()),
               ),
             );
           }).toList()),

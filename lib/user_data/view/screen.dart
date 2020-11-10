@@ -5,6 +5,7 @@ import 'package:Dia/communications/view/messages/messages_view.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/several_floating_action_buttons.dart';
@@ -22,6 +23,7 @@ import 'package:Dia/user_data/view/shared/trait_measure_editor.dart';
 import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'graphs/view.dart';
 
@@ -93,6 +95,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                           await _userDataServices.saveTraitMeasure(traitMeasure);
                           _state.refresh();
                           _state.refreshCommunications();
+                          DiaMessages.getInstance().showInformation('Saved!'.tr());
                         });
                         hideWidget();
                       }
@@ -128,6 +131,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                           await _userDataServices.saveActivity(activity);
                           _state.refresh();
                           _state.refreshCommunications();
+                          DiaMessages.getInstance().showInformation('Saved!'.tr());
                         });
                         hideWidget();
                       }
@@ -185,6 +189,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                           await _userDataServices.saveInsulinInjection(insulinInjection);
                           _state.refresh();
                           _state.refreshCommunications();
+                          DiaMessages.getInstance().showInformation('Saved!'.tr());
                         });
                         hideWidget();
                       }
@@ -221,6 +226,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                           await _userDataServices.saveGlucoseLevel(glucoseLevel);
                           _state.refresh();
                           _state.refreshCommunications();
+                          DiaMessages.getInstance().showInformation('Saved!'.tr());
                         });
                         hideWidget();
                       }

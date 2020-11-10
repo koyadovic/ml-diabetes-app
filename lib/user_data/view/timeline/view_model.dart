@@ -10,7 +10,6 @@ import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 
@@ -129,11 +128,8 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            // value: activity.minutes,
-            // unit: 'mins',
             text: '{} for {} minutes'.tr(args: [activity.activityType.name, activity.minutes.toString()]),
             entity: activity,
-            // color: Colors.blueAccent,
         );
 
       case 'InsulinInjection':
@@ -141,11 +137,8 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            // value: insulinInjection.units,
-            // unit: 'u',
-            text: insulinInjection.insulinType.name, // + ' ' + insulinInjection.insulinType.categories.join(', '),
+            text: 'You injected {} units of insulin {}'.tr(args: [insulinInjection.units.toString(), insulinInjection.insulinType.name]),
             entity: insulinInjection,
-            // color: Colors.yellow,
         );
 
       case 'TraitMeasure':
@@ -154,33 +147,36 @@ class ViewModelEntry {
           return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            // value: double.parse(traitMeasure.value.toString()),
-            // unit: traitMeasure.traitType.unit,
-            text: traitMeasure.traitType.name,
+            text: 'You changed your {}: {}{}'.tr(args: [
+              traitMeasure.traitType.name.toLowerCase(),
+              traitMeasure.value.toString(),
+              traitMeasure.traitType.unit
+            ]),
             entity: traitMeasure,
-            // color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'gender') {
           return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
-              // value: traitMeasure.value == 'male' ? 'Male' : 'Female',
-              // unit: '',
-              text: traitMeasure.traitType.name,
+              text: 'You changed your {}: {}{}'.tr(args: [
+                traitMeasure.traitType.name.toLowerCase(),
+                traitMeasure.value.toString(),
+                traitMeasure.traitType.unit
+              ]),
               entity: traitMeasure,
-              // color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'birth-seconds-epoch') {
           return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
-              // value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
-              // unit: '',
-              text: traitMeasure.traitType.name,
+              text: 'You changed your {}: {}{}'.tr(args: [
+                traitMeasure.traitType.name.toLowerCase(),
+                traitMeasure.value.toString(),
+                traitMeasure.traitType.unit
+              ]),
               entity: traitMeasure,
-              // color: Colors.greenAccent
           );
         }
         break;
@@ -190,11 +186,8 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            // value: flag.type,
-            // unit: '',
             text: flag.type,
             entity: flag,
-            // color: Colors.red,
         );
     }
     return null;

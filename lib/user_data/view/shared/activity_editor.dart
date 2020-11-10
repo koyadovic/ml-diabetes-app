@@ -1,11 +1,12 @@
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 class ActivityEditorWidget extends StatefulWidget {
   final Activity activityForEdition;
@@ -63,7 +64,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
         shrinkWrap: true,
         children: [
           SearchAndSelect<ActivityType>(
-            hintText: 'Search for activity',
+            hintText: 'Search for activity'.tr(),
             currentValue: activity.activityType,
             source: APIRestSource<ActivityType>(
               endpoint: '/api/v1/activity-types/',
@@ -74,8 +75,8 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               if(editable)
                 _selectActivityType(value);
             },
-            renderItem: (ActivityType value) => ListTile( // TODO change this
-              leading: Icon(Icons.directions_run),
+            renderItem: (ActivityType value) => ListTile(
+              leading: ActivityIconSmall(),
               title: Text(value.name),
               subtitle: Text(value.mets.toString() + ' METs'),
             ),
