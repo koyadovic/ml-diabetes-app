@@ -43,6 +43,24 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
     _viewModel.refreshAll();
   }
 
+  Widget getIcon(ViewModelEntry entity) {
+    switch(entity.type) {
+      case 'GlucoseLevel':
+        return GlucoseLevelIconMedium();
+      case 'Feeding':
+        return FeedingIconMedium();
+      case 'Activity':
+        return ActivityIconMedium();
+      case 'Flag':
+        return FlagIconMedium();
+      case 'InsulinInjection':
+        return InsulinInjectionIconMedium();
+      case 'TraitMeasure':
+        return TraitMeasureIconMedium();
+    }
+
+  }
+
   ListTile userDataViewModelEntityToListTile(ViewModelEntry entity) {
     IconButton leading;
     switch(entity.type) {
@@ -131,39 +149,23 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         },
         child: ListView(
           children: [
-            InnerCardItem2(
-              icon: Icon(Icons.add),
-              lineToBottom: true,
-              lineToTop: false,
-              text: 'This is a test text',
-              eventDate: DateTime.now(),
-            ),
-            InnerCardItem2(
-              icon: Icon(Icons.add),
-              lineToBottom: true,
-              lineToTop: true,
-              text: 'This is a test text',
-              eventDate: DateTime.now(),
-            ),
-            InnerCardItem2(
-              icon: Icon(Icons.add),
-              lineToBottom: false,
-              lineToTop: true,
-              text: 'This is a test text',
-              eventDate: DateTime.now(),
-            ),
-            // TODO fix this shit
             if (_viewModel != null)
               ..._viewModel.days.map((day) => Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TitledCardContainer(
                   title: DateFormat.MMMMd().format(day.date.toLocal()).toString(),
                   children: [
-                    ...day.entries.map((entry) => InnerCardItem(
-                      title: entry.text,
-                      color: entry.color,
-                      child: userDataViewModelEntityToListTile(entry),
-                    )),
+                    ...day.entries.asMap().entries.map((ent) {
+                      int idx = ent.key;
+                      ViewModelEntry entry = ent.value;
+                      return InnerCardItem(
+                        lineToTop: idx != 0,
+                        lineToBottom: idx != day.entries.length - 1,
+                        text: entry.text,
+                        icon: getIcon(entry),
+                        hourMinute: '00:00',
+                      );
+                    })
                   ],
                 ),
               ),
