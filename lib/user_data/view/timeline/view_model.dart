@@ -59,7 +59,6 @@ class TimelineViewModel extends DiaViewModel {
     if (currentDay.entries.length > 0) {
       days.add(currentDay);
     }
-    print('N days: ' + days.length.toString());
     _days = days;
   }
 
