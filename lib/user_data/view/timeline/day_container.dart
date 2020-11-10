@@ -50,7 +50,7 @@ class InnerCardItem extends StatelessWidget {
           children: [
             // lines and icon
             Container(
-              width: 60,
+              width: 60 * screenSizeScalingFactor(context),
               child: Stack(
                 children: [
                   if(lineToBottom)
@@ -60,7 +60,7 @@ class InnerCardItem extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: DiaTheme.primaryColor,
                         ),
-                        height: 35,
+                        height: 35 * screenSizeScalingFactor(context),
                         width: 2,
                       ),
                     ),
@@ -71,7 +71,7 @@ class InnerCardItem extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: DiaTheme.primaryColor,
                         ),
-                        height: 35,
+                        height: 35 * screenSizeScalingFactor(context),
                         width: 2,
                       ),
                     ),
@@ -84,8 +84,8 @@ class InnerCardItem extends StatelessWidget {
                           //color: Color(0xFFFAFAFA),
                           color: DiaTheme.primaryColor,
                       ),
-                      width: 50,
-                      height: 50,
+                      width: 50 * screenSizeScalingFactor(context),
+                      height: 50 * screenSizeScalingFactor(context),
                     ),
                   ),
                   Align(
@@ -105,8 +105,8 @@ class InnerCardItem extends StatelessWidget {
                             ),
                           ]
                       ),
-                      width: 45,
-                      height: 45,
+                      width: 45 * screenSizeScalingFactor(context),
+                      height: 45 * screenSizeScalingFactor(context),
                       child: Center(child: icon),
                     ),
                   ),
@@ -116,9 +116,9 @@ class InnerCardItem extends StatelessWidget {
             // hour of the event
             Container(
               alignment: Alignment.center,
-              width: 70,
+              width: 70 * screenSizeScalingFactor(context),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 10 * screenSizeScalingFactor(context), 0),
                 child: Text(
                     hourMinute,
                     style: TextStyle(
@@ -131,14 +131,14 @@ class InnerCardItem extends StatelessWidget {
             // text
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                 child: Container(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0 * screenSizeScalingFactor(context)),
                     child: Text(
                       text,
                       style: TextStyle(
-                        fontSize: verySmallSize(context),
+                        fontSize: verySmallSize(context, scale: false),
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 5,
