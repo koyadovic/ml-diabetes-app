@@ -13,15 +13,6 @@ class TitledCardContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
-        //color: Colors.white,
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.3),
-        //     spreadRadius: 5,
-        //     blurRadius: 7,
-        //     offset: Offset(0, 5), // changes position of shadow
-        //   ),
-        // ]
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
