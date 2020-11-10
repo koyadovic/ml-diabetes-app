@@ -117,10 +117,12 @@ class InnerCardItem extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: verySmallSize(context, scale: false),
+            fontSize: smallSize(context),
+            letterSpacing: -1.0  // TODO pensar si lo dejamos.
           ),
           overflow: TextOverflow.ellipsis,
           maxLines: 5,
+          softWrap: true,
         ),
       ),
     );
