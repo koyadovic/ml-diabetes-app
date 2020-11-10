@@ -112,10 +112,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
               ),
             ),
 
-            // TODO uncomment this to get the old list
-            // if (_viewModel != null)
-            //   ..._viewModel.entries.map((entry) => userDataViewModelEntityToListTile(entry)),
-
           ],
         ),
       ),
