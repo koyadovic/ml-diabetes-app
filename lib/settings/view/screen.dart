@@ -136,10 +136,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
   }
 
   void unFocus(BuildContext c) {
-    FocusScopeNode currentFocus = FocusScope.of(c);
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
+    FocusScope.of(c).requestFocus(new FocusNode());
   }
 
   Widget getSettingWidget(Setting setting, BuildContext context) {
