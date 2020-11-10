@@ -1,3 +1,4 @@
+import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
@@ -8,6 +9,8 @@ import 'package:Dia/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:Dia/shared/tools/dates.dart';
+import 'package:timezone/timezone.dart';
 
 
 class Timeline extends DiaChildScreenStatefulWidget {
@@ -32,10 +35,17 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
 
   TimelineViewModel _viewModel;
   RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final SettingsServices settingsServices = SettingsServices();
+  Location localTimezone;
 
   @override
   void initState() {
     _viewModel = TimelineViewModel(this);
+    settingsServices.getTimezone().then((tz) {
+      setState(() {
+        localTimezone = tz;
+      });
+    });
     super.initState();
   }
 
@@ -46,88 +56,19 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   Widget getIcon(ViewModelEntry entity) {
     switch(entity.type) {
       case 'GlucoseLevel':
-        return GlucoseLevelIconMedium();
+        return GlucoseLevelIconSmall();
       case 'Feeding':
-        return FeedingIconMedium();
+        return FeedingIconSmall();
       case 'Activity':
-        return ActivityIconMedium();
+        return ActivityIconSmall();
       case 'Flag':
-        return FlagIconMedium();
+        return FlagIconSmall();
       case 'InsulinInjection':
-        return InsulinInjectionIconMedium();
+        return InsulinInjectionIconSmall();
       case 'TraitMeasure':
-        return TraitMeasureIconMedium();
+        return TraitMeasureIconSmall();
     }
 
-  }
-
-  ListTile userDataViewModelEntityToListTile(ViewModelEntry entity) {
-    IconButton leading;
-    switch(entity.type) {
-      case 'GlucoseLevel':
-        leading = IconButton(
-          icon: GlucoseLevelIconMedium(),
-          onPressed: (){},
-        );
-        break;
-      case 'Feeding':
-        leading = IconButton(
-          icon: FeedingIconMedium(),
-          onPressed: (){},
-        );
-        break;
-      case 'Activity':
-        leading = IconButton(
-          icon: ActivityIconMedium(),
-          onPressed: (){},
-        );
-        break;
-      case 'Flag':
-        leading = IconButton(
-          icon: FlagIconMedium(),
-          onPressed: (){},
-        );
-        break;
-      case 'InsulinInjection':
-        leading = IconButton(
-          icon: InsulinInjectionIconMedium(),
-          onPressed: (){},
-        );
-        break;
-      case 'TraitMeasure':
-        leading = IconButton(
-          icon: TraitMeasureIconMedium(),
-          onPressed: (){},
-        );
-        break;
-    }
-
-    return ListTile(
-      leading: Text(DateFormat.Hm().format(entity.eventDate), style: TextStyle(color: Colors.grey, fontSize: mediumSize(context))),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          leading,
-          if(entity.value is int || entity.value is double)
-            EnabledStatus(
-              isEnabled: false,
-              child: UnitTextField(
-                unit: entity.unit,
-                initialValue: entity.value.toDouble(),
-                onChange: null,
-                valueSize: bigSize(context),
-                unitSize: verySmallSize(context),
-              ),
-            ),
-          if(!(entity.value is int) && !(entity.value is double))
-            Text(entity.value, style: TextStyle(fontSize: mediumSize(context))),
-        ],
-      ),
-      onTap: () {
-        print(entity.entity.id);
-      },
-    );
   }
 
   @override
@@ -153,7 +94,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
               ..._viewModel.days.map((day) => Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TitledCardContainer(
-                  title: DateFormat.MMMMd().format(day.date.toLocal()).toString(),
+                  title: DateFormat.MMMMd().format(day.date.toUtc().asTimezone(localTimezone)).toString(),
                   children: [
                     ...day.entries.asMap().entries.map((ent) {
                       int idx = ent.key;
@@ -163,7 +104,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                         lineToBottom: idx != day.entries.length - 1,
                         text: entry.text,
                         icon: getIcon(entry),
-                        hourMinute: '00:00',
+                        hourMinute: DateFormat.Hm().format(entry.eventDate.toUtc().asTimezone(localTimezone)),
                       );
                     })
                   ],

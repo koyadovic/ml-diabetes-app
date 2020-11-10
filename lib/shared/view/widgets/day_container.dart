@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,32 @@ class TitledCardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: children,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        //color: Colors.white,
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey.withOpacity(0.3),
+        //     spreadRadius: 5,
+        //     blurRadius: 7,
+        //     offset: Offset(0, 5), // changes position of shadow
+        //   ),
+        // ]
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(title, style: TextStyle(color: Colors.grey))
+            ),
+            ...children,
+            // Text('Sumario'),  // TODO
+          ],
+        ),
+      ),
     );
   }
 }
@@ -42,7 +67,7 @@ class InnerCardItem extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: DiaTheme.primaryColor,
                         ),
                         height: 35,
                         width: 2,
@@ -53,7 +78,7 @@ class InnerCardItem extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey,
+                          color: DiaTheme.primaryColor,
                         ),
                         height: 35,
                         width: 2,
@@ -63,16 +88,29 @@ class InnerCardItem extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
+                          //border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                          //color: Color(0xFFFAFAFA),
+                          color: DiaTheme.primaryColor,
+                      ),
+                      width: 50,
+                      height: 50,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          //border: Border.all(color: Colors.white),
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                           //color: Color(0xFFFAFAFA),
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 5), // changes position of shadow
                             ),
                           ]
                       ),
@@ -104,20 +142,6 @@ class InnerCardItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                 child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.all(Radius.circular(3)),
-                      //color: Color(0xFFFAFAFA),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ]
-                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
