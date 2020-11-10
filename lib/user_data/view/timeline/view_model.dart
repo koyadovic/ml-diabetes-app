@@ -1,5 +1,3 @@
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:Dia/user_data/model/entities/base.dart';
@@ -8,9 +6,12 @@ import 'package:Dia/user_data/model/entities/flags.dart';
 import 'package:Dia/user_data/model/entities/glucose.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:Dia/user_data/model/entities/traits.dart';
+import 'package:Dia/shared/view/view_model.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:Dia/shared/view/view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
@@ -98,13 +99,10 @@ class ViewModelDay {
 class ViewModelEntry {
   DateTime eventDate;
   String type;
-  dynamic value;
-  String unit;
   String text;
   UserDataEntity entity;
-  Color color;
 
-  ViewModelEntry({this.eventDate, this.type, this.value, this.unit, this.text, this.entity, this.color});
+  ViewModelEntry({this.eventDate, this.type, this.text, this.entity});
 
   factory ViewModelEntry.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
@@ -113,11 +111,8 @@ class ViewModelEntry {
         return ViewModelEntry(
           eventDate: entity.eventDate,
           type: entity.entityType,
-          value: glucoseLevel.level,
-          unit: 'mg/dL',
-          text: 'Su nivel de glucosa quedó registrado como ${glucoseLevel.level} mg/dL',
+          text: 'Your glucose level was {} mg/dL'.tr(args: [glucoseLevel.level.toString()]),
           entity: glucoseLevel,
-          color: Colors.redAccent,
         );
 
       case 'Feeding':
@@ -125,11 +120,8 @@ class ViewModelEntry {
         return ViewModelEntry(
           eventDate: entity.eventDate,
           type: entity.entityType,
-          value: feeding.kCal.round(),
-          unit: 'Kcal',
           text: 'Feeding',
           entity: feeding,
-          color: Colors.greenAccent,
         );
 
       case 'Activity':
@@ -137,11 +129,11 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            value: activity.minutes,
-            unit: 'mins',
-            text: activity.activityType.name,
+            // value: activity.minutes,
+            // unit: 'mins',
+            text: '{} for {} minutes'.tr(args: [activity.activityType.name, activity.minutes.toString()]),
             entity: activity,
-            color: Colors.blueAccent,
+            // color: Colors.blueAccent,
         );
 
       case 'InsulinInjection':
@@ -149,11 +141,11 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            value: insulinInjection.units,
-            unit: 'u',
+            // value: insulinInjection.units,
+            // unit: 'u',
             text: insulinInjection.insulinType.name, // + ' ' + insulinInjection.insulinType.categories.join(', '),
             entity: insulinInjection,
-            color: Colors.yellow,
+            // color: Colors.yellow,
         );
 
       case 'TraitMeasure':
@@ -162,33 +154,33 @@ class ViewModelEntry {
           return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            value: double.parse(traitMeasure.value.toString()),
-            unit: traitMeasure.traitType.unit,
+            // value: double.parse(traitMeasure.value.toString()),
+            // unit: traitMeasure.traitType.unit,
             text: traitMeasure.traitType.name,
             entity: traitMeasure,
-            color: Colors.greenAccent
+            // color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'gender') {
           return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
-              value: traitMeasure.value == 'male' ? 'Male' : 'Female',
-              unit: '',
+              // value: traitMeasure.value == 'male' ? 'Male' : 'Female',
+              // unit: '',
               text: traitMeasure.traitType.name,
               entity: traitMeasure,
-              color: Colors.greenAccent
+              // color: Colors.greenAccent
           );
         }
         else if(traitMeasure.traitType.slug == 'birth-seconds-epoch') {
           return ViewModelEntry(
               eventDate: entity.eventDate,
               type: entity.entityType,
-              value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
-              unit: '',
+              // value: DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(traitMeasure.value * 1000).toLocal()),
+              // unit: '',
               text: traitMeasure.traitType.name,
               entity: traitMeasure,
-              color: Colors.greenAccent
+              // color: Colors.greenAccent
           );
         }
         break;
@@ -198,11 +190,11 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            value: flag.type,
-            unit: '',
+            // value: flag.type,
+            // unit: '',
             text: flag.type,
             entity: flag,
-            color: Colors.red,
+            // color: Colors.red,
         );
     }
     return null;
