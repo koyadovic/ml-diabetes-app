@@ -1,4 +1,3 @@
-import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +99,7 @@ class InnerCardItem extends StatelessWidget {
       alignment: Alignment.center,
       width: 70 * screenSizeScalingFactor(context),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 10 * screenSizeScalingFactor(context), 0),
+        padding: EdgeInsets.fromLTRB(0, 0, 8 * screenSizeScalingFactor(context), 0),
         child: Text(
             hourMinute,
             style: TextStyle(
@@ -114,20 +113,14 @@ class InnerCardItem extends StatelessWidget {
 
   Widget getTextWidget(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-        child: Container(
-          child: Padding(
-            padding: EdgeInsets.all(8.0 * screenSizeScalingFactor(context)),
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: verySmallSize(context, scale: false),
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 5,
-            ),
+      child: Container(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: verySmallSize(context, scale: false),
           ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 5,
         ),
       ),
     );
