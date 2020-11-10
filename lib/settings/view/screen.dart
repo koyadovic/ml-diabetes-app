@@ -84,6 +84,7 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class CategoryWidgetState extends State<CategoryWidget> {
+  SettingsServices settingsServices = SettingsServices();
   @override
   void initState() {
     super.initState();

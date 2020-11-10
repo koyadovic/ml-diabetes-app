@@ -6,7 +6,7 @@ import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:timezone/timezone.dart';
 
 
-typedef SettingChangeListener = Future Function();
+typedef SettingChangeListener = void Function();
 
 
 class SettingsServices {

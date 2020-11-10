@@ -231,8 +231,8 @@ class ApiRestBackend {
 
   bool _isTokenExpired() {
     if(_tokenExpiresMilliseconds == null) return true;
-    int now = DateTime.now().millisecondsSinceEpoch;
-    return _tokenExpiresMilliseconds < now;
+    int nowMillis = DateTime.now().millisecondsSinceEpoch;
+    return _tokenExpiresMilliseconds < nowMillis + 1000;
   }
 
   bool _haveToken() {

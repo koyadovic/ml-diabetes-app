@@ -37,7 +37,8 @@ void main() {
       EasyLocalization(
           supportedLocales: [Locale('en'), Locale('es')],
           path: 'assets/translations',
-          fallbackLocale: Locale('en'),
+          //fallbackLocale: Locale('en'),
+          saveLocale: true,
           child: DiaApp()
       )
   );
@@ -51,19 +52,9 @@ class DiaApp extends StatefulWidget {
 }
 
 class DiaAppState extends State<DiaApp> {
-  final SettingsServices settingsServices = SettingsServices();
 
   @override
   void initState() {
-    settingsServices.getLanguage().then((String lang) {
-      print('Changing locale to $lang');
-      context.locale = Locale(lang);
-    });
-    settingsServices.addLanguageChangeListener(() async {
-      String lang = await settingsServices.getLanguage();
-      print('Changing locale to $lang');
-      context.locale = Locale(lang);
-    });
     super.initState();
   }
 
@@ -105,9 +96,22 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   ApiRestBackend _backend;
 
+  final SettingsServices settingsServices = SettingsServices();
+
+  void setLanguage(String lang) {
+    print('Setting locale to $lang');
+    context.locale = Locale(lang);
+  }
+
   @override
   void initState() {
     super.initState();
+
+    settingsServices.getLanguage().then(setLanguage);
+    settingsServices.addLanguageChangeListener(() async {
+      String lang = await settingsServices.getLanguage();
+      setLanguage(lang);
+    });
 
     DiaMessages.setMessagesHandler(this);
     DiaNavigation.setConcreteNavigator(this);
