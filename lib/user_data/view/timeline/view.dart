@@ -1,7 +1,6 @@
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/widgets/day_container.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -132,6 +131,27 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         },
         child: ListView(
           children: [
+            InnerCardItem2(
+              icon: Icon(Icons.add),
+              lineToBottom: true,
+              lineToTop: false,
+              text: 'This is a test text',
+              eventDate: DateTime.now(),
+            ),
+            InnerCardItem2(
+              icon: Icon(Icons.add),
+              lineToBottom: true,
+              lineToTop: true,
+              text: 'This is a test text',
+              eventDate: DateTime.now(),
+            ),
+            InnerCardItem2(
+              icon: Icon(Icons.add),
+              lineToBottom: false,
+              lineToTop: true,
+              text: 'This is a test text',
+              eventDate: DateTime.now(),
+            ),
             // TODO fix this shit
             if (_viewModel != null)
               ..._viewModel.days.map((day) => Padding(
