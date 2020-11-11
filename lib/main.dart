@@ -36,7 +36,6 @@ void main() {
       EasyLocalization(
           supportedLocales: [Locale('en'), Locale('es')],
           path: 'assets/translations',
-          //fallbackLocale: Locale('en'),
           saveLocale: true,
           child: DiaApp()
       )
@@ -273,6 +272,8 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     if(_currentScreen == DiaScreen.LOGIN && screen != DiaScreen.LOGIN) {
       String lang = await settingsServices.getLanguage();
       setLanguage(lang);
+      await Future.delayed(Duration(milliseconds: 500), () {});
+      DiaMessages.getInstance().showInformation('Welcome!'.tr());
     }
 
     _screens.add(screen);

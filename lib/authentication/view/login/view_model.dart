@@ -82,7 +82,6 @@ class LoginViewModel extends DiaViewModel {
           setLoading(false);
         }
         if(authenticationServices.isAuthenticated()) {
-          DiaMessages.getInstance().showInformation('Welcome!'.tr());
           DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA);
         }
       }, unauthorizedToLogin: false);
