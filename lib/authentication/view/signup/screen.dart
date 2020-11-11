@@ -2,6 +2,7 @@ import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 // ignore: must_be_immutable
@@ -42,7 +43,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               onChanged: (String value) { _viewModel.email = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Email'
+                hintText: 'Email'.tr()
               ),
             ),
             Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
@@ -51,7 +52,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               onChanged: (String value) { _viewModel.password1 = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Password',
+                hintText: 'Password'.tr(),
               ),
               obscureText: true,
             ),
@@ -61,7 +62,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               onChanged: (String value) { _viewModel.password2 = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Repeat Password',
+                hintText: 'Repeat Password'.tr(),
               ),
               obscureText: true,
             ),
@@ -72,7 +73,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  child: Text('Signup'),
+                  child: Text('Signup'.tr()),
                   onPressed: () {
                     // hide keyboard
                     FocusScope.of(context).unfocus();
@@ -86,7 +87,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FlatButton(
-                  child: Text('I already have an account'),
+                  child: Text('I already have an account'.tr()),
                   onPressed: () {
                     DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
                   },

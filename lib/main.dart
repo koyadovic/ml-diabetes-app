@@ -107,7 +107,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   void setLanguage(String lang) {
     context.locale = Locale(lang);
     Intl.defaultLocale = lang;
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 200), () {
       rebuildAllChildren(context);
     });
   }
@@ -191,7 +191,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
           buildDrawerItem(DiaScreen.LOGIN, 'Logout', FontAwesomeIcons.signOutAlt, () async {
             final AuthenticationServices authenticationServices = AuthenticationServices();
             await authenticationServices.logout();
-            showInformation('See you soon!');
+            showInformation('See you soon!'.tr());
             _screens = [];
             requestScreenChange(DiaScreen.LOGIN);
             Navigator.pop(context);
@@ -269,10 +269,10 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       _screens = [];
     }
 
-    if(_currentScreen == DiaScreen.LOGIN && screen != DiaScreen.LOGIN) {
+    if(_currentScreen == DiaScreen.LOGIN && (screen != DiaScreen.LOGIN && screen != DiaScreen.SIGNUP)) {
       String lang = await settingsServices.getLanguage();
       setLanguage(lang);
-      await Future.delayed(Duration(milliseconds: 500), () {});
+      await Future.delayed(Duration(milliseconds: 300), () {});
       DiaMessages.getInstance().showInformation('Welcome!'.tr());
     }
 

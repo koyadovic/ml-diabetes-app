@@ -1,8 +1,7 @@
-import 'package:Dia/shared/view/utils/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 // ignore: must_be_immutable
@@ -42,7 +41,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               onChanged: (String value) { _viewModel.email = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Email'
+                hintText: 'Email'.tr()
               ),
             ),
             Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
@@ -50,7 +49,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               onChanged: (String value) { _viewModel.password = value; },
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Password',
+                hintText: 'Password'.tr(),
               ),
               obscureText: true,
             ),
@@ -60,7 +59,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RaisedButton(
-                  child: Text('Login'),
+                  child: Text('Login'.tr()),
                   onPressed: () {
                     // hide keyboard
                     FocusScope.of(context).unfocus();
@@ -76,7 +75,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FlatButton(
-                  child: Text('I have no account yet'),
+                  child: Text('I have no account yet'.tr()),
                   onPressed: () {
                     _viewModel.notHaveAccount();
                   },
