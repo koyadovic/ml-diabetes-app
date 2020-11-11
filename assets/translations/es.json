@@ -32,8 +32,8 @@
   "You changed your {}: {}{}": "Cambió su {}: {}{}",
   "Search for activity": "Busque por actividad",
   "Search for food": "Busque por alimentos",
-  "Name": "Nombre",
-  "Selection": "Selección",
+  "Food": "Alimento",
+  "Quantity": "Cantidad",
   "Carb": "Carb",
   "Total": "Total"
 }

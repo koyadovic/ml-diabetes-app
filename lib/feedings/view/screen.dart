@@ -156,7 +156,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
       totalKcal += selection.kcal;
 
       columnsForSelections.add(FourColumnsEntry(
-        mainColumn: selection.food.name,
+        mainColumn: selection.food.name, mainTextStyle: normalTextStyle,
         secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : selection.grams.round().toString() + 'g',
         thirdColumn: (selection.carbGrams - selection.carbFiberGrams).round().toString() + 'g',
         fourthColumn: selection.kcal.round().toString() + 'kcal',
@@ -165,16 +165,26 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
 
     return [
       FourColumnsEntry(
-        mainColumn: 'Name'.tr(), mainTextStyle: primaryColorTextStyle,
-        secondColumn: 'Selection'.tr(), secondTextStyle: primaryColorTextStyle,
+        mainColumn: 'Food'.tr(), mainTextStyle: primaryColorTextStyle,
+        secondColumn: 'Quantity'.tr(), secondTextStyle: primaryColorTextStyle,
         thirdColumn: 'Carb'.tr(), thirdTextStyle: primaryColorTextStyle,
-        fourthColumn: 'kcal', fourthTextStyle: primaryColorTextStyle,
+        fourthColumn: 'KCal', fourthTextStyle: primaryColorTextStyle,
       ),
 
       Expanded(
         child: ListView(
           children: [
-            ...columnsForSelections
+            ...columnsForSelections,
+            FourColumnsEntry(
+              mainColumn: 'Arroz', mainTextStyle: normalTextStyle,
+              secondColumn: '200g', secondTextStyle: normalTextStyle,
+              thirdColumn: '40g', thirdTextStyle: normalTextStyle,
+              fourthColumn: '160', fourthTextStyle: normalTextStyle,
+              onTap: () {
+                print('Tapped!');
+              },
+
+            )
           ],
         ),
       ),
@@ -184,7 +194,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
         mainColumn: 'Total'.tr(), mainTextStyle: primaryColorTextStyle,
         secondColumn: '', secondTextStyle: normalTextStyle,
         thirdColumn: totalCarbs.round().toString() + 'g', thirdTextStyle: normalTextStyle,
-        fourthColumn: totalKcal.round().toString() + 'kcal', fourthTextStyle: normalTextStyle,
+        fourthColumn: totalKcal.round().toString(), fourthTextStyle: normalTextStyle,
       ),
     ];
   }
@@ -223,35 +233,43 @@ class FourColumnsEntry extends StatelessWidget {
   TextStyle thirdTextStyle;
   TextStyle fourthTextStyle;
 
+  final Function onTap;
+
   FourColumnsEntry({this.mainColumn, this.secondColumn, this.thirdColumn, this.fourthColumn,
-    this.mainTextStyle, this.secondTextStyle, this.thirdTextStyle, this.fourthTextStyle});
+    this.mainTextStyle, this.secondTextStyle, this.thirdTextStyle, this.fourthTextStyle, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            alignment: Alignment.centerLeft,
-            child: Text(mainColumn, style: mainTextStyle),
-          ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(mainColumn, style: mainTextStyle),
+              ),
+            ),
+            Container(
+              width: 80 * screenSizeScalingFactor(context),
+              alignment: Alignment.centerRight,
+              child: Text(secondColumn, style: secondTextStyle),
+            ),
+            Container(
+              width: 80 * screenSizeScalingFactor(context),
+              alignment: Alignment.centerRight,
+              child: Text(thirdColumn, style: thirdTextStyle),
+            ),
+            Container(
+              width: 80 * screenSizeScalingFactor(context),
+              alignment: Alignment.centerRight,
+              child: Text(fourthColumn, style: fourthTextStyle),
+            ),
+          ],
         ),
-        Container(
-          width: 100 * screenSizeScalingFactor(context),
-          alignment: Alignment.centerRight,
-          child: Text(secondColumn, style: secondTextStyle),
-        ),
-        Container(
-          width: 100 * screenSizeScalingFactor(context),
-          alignment: Alignment.centerRight,
-          child: Text(thirdColumn, style: thirdTextStyle),
-        ),
-        Container(
-          width: 100 * screenSizeScalingFactor(context),
-          alignment: Alignment.centerRight,
-          child: Text(fourthColumn, style: fourthTextStyle),
-        ),
-      ],
+      ),
     );
   }
 
