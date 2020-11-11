@@ -12,11 +12,24 @@ class Food extends WithValidations {
   final double alcoholFactor;
   final double saltFactor;
   final double gramsPerUnit;
+  final Map<String, dynamic> metadata;
 
   Food({this.id, this.name, this.carbFactor, this.carbFiberFactor, this.carbSugarFactor,
-    this.proteinFactor, this.fatFactor, this.alcoholFactor, this.saltFactor, this.gramsPerUnit});
+    this.proteinFactor, this.fatFactor, this.alcoholFactor, this.saltFactor,
+    this.gramsPerUnit, this.metadata});
+
+  bool get isFiberIncludedInCarbs => this.metadata['fiber_included_in_carbs'] ?? false;
+  void fiberIsIncludedInCarbs() {
+    this.metadata['fiber_included_in_carbs'] = true;
+  }
+
+  bool get isFiberSpecifiedSeparately => !this.isFiberIncludedInCarbs;
+  void fiberIsSpecifiedSeparately() {
+    this.metadata['fiber_included_in_carbs'] = false;
+  }
 
   static Food fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> metadata = Map<String, dynamic>.from(json['metadata']);
     return Food(
       id: json['id'],
       name: json['name'],
@@ -28,6 +41,7 @@ class Food extends WithValidations {
       alcoholFactor: json['alcohol_factor'],
       saltFactor: json['salt_factor'],
       gramsPerUnit: json['grams_per_unit'],
+      metadata: metadata,
     );
   }
 
