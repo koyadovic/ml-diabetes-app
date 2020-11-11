@@ -15,6 +15,7 @@ Future<void> withBackendErrorHandlersOnView(Function function, {bool unauthorize
     DiaMessages.getInstance().showInformation('Unexpected Error. Try again later.'.tr());
   } on BackendUnauthorized catch (e) {
     if(unauthorizedToLogin) {
+      DiaMessages.getInstance().showInformation('We need you to authenticate again.');
       DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
     } else {
       throw e;
