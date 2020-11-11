@@ -106,7 +106,7 @@ class SignUpViewModel extends DiaViewModel {
   Future<void> signUp() async {
     _validate();
     if (_isValid) {
-      await withBackendErrorHandlers(() async {
+      await withBackendErrorHandlersOnView(() async {
         try {
           setLoading(true);
           await authenticationServices.signUp(_email, _password1);

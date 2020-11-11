@@ -1,5 +1,6 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
@@ -22,19 +23,21 @@ class SettingsViewModel extends DiaViewModel {
   }
 
   Future<void> _refreshSettings() async {
-    _categories = await settingServices.getAllSettings();
+    await withBackendErrorHandlersOnView(() async {
+      _categories = await settingServices.getAllSettings();
+    });
     notifyChanges();
   }
 
   Future<void> saveSetting(Category category, Setting setting, String value) async {
-    bool changed = await settingServices.saveSetting(category, setting, value);
-
-    if (changed) {
-      Future.delayed(Duration(milliseconds: 500), () {
-        DiaMessages.getInstance().showInformation('Settings saved!'.tr());
-      });
-    }
-
+    await withBackendErrorHandlersOnView(() async {
+      bool changed = await settingServices.saveSetting(category, setting, value);
+      if (changed) {
+        Future.delayed(Duration(milliseconds: 500), () {
+          DiaMessages.getInstance().showInformation('Settings saved!'.tr());
+        });
+      }
+    });
   }
 
   Future<List<InsulinType>> getInsulinTypes() async {

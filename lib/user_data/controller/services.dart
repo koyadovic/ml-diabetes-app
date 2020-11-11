@@ -1,4 +1,5 @@
 import 'package:Dia/shared/services/api_rest_backend.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:Dia/user_data/model/entities/base.dart';
 import 'package:Dia/user_data/model/entities/feeding.dart';

@@ -41,6 +41,17 @@ class NotLoggedIn extends BackendError {
 }
 
 
+// abstract class IBackend {
+//   Future<void> initialize();
+//   bool isAuthenticated();
+//   Future<void> saveToken(String newToken, String refreshNewToken, double expiresMilliseconds);
+//   Future<void> removeToken();
+//   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders});
+//   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders});
+//   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders});
+// }
+
+
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
 

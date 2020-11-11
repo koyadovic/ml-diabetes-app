@@ -91,7 +91,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                     FlatButton(child: Text('Save'), onPressed: () async {
                       traitMeasure.validate();
                       if(traitMeasure.hasChanged && traitMeasure.isValid) {
-                        withBackendErrorHandlers(() async {
+                        withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveTraitMeasure(traitMeasure);
                           _state.refresh();
                           _state.refreshCommunications();
@@ -127,7 +127,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                     FlatButton(child: Text('Save'), onPressed: () async {
                       activity.validate();
                       if (activity.hasChanged && activity.isValid) {
-                        withBackendErrorHandlers(() async {
+                        withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveActivity(activity);
                           _state.refresh();
                           _state.refreshCommunications();
@@ -185,7 +185,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                     FlatButton(child: Text('Save'), onPressed: () async {
                       insulinInjection.validate();
                       if(insulinInjection.hasChanged && insulinInjection.isValid) {
-                        withBackendErrorHandlers(() async {
+                        withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveInsulinInjection(insulinInjection);
                           _state.refresh();
                           _state.refreshCommunications();
@@ -222,7 +222,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       glucoseLevel.validate();
 
                       if(glucoseLevel.hasChanged && glucoseLevel.isValid) {
-                        withBackendErrorHandlers(() async {
+                        withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveGlucoseLevel(glucoseLevel);
                           _state.refresh();
                           _state.refreshCommunications();
@@ -301,7 +301,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
       bool reloadAgain = false;
       // Messages
       // TODO deberían que tener que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
-      await withBackendErrorHandlers(() async {
+      await withBackendErrorHandlersOnView(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         for(Message message in messages) {
           await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
@@ -314,7 +314,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
 
       // Feedback Requests
       if(!reloadAgain) {
-        await withBackendErrorHandlers(() async {
+        await withBackendErrorHandlersOnView(() async {
           List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
           for(FeedbackRequest request in feedbackRequests) {
             await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){

@@ -71,7 +71,7 @@ class LoginViewModel extends DiaViewModel {
   Future<void> login() async {
     _validate();
     if (_isValid) {
-      await withBackendErrorHandlers(() async {
+      await withBackendErrorHandlersOnView(() async {
         try {
           setLoading(true);
           await authenticationServices.login(email, password);

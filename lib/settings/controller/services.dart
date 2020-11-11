@@ -22,10 +22,7 @@ class SettingsServices {
   Map<String, List<SettingChangeListener>> _listeners = {};
   Future<List<Category>> getAllSettings() async {
     List<Category> categories = [];
-    dynamic response;
-    await withBackendErrorHandlers(() async {
-      response = await _backend.get('/api/v1/settings/');
-    });
+    dynamic response = await _backend.get('/api/v1/settings/');
     for(String categoryKey in response.keys) {
       Category category = Category(key: categoryKey);
       Map<String, dynamic> categorySettings = Map<String, dynamic>.from(response[categoryKey]);
@@ -43,10 +40,7 @@ class SettingsServices {
   Future<bool> saveSetting(Category category, Setting setting, String value) async {
     String storedValue = await _retrieveSettingInLocalStorage(category.key, setting.key);
     if (storedValue == value) return false;
-
-    await withBackendErrorHandlers(() async {
-      await _backend.post('/api/v1/settings/${category.key}/${setting.key}/', {'value': value});
-    });
+    await _backend.post('/api/v1/settings/${category.key}/${setting.key}/', {'value': value});
     setting.value = value;
     await _saveSettingInLocalStorage(category.key, setting.key, setting.value);
     _notifyListeners(category.key, setting.key, value);

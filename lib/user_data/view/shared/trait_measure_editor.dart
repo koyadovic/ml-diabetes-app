@@ -146,7 +146,6 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                   setState(() {
                     traitMeasure.value = (birthDate.toUtc().millisecondsSinceEpoch / 1000.0).round();
                     if(!traitMeasure.isValid) traitMeasure.validate();
-
                   });
                 }
               },
