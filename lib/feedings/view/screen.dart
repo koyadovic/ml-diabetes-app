@@ -34,6 +34,10 @@ class FeedingsScreenWidget extends DiaRootScreenStatefulWidget {
 class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> {
   @override
   Widget build(BuildContext context) {
-    return Text('Feedings');
+    return Column(
+      children: [
+
+      ],
+    );
   }
 }

@@ -114,3 +114,12 @@ class Food extends WithValidations {
   }
 
 }
+
+
+class FoodSelection {
+  final Food food;
+  final double grams;
+
+  FoodSelection({this.food, this.grams});
+
+}
