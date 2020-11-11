@@ -41,6 +41,8 @@ dependencies:
   firebase_messaging: ^7.0.3
   datetime_picker_formfield: ^1.0.0
   mutex: ^1.1.0
+  geolocator: ^6.1.4
+  app_settings: 4.0.4
 
   # locales
   intl: ^0.16.1
