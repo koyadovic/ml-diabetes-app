@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class SignUpViewModel extends DiaViewModel {
@@ -68,7 +69,7 @@ class SignUpViewModel extends DiaViewModel {
   void _validate() {
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
-      _emailError = 'This is not an email address';
+      _emailError = 'This is not an email address'.tr();
       isValid = false;
     } else {
       _emailError = '';
@@ -76,7 +77,7 @@ class SignUpViewModel extends DiaViewModel {
     }
 
     if(_password1.length < 8) {
-      _password1Error = 'Error minimum length is 8 characters';
+      _password1Error = 'Error minimum length is 8 characters'.tr();
       isValid = false;
     } else {
       _password1Error = '';
@@ -84,7 +85,7 @@ class SignUpViewModel extends DiaViewModel {
     }
 
     if(_password2.length < 8) {
-      _password2Error = 'Error minimum length is 8 characters';
+      _password2Error = 'Error minimum length is 8 characters'.tr();
       isValid = false;
     } else {
       _password2Error = '';
@@ -92,7 +93,7 @@ class SignUpViewModel extends DiaViewModel {
     }
 
     if(_password1 != _password2) {
-      _password2Error = 'Passwords does not match';
+      _password2Error = 'Passwords does not match'.tr();
       isValid = false;
     } else {
       _password2Error = '';
@@ -110,7 +111,7 @@ class SignUpViewModel extends DiaViewModel {
         try {
           setLoading(true);
           await authenticationServices.signUp(_email, _password1);
-          DiaMessages.getInstance().showInformation('Account created successfully');
+          DiaMessages.getInstance().showInformation('Account created successfully'.tr());
           DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
         } on AuthenticationServicesError catch (e) {
           DiaMessages.getInstance().showInformation(e.toString());

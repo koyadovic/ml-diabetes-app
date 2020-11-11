@@ -17,7 +17,6 @@ import 'package:Dia/user_data/view/screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 
@@ -117,9 +116,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   @override
   void initState() {
     super.initState();
-    // this follows language changes, set the locale and rebuild all the widgets to
-    // apply new translations to whole app.
-    settingsServices.getLanguage().then(setLanguage);
+
     settingsServices.addLanguageChangeListener(() async {
       String lang = await settingsServices.getLanguage();
       setLanguage(lang);
@@ -134,10 +131,12 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       if (!_backend.isAuthenticated()) {
         requestScreenChange(DiaScreen.LOGIN);
       } else {
+        // this follows language changes, set the locale and rebuild all the widgets to
+        // apply new translations to whole app.
+        settingsServices.getLanguage().then(setLanguage);
         requestScreenChange(DiaScreen.USER_DATA);
       }
     });
-
   }
 
   Future<dynamic> showWidget(Widget widget) async {
@@ -265,11 +264,17 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   @override
-  void requestScreenChange(DiaScreen screen) {
+  void requestScreenChange(DiaScreen screen) async {
     if(screen == _currentScreen) return;
     if(_currentScreen == DiaScreen.LOGIN || screen == DiaScreen.LOGIN) {
       _screens = [];
     }
+
+    if(_currentScreen == DiaScreen.LOGIN && screen != DiaScreen.LOGIN) {
+      String lang = await settingsServices.getLanguage();
+      setLanguage(lang);
+    }
+
     _screens.add(screen);
     switch (screen) {
       case DiaScreen.USER_DATA:

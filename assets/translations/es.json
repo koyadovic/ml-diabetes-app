@@ -1,4 +1,9 @@
 {
+  "This is not an email address": "Esto no es una dirección de email",
+  "Error minimum length is 8 characters": "Error, longitud mínima es 8 caracteres",
+  "Welcome!": "¡Hola otra vez!",
+  "Passwords does not match": "Las passwords no coinciden",
+  "Account created successfully": "Cuenta creada correctamente",
   "Dia Services are unavailable. Try again later.": "Los servicios de Dia no están disponibles. Inténtelo de nuevo más tarde.",
   "Unexpected Error. Try again later.": "Error inesperado. Inténtelo de nuevo más tarde.",
   "We need you to authenticate again.": "Necesitamos que se autentique de nuevo.",

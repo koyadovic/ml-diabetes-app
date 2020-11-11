@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class LoginViewModel extends DiaViewModel {
@@ -51,14 +52,14 @@ class LoginViewModel extends DiaViewModel {
   void _validate() {
     bool isValid = true;
     if(!_emailPattern.hasMatch(_email)) {
-      _emailError = 'This is not an email address';
+      _emailError = 'This is not an email address'.tr();
       isValid = false;
     } else {
       _emailError = '';
       isValid = isValid && true;
     }
     if(_password.length < 8) {
-      _passwordError = 'Error minimum length is 8 characters';
+      _passwordError = 'Error minimum length is 8 characters'.tr();
       isValid = false;
     } else {
       _passwordError = '';
@@ -81,7 +82,7 @@ class LoginViewModel extends DiaViewModel {
           setLoading(false);
         }
         if(authenticationServices.isAuthenticated()) {
-          DiaMessages.getInstance().showInformation('Welcome!');
+          DiaMessages.getInstance().showInformation('Welcome!'.tr());
           DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA);
         }
       }, unauthorizedToLogin: false);

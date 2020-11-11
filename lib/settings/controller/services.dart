@@ -83,11 +83,20 @@ class SettingsServices {
   }
 
   Future<String> getLanguage() async {
-    return await _retrieveSettingInLocalStorage('localization', 'language');
+    String lang = await _retrieveSettingInLocalStorage('localization', 'language');
+    if(lang == null) {
+      await getAllSettings();
+      lang = await _retrieveSettingInLocalStorage('localization', 'language');
+    }
+    return lang;
   }
 
   Future<Location> getTimezone() async {
     String tzString = await _retrieveSettingInLocalStorage('localization', 'timezone');
+    if(tzString == null) {
+      await getAllSettings();
+      tzString = await _retrieveSettingInLocalStorage('localization', 'timezone');
+    }
     Location location = getLocation(tzString);
     return location;
   }
