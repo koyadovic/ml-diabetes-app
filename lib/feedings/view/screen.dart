@@ -1,6 +1,7 @@
 import 'package:Dia/feedings/model/foods.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
+import 'package:Dia/shared/view/theme.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,8 @@ class FeedingsScreenWidget extends DiaRootScreenStatefulWidget {
 
 
 class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with WidgetsBindingObserver {
-  Food foodFocused;
+  List<FoodSelection> _foodSelections = [];
+  Food _foodFocused;
   double lat;
   double lng;
 
@@ -87,33 +89,103 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   Widget build(BuildContext context) {
     if(_checkedLocation && (lat == null || lng == null)) return _disabledWidget();
 
-    return Column(
-      children: [
-        SearchAndSelect<Food>(
-          hintText: 'Search for food'.tr(),
-          currentValue: foodFocused,
-          source: APIRestSource<Food>(
-            endpoint: '/api/v1/foods/',
-            queryParameterName: 'q',
-            deserializer: Food.fromJson,
-            additionalQueryParameters: {
-              'lat': lat.toString(),
-              'lng': lng.toString(),
-            }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: SearchAndSelect<Food>(
+                  hintText: 'Search for food'.tr(),
+                  currentValue: _foodFocused,
+                  source: APIRestSource<Food>(
+                    endpoint: '/api/v1/foods/',
+                    queryParameterName: 'q',
+                    deserializer: Food.fromJson,
+                    additionalQueryParameters: {
+                      'lat': lat.toString(),
+                      'lng': lng.toString(),
+                    }
+                  ),
+                  onSelected: (Food value) {
+                    setState(() {
+                      _foodFocused = value;
+                    });
+                  },
+                  renderItem: (Food value) => ListTile(
+                    leading: FeedingIconSmall(),
+                    title: Text(value.name),
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  print('New food');
+                },
+              )
+            ],
           ),
-          onSelected: (Food value) {
-            setState(() {
-              foodFocused = value;
-            });
-          },
-          renderItem: (Food value) => ListTile(
-            leading: FeedingIconSmall(),
-            title: Text(value.name),
-          ),
-        ),
+          SizedBox(height: 10),
 
-      ],
+          // the table
+          ...buildFoodSelectionTable(),
+
+          FlatButton(
+            child: Text('Finalize'),
+            onPressed: () {
+              print('Finished!');
+            },
+          ),
+        ],
+      ),
     );
+  }
+
+  List<Widget> buildFoodSelectionTable(){
+    TextStyle primaryColorTextStyle = TextStyle(color: DiaTheme.primaryColor);
+
+    double totalCarbs = 0.0;
+    double totalKcal = 0.0;
+
+    List<FourColumnsEntry> columnsForSelections = [];
+    for(FoodSelection selection in _foodSelections) {
+      totalCarbs += selection.carbGrams - selection.carbFiberGrams;
+      totalKcal += selection.kcal;
+
+      columnsForSelections.add(FourColumnsEntry(
+        mainColumn: selection.food.name,
+        secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : selection.grams.round().toString() + 'g',
+        thirdColumn: (selection.carbGrams - selection.carbFiberGrams).round().toString() + 'g',
+        fourthColumn: selection.kcal.round().toString() + 'kcal',
+      ));
+    }
+
+    return [
+      FourColumnsEntry(
+        mainColumn: 'Name', mainTextStyle: primaryColorTextStyle,
+        secondColumn: 'Selection', secondTextStyle: primaryColorTextStyle,
+        thirdColumn: 'Carb', thirdTextStyle: primaryColorTextStyle,
+        fourthColumn: 'kcal', fourthTextStyle: primaryColorTextStyle,
+      ),
+
+      Expanded(
+        child: ListView(
+          children: [
+            ...columnsForSelections
+          ],
+        ),
+      ),
+      //Totales
+      Container(width: double.maxFinite, height: 1, color: Colors.grey[400]),
+      FourColumnsEntry(
+        mainColumn: 'Total', mainTextStyle: primaryColorTextStyle,
+        secondColumn: '',
+        thirdColumn: totalCarbs.round().toString() + 'g',
+        fourthColumn: totalKcal.round().toString() + 'kcal',
+      ),
+    ];
   }
 
   Widget _disabledWidget() {
@@ -136,4 +208,50 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
       ),
     );
   }
+}
+
+
+class FourColumnsEntry extends StatelessWidget {
+  String mainColumn;
+  String secondColumn;
+  String thirdColumn;
+  String fourthColumn;
+
+  TextStyle mainTextStyle;
+  TextStyle secondTextStyle;
+  TextStyle thirdTextStyle;
+  TextStyle fourthTextStyle;
+
+  FourColumnsEntry({this.mainColumn, this.secondColumn, this.thirdColumn, this.fourthColumn,
+    this.mainTextStyle, this.secondTextStyle, this.thirdTextStyle, this.fourthTextStyle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: Text(mainColumn, style: mainTextStyle),
+          ),
+        ),
+        Container(
+          width: 100 * screenSizeScalingFactor(context),
+          alignment: Alignment.centerRight,
+          child: Text(secondColumn, style: secondTextStyle),
+        ),
+        Container(
+          width: 100 * screenSizeScalingFactor(context),
+          alignment: Alignment.centerRight,
+          child: Text(thirdColumn, style: thirdTextStyle),
+        ),
+        Container(
+          width: 100 * screenSizeScalingFactor(context),
+          alignment: Alignment.centerRight,
+          child: Text(fourthColumn, style: fourthTextStyle),
+        ),
+      ],
+    );
+  }
+
 }

@@ -118,8 +118,35 @@ class Food extends WithValidations {
 
 class FoodSelection {
   final Food food;
-  final double grams;
+  double _grams;
 
-  FoodSelection({this.food, this.grams});
+  FoodSelection({this.food, double grams}) {
+    _grams = grams ?? 0.0;
+  }
 
+  double get carbGrams => food.carbFactor * _grams;
+  double get carbFiberGrams => food.carbFiberFactor * _grams;
+  double get carbSugarGrams => food.carbSugarFactor * _grams;
+  double get proteinGrams => food.proteinFactor * _grams;
+  double get fatGrams => food.fatFactor * _grams;
+  double get alcoholGrams => food.alcoholFactor * _grams;
+  double get saltGrams => food.saltFactor * _grams;
+  
+  double get kcal {
+    return ((carbGrams - carbFiberGrams) * 4.0) +
+        (proteinGrams * 4.0) + (fatGrams * 9.0) + (alcoholGrams * 7.0);
+  }
+
+  bool get hasGramsPerUnit => food.gramsPerUnit != null && food.gramsPerUnit > 0;
+  int get units => _grams ~/ food.gramsPerUnit;
+
+  void setUnits(int units) {
+    _grams = units.toDouble() * food.gramsPerUnit;
+  }
+
+  double get grams => _grams;
+
+  void setGrams(double grams) {
+    _grams = grams;
+  }
 }
