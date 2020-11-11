@@ -1,7 +1,7 @@
 
 import 'package:Dia/shared/model/validations.dart';
 import 'package:Dia/shared/tools/map_tools.dart';
-
+import 'package:Dia/shared/tools/numbers.dart';
 import 'base.dart';
 
 class Feeding extends UserDataEntity {
@@ -115,14 +115,11 @@ class Feeding extends UserDataEntity {
   @override
   void validate() {
     super.validate();
-    if((_n(carbGrams) + _n(carbSugarGrams) + _n(carbFiberGrams) + _n(proteinGrams) + _n(fatGrams) + _n(alcoholGrams) + _n(saltGrams)) == 0) {
+    if((num(carbGrams) + num(carbSugarGrams) + num(carbFiberGrams) + num(proteinGrams) + num(fatGrams) + num(alcoholGrams) + num(saltGrams)) == 0) {
       validatorResults['global'] = ['All properties are zero'];
     }
   }
 
-  double _n(double n) {
-    return n ?? 0.0;
-  }
   bool operator == (o) => o is Feeding && o.id == id && o.eventDate == eventDate &&
       o.carbGrams == carbGrams && o.carbSugarGrams == carbSugarGrams && o.carbFiberGrams == carbFiberGrams &&
       o.proteinGrams == proteinGrams && o.fatGrams == fatGrams && o.alcoholGrams == alcoholGrams && o.saltGrams == saltGrams;
