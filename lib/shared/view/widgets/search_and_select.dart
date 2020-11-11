@@ -261,6 +261,7 @@ class LocalSource<T> extends Source<T> {
 class APIRestSource<T> extends Source<T> {
   final String endpoint;
   final String queryParameterName;
+  final Map<String, String> additionalQueryParameters;
   final T Function(Map<String, dynamic>) deserializer;
 
   final ApiRestBackend _backend = ApiRestBackend();
@@ -269,11 +270,17 @@ class APIRestSource<T> extends Source<T> {
     this.endpoint,
     this.queryParameterName,
     this.deserializer,
+    this.additionalQueryParameters,
   });
 
   @override
   Future<List<T>> performSearch(String terms) async {
     String url = fixURI('${endpoint}/?${queryParameterName}=$terms');
+    if(additionalQueryParameters != null) {
+      additionalQueryParameters.forEach((key, value) {
+        url += '&$key=$value';
+      });
+    }
     dynamic contents = await _backend.get(url);
     List<T> items = [];
     for(var content in contents) {
