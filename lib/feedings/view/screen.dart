@@ -90,7 +90,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
     if(_checkedLocation && (lat == null || lng == null)) return _disabledWidget();
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(15.0 * screenSizeScalingFactor(context)),
       child: Column(
         children: [
           Row(
@@ -144,7 +144,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   }
 
   List<Widget> buildFoodSelectionTable(){
-    TextStyle primaryColorTextStyle = TextStyle(color: DiaTheme.primaryColor);
+    TextStyle primaryColorTextStyle = TextStyle(color: DiaTheme.primaryColor, fontSize: smallSize(context));
+    TextStyle normalTextStyle = TextStyle(fontSize: smallSize(context), fontWeight: FontWeight.w300);
 
     double totalCarbs = 0.0;
     double totalKcal = 0.0;
@@ -164,9 +165,9 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
 
     return [
       FourColumnsEntry(
-        mainColumn: 'Name', mainTextStyle: primaryColorTextStyle,
-        secondColumn: 'Selection', secondTextStyle: primaryColorTextStyle,
-        thirdColumn: 'Carb', thirdTextStyle: primaryColorTextStyle,
+        mainColumn: 'Name'.tr(), mainTextStyle: primaryColorTextStyle,
+        secondColumn: 'Selection'.tr(), secondTextStyle: primaryColorTextStyle,
+        thirdColumn: 'Carb'.tr(), thirdTextStyle: primaryColorTextStyle,
         fourthColumn: 'kcal', fourthTextStyle: primaryColorTextStyle,
       ),
 
@@ -178,12 +179,12 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
         ),
       ),
       //Totales
-      Container(width: double.maxFinite, height: 1, color: Colors.grey[400]),
+      Container(width: double.maxFinite, height: 2, color: DiaTheme.primaryColor),
       FourColumnsEntry(
-        mainColumn: 'Total', mainTextStyle: primaryColorTextStyle,
-        secondColumn: '',
-        thirdColumn: totalCarbs.round().toString() + 'g',
-        fourthColumn: totalKcal.round().toString() + 'kcal',
+        mainColumn: 'Total'.tr(), mainTextStyle: primaryColorTextStyle,
+        secondColumn: '', secondTextStyle: normalTextStyle,
+        thirdColumn: totalCarbs.round().toString() + 'g', thirdTextStyle: normalTextStyle,
+        fourthColumn: totalKcal.round().toString() + 'kcal', fourthTextStyle: normalTextStyle,
       ),
     ];
   }

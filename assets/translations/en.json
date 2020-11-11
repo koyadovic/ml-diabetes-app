@@ -30,5 +30,10 @@
   "Your glucose level was {} mg/dL": "Glucose level of {} mg/dL",
   "You injected {} units of insulin {}": "You injected {} units of insulin {}",
   "You changed your {}: {}{}": "You changed your {}: {}{}",
-  "Search for activity": "Search for activity"
+  "Search for activity": "Search for activity",
+  "Search for food": "Search for food",
+  "Name": "Name",
+  "Selection": "Selection",
+  "Carb": "Carb",
+  "Total": "Total"
 }

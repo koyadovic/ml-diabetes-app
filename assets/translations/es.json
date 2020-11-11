@@ -30,5 +30,10 @@
   "Your glucose level was {} mg/dL": "Nivel de glucosa de {} mg/dL",
   "You injected {} units of insulin {}": "Se inyectó {} unidades de insulina {}",
   "You changed your {}: {}{}": "Cambió su {}: {}{}",
-  "Search for activity": "Busque por actividad"
+  "Search for activity": "Busque por actividad",
+  "Search for food": "Busque por alimentos",
+  "Name": "Nombre",
+  "Selection": "Selección",
+  "Carb": "Carb",
+  "Total": "Total"
 }
