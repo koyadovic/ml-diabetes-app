@@ -57,7 +57,12 @@ class Food extends WithValidations {
       'alcohol_factor': alcoholFactor,
       'salt_factor': saltFactor,
       'grams_per_unit': gramsPerUnit,
+      'metadata': metadata,
     };
+  }
+
+  Food clone() {
+    return Food.fromJson(toJson());
   }
 
   @override
