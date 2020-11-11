@@ -39,65 +39,59 @@ class FeedingsScreenWidget extends DiaRootScreenStatefulWidget {
 }
 
 
-class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> {
-  Food foodFocushed;
+class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with WidgetsBindingObserver {
+  Food foodFocused;
   double lat;
   double lng;
 
-  String locationServicesCheck;
-
   @override
   void initState() {
-    _checkAndUpdateLocation();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+    _checkAndUpdateLocation();
   }
 
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkAndUpdateLocation();
+    }
+  }
+
+  bool _checkedLocation = false;
+
   Future<void> _checkAndUpdateLocation() async {
-    print('_checkAndUpdateLocation()');
-    Position pos;
-    LocationPermission permission;
-    String locationCheck;
+    if(_checkedLocation) return;
     try{
-      print('Checking permissions');
-      permission = await Geolocator.checkPermission();
-      print(permission);
-      print('Getting current position');
-      if(permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-        pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-      }
-    } on PermissionDeniedException catch(err) {
-      locationCheck = 'You cannot use Dia without access to your location'.tr();
+      Position pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      setState(() {
+        lat = pos != null ? pos.latitude : null;
+        lng = pos != null ? pos.longitude : null;
+      });
     }
-    print(permission);
-    switch (permission) {
-      case LocationPermission.denied:
-      case LocationPermission.deniedForever:
-        locationCheck = 'You cannot use Dia without access to your location'.tr();
-        break;
-      default:
-        locationCheck = null;
+    on PermissionDeniedException catch(e) {
+      print('User denied permission');
     }
-    print('Setting state');
-    setState(() {
-      locationServicesCheck = locationCheck;
-      lat = pos != null ? pos.latitude : null;
-      lng = pos != null ? pos.longitude : null;
-    });
+    finally {
+      _checkedLocation = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if(locationServicesCheck != null) return _disabledWidget();
-    if(lat == null || lng == null)
-      return Center(
-        child: CircularProgressIndicator(),
-      );
+    if(_checkedLocation && (lat == null || lng == null)) return _disabledWidget();
 
     return Column(
       children: [
         SearchAndSelect<Food>(
           hintText: 'Search for food'.tr(),
-          currentValue: foodFocushed,
+          currentValue: foodFocused,
           source: APIRestSource<Food>(
             endpoint: '/api/v1/foods/',
             queryParameterName: 'q',
@@ -108,12 +102,13 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> {
             }
           ),
           onSelected: (Food value) {
-            foodFocushed = value;
+            setState(() {
+              foodFocused = value;
+            });
           },
           renderItem: (Food value) => ListTile(
             leading: FeedingIconSmall(),
             title: Text(value.name),
-            //subtitle: Text(value.mets.toString() + ' METs'),
           ),
         ),
 
@@ -122,19 +117,22 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> {
   }
 
   Widget _disabledWidget() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(locationServicesCheck),
-          FlatButton(
-            onPressed: () async {
-              await AppSettings.openAppSettings();
-              DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA);
-            },
-            child: Text('Open App Settings'.tr()),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('You cannot use Dia without access to your location'.tr()),
+            FlatButton(
+              onPressed: () async {
+                _checkedLocation = false;
+                await AppSettings.openAppSettings();
+              },
+              child: Text('Open App Settings'.tr()),
+            ),
+          ],
+        ),
       ),
     );
   }
