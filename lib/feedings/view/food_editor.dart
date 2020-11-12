@@ -33,7 +33,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
   Food _editedFood;
 
   TextEditingController _nameController;
-  TextEditingController _quantityController = TextEditingController(text: '100');
+  TextEditingController _servingOfController = TextEditingController(text: '100');
+  TextEditingController _weightPerUnitController = TextEditingController(text: '0.0');
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
   @override
   Widget build(BuildContext context) {
 
-    TextStyle validationStyle = TextStyle(color: Colors.red);
+    TextStyle validationStyle = TextStyle(color: Colors.red, height: 2.0);
 
     return Padding(
       padding: const EdgeInsets.all(12.0),
@@ -75,11 +76,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           if(!_editedFood.isPropertyValid('name'))
           Text(_editedFood.getPropertyValidationText('name'), style: validationStyle),
 
-          SizedBox(height: 10),
-          Text(
-            'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
-            style: TextStyle(color: DiaTheme.primaryColor),
-          ),
           SizedBox(height: 10),
           DropdownButton<bool>(
             itemHeight: 70,
@@ -119,6 +115,10 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               )
             ],
           ),
+          Text(
+            'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
+            style: TextStyle(color: DiaTheme.primaryColor),
+          ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,7 +127,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               UnitTextField(
                 valueSize: smallSize(context),
                 unitSize: verySmallSize(context),
-                externalController: _quantityController,
+                externalController: _servingOfController,
                 unit: 'g',
                 processors: [
                   (value) => value < 0.0 ? 0.0 : value,
@@ -142,10 +142,40 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               ),
             ],
           ),
+          Container(height: 1, color: Colors.grey[300]),
           if(_editedFood.isFiberIncludedInCarbs)
             FoodEditorFiberInCarbsWidget(food: _editedFood),
           if(_editedFood.isFiberSpecifiedSeparately)
             FoodEditorFiberSeparatelyWidget(food: _editedFood),
+
+          Container(height: 1, color: Colors.grey[300]),
+          SizedBox(height: 10),
+          Text(
+            'When weight per food is specified'.tr(),
+            style: TextStyle(color: DiaTheme.primaryColor),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Weight per unit'.tr(), style: TextStyle(fontSize: smallSize(context))),
+              UnitTextField(
+                  valueSize: smallSize(context),
+                  unitSize: verySmallSize(context),
+                  externalController: _weightPerUnitController,
+                  unit: 'g',
+                  processors: [
+                        (value) => value < 0.0 ? 0.0 : value,
+                        (value) => value > 600 ? 600.0 : value,
+                  ],
+                  autoFocus: false,
+                  onChange: (value) {
+                    setState(() {
+                      _editedFood.gramsPerUnit = value;
+                    });
+                  }
+              ),
+            ],
+          ),
 
           if(!_editedFood.isValid)
             Text(_editedFood.getPropertyValidationText('global'), style: validationStyle),

@@ -36,9 +36,10 @@
   "Quantity": "Cantidad",
   "Carb": "Carb",
   "Total": "Total",
-  "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "Para elegir la siguiente opción, fíjese bien en la información nutricional. ¿La sección de los hidratos de carbono incluye la fibra o por el contrario la fibra aparece a parte?",
+  "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "Fíjese bien en la información nutricional. ¿La sección de los hidratos de carbono incluye la fibra o por el contrario la fibra aparece a parte?",
   "Fiber is specified separately": "La fibra es especificada separadamente",
   "Fiber is included in carbs section": "La fibra está en la sección de carbohidratos",
+  "When weight per food is specified": "Cuando se especifica peso por alimento, al seleccionarlo no te pedirá su peso, sino sus unidades. Cuando se especifica para galletas, rebanadas de pan y similares, resulta mucho más cómodo especificar cuántas vas a comer, sin que se haga necesario pesarlo",
   "Name of food": "Nombre del alimento",
   "Serving of": "En la cantidad de",
   "Close": "Cerrar",
@@ -50,5 +51,6 @@
   "PROTEINS": "PROTEÍNAS",
   "FATS": "GRASAS",
   "SALT": "SAL",
-  "ALCOHOL": "ALCOHOL"
+  "ALCOHOL": "ALCOHOL",
+  "Weight per unit": "Peso por unidad"
 }
