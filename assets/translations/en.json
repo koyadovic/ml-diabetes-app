@@ -38,6 +38,17 @@
   "Total": "Total",
   "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?",
   "Fiber is specified separately": "Fiber is specified separately",
-  "Fiber is included in carbs section": "Fiber is included in carbs section"
-
+  "Fiber is included in carbs section": "Fiber is included in carbs section",
+  "Name of food": "Name of food",
+  "Serving of": "Serving of",
+  "Close": "Close",
+  "Save": "Save",
+  "CARBOHYDRATES": "CARBOHYDRATES",
+  "Sugar": "Sugar",
+  "Fiber": "Fiber",
+  "FIBER": "FIBER",
+  "PROTEINS": "PROTEINS",
+  "FATS": "FATS",
+  "SALT": "SALT",
+  "ALCOHOL": "ALCOHOL"
 }

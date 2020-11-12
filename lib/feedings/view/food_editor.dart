@@ -1,4 +1,5 @@
 import 'package:Dia/feedings/model/foods.dart';
+import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/unfocus.dart';
 import 'package:Dia/shared/view/widgets/unit_text_field.dart';
@@ -61,9 +62,15 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
         children: [
           TextField(
             controller: _nameController,
+            decoration: InputDecoration(
+              hintText: 'Name of food'.tr()
+            ),
           ),
           SizedBox(height: 10),
-          Text('To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr()),
+          Text(
+            'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
+            style: TextStyle(color: DiaTheme.primaryColor),
+          ),
           SizedBox(height: 10),
           DropdownButton<bool>(
             itemHeight: 70,
@@ -103,7 +110,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('En la cantidad de', style: TextStyle(fontSize: smallSize(context))),
+              Text('Serving of'.tr(), style: TextStyle(fontSize: smallSize(context))),
               UnitTextField(
                 valueSize: smallSize(context),
                 unitSize: verySmallSize(context),
@@ -202,7 +209,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         NutritionSection(
-          name: 'CARBS',
+          name: 'CARBOHYDRATES'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -219,7 +226,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionChildSection(
-          name: '○  Sugar',
+          name: '○  ' + 'Sugar'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -237,7 +244,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionChildSection(
-          name: '○  Fiber',
+          name: '○  ' + 'Fiber'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -255,7 +262,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'PROTEINS',
+          name: 'PROTEINS'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -273,7 +280,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'FATS',
+          name: 'FATS'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -290,7 +297,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'SALT',
+          name: 'SALT'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -307,7 +314,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'ALCOHOL',
+          name: 'ALCOHOL'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -368,7 +375,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
     return Column(
       children: [
         NutritionSection(
-          name: 'CARBS',
+          name: 'CARBOHYDRATES'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -385,7 +392,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionChildSection(
-          name: '○  Sugar',
+          name: '○  ' + 'Sugar'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -403,7 +410,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'FIBER',
+          name: 'FIBER'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -420,7 +427,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'PROTEINS',
+          name: 'PROTEINS'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -438,7 +445,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'FATS',
+          name: 'FATS'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -455,7 +462,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'SALT',
+          name: 'SALT'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
@@ -472,7 +479,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
           )
         ),
         NutritionSection(
-          name: 'ALCOHOL',
+          name: 'ALCOHOL'.tr(),
           child: UnitTextField(
             valueSize: smallSize(context),
             unitSize: verySmallSize(context),
