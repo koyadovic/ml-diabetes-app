@@ -28,8 +28,16 @@ class Food extends WithValidations {
     this.metadata['fiber_included_in_carbs'] = false;
   }
 
+  void setQuantityGrams(double quantity) {
+    this.metadata['quantity'] = quantity;
+  }
+
+  double getQuantityGrams(){
+    return this.metadata['quantity'] ?? 100.0;
+  }
+
   static Food newFood() {
-    return Food(
+    Food food = Food(
       id: null,
       name: '',
       carbFactor: 0.0,
@@ -42,6 +50,9 @@ class Food extends WithValidations {
       gramsPerUnit: 0.0,
       metadata: {},
     );
+    food.fiberIsSpecifiedSeparately();
+    food.setQuantityGrams(100.0);
+    return food;
   }
 
   static Food fromJson(Map<String, dynamic> json) {

@@ -129,7 +129,14 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                     FoodEditorWidget(
                       onClose: widget.hideWidget,
                       onSaveFood: (Food food) {
-                        print('New food! $food');
+                        print(food.name);
+                        print('carbFactor' + food.carbFactor.toString());
+                        print('carbFiberFactor' + food.carbFiberFactor.toString());
+                        print('carbSugarFactor' + food.carbSugarFactor.toString());
+                        print('proteinFactor' + food.proteinFactor.toString());
+                        print('fatFactor' + food.fatFactor.toString());
+                        print('saltFactor' + food.saltFactor.toString());
+                        print('alcoholFactor' + food.alcoholFactor.toString());
                       },
                     )
                   );
