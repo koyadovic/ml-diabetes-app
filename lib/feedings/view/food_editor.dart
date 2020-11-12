@@ -67,7 +67,9 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
             onChanged: (String value) {
               _editedFood.name = value;
               if(!_editedFood.isValid)
-                _editedFood.validate();
+                setState(() {
+                  _editedFood.validate();
+                });
             },
           ),
           if(!_editedFood.isPropertyValid('name'))
@@ -425,8 +427,8 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             externalController: _carbsTotalController,
             unit: 'g',
             processors: [
-                  (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
+              (value) => value < 0.0 ? 0.0 : value,
+              (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
