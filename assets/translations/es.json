@@ -35,5 +35,8 @@
   "Food": "Alimento",
   "Quantity": "Cantidad",
   "Carb": "Carb",
-  "Total": "Total"
+  "Total": "Total",
+  "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "Para elegir la siguiente opción, fíjese bien en la información nutricional. ¿La sección de los hidratos de carbono incluye la fibra o por el contrario la fibra aparece a parte?",
+  "Fiber is specified separately": "La fibra es especificada separadamente",
+  "Fiber is included in carbs section": "La fibra está en la sección de carbohidratos"
 }

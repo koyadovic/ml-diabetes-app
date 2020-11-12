@@ -35,5 +35,9 @@
   "Food": "Food",
   "Quantity": "Quantity",
   "Carb": "Carb",
-  "Total": "Total"
+  "Total": "Total",
+  "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?",
+  "Fiber is specified separately": "Fiber is specified separately",
+  "Fiber is included in carbs section": "Fiber is included in carbs section"
+
 }

@@ -3,15 +3,15 @@ import 'package:Dia/shared/tools/numbers.dart';
 
 class Food extends WithValidations {
   final int id;
-  final String name;
-  final double carbFactor;
-  final double carbFiberFactor;
-  final double carbSugarFactor;
-  final double proteinFactor;
-  final double fatFactor;
-  final double alcoholFactor;
-  final double saltFactor;
-  final double gramsPerUnit;
+  String name;
+  double carbFactor;
+  double carbFiberFactor;
+  double carbSugarFactor;
+  double proteinFactor;
+  double fatFactor;
+  double alcoholFactor;
+  double saltFactor;
+  double gramsPerUnit;
   final Map<String, dynamic> metadata;
 
   Food({this.id, this.name, this.carbFactor, this.carbFiberFactor, this.carbSugarFactor,
@@ -26,6 +26,22 @@ class Food extends WithValidations {
   bool get isFiberSpecifiedSeparately => !this.isFiberIncludedInCarbs;
   void fiberIsSpecifiedSeparately() {
     this.metadata['fiber_included_in_carbs'] = false;
+  }
+
+  static Food newFood() {
+    return Food(
+      id: null,
+      name: '',
+      carbFactor: 0.0,
+      carbFiberFactor: 0.0,
+      carbSugarFactor: 0.0,
+      proteinFactor: 0.0,
+      fatFactor: 0.0,
+      alcoholFactor: 0.0,
+      saltFactor: 0.0,
+      gramsPerUnit: 0.0,
+      metadata: {},
+    );
   }
 
   static Food fromJson(Map<String, dynamic> json) {

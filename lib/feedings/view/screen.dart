@@ -9,6 +9,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
 
+import 'food_editor.dart';
+
 
 // ignore: must_be_immutable
 class FeedingsScreenWidget extends DiaRootScreenStatefulWidget {
@@ -123,6 +125,14 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                 icon: Icon(Icons.add),
                 onPressed: () {
                   print('New food');
+                  widget.showWidget(
+                    FoodEditorWidget(
+                      onClose: widget.hideWidget,
+                      onSaveFood: (Food food) {
+                        print('New food! $food');
+                      },
+                    )
+                  );
                 },
               )
             ],
