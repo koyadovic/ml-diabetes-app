@@ -213,6 +213,13 @@ class UnitTextFieldState extends State<UnitTextField> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      List<dynamic> result = parseStringValue(_controller.text);
+
+      if(_focusNode.hasFocus && result[0] == 0.0) {
+        _controller.text = '';
+      }
+    });
 
     if(widget.autoFocus) {
       Future.delayed(Duration(milliseconds: 300), () => requestFocus());
@@ -336,9 +343,9 @@ class UnitTextFieldState extends State<UnitTextField> {
       child: Row(
         children: [
           Container(
-            width: 20 + w,
+            width: 5 + w,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: TextField(
                 focusNode: _focusNode,
                 enabled: enabled && editable,

@@ -159,20 +159,20 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
             children: [
               Text('Weight per unit'.tr(), style: TextStyle(fontSize: smallSize(context))),
               UnitTextField(
-                  valueSize: smallSize(context),
-                  unitSize: verySmallSize(context),
-                  externalController: _weightPerUnitController,
-                  unit: 'g',
-                  processors: [
-                        (value) => value < 0.0 ? 0.0 : value,
-                        (value) => value > 600 ? 600.0 : value,
-                  ],
-                  autoFocus: false,
-                  onChange: (value) {
-                    setState(() {
-                      _editedFood.gramsPerUnit = value;
-                    });
-                  }
+                valueSize: smallSize(context),
+                unitSize: verySmallSize(context),
+                externalController: _weightPerUnitController,
+                unit: 'g',
+                processors: [
+                      (value) => value < 0.0 ? 0.0 : value,
+                      (value) => value > 600 ? 600.0 : value,
+                ],
+                autoFocus: false,
+                onChange: (value) {
+                  setState(() {
+                    _editedFood.gramsPerUnit = value;
+                  });
+                }
               ),
             ],
           ),

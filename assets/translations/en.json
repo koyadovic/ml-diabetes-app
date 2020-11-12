@@ -39,7 +39,7 @@
   "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?": "To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?",
   "Fiber is specified separately": "Fiber is specified separately",
   "Fiber is included in carbs section": "Fiber is included in carbs section",
-  "When weight per food is specified": "When weight per food is specified, when selecting it, it will not ask for its weight, but for its units. When specifying for cookies, slices of bread and the like, it is much more convenient to specify how many you are going to eat, without needing to weigh it",
+  "When weight per food is specified": "When weight per unit is specified, when selecting this food, it will not ask for its weight, but for its units.\n\nWhen specifying for cookies, slices of bread and the like, it is much more convenient to specify how many you are going to eat, without needing to weigh it",
   "Name of food": "Name of food",
   "Serving of": "Serving of",
   "Close": "Close",
