@@ -67,7 +67,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           tooltip: 'Add Trait Measure',
           backgroundColor: Colors.grey[100],
           child: IconButton(
-            icon: TraitMeasureIconSmall(),
+            icon: TraitMeasureIconMedium(),
             onPressed: () async {
               TraitMeasure traitMeasure;
               List<TraitType> traitTypes = await _userDataServices.getTraitTypes();
@@ -112,7 +112,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           tooltip: 'Add Activity',
           backgroundColor: Colors.grey[100],
           child: IconButton(
-            icon: ActivityIconSmall(),
+            icon: ActivityIconMedium(),
             onPressed: () async {
               severalFloatingActionButton.state.toggle();
               Activity activity = Activity(eventDate: DateTime.now(), minutes: 0);
@@ -148,7 +148,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           tooltip: 'Add Feeding',
           backgroundColor: Colors.grey[100],
           child: IconButton(
-            icon: FeedingIconSmall(),
+            icon: FeedingIconMedium(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               DiaNavigation.getInstance().requestScreenChange(DiaScreen.FEEDINGS);
@@ -161,7 +161,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           tooltip: 'Add Insulin Injection',
           backgroundColor: Colors.grey[100],
           child: IconButton(
-            icon: InsulinInjectionIconSmall(),
+            icon: InsulinInjectionIconMedium(),
             onPressed: () async {
               severalFloatingActionButton.state.toggle();
 
@@ -206,7 +206,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           tooltip: 'Add Glucose',
           backgroundColor: Colors.grey[100],
           child: IconButton(
-            icon: GlucoseLevelIconSmall(),
+            icon: GlucoseLevelIconMedium(),
             onPressed: (){
               severalFloatingActionButton.state.toggle();
               GlucoseLevel glucoseLevel = GlucoseLevel(eventDate: DateTime.now(), level: 0);

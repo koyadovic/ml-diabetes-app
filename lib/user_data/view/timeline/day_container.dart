@@ -131,7 +131,7 @@ class InnerCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 70 * screenSizeScalingFactor(context),
       width: double.maxFinite,
       child: IntrinsicWidth(
         child: Row(

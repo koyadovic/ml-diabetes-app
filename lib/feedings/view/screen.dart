@@ -77,6 +77,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   Future<void> _checkAndUpdateLocation() async {
     if(_checkedLocation) return;
     try{
+      // TODO en Pixel XL jamás retorna pos... se queda ahí.
       Position pos = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
       setState(() {
         lat = pos != null ? pos.latitude : null;

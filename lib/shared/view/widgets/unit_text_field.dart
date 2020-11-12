@@ -168,10 +168,10 @@ class UnitTextFieldState extends State<UnitTextField> {
     bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 
-    double scalingFactor = screenSizeScalingFactor(context);
+    //double scalingFactor = screenSizeScalingFactor(context);
 
     double charWidth = (widget.valueSize / 2.0) + 1.0;
-    double w = (_controller.text.length.toDouble()) * charWidth * scalingFactor;
+    double w = (_controller.text.length.toDouble()) * charWidth;
     w = w < charWidth ? charWidth : w;
 
     return GestureDetector(

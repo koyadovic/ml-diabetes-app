@@ -106,14 +106,14 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                 value: true,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Fiber is specified separately'.tr()),
+                  child: Text('Fiber is specified separately'.tr(), style: TextStyle(fontSize: smallSize(context))),
                 ),
               ),
               DropdownMenuItem<bool>(
                 value: false,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Fiber is included in carbs section'.tr()),
+                  child: Text('Fiber is included in carbs section'.tr(), style: TextStyle(fontSize: smallSize(context))),
                 ),
               )
             ],

@@ -109,7 +109,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
           Text(
             widget.viewModel.getCategoryLabel(widget.category),
             style: TextStyle(
-              fontSize: smallSize(context),
+              fontSize: mediumSize(context),
               color: DiaTheme.primaryColor,
             )
           ),
@@ -123,7 +123,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
                   Text(
                     widget.viewModel.getSettingLabel(setting),
                     style: TextStyle(
-                      fontSize: verySmallSize(context),
+                      fontSize: smallSize(context),
                       color: DiaTheme.primaryColor,
                     )
                   ),
@@ -211,7 +211,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
             return DropdownMenuItem<String>(
               value: option['value'],
               child: ListTile(
-                title: Text(option['display'], style: TextStyle(fontSize: smallSize(context))),
+                title: Text(option['display'], style: TextStyle(fontSize: mediumSize(context))),
                 subtitle: Text('language_${option["display"]}'.tr()),
               ),
             );

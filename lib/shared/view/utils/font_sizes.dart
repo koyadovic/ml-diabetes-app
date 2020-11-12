@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 double screenSizeScalingFactor(BuildContext context) {
   final size = MediaQuery.of(context).size;
+  // TODO revisar esto para tablets
+  // if(size.height > 1400) {
+  //   return 1.2;
+  // }
   // For tiny devices.
   if (size.height < 600) {
     return 0.7;

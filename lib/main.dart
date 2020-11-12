@@ -1,5 +1,6 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/view/screen.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -227,7 +228,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       actionsIconTheme: actionsIconTheme,
       iconTheme: iconTheme,
       backgroundColor: backgroundColor,
-      title: Text(title, style: TextStyle(color: DiaTheme.primaryColor)),
+      title: Text(title, style: TextStyle(color: DiaTheme.primaryColor, fontSize: mediumSize(context))),
       actions: appBarActions,
       bottom: appBarBottom,
     );
