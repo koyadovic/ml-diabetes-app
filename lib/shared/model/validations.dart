@@ -138,6 +138,19 @@ class ZeroOrPositiveNumberValidator extends Validator {
 }
 
 
+class NotEmptyStringValidator extends Validator {
+  @override
+  validate(value) {
+    if (!(value is String)) {
+      throw ValidationError('Cannot be empty');
+    }
+    if (value.toString() == '') {
+      throw ValidationError('Cannot be empty');
+    }
+  }
+}
+
+
 class OneOrGreaterPositiveNumberValidator extends Validator {
   @override
   validate(value) {

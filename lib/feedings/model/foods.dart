@@ -127,7 +127,7 @@ class Food extends WithValidations {
   }
 
   static Map<String, List<Validator>> validators = {
-    'name': [NotNullValidator()],
+    'name': [NotNullValidator(), NotEmptyStringValidator()],
     'carb_factor': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
     'carb_fiber_factor': [NotNullValidator(), ZeroOrPositiveNumberValidator()],
     'carb_sugar_factor': [NotNullValidator(), ZeroOrPositiveNumberValidator()],

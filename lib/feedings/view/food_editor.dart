@@ -52,6 +52,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
   @override
   Widget build(BuildContext context) {
 
+    TextStyle validationStyle = TextStyle(color: Colors.red);
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ListView(
@@ -62,7 +64,15 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
             decoration: InputDecoration(
               hintText: 'Name of food'.tr()
             ),
+            onChanged: (String value) {
+              _editedFood.name = value;
+              if(!_editedFood.isValid)
+                _editedFood.validate();
+            },
           ),
+          if(!_editedFood.isPropertyValid('name'))
+          Text(_editedFood.getPropertyValidationText('name'), style: validationStyle),
+
           SizedBox(height: 10),
           Text(
             'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
@@ -79,10 +89,14 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               if(fiberIsSeparate){
                 setState(() {
                   _editedFood.fiberIsSpecifiedSeparately();
+                  if(!_editedFood.isValid)
+                    _editedFood.validate();
                 });
               } else {
                 setState(() {
                   _editedFood.fiberIsIncludedInCarbs();
+                  if(!_editedFood.isValid)
+                    _editedFood.validate();
                 });
               }
             },
@@ -131,6 +145,9 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           if(_editedFood.isFiberSpecifiedSeparately)
             FoodEditorFiberSeparatelyWidget(food: _editedFood),
 
+          if(!_editedFood.isValid)
+            Text(_editedFood.getPropertyValidationText('global'), style: validationStyle),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -144,10 +161,16 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               FlatButton(
                 child: Text('Save'.tr()),
                 onPressed: () {
-                  if(_editedFood.isFiberSpecifiedSeparately) {
-                    _editedFood.carbFactor += _editedFood.carbFiberFactor;
+                  _editedFood.validate();
+                  setState(() {
+                  });
+
+                  if(_editedFood.isValid) {
+                    if(_editedFood.isFiberSpecifiedSeparately) {
+                      _editedFood.carbFactor += _editedFood.carbFiberFactor;
+                    }
+                    widget.onSaveFood(_editedFood);
                   }
-                  widget.onSaveFood(_editedFood);
                 },
               ),
               if(_editedFood.id != null && widget.onReportError != null)
@@ -199,6 +222,8 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
     _saltController.text = (round(food.saltFactor * food.getServingOfGrams(), 2)).toString();
     _alcoholController.text = (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString();
 
+    TextStyle validationStyle = TextStyle(color: Colors.red);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -216,9 +241,14 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_factor'))
+        Text(food.getPropertyValidationText('carb_factor'), style: validationStyle),
+
         NutritionChildSection(
           name: '○  ' + 'Sugar'.tr(),
           child: UnitTextField(
@@ -233,10 +263,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
-
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_sugar_factor'))
+          Text(food.getPropertyValidationText('carb_sugar_factor'), style: validationStyle),
         NutritionChildSection(
           name: '○  ' + 'Fiber'.tr(),
           child: UnitTextField(
@@ -251,10 +284,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
-
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_fiber_factor'))
+          Text(food.getPropertyValidationText('carb_fiber_factor'), style: validationStyle),
         NutritionSection(
           name: 'PROTEINS'.tr(),
           child: UnitTextField(
@@ -269,10 +305,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
-
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('protein_factor'))
+          Text(food.getPropertyValidationText('protein_factor'), style: validationStyle),
         NutritionSection(
           name: 'FATS'.tr(),
           child: UnitTextField(
@@ -287,9 +326,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('fat_factor'))
+          Text(food.getPropertyValidationText('fat_factor'), style: validationStyle),
         NutritionSection(
           name: 'SALT'.tr(),
           child: UnitTextField(
@@ -304,9 +347,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('salt_factor'))
+          Text(food.getPropertyValidationText('salt_factor'), style: validationStyle),
         NutritionSection(
           name: 'ALCOHOL'.tr(),
           child: UnitTextField(
@@ -321,9 +368,13 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('alcohol_factor'))
+          Text(food.getPropertyValidationText('alcohol_factor'), style: validationStyle),
       ],
     );
   }
@@ -362,6 +413,8 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
     _saltController.text = (round(food.saltFactor * food.getServingOfGrams(), 2)).toString();
     _alcoholController.text = (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString();
 
+    TextStyle validationStyle = TextStyle(color: Colors.red);
+
     return Column(
       children: [
         NutritionSection(
@@ -378,9 +431,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_factor'))
+          Text(food.getPropertyValidationText('carb_factor'), style: validationStyle),
         NutritionChildSection(
           name: '○  ' + 'Sugar'.tr(),
           child: UnitTextField(
@@ -395,10 +452,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
-
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_sugar_factor'))
+          Text(food.getPropertyValidationText('carb_sugar_factor'), style: validationStyle),
         NutritionSection(
           name: 'FIBER'.tr(),
           child: UnitTextField(
@@ -413,9 +473,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('carb_fiber_factor'))
+          Text(food.getPropertyValidationText('carb_fiber_factor'), style: validationStyle),
         NutritionSection(
           name: 'PROTEINS'.tr(),
           child: UnitTextField(
@@ -430,10 +494,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
-
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('protein_factor'))
+          Text(food.getPropertyValidationText('protein_factor'), style: validationStyle),
         NutritionSection(
           name: 'FATS'.tr(),
           child: UnitTextField(
@@ -448,9 +515,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('fat_factor'))
+          Text(food.getPropertyValidationText('fat_factor'), style: validationStyle),
         NutritionSection(
           name: 'SALT'.tr(),
           child: UnitTextField(
@@ -465,9 +536,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('salt_factor'))
+          Text(food.getPropertyValidationText('salt_factor'), style: validationStyle),
         NutritionSection(
           name: 'ALCOHOL'.tr(),
           child: UnitTextField(
@@ -482,9 +557,13 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             autoFocus: false,
             onChange: (value) {
               food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
+              if(!food.isValid)
+                food.validate();
             }
           )
         ),
+        if(!food.isPropertyValid('alcohol_factor'))
+          Text(food.getPropertyValidationText('alcohol_factor'), style: validationStyle),
       ],
     );
   }
