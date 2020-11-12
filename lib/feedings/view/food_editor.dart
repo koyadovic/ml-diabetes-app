@@ -77,10 +77,13 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           Text(_editedFood.getPropertyValidationText('name'), style: validationStyle),
 
           SizedBox(height: 10),
+          Text(
+            'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
+            style: TextStyle(color: DiaTheme.primaryColor),
+          ),
           DropdownButton<bool>(
             itemHeight: 70,
             isExpanded: true,
-            // isDense: false,
             value: _editedFood.isFiberSpecifiedSeparately,
             onChanged: (bool fiberIsSeparate) {
               unFocus(context);
@@ -114,10 +117,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                 ),
               )
             ],
-          ),
-          Text(
-            'To choose the next option, take a good look at the nutritional information. Does the carbohydrates section include fiber or does fiber appear separately?'.tr(),
-            style: TextStyle(color: DiaTheme.primaryColor),
           ),
           SizedBox(height: 10),
           Row(
@@ -186,7 +185,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               FlatButton(
                 child: Text('Close'.tr()),
                 onPressed: () {
-                  print('Close editor');
                   widget.onClose();
                 },
               ),
@@ -209,7 +207,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               FlatButton(
                 child: Text('Report error'.tr()),
                 onPressed: () {
-                  print('Report error');
                   widget.onReportError();
                 },
               ),

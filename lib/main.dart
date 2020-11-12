@@ -1,5 +1,6 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/view/screen.dart';
+import 'package:Dia/shared/view/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'feedings/view/screen.dart';
@@ -139,6 +140,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   Future<dynamic> showWidget(Widget widget) async {
+    unFocus(context);
     return await showDialog(
       context: context,
       barrierDismissible: false,
@@ -157,6 +159,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   Future<void> hideWidget() async {
     Navigator.pop(context);
+    unFocus(context);
   }
 
   ListTile buildDrawerItem(DiaScreen diaScreen, String text, IconData iconData, Function onTap) {
@@ -264,6 +267,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   @override
   void requestScreenChange(DiaScreen screen) async {
+    unFocus(context);
     if(screen == _currentScreen) return;
     if(_currentScreen == DiaScreen.LOGIN || screen == DiaScreen.LOGIN) {
       _screens = [];

@@ -1,7 +1,9 @@
+import 'package:Dia/feedings/controller/services.dart';
 import 'package:Dia/feedings/model/foods.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:Dia/shared/view/utils/messages.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   double lat;
   double lng;
 
+  final FeedingsServices _feedingsServices = FeedingsServices();
+
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -89,6 +93,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
 
   @override
   Widget build(BuildContext context) {
+    widget._state = this;
+
     if(_checkedLocation && (lat == null || lng == null)) return _disabledWidget();
 
     return Padding(
@@ -124,21 +130,13 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  print('New food');
                   widget.showWidget(
                     FoodEditorWidget(
                       onClose: widget.hideWidget,
-                      onSaveFood: (Food food) {
-                        print(food.name);
-                        print('carbFactor' + food.carbFactor.toString());
-                        print('carbFiberFactor' + food.carbFiberFactor.toString());
-                        print('carbSugarFactor' + food.carbSugarFactor.toString());
-                        print('proteinFactor' + food.proteinFactor.toString());
-                        print('fatFactor' + food.fatFactor.toString());
-                        print('saltFactor' + food.saltFactor.toString());
-                        print('alcoholFactor' + food.alcoholFactor.toString());
-                        print('metadata' + food.metadata.toString());
+                      onSaveFood: (Food food) async {
+                        await _feedingsServices.saveFood(food, lat, lng);
                         widget.hideWidget();
+                        DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
                       },
                     )
                   );
