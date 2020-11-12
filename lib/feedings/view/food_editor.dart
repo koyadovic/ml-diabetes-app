@@ -1,4 +1,5 @@
 import 'package:Dia/feedings/model/foods.dart';
+import 'package:Dia/shared/tools/numbers.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/unfocus.dart';
@@ -29,10 +30,6 @@ class FoodEditorWidget extends StatefulWidget {
 
 
 class FoodEditorWidgetState extends State<FoodEditorWidget> {
-  // TODO convert here the data of the backend
-  // TODO use food.isFiberIncludedInCarbs and food.isFiberSpecifiedSeparately
-  // TODO to present to the user appropriately
-
   Food _editedFood;
 
   TextEditingController _nameController;
@@ -123,7 +120,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                 autoFocus: false,
                 onChange: (value) {
                   setState(() {
-                    _editedFood.setQuantityGrams(value);
+                    _editedFood.setServingOfGrams(value);
                   });
                 }
               ),
@@ -172,9 +169,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
 
 
 class FoodEditorFiberInCarbsWidget extends StatelessWidget {
-
-  // TODO aquí no hay cambio, cada field a su campo.
-
   final Food food;
 
   TextEditingController _carbsTotalController;
@@ -186,24 +180,24 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
   TextEditingController _alcoholController;
 
   FoodEditorFiberInCarbsWidget({this.food}) {
-    _carbsTotalController = TextEditingController(text: (food.carbFactor * food.getQuantityGrams()).toString());
-    _carbsSugarController = TextEditingController(text: (food.carbSugarFactor * food.getQuantityGrams()).toString());
-    _carbsFiberController = TextEditingController(text: (food.carbFiberFactor * food.getQuantityGrams()).toString());
-    _proteinsController = TextEditingController(text: (food.proteinFactor * food.getQuantityGrams()).toString());
-    _fatsController = TextEditingController(text: (food.fatFactor * food.getQuantityGrams()).toString());
-    _saltController = TextEditingController(text: (food.saltFactor * food.getQuantityGrams()).toString());
-    _alcoholController = TextEditingController(text: (food.alcoholFactor * food.getQuantityGrams()).toString());
+    _carbsTotalController = TextEditingController(text: (round(food.carbFactor * food.getServingOfGrams(), 2)).toString());
+    _carbsSugarController = TextEditingController(text: (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString());
+    _carbsFiberController = TextEditingController(text: (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString());
+    _proteinsController = TextEditingController(text: (round(food.proteinFactor * food.getServingOfGrams(), 2)).toString());
+    _fatsController = TextEditingController(text: (round(food.fatFactor * food.getServingOfGrams(), 2)).toString());
+    _saltController = TextEditingController(text: (round(food.saltFactor * food.getServingOfGrams(), 2)).toString());
+    _alcoholController = TextEditingController(text: (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    _carbsTotalController.text = (food.carbFactor * food.getQuantityGrams()).toString();
-    _carbsSugarController.text = (food.carbSugarFactor * food.getQuantityGrams()).toString();
-    _carbsFiberController.text = (food.carbFiberFactor * food.getQuantityGrams()).toString();
-    _proteinsController.text = (food.proteinFactor * food.getQuantityGrams()).toString();
-    _fatsController.text = (food.fatFactor * food.getQuantityGrams()).toString();
-    _saltController.text = (food.saltFactor * food.getQuantityGrams()).toString();
-    _alcoholController.text = (food.alcoholFactor * food.getQuantityGrams()).toString();
+    _carbsTotalController.text = (round(food.carbFactor * food.getServingOfGrams(), 2)).toString();
+    _carbsSugarController.text = (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString();
+    _carbsFiberController.text = (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString();
+    _proteinsController.text = (round(food.proteinFactor * food.getServingOfGrams(), 2)).toString();
+    _fatsController.text = (round(food.fatFactor * food.getServingOfGrams(), 2)).toString();
+    _saltController.text = (round(food.saltFactor * food.getServingOfGrams(), 2)).toString();
+    _alcoholController.text = (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -217,11 +211,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
               (value) => value < 0.0 ? 0.0 : value,
-              (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+              (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -234,11 +228,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
               (value) => value < 0.0 ? 0.0 : value,
-              (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+              (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbSugarFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
 
             }
           )
@@ -252,11 +246,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbFiberFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
 
             }
           )
@@ -270,11 +264,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.proteinFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
 
             }
           )
@@ -288,11 +282,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.fatFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -305,11 +299,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.saltFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -322,11 +316,11 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.alcoholFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -337,9 +331,6 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
 
 
 class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
-
-  // TODO Cuando cambie fiber cambia fiber y carbs totales. Al representar carbs totales restar fiber. Apañao
-
   final Food food;
 
   TextEditingController _carbsTotalController;
@@ -351,26 +342,25 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
   TextEditingController _alcoholController;
 
   FoodEditorFiberSeparatelyWidget({this.food}){
-    _carbsTotalController = TextEditingController(text: ((food.carbFactor - food.carbFiberFactor) * food.getQuantityGrams()).toString());
-    _carbsSugarController = TextEditingController(text: (food.carbSugarFactor * food.getQuantityGrams()).toString());
-    _carbsFiberController = TextEditingController(text: (food.carbFiberFactor * food.getQuantityGrams()).toString());
-    _proteinsController = TextEditingController(text: (food.proteinFactor * food.getQuantityGrams()).toString());
-    _fatsController = TextEditingController(text: (food.fatFactor * food.getQuantityGrams()).toString());
-    _saltController = TextEditingController(text: (food.saltFactor * food.getQuantityGrams()).toString());
-    _alcoholController = TextEditingController(text: (food.alcoholFactor * food.getQuantityGrams()).toString());
+    _carbsTotalController = TextEditingController(text: (round((food.carbFactor - food.carbFiberFactor) * food.getServingOfGrams(), 2)).toString());
+    _carbsSugarController = TextEditingController(text: (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString());
+    _carbsFiberController = TextEditingController(text: (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString());
+    _proteinsController = TextEditingController(text: (round(food.proteinFactor * food.getServingOfGrams(), 2)).toString());
+    _fatsController = TextEditingController(text: (round(food.fatFactor * food.getServingOfGrams(), 2)).toString());
+    _saltController = TextEditingController(text: (round(food.saltFactor * food.getServingOfGrams(), 2)).toString());
+    _alcoholController = TextEditingController(text: (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO restale la fibra
-    _carbsTotalController.text = ((food.carbFactor - food.carbFiberFactor) * food.getQuantityGrams()).toString();
-
-    _carbsSugarController.text = (food.carbSugarFactor * food.getQuantityGrams()).toString();
-    _carbsFiberController.text = (food.carbFiberFactor * food.getQuantityGrams()).toString();
-    _proteinsController.text = (food.proteinFactor * food.getQuantityGrams()).toString();
-    _fatsController.text = (food.fatFactor * food.getQuantityGrams()).toString();
-    _saltController.text = (food.saltFactor * food.getQuantityGrams()).toString();
-    _alcoholController.text = (food.alcoholFactor * food.getQuantityGrams()).toString();
+    // restale la fibra
+    _carbsTotalController.text = (round((food.carbFactor - food.carbFiberFactor) * food.getServingOfGrams(), 2)).toString();
+    _carbsSugarController.text = (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString();
+    _carbsFiberController.text = (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString();
+    _proteinsController.text = (round(food.proteinFactor * food.getServingOfGrams(), 2)).toString();
+    _fatsController.text = (round(food.fatFactor * food.getServingOfGrams(), 2)).toString();
+    _saltController.text = (round(food.saltFactor * food.getServingOfGrams(), 2)).toString();
+    _alcoholController.text = (round(food.alcoholFactor * food.getServingOfGrams(), 2)).toString();
 
     return Column(
       children: [
@@ -383,11 +373,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -400,11 +390,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbSugarFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
 
             }
           )
@@ -418,11 +408,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.carbFiberFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -435,11 +425,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.proteinFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
 
             }
           )
@@ -453,11 +443,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.fatFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -470,11 +460,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.saltFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -487,11 +477,11 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             unit: 'g',
             processors: [
                   (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > food.getQuantityGrams() ? food.getQuantityGrams() : value,
+                  (value) => value > food.getServingOfGrams() ? food.getServingOfGrams() : value,
             ],
             autoFocus: false,
             onChange: (value) {
-              food.alcoholFactor = food.getQuantityGrams() != 0.0 ? value / food.getQuantityGrams() : 0.0;
+              food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
             }
           )
         ),
@@ -554,4 +544,3 @@ class NutritionChildSection extends StatelessWidget {
     );
   }
 }
-

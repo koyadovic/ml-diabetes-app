@@ -137,6 +137,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                         print('fatFactor' + food.fatFactor.toString());
                         print('saltFactor' + food.saltFactor.toString());
                         print('alcoholFactor' + food.alcoholFactor.toString());
+                        print('metadata' + food.metadata.toString());
+                        widget.hideWidget();
                       },
                     )
                   );

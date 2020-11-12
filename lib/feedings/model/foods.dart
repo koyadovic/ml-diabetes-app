@@ -28,12 +28,12 @@ class Food extends WithValidations {
     this.metadata['fiber_included_in_carbs'] = false;
   }
 
-  void setQuantityGrams(double quantity) {
-    this.metadata['quantity'] = quantity;
+  void setServingOfGrams(double quantity) {
+    this.metadata['serving_of'] = quantity;
   }
 
-  double getQuantityGrams(){
-    return this.metadata['quantity'] ?? 100.0;
+  double getServingOfGrams(){
+    return this.metadata['serving_of'] ?? 100.0;
   }
 
   static Food newFood() {
@@ -51,7 +51,7 @@ class Food extends WithValidations {
       metadata: {},
     );
     food.fiberIsSpecifiedSeparately();
-    food.setQuantityGrams(100.0);
+    food.setServingOfGrams(100.0);
     return food;
   }
 
