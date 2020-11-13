@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
 
 import 'food_editor.dart';
+import 'food_selection.dart';
 
 
 // ignore: must_be_immutable
@@ -114,6 +115,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                 child: SearchAndSelect<Food>(
                   hintText: 'Search for food'.tr(),
                   currentValue: _foodFocused,
+                  clearWhenSelected: true,
                   source: APIRestSource<Food>(
                     endpoint: '/api/v1/foods/',
                     queryParameterName: 'q',
@@ -123,10 +125,19 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                       'lng': lng.toString(),
                     }
                   ),
-                  onSelected: (Food value) {
-                    setState(() {
-                      _foodFocused = value;
-                    });
+                  onSelected: (Food food) {
+                    if(food == null) return;
+                    
+                    widget.showWidget(
+                      FoodSelectionWidget(
+                        food: food,
+                        onClose: widget.hideWidget,
+                        onSaveFoodSelection: (FoodSelection selection) {
+                          _foodSelections.add(selection);
+                          widget.hideWidget();
+                        },
+                      )
+                    );
                   },
                   renderItem: (Food value) => ListTile(
                     leading: FeedingIconSmall(),

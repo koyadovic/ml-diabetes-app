@@ -59,6 +59,7 @@ class SearchAndSelect<T> extends StatefulWidget {
   final Function(T) itemToString;
   final String hintText;
   final int delayMilliseconds;
+  final bool clearWhenSelected;
 
   SearchAndSelect({
     this.currentValue,
@@ -66,8 +67,9 @@ class SearchAndSelect<T> extends StatefulWidget {
     @required this.onSelected,
     @required this.renderItem,
     this.itemToString,
-    this.hintText,
-    this.delayMilliseconds
+    this.hintText : '',
+    this.delayMilliseconds : 300,
+    this.clearWhenSelected : false
   });
 
   @override
@@ -128,6 +130,15 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
     _delayedSearch = null;
   }
 
+  void clear() {
+    closeResults();
+    setState(() {
+      _controller.text = '';
+      _results = [];
+    });
+    widget.onSelected(null);
+  }
+
   @override
   Widget build(BuildContext context) {
     bool enabled = EnabledStatus.of(context);
@@ -150,12 +161,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
         suffixIcon = IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            closeResults();
-            setState(() {
-              _controller.text = '';
-              _results = [];
-            });
-            widget.onSelected(null);
+            clear();
           },
         );
       } else {
@@ -191,11 +197,16 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
           (item) => GestureDetector(
             onTap: () {
               widget.onSelected(item);
-              setState(() {
-                _controller.text = widget.itemToString != null ? widget.itemToString(item) : item.toString();
-                _results = [];
-              });
-              closeResults();
+
+              if(widget.clearWhenSelected) {
+                clear();
+              } else {
+                setState(() {
+                  _controller.text = widget.itemToString != null ? widget.itemToString(item) : item.toString();
+                  _results = [];
+                });
+                closeResults();
+              }
             },
             child: widget.renderItem(item),
           )
