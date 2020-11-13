@@ -73,7 +73,7 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
                 initialValue: getPreviousUnits().round(),
                 valueSize: bigSize(context),
                 unitSize: smallSize(context),
-                unit: 'units'.tr(),
+                unit: _foodSelection.units == 1.0 ? 'unit'.tr() : 'units'.tr(),
                 processors: [
                       (value) => value < 0.0 ? 0.0 : value,
                       (value) => value > 600 ? 600.0 : value,
@@ -92,7 +92,7 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
                 initialValue: getPreviousGrams(),
                 valueSize: bigSize(context),
                 unitSize: smallSize(context),
-                unit: 'grams'.tr(),
+                unit: _foodSelection.grams == 1.0 ? 'gram'.tr() : 'grams'.tr(),
                 processors: [
                       (value) => value < 0.0 ? 0.0 : value,
                       (value) => value > 600 ? 600.0 : value,
@@ -186,8 +186,8 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
   String getServingOf() {
     if(_foodSelection.grams == 0) return '100g';
     if(_foodSelection.hasGramsPerUnit)
-      return _foodSelection.units.toString() + ' ' + 'units'.tr();
-    return round(_foodSelection.grams, 1).toString() + ' ' + 'grams'.tr();
+      return _foodSelection.units.toString() + ' ' + (_foodSelection.units == 1.0 ? 'unit'.tr() : 'units'.tr());
+    return round(_foodSelection.grams, 1).toString() + ' ' + (_foodSelection.grams == 1.0 ? 'gram'.tr() : 'grams'.tr());
   }
 
   double _getGramsForNutritionFacts() {

@@ -64,5 +64,7 @@
   "Fats": "Grasas",
   "Energy": "Energía",
   "grams": "gramos",
-  "units": "unidades"
+  "units": "unidades",
+  "gram": "gramo",
+  "unit": "unidad"
 }
