@@ -4,6 +4,7 @@ import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
 import 'package:flutter/material.dart';
@@ -159,8 +160,10 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
 
           FlatButton(
             child: Text('Finalize'),
-            onPressed: () {
-              print('Finished!');
+            onPressed: () async {
+              await _feedingsServices.saveFoodSelections(_foodSelections);
+              DiaMessages.getInstance().showInformation('New feeding added to Dia!'.tr());
+              DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA, andReplaceNavigationHistory: true);
             },
           ),
         ],

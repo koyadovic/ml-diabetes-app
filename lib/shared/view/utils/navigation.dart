@@ -8,7 +8,7 @@ enum DiaScreen {
 }
 
 abstract class ConcreteNavigator {
-  void requestScreenChange(DiaScreen screen);
+  void requestScreenChange(DiaScreen screen, {bool andReplaceNavigationHistory: false});
 }
 
 
@@ -28,6 +28,6 @@ class DiaNavigation {
 
   static DiaNavigation getInstance() => _instance;
 
-  void requestScreenChange(DiaScreen screen) => _navigation.requestScreenChange(screen);
+  void requestScreenChange(DiaScreen screen, {bool andReplaceNavigationHistory: false}) => _navigation.requestScreenChange(screen, andReplaceNavigationHistory: andReplaceNavigationHistory);
 
 }

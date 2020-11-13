@@ -130,9 +130,6 @@ class UnitTextFieldState extends State<UnitTextField> {
         List<dynamic> result = parseStringValue(text);
         double originalParsedValue = result[0];
         bool changed = result[1];
-
-        print('$originalParsedValue $changed');
-
         double processedValue = processValue(originalParsedValue);
 
         if (processedValue != _lastValueEmitted) {
@@ -149,8 +146,6 @@ class UnitTextFieldState extends State<UnitTextField> {
         } else {
           textInController = _controller.text;
         }
-
-        print('Resulting text: $textInController');
 
         if(mounted)
           setState(() {
