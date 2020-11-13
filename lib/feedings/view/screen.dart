@@ -1,5 +1,6 @@
 import 'package:Dia/feedings/controller/services.dart';
 import 'package:Dia/feedings/model/foods.dart';
+import 'package:Dia/shared/tools/numbers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
@@ -211,9 +212,9 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
             openFoodSelectionDialog(selection, idx: i);
           },
           mainColumn: selection.food.name, mainTextStyle: normalTextStyle,
-          secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : selection.grams.round().toString() + 'g', secondTextStyle: normalTextStyle,
-          thirdColumn: (selection.carbGrams - selection.carbFiberGrams).round().toString() + 'g', thirdTextStyle: normalTextStyle,
-          fourthColumn: selection.kcal.round().toString(), fourthTextStyle: normalTextStyle,
+          secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : round(selection.grams, 1).toString() + 'g', secondTextStyle: normalTextStyle,
+          thirdColumn: round(selection.carbGrams - selection.carbFiberGrams, 1).toString() + 'g', thirdTextStyle: normalTextStyle,
+          fourthColumn: round(selection.kcal, 1).toString() + 'kcal', fourthTextStyle: normalTextStyle,
         )
       );
     }
@@ -223,7 +224,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
         mainColumn: 'Food'.tr(), mainTextStyle: primaryColorTextStyle,
         secondColumn: 'Quantity'.tr(), secondTextStyle: primaryColorTextStyle,
         thirdColumn: 'Carb'.tr(), thirdTextStyle: primaryColorTextStyle,
-        fourthColumn: 'KCal', fourthTextStyle: primaryColorTextStyle,
+        fourthColumn: 'Energy', fourthTextStyle: primaryColorTextStyle,
       ),
 
       Expanded(
@@ -238,8 +239,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
       FourColumnsEntry(
         mainColumn: 'Total'.tr(), mainTextStyle: primaryColorTextStyle,
         secondColumn: '', secondTextStyle: normalTextStyle,
-        thirdColumn: totalCarbs.round().toString() + 'g', thirdTextStyle: normalTextStyle,
-        fourthColumn: totalKcal.round().toString(), fourthTextStyle: normalTextStyle,
+        thirdColumn: round(totalCarbs, 1).toString() + 'g', thirdTextStyle: normalTextStyle,
+        fourthColumn: round(totalKcal, 1).toString() + 'kcal', fourthTextStyle: normalTextStyle,
       ),
     ];
   }
@@ -298,17 +299,17 @@ class FourColumnsEntry extends StatelessWidget {
               ),
             ),
             Container(
-              width: 80 * screenSizeScalingFactor(context),
+              width: 90 * screenSizeScalingFactor(context),
               alignment: Alignment.centerRight,
               child: Text(secondColumn, style: secondTextStyle),
             ),
             Container(
-              width: 80 * screenSizeScalingFactor(context),
+              width: 90 * screenSizeScalingFactor(context),
               alignment: Alignment.centerRight,
               child: Text(thirdColumn, style: thirdTextStyle),
             ),
             Container(
-              width: 80 * screenSizeScalingFactor(context),
+              width: 90 * screenSizeScalingFactor(context),
               alignment: Alignment.centerRight,
               child: Text(fourthColumn, style: fourthTextStyle),
             ),

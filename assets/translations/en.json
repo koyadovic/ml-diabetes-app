@@ -55,5 +55,14 @@
   "Weight per unit": "Weight per unit",
   "Food added successfully. Now you can search for it": "Food added successfully. Now you can search for it",
   "Report": "Report",
-  "New feeding added to Dia!": "New feeding added to Dia!"
+  "New feeding added to Dia!": "New feeding added to Dia!",
+  "Nutrition facts for serving of": "Nutrition facts for serving of",
+  "of": "of",
+  "Digestible carbs": "Digestible carbs",
+  "Not digestible carbs (fiber)": "Not digestible carbs (fiber)",
+  "Proteins": "Proteins",
+  "Fats": "Fats",
+  "Energy": "Energy",
+  "grams": "grams",
+  "units": "units"
 }

@@ -55,5 +55,14 @@
   "Weight per unit": "Peso por unidad",
   "Food added successfully. Now you can search for it": "Alimento añadido satisfactoriamente. Ahora puede buscar por él",
   "Report": "Reportar",
-  "New feeding added to Dia!": "¡Nueva alimentación añadida a Dia!"
+  "New feeding added to Dia!": "¡Nueva alimentación añadida a Dia!",
+  "Nutrition facts for serving of": "Información nutricional para una ración de",
+  "of": "de",
+  "Digestible carbs": "Carboidratos digeribles",
+  "Not digestible carbs (fiber)": "Carbohidratos no digeribles (fibra)",
+  "Proteins": "Proteínas",
+  "Fats": "Grasas",
+  "Energy": "Energía",
+  "grams": "gramos",
+  "units": "unidades"
 }
