@@ -1,6 +1,8 @@
 import 'package:Dia/feedings/controller/services.dart';
 import 'package:Dia/feedings/model/foods.dart';
+import 'package:Dia/shared/services/api_rest_backend.dart';
 import 'package:Dia/shared/tools/numbers.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
@@ -143,10 +145,17 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                   widget.showWidget(
                     FoodEditorWidget(
                       onClose: widget.hideWidget,
-                      onSaveFood: (Food food) async {
-                        await _feedingsServices.saveFood(food, lat, lng);
-                        widget.hideWidget();
-                        DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
+                      onSaveFood: (Food food) {
+                        withBackendErrorHandlersOnView(() async {
+                          try {
+                            await _feedingsServices.saveFood(food, lat, lng);
+                            widget.hideWidget();
+                            DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
+                          } on BackendBadRequest catch(err) {
+                            // TODO show the message in a dialog, not in a snackbar
+                            DiaMessages.getInstance().showInformation(err.toString());
+                          }
+                        });
                       },
                     )
                   );
