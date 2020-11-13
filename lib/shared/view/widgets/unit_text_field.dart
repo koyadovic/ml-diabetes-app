@@ -119,7 +119,7 @@ class UnitTextFieldState extends State<UnitTextField> {
         def = '0.0';
       else
         def = '0';
-      _controller = TextEditingController(text: (widget.initialValue ?? 0.0) != 0.0 ? double.parse(widget.initialValue) : def);
+      _controller = TextEditingController(text: ((widget.initialValue ?? 0.0) != 0.0 ? widget.initialValue : def).toString());
       addListener = true;
     }
 

@@ -127,17 +127,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                   ),
                   onSelected: (Food food) {
                     if(food == null) return;
-
-                    widget.showWidget(
-                      FoodSelectionWidget(
-                        food: food,
-                        onClose: widget.hideWidget,
-                        onSaveFoodSelection: (FoodSelection selection) {
-                          _foodSelections.add(selection);
-                          widget.hideWidget();
-                        },
-                      )
-                    );
+                    openFoodSelectionDialog(FoodSelection(food: food, grams: 0));
                   },
                   renderItem: (Food value) => ListTile(
                     leading: FeedingIconSmall(),
@@ -178,6 +168,28 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
     );
   }
 
+  void openFoodSelectionDialog(FoodSelection selection, {int idx}) {
+    widget.showWidget(
+        FoodSelectionWidget(
+          food: selection.food,
+          previousGrams: selection.grams,
+          onClose: widget.hideWidget,
+          onSaveFoodSelection: (FoodSelection newSelection) {
+            if (idx != null) {
+              setState(() {
+                _foodSelections.replaceRange(idx, idx + 1, [newSelection]);
+              });
+            } else {
+              setState(() {
+                _foodSelections.add(newSelection);
+              });
+            }
+            widget.hideWidget();
+          },
+        )
+    );
+  }
+
   List<Widget> buildFoodSelectionTable(){
     TextStyle primaryColorTextStyle = TextStyle(color: DiaTheme.primaryColor, fontSize: smallSize(context));
     TextStyle normalTextStyle = TextStyle(fontSize: smallSize(context), fontWeight: FontWeight.w300);
@@ -186,16 +198,21 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
     double totalKcal = 0.0;
 
     List<FourColumnsEntry> columnsForSelections = [];
-    for(FoodSelection selection in _foodSelections) {
+    for(int i=0; i<_foodSelections.length; i++) {
+      FoodSelection selection = _foodSelections[i];
       totalCarbs += selection.carbGrams - selection.carbFiberGrams;
       totalKcal += selection.kcal;
-
-      columnsForSelections.add(FourColumnsEntry(
-        mainColumn: selection.food.name, mainTextStyle: normalTextStyle,
-        secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : selection.grams.round().toString() + 'g',
-        thirdColumn: (selection.carbGrams - selection.carbFiberGrams).round().toString() + 'g',
-        fourthColumn: selection.kcal.round().toString() + 'kcal',
-      ));
+      columnsForSelections.add(
+        FourColumnsEntry(
+          onTap: () {
+            openFoodSelectionDialog(selection, idx: i);
+          },
+          mainColumn: selection.food.name, mainTextStyle: normalTextStyle,
+          secondColumn: selection.hasGramsPerUnit ? selection.units.toString() + 'u' : selection.grams.round().toString() + 'g', secondTextStyle: normalTextStyle,
+          thirdColumn: (selection.carbGrams - selection.carbFiberGrams).round().toString() + 'g', thirdTextStyle: normalTextStyle,
+          fourthColumn: selection.kcal.round().toString(), fourthTextStyle: normalTextStyle,
+        )
+      );
     }
 
     return [
@@ -210,16 +227,6 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
         child: ListView(
           children: [
             ...columnsForSelections,
-            FourColumnsEntry(
-              mainColumn: 'Arroz', mainTextStyle: normalTextStyle,
-              secondColumn: '200g', secondTextStyle: normalTextStyle,
-              thirdColumn: '40g', thirdTextStyle: normalTextStyle,
-              fourthColumn: '160', fourthTextStyle: normalTextStyle,
-              onTap: () {
-                print('Tapped!');
-              },
-
-            )
           ],
         ),
       ),
