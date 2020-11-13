@@ -96,6 +96,12 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   Widget build(BuildContext context) {
     widget._state = this;
 
+    if(!_checkedLocation) {
+      return Center(
+        child: CircularProgressIndicator()
+      );
+    }
+
     if(_checkedLocation && (lat == null || lng == null)) return _disabledWidget();
 
     return Padding(
