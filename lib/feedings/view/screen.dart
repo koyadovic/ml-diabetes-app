@@ -127,7 +127,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                   ),
                   onSelected: (Food food) {
                     if(food == null) return;
-                    
+
                     widget.showWidget(
                       FoodSelectionWidget(
                         food: food,

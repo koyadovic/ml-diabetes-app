@@ -44,6 +44,8 @@ class UnitTextFieldState extends State<UnitTextField> {
   @override
   void initState() {
     super.initState();
+    checkController();
+
     _focusNode = FocusNode();
     _focusNode.addListener(() {
       List<dynamic> result = parseStringValue(_controller.text);
@@ -134,13 +136,12 @@ class UnitTextFieldState extends State<UnitTextField> {
         double processedValue = processValue(originalParsedValue);
 
         if (processedValue != _lastValueEmitted) {
-          print('Emitting $processedValue');
           widget.onChange(widget.isDouble ? processedValue : processedValue.round());
           _lastValueEmitted = processedValue;
         }
 
         String textInController;
-        if(changed || originalParsedValue != processedValue) {
+        if(widget.isDouble && (changed || originalParsedValue != processedValue)) {
           textInController = processedValue.toString();
           if(textInController.endsWith('.0')) {
             textInController = textInController.replaceAll('.0', '.');
@@ -149,22 +150,22 @@ class UnitTextFieldState extends State<UnitTextField> {
           textInController = _controller.text;
         }
 
-        _controller.value = _controller.value.copyWith(
-          text: textInController,
-          selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
-          composing: TextRange.empty,
-        );
+        print('Resulting text: $textInController');
 
         if(mounted)
-          setState(() {});
+          setState(() {
+            _controller.value = _controller.value.copyWith(
+              text: textInController,
+              selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
+              composing: TextRange.empty,
+            );
+          });
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkController();
-
     bool enabled = EnabledStatus.of(context);
     bool editable = EditableStatus.of(context);
 

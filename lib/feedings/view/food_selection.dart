@@ -1,4 +1,6 @@
 import 'package:Dia/feedings/model/foods.dart';
+import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -29,35 +31,79 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        // input for quantity
-        Row(
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          // Food name and nutricional facts per 100g if quantity is empty
+          // if quantity has value, show nutritional facts for the specified quantity
 
-        ),
+          // input for quantity
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Quantity'.tr(), style: TextStyle(fontSize: smallSize(context))),
 
-        // nutricional facts
+              if(_foodSelection.hasGramsPerUnit)
+              UnitTextField(
+                isDouble: false,
+                valueSize: smallSize(context),
+                unitSize: verySmallSize(context),
+                unit: 'u',
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
+                ],
+                autoFocus: false,
+                onChange: (value) {
+                  setState(() {
+                    _foodSelection.setUnits(value.round());
+                  });
+                }
+              ),
 
-        // action buttons
-        Row(
-          children: [
-            FlatButton(
-              child: Text('Close'.tr()),
-              onPressed: () {
-                widget.onClose();
-              },
-            ),
-            FlatButton(
-              child: Text('Save'.tr()),
-              onPressed: () {
-                widget.onSaveFoodSelection(_foodSelection);
-              },
-            ),
+              if(!_foodSelection.hasGramsPerUnit)
+              UnitTextField(
+                isDouble: true,
+                valueSize: smallSize(context),
+                unitSize: verySmallSize(context),
+                unit: 'g',
+                processors: [
+                  (value) => value < 0.0 ? 0.0 : value,
+                  (value) => value > 600 ? 600.0 : value,
+                ],
+                autoFocus: false,
+                onChange: (value) {
+                  setState(() {
+                    _foodSelection.setGrams(value);
+                  });
+                }
+              ),
 
-          ],
-        ),
-      ],
+            ],
+          ),
+
+          // action buttons
+          Row(
+            children: [
+              FlatButton(
+                child: Text('Close'.tr()),
+                onPressed: () {
+                  widget.onClose();
+                },
+              ),
+              FlatButton(
+                child: Text('Save'.tr()),
+                onPressed: () {
+                  widget.onSaveFoodSelection(_foodSelection);
+                },
+              ),
+
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
