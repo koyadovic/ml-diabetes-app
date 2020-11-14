@@ -8,6 +8,8 @@ import 'package:Dia/shared/view/widgets/unit_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'food_list_item.dart';
+
 
 class FoodEditorWidget extends StatefulWidget {
   final Food food;
@@ -206,7 +208,11 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           if(_similarFoods != null && _similarFoods.length > 0)
             ...[
               Text('Was found similar food'),
-              ..._similarFoods.map((food) => Text(food.name + ', ' + (food.similarity * 100).round().toString() + '%')),
+              // // + ', ' + (food.similarity * 100).round().toString() + '%')
+              ..._similarFoods.map((food) => FoodListTile(
+                food: food,
+                appendInTitle: (food.similarity * 100).round().toString() + '%',
+              )),
             ],
 
           Row(

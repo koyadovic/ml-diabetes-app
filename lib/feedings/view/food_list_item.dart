@@ -3,15 +3,21 @@ import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:flutter/material.dart';
 
 class FoodListTile extends StatelessWidget {
-  final Food food;
 
-  FoodListTile({@required this.food});
+  final Food food;
+  final String appendInTitle;
+
+  FoodListTile({@required this.food, this.appendInTitle});
 
   @override
   Widget build(BuildContext context) {
+    String title = food.name;
+    if(appendInTitle != null) {
+      title += ' ' + appendInTitle;
+    }
     return ListTile(
       leading: FeedingIconSmall(),
-      title: Text(food.name),
+      title: Text(title),
       subtitle: getSubtitleInformationWidget(),
       trailing: getReliabilityIndicatorWidget(),
     );
