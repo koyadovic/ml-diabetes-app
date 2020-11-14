@@ -41,6 +41,8 @@ class UnitTextFieldState extends State<UnitTextField> {
   double _lastValueEmitted;
   FocusNode _focusNode;
 
+  static final int maxCharacters = 6;
+
   @override
   void initState() {
     super.initState();
@@ -125,7 +127,7 @@ class UnitTextFieldState extends State<UnitTextField> {
 
     if(addListener) {
       _controller.addListener(() {
-        final text = _controller.text;
+        String text = _controller.text;
 
         List<dynamic> result = parseStringValue(text);
         double originalParsedValue = result[0];
@@ -150,7 +152,7 @@ class UnitTextFieldState extends State<UnitTextField> {
         if(mounted)
           setState(() {
             _controller.value = _controller.value.copyWith(
-              text: textInController,
+              text: textInController.length > maxCharacters ? textInController.substring(0, maxCharacters) : textInController,
               selection: TextSelection(baseOffset: text.length, extentOffset: text.length),
               composing: TextRange.empty,
             );
