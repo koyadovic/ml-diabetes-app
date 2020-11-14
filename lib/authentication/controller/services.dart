@@ -31,12 +31,13 @@ class AuthenticationServices {
       });
     }
     _backend = ApiRestBackend();
-    _backend.setOnNewRolesListener((List<String> refreshedRoles) async {
-      print('Get refreshed roles: ${refreshedRoles.toString()}');
-      _accountRoles = refreshedRoles;
-      await _storage.set('account_roles', _accountRoles);
-      print('Current account roles: $_accountRoles');
-    });
+    _backend.setOnNewRolesListener(onNewRolesReceiver);
+  }
+
+  onNewRolesReceiver(List<String> refreshedRoles) async {
+    print('Get refreshed roles: ${refreshedRoles.toString()}');
+    _accountRoles = refreshedRoles;
+    await _storage.set('account_roles', _accountRoles);
   }
 
   Future<void> login(String email, String password) async {
@@ -51,8 +52,7 @@ class AuthenticationServices {
 
       // set roles!
       _accountRoles = List<String>.from(responseBody['account']['roles']);
-      await _storage.set('account_roles', _accountRoles);
-      print('Current account roles: $_accountRoles');
+      onNewRolesReceiver(_accountRoles);
     } on BackendUnauthorized catch (e) {
       throw AuthenticationServicesError('Email/Password combination are wrong.');
     }
