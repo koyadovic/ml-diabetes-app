@@ -185,7 +185,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
               try {
                 await _feedingsServices.saveFood(food, lat, lng);
                 widget.hideWidget();
-                DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
+                DiaMessages.getInstance().showInformation('Food saved successfully'.tr());
               } on BackendBadRequest catch(err) {
                 // TODO show the message in a dialog, not in a snackbar
                 DiaMessages.getInstance().showInformation(err.toString());
