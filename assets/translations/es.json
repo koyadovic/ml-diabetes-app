@@ -66,5 +66,6 @@
   "grams": "gramos",
   "units": "unidades",
   "gram": "gramo",
-  "unit": "unidad"
+  "unit": "unidad",
+  "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again.": "Fueron encontradas entradas de alimentos muy similares. ¿Es correcto que el alimento actual es realmente nuevo? Si es así, presione guardar una vez más. Si no es así, es mejor que edite el alimento ya existente corrigiéndolo."
 }

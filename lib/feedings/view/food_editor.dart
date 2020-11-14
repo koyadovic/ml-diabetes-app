@@ -207,11 +207,12 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
 
           if(_similarFoods != null && _similarFoods.length > 0)
             ...[
-              Text('Was found similar food'),
-              // // + ', ' + (food.similarity * 100).round().toString() + '%')
+              // It was found very similar food entries. Are you sure that the current food is brand new
+              Text('It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again.'.tr(), style: TextStyle(color: DiaTheme.primaryColor),),
+              SizedBox(height: 10,),
               ..._similarFoods.map((food) => FoodListTile(
                 food: food,
-                appendInTitle: (food.similarity * 100).round().toString() + '%',
+                //appendInTitle: (food.similarity * 100).round().toString() + '%',
               )),
             ],
 
