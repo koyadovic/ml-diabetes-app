@@ -176,6 +176,10 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
           lat: lat,
           lng: lng,
           onClose: widget.hideWidget,
+          onEditOtherFood: (Food otherFood) {
+            widget.hideWidget();
+            openFoodEditor(foodForEdition: otherFood);
+          },
           onSaveFood: (Food food) {
             withBackendErrorHandlersOnView(() async {
               try {

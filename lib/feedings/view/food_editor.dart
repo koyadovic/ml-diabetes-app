@@ -17,6 +17,7 @@ class FoodEditorWidget extends StatefulWidget {
   final Function(Food) onSaveFood;
   final Function() onClose;
   final Function() onReportError;
+  final Function(Food) onEditOtherFood;
 
   final double lat;
   final double lng;
@@ -27,6 +28,7 @@ class FoodEditorWidget extends StatefulWidget {
     @required this.lng,
     @required this.onSaveFood,
     @required this.onClose,
+    @required this.onEditOtherFood,
     this.onReportError
   });
 
@@ -216,6 +218,10 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               ..._similarFoods.map((food) => FoodListTile(
                 food: food,
                 //appendInTitle: (food.similarity * 100).round().toString() + '%',
+                onEditRequest: () {
+                  widget.onEditOtherFood(food);
+                },
+
               )),
             ],
 
