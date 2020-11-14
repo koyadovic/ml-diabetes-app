@@ -12,13 +12,13 @@ class SimpleMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Icon leading;
     switch(message.type) {
-      case 'information':
+      case Message.TYPE_INFORMATION:
         leading = Icon(Icons.info);
         break;
-      case 'warning':
+      case Message.TYPE_WARNING:
         leading = Icon(Icons.warning);
         break;
-      case 'error':
+      case Message.TYPE_ERROR:
         leading = Icon(Icons.error);
         break;
     }

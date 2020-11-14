@@ -6,7 +6,7 @@ import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:Dia/shared/view/widgets/search_and_select.dart';
@@ -160,7 +160,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
             child: Text('Finalize'.tr()),
             onPressed: _foodSelections.length == 0 ? null : () async {
               await _feedingsServices.saveFoodSelections(_foodSelections);
-              DiaMessages.getInstance().showInformation('New feeding added to Dia!'.tr());
+              DiaMessages.getInstance().showBriefMessage('New feeding added to Dia!'.tr());
               DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA, andReplaceNavigationHistory: true);
             },
           ),
@@ -185,10 +185,10 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
               try {
                 await _feedingsServices.saveFood(food, lat, lng);
                 widget.hideWidget();
-                DiaMessages.getInstance().showInformation('Food saved successfully'.tr());
+                DiaMessages.getInstance().showBriefMessage('Food saved successfully'.tr());
               } on BackendBadRequest catch(err) {
-                // TODO show the message in a dialog, not in a snackbar
-                DiaMessages.getInstance().showInformation(err.toString());
+                // DiaMessages.getInstance().showBriefMessage(err.toString());
+                DiaMessages.getInstance().showDialogMessage(err.toString());
               }
             });
           },

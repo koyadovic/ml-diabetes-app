@@ -69,5 +69,6 @@
   "unit": "unit",
   "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again.": "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again. If not, you'd better edit the existing food by correcting it.",
   "Remove": "Remove",
-  "Finalize": "Finalize"
+  "Finalize": "Finalize",
+  "Information": "Information"
 }

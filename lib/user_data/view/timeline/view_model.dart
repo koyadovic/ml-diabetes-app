@@ -8,7 +8,7 @@ import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:Dia/user_data/model/entities/traits.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -80,7 +80,7 @@ class TimelineViewModel extends DiaViewModel {
         notifyChanges();
       });
     } on UserDataServicesError catch (e) {
-      DiaMessages.getInstance().showInformation(e.toString());
+      DiaMessages.getInstance().showBriefMessage(e.toString());
     } finally {
       setLoading(false);
     }

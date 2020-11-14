@@ -1,7 +1,7 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:Dia/user_data/model/entities/insulin.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -34,7 +34,7 @@ class SettingsViewModel extends DiaViewModel {
       bool changed = await settingServices.saveSetting(category, setting, value);
       if (changed) {
         Future.delayed(Duration(milliseconds: 500), () {
-          DiaMessages.getInstance().showInformation('Settings saved!'.tr());
+          DiaMessages.getInstance().showBriefMessage('Settings saved!'.tr());
         });
       }
     });

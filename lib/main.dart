@@ -4,6 +4,8 @@ import 'package:Dia/shared/view/utils/font_sizes.dart';
 import 'package:Dia/shared/view/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'communications/model/entities.dart';
+import 'communications/view/messages/simple/simple_message.dart';
 import 'feedings/view/screen.dart';
 import 'shared/view/theme.dart';
 import 'package:Dia/authentication/controller/services.dart';
@@ -12,7 +14,7 @@ import 'package:Dia/authentication/view/signup/screen.dart';
 import 'package:Dia/communications/model/messages.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/user_data/view/screen.dart';
@@ -195,7 +197,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
           buildDrawerItem(DiaScreen.LOGIN, 'Logout', FontAwesomeIcons.signOutAlt, () async {
             final AuthenticationServices authenticationServices = AuthenticationServices();
             await authenticationServices.logout();
-            showInformation('See you soon!'.tr());
+            showBriefMessage('See you soon!'.tr());
             _screens = [];
             requestScreenChange(DiaScreen.LOGIN);
             Navigator.pop(context);
@@ -258,11 +260,23 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   @override
-  Future<void> showInformation(String message) async {
+  Future<void> showBriefMessage(String message) async {
     int seconds = ((message.split(' ').length / 2.0) + 1.0).ceil();
     Duration duration = Duration(seconds: seconds);
     SnackBar bar = SnackBar(content: Text('$message'), duration: duration);
     _scaffoldKey.currentState.showSnackBar(bar);
+    return;
+  }
+
+  @override
+  Future<void> showDialogMessage(String message) async {
+    Message messageInstance = Message(type: Message.TYPE_INFORMATION, title: 'Information'.tr(), text: message);
+    showWidget(SimpleMessageWidget(
+      messageInstance,
+      () {
+        hideWidget();
+      }
+    ));
     return;
   }
 
@@ -278,7 +292,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       String lang = await settingsServices.getLanguage();
       setLanguage(lang);
       await Future.delayed(Duration(milliseconds: 300), () {});
-      DiaMessages.getInstance().showInformation('Welcome!'.tr());
+      DiaMessages.getInstance().showBriefMessage('Welcome!'.tr());
     }
 
     if(andReplaceNavigationHistory) {

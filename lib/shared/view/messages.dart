@@ -1,5 +1,6 @@
 abstract class MessagesHandler {
-  Future<void> showInformation(String message);
+  Future<void> showBriefMessage(String message);
+  Future<void> showDialogMessage(String message);
 }
 
 
@@ -19,8 +20,12 @@ class DiaMessages {
 
   static DiaMessages getInstance() => _instance;
 
-  Future<void> showInformation(String message) async {
-    await _messagesHandler.showInformation(message);
+  Future<void> showBriefMessage(String message) async {
+    await _messagesHandler.showBriefMessage(message);
+  }
+
+  Future<void> showDialogMessage(String message) async {
+    await _messagesHandler.showDialogMessage(message);
   }
 
 }

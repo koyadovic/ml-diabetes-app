@@ -1,6 +1,6 @@
 import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/utils/messages.dart';
+import 'package:Dia/shared/view/messages.dart';
 import 'package:Dia/shared/view/utils/navigation.dart';
 import 'package:Dia/shared/view/view_model.dart';
 import 'package:flutter/material.dart';
@@ -111,10 +111,10 @@ class SignUpViewModel extends DiaViewModel {
         try {
           setLoading(true);
           await authenticationServices.signUp(_email, _password1);
-          DiaMessages.getInstance().showInformation('Account created successfully'.tr());
+          DiaMessages.getInstance().showBriefMessage('Account created successfully'.tr());
           DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
         } on AuthenticationServicesError catch (e) {
-          DiaMessages.getInstance().showInformation(e.toString());
+          DiaMessages.getInstance().showBriefMessage(e.toString());
         }
         finally {
           setLoading(false);

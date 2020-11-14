@@ -55,6 +55,10 @@ class Suggestion {
 
 
 class Message {
+  static const String TYPE_INFORMATION = 'information';
+  static const String TYPE_WARNING = 'warning';
+  static const String TYPE_ERROR = 'error';
+
   final int id;
   final DateTime createdDate;
   final String type;
