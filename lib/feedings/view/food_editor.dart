@@ -48,6 +48,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
 
   List<Food> _similarFoods;
 
+  bool _nameChanged = false;
+
   @override
   void initState() {
     if(widget.food != null){
@@ -82,6 +84,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               if(!_editedFood.isValid)
                 setState(() {
                   _editedFood.validate();
+                  _nameChanged = _editedFood.id != null && widget.food != null && _editedFood.name != widget.food.name;
                 });
             },
           ),
@@ -238,14 +241,13 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                     }
 
                     // food is valid so before save it, if _similarFoods is null, search for similar foods!
-                    if(_similarFoods == null) {
+                    if((_editedFood.id == null || (_editedFood.id != null && _nameChanged)) && _similarFoods == null) {
                       List<Food> similarFood = await _feedingsServices.getSimilarFood(_editedFood, widget.lat, widget.lng);
                       if(similarFood.length > 0) {
                         if(_editedFood.isFiberSpecifiedSeparately) {
                           _editedFood.carbFactor -= _editedFood.carbFiberFactor;
                         }
                         setState(() {
-                          // TODO suggest enhance to existing foods
                           _similarFoods = similarFood;
                         });
                       } else {
@@ -253,18 +255,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                         widget.onSaveFood(_editedFood);
                       }
                     } else {
-                      // search for similar foods was done yet!
-
-                      // disabled! because this validations will come from the backend
-                      // if(_similarFoods.length > 0) {
-                      //   Food mostSimilarFood = _similarFoods[0];
-                      //   if (mostSimilarFood.similarity == 1.0) {
-                      //     // TODO Error!
-                      //   }
-                      //   else if(mostSimilarFood.name.toLowerCase() == _editedFood.name.toLowerCase()) {
-                      //     // TODO error!
-                      //   }
-                      // }
+                      // existing food or search for similar foods done
                       // so save it!
                       widget.onSaveFood(_editedFood);
                     }
