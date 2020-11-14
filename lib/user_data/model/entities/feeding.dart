@@ -23,7 +23,7 @@ class Feeding extends UserDataEntity {
   }
 
   double get kCal {
-    return (carbGrams - carbFiberGrams) * 4 + proteinGrams * 4 + fatGrams * 9 + alcoholGrams * 7;
+    return ((carbGrams - carbFiberGrams + proteinGrams) * 4) + (fatGrams * 9) + (alcoholGrams * 7);
   }
 
   static Feeding fromJson(Map<String, dynamic> json) {

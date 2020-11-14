@@ -26,7 +26,7 @@
   "language_es": "Spanish",
   "language_en": "English",
   "Saved!": "Saved!",
-  "{} for {} minutes": "{} for {} minutes",
+  "{} for {} minutes": "{} for {} minutes: -{kcal_burned}kcal",
   "Your glucose level was {} mg/dL": "Glucose level of {} mg/dL",
   "You injected {} units of insulin {}": "You injected {} units of insulin {}",
   "You changed your {}: {}{}": "You changed your {}: {}{}",
@@ -70,5 +70,6 @@
   "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again.": "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again. If not, you'd better edit the existing food by correcting it.",
   "Remove": "Remove",
   "Finalize": "Finalize",
-  "Information": "Information"
+  "Information": "Information",
+  "Feeding view model text": "Feeding: +{kcal}kcal"
 }

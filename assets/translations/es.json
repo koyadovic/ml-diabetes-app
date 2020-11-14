@@ -26,7 +26,7 @@
   "language_es": "Español",
   "language_en": "Inglés",
   "Saved!": "¡Guardado!",
-  "{} for {} minutes": "{} por {} minutos",
+  "{} for {} minutes": "{} por {} minutos: -{kcal_burned}kcal",
   "Your glucose level was {} mg/dL": "Nivel de glucosa de {} mg/dL",
   "You injected {} units of insulin {}": "Se inyectó {} unidades de insulina {}",
   "You changed your {}: {}{}": "Cambió su {}: {}{}",
@@ -70,5 +70,6 @@
   "It was found very similar food entries. Are you sure that the current food is brand new? If so, press save again.": "Fueron encontradas entradas de alimentos muy similares. ¿Es correcto que el alimento actual es realmente nuevo? Si es así, presione guardar una vez más. Si no es así, es mejor que edite el alimento ya existente corrigiéndolo.",
   "Remove": "Eliminar",
   "Finalize": "Finalizar",
-  "Information": "Información"
+  "Information": "Información",
+  "Feeding view model text": "Comida: +{kcal}kcal"
 }

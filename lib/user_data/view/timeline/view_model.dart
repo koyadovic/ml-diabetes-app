@@ -1,3 +1,4 @@
+import 'package:Dia/shared/tools/numbers.dart';
 import 'package:Dia/user_data/controller/services.dart';
 import 'package:Dia/user_data/model/entities/activities.dart';
 import 'package:Dia/user_data/model/entities/base.dart';
@@ -119,7 +120,13 @@ class ViewModelEntry {
         return ViewModelEntry(
           eventDate: entity.eventDate,
           type: entity.entityType,
-          text: 'Feeding',
+          // round(feeding.kCal, 1).toString(), round(feeding.carbGrams - feeding.carbFiberGrams, 1).toString()
+          text: 'Feeding view model text'.tr(namedArgs: {
+            'kcal': round(feeding.kCal, 1).round().toString(),
+            'carbs': round(feeding.carbGrams - feeding.carbFiberGrams, 1).round().toString(),
+            'proteins': round(feeding.proteinGrams, 1).round().toString(),
+            'fats': round(feeding.fatGrams, 1).round().toString(),
+          }),
           entity: feeding,
         );
 
@@ -128,7 +135,9 @@ class ViewModelEntry {
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            text: '{} for {} minutes'.tr(args: [activity.activityType.name, activity.minutes.toString()]),
+            text: '{} for {} minutes'.tr(args: [activity.activityType.name, activity.minutes.toString()], namedArgs: {
+              'kcal_burned': (activity.activityType.mets * (activity.minutes / 60.0) * 90).toString()
+            }),
             entity: activity,
         );
 
