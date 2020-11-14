@@ -157,8 +157,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
           ...buildFoodSelectionTable(),
 
           FlatButton(
-            child: Text('Finalize'),
-            onPressed: () async {
+            child: Text('Finalize'.tr()),
+            onPressed: _foodSelections.length == 0 ? null : () async {
               await _feedingsServices.saveFoodSelections(_foodSelections);
               DiaMessages.getInstance().showInformation('New feeding added to Dia!'.tr());
               DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA, andReplaceNavigationHistory: true);
@@ -254,7 +254,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
         mainColumn: 'Food'.tr(), mainTextStyle: primaryColorTextStyle,
         secondColumn: 'Quantity'.tr(), secondTextStyle: primaryColorTextStyle,
         thirdColumn: 'Carb'.tr(), thirdTextStyle: primaryColorTextStyle,
-        fourthColumn: 'Energy', fourthTextStyle: primaryColorTextStyle,
+        fourthColumn: 'Energy'.tr(), fourthTextStyle: primaryColorTextStyle,
       ),
 
       Expanded(

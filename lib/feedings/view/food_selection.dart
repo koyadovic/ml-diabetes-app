@@ -171,7 +171,7 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
               ),
               FlatButton(
                 child: Text('Save'.tr()),
-                onPressed: () {
+                onPressed: _foodSelection.grams == 0.0 ? null : () {
                   widget.onSaveFoodSelection(_foodSelection);
                 },
               ),
