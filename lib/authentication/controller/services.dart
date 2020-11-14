@@ -31,7 +31,7 @@ class AuthenticationServices {
       });
     }
     _backend = ApiRestBackend();
-    _backend.setRefreshedRolesListener((List<String> refreshedRoles) async {
+    _backend.setOnNewRolesListener((List<String> refreshedRoles) async {
       print('Get refreshed roles: ${refreshedRoles.toString()}');
       _accountRoles = refreshedRoles;
       await _storage.set('account_roles', _accountRoles);

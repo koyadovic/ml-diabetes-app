@@ -63,7 +63,7 @@ class ApiRestBackend {
 
   Function(List<String>) _rolesListener;
 
-  void setRefreshedRolesListener(Function(List<String>) rolesListener) {
+  void setOnNewRolesListener(Function(List<String>) rolesListener) {
     _rolesListener = rolesListener;
   }
 
