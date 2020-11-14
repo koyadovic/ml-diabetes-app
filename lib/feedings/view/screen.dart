@@ -134,31 +134,19 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                     if(food == null) return;
                     openFoodSelectionDialog(FoodSelection(food: food, grams: 0));
                   },
-                  renderItem: (Food value) => FoodListTile(food: value,),
+                  renderItem: (SearchAndSelectState state, Food value) => FoodListTile(
+                    food: value,
+                    onEditRequest: () {
+                      state.closeResults();
+                      openFoodEditor(foodForEdition: value);
+                    },
+                  ),
                 ),
               ),
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  widget.showWidget(
-                    FoodEditorWidget(
-                      lat: lat,
-                      lng: lng,
-                      onClose: widget.hideWidget,
-                      onSaveFood: (Food food) {
-                        withBackendErrorHandlersOnView(() async {
-                          try {
-                            await _feedingsServices.saveFood(food, lat, lng);
-                            widget.hideWidget();
-                            DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
-                          } on BackendBadRequest catch(err) {
-                            // TODO show the message in a dialog, not in a snackbar
-                            DiaMessages.getInstance().showInformation(err.toString());
-                          }
-                        });
-                      },
-                    )
-                  );
+                  openFoodEditor();
                 },
               )
             ],
@@ -178,6 +166,29 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
           ),
         ],
       ),
+    );
+  }
+
+  void openFoodEditor({Food foodForEdition}) {
+    widget.showWidget(
+        FoodEditorWidget(
+          food: foodForEdition,
+          lat: lat,
+          lng: lng,
+          onClose: widget.hideWidget,
+          onSaveFood: (Food food) {
+            withBackendErrorHandlersOnView(() async {
+              try {
+                await _feedingsServices.saveFood(food, lat, lng);
+                widget.hideWidget();
+                DiaMessages.getInstance().showInformation('Food added successfully. Now you can search for it'.tr());
+              } on BackendBadRequest catch(err) {
+                // TODO show the message in a dialog, not in a snackbar
+                DiaMessages.getInstance().showInformation(err.toString());
+              }
+            });
+          },
+        )
     );
   }
 

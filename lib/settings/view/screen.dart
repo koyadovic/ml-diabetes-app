@@ -163,7 +163,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
               });
             }
           },
-          renderItem: (String value) => ListTile(
+          renderItem: (SearchAndSelectState state, String value) => ListTile(
             leading: Icon(Icons.location_on),
             title: Text(value),
           ),
@@ -186,7 +186,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
               });
             });
           },
-          renderItem: (InsulinType value) => ListTile(
+          renderItem: (SearchAndSelectState state, InsulinType value) => ListTile(
             leading: InsulinInjectionIconSmall(),
             title: Text(value.name),
             subtitle: Text(value.categories.join(', ').toString()),

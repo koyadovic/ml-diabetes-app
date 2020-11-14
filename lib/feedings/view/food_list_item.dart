@@ -1,13 +1,13 @@
 import 'package:Dia/feedings/model/foods.dart';
-import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
 import 'package:flutter/material.dart';
 
 class FoodListTile extends StatelessWidget {
 
   final Food food;
   final String appendInTitle;
+  final Function onEditRequest;
 
-  FoodListTile({@required this.food, this.appendInTitle});
+  FoodListTile({@required this.food, this.appendInTitle, this.onEditRequest});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,13 @@ class FoodListTile extends StatelessWidget {
       title += ' ' + appendInTitle;
     }
     return ListTile(
-      leading: FeedingIconSmall(),
+      leading: IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          if(onEditRequest != null)
+            onEditRequest();
+        },
+      ),
       title: Text(title),
       subtitle: getSubtitleInformationWidget(),
       trailing: getReliabilityIndicatorWidget(),

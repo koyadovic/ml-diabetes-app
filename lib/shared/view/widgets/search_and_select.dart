@@ -9,7 +9,7 @@ import 'dart:async';
 
 
 typedef Null OnSelected<S> (S s);
-typedef Widget RenderItem<S> (S s);
+typedef Widget RenderItem<SearchAndSelectState, T> (SearchAndSelectState s, T t);
 
 
 class SearchAndSelect<T> extends StatefulWidget {
@@ -55,7 +55,7 @@ class SearchAndSelect<T> extends StatefulWidget {
   final T currentValue;
   final Source<T> source;
   final OnSelected<T> onSelected;
-  final RenderItem<T> renderItem;
+  final RenderItem<SearchAndSelectState, T> renderItem;
   final Function(T) itemToString;
   final String hintText;
   final int delayMilliseconds;
@@ -74,11 +74,11 @@ class SearchAndSelect<T> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _SearchAndSelectState<T>();
+    return SearchAndSelectState<T>();
   }
 }
 
-class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
+class SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   TextEditingController _controller;
   List<T> _results = [];
   Timer _delayedSearch;
@@ -208,7 +208,7 @@ class _SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
                 closeResults();
               }
             },
-            child: widget.renderItem(item),
+            child: widget.renderItem(this, item),
           )
         ).toList(),
       ),

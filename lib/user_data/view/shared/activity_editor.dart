@@ -75,7 +75,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               if(editable)
                 _selectActivityType(value);
             },
-            renderItem: (ActivityType value) => ListTile(
+            renderItem: (SearchAndSelectState state, ActivityType value) => ListTile(
               leading: ActivityIconSmall(),
               title: Text(value.name),
               subtitle: Text(value.mets.toString() + ' METs'),
