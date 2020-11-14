@@ -54,7 +54,9 @@ class FeedingsServices {
     dynamic contents = await _backend.post(url, data);
     List<Food> foods = [];
     for(var content in contents) {
-      foods.add(Food.fromJson(content));
+      Food similarFood = Food.fromJson(content);
+      if(food.id != null && food.id == similarFood.id) continue;
+      foods.add(similarFood);
     }
     return foods;
   }
