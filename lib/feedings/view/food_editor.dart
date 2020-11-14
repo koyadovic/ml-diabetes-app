@@ -206,6 +206,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           if(_similarFoods != null && _similarFoods.length > 0)
             ...[
               Text('Was found similar food'),
+              ..._similarFoods.map((food) => Text(food.name + ', ' + (food.similarity * 100).round().toString() + '%')),
             ],
 
           Row(
@@ -237,6 +238,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                           _editedFood.carbFactor -= _editedFood.carbFiberFactor;
                         }
                         setState(() {
+                          // TODO suggest enhance to existing foods
                           _similarFoods = similarFood;
                         });
                       } else {
@@ -245,6 +247,17 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                       }
                     } else {
                       // search for similar foods was done yet!
+
+                      // disabled! because this validations will come from the backend
+                      // if(_similarFoods.length > 0) {
+                      //   Food mostSimilarFood = _similarFoods[0];
+                      //   if (mostSimilarFood.similarity == 1.0) {
+                      //     // TODO Error!
+                      //   }
+                      //   else if(mostSimilarFood.name.toLowerCase() == _editedFood.name.toLowerCase()) {
+                      //     // TODO error!
+                      //   }
+                      // }
                       // so save it!
                       widget.onSaveFood(_editedFood);
                     }

@@ -135,7 +135,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                   },
                   renderItem: (Food value) => ListTile(
                     leading: FeedingIconSmall(),
-                    title: Text(value.name),
+                    title: Text(value.name + ' ' + value.reliability.toString()),
                   ),
                 ),
               ),

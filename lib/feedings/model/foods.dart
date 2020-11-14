@@ -14,12 +14,13 @@ class Food extends WithValidations {
   double gramsPerUnit;
 
   final double similarity;
+  final double reliability;
 
   final Map<String, dynamic> metadata;
 
   Food({this.id, this.name, this.carbFactor, this.carbFiberFactor, this.carbSugarFactor,
     this.proteinFactor, this.fatFactor, this.alcoholFactor, this.saltFactor,
-    this.gramsPerUnit, this.metadata, this.similarity});
+    this.gramsPerUnit, this.metadata, this.similarity, this.reliability});
 
   bool get isFiberIncludedInCarbs => this.metadata['fiber_included_in_carbs'] ?? false;
   void fiberIsIncludedInCarbs() {
@@ -72,6 +73,7 @@ class Food extends WithValidations {
       saltFactor: json['salt_factor'],
       gramsPerUnit: json['grams_per_unit'],
       similarity: json['similarity'],
+      reliability: json['reliability'],
       metadata: metadata,
     );
   }
