@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Dia/shared/services/api_rest_backend.dart';
+import 'package:Dia/shared/services/storage.dart';
 
 
 class AuthenticationServicesError implements Exception {
@@ -12,9 +13,30 @@ class AuthenticationServicesError implements Exception {
 
 class AuthenticationServices {
   ApiRestBackend _backend;
+  final Storage _storage = getLocalStorage();
+  List<String> _accountRoles;
 
-  AuthenticationServices() {
+  static const String ROLE_DIABETIC = 'diabetic';
+  static const String ROLE_DIET_AND_EXERCISE = 'diet_and_exercise';
+
+  // Singleton
+  static final AuthenticationServices _instance = AuthenticationServices._internal();
+  factory AuthenticationServices() {
+    return _instance;
+  }
+  AuthenticationServices._internal() {
+    if (_accountRoles == null) {
+      _storage.get('account_roles').then((roles) {
+        _accountRoles = List<String>.from(roles);
+      });
+    }
     _backend = ApiRestBackend();
+    _backend.setRefreshedRolesListener((List<String> refreshedRoles) async {
+      print('Get refreshed roles: ${refreshedRoles.toString()}');
+      _accountRoles = refreshedRoles;
+      await _storage.set('account_roles', _accountRoles);
+      print('Current account roles: $_accountRoles');
+    });
   }
 
   Future<void> login(String email, String password) async {
@@ -26,6 +48,11 @@ class AuthenticationServices {
           additionalHeaders: {'Authorization': 'Basic $basicAuth'}
       );
       await _backend.saveToken(responseBody['token'], responseBody['refresh_token'], responseBody['expires'] * 1000.0);
+
+      // set roles!
+      _accountRoles = List<String>.from(responseBody['account']['roles']);
+      await _storage.set('account_roles', _accountRoles);
+      print('Current account roles: $_accountRoles');
     } on BackendUnauthorized catch (e) {
       throw AuthenticationServicesError('Email/Password combination are wrong.');
     }
@@ -50,6 +77,10 @@ class AuthenticationServices {
 
   bool isAuthenticated() {
     return _backend.isAuthenticated();
+  }
+  
+  bool haveIRole(String role) {
+    return _accountRoles.contains(role);
   }
 
 }

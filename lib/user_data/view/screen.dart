@@ -1,3 +1,4 @@
+import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/communications/controller/services.dart';
 import 'package:Dia/communications/model/entities.dart';
 import 'package:Dia/communications/view/feedback_requests/single_feedback_request_view.dart';
@@ -32,6 +33,7 @@ import 'graphs/view.dart';
 class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   UserDataScreenWidgetState _state;
   UserDataServices _userDataServices = UserDataServices();
+  AuthenticationServices _authenticationServices = AuthenticationServices();
 
   UserDataScreenWidget(ShowWidget showWidget, HideWidget hideWidget) : super(showWidget: showWidget, hideWidget: hideWidget);
 
@@ -155,6 +157,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             },
           ),
         ),
+        
+        if(_authenticationServices.haveIRole(AuthenticationServices.ROLE_DIABETIC))
         FloatingActionButton(
           heroTag: 'insulin',
           onPressed: null,
@@ -200,6 +204,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             },
           ),
         ),
+        if(_authenticationServices.haveIRole(AuthenticationServices.ROLE_DIABETIC))
         FloatingActionButton(
           heroTag: 'glucose',
           onPressed: null,

@@ -71,17 +71,18 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
             if(_viewModel.isLoading())
               Center(child: CircularProgressIndicator()),
             Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  child: Text('I have no account yet'.tr()),
-                  onPressed: () {
-                    _viewModel.notHaveAccount();
-                  },
-                ),
-              ],
-            )
+            // TODO this is disabled by now
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     FlatButton(
+            //       child: Text('I have no account yet'.tr()),
+            //       onPressed: () {
+            //         _viewModel.notHaveAccount();
+            //       },
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

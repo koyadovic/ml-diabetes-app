@@ -1,3 +1,4 @@
+import 'package:Dia/authentication/controller/services.dart';
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/user_data/view/timeline/day_container.dart';
@@ -34,6 +35,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   final SettingsServices settingsServices = SettingsServices();
   Location localTimezone;
+  AuthenticationServices _authenticationServices = AuthenticationServices();
 
   @override
   void initState() {

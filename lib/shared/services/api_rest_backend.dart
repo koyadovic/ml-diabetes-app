@@ -61,6 +61,12 @@ class ApiRestBackend {
 
   static String _baseUrl = 'http://192.168.1.250:5000';
 
+  Function(List<String>) _rolesListener;
+
+  void setRefreshedRolesListener(Function(List<String>) rolesListener) {
+    _rolesListener = rolesListener;
+  }
+
   // Singleton
   static final ApiRestBackend _instance = ApiRestBackend._internal();
   factory ApiRestBackend() {
@@ -226,6 +232,11 @@ class ApiRestBackend {
               double expires = data['expires'] * 1000.0;
               await saveToken(token, refreshToken, expires);
               currentToken = token;
+
+              // get refreshed roles!
+              if(_rolesListener != null) {
+                _rolesListener(List<String>.from(data['account']['roles']));
+              }
             }
           } on BackendBadRequest catch (err) {
             await removeToken();
