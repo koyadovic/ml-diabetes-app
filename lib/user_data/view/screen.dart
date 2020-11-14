@@ -49,8 +49,8 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
   List<Tab> getAppBarTabs() {
     return [
       Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.home, size: 18, color: DiaTheme.primaryColor), onPressed: null)),
-      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.fileMedicalAlt, size: 18, color: DiaTheme.primaryColor), onPressed: null)),
-      Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.chartLine, size: 18, color: DiaTheme.primaryColor), onPressed: null)),
+      // Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.fileMedicalAlt, size: 18, color: DiaTheme.primaryColor), onPressed: null)),
+      // Tab(icon: IconButton(icon: FaIcon(FontAwesomeIcons.chartLine, size: 18, color: DiaTheme.primaryColor), onPressed: null)),
     ];
   }
 
@@ -349,8 +349,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     return TabBarView(
       children: [
         timeline,
-        summary,
-        graphs,
+        // summary,
+        // graphs,
       ],
     );
   }
