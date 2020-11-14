@@ -59,13 +59,13 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
               style: TextStyle(
                 fontSize: smallSize(context),
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
               maxLines: 5,
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               if(_foodSelection.hasGramsPerUnit)
               UnitTextField(
@@ -107,6 +107,11 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
             ],
           ),
 
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+            child: Container(height: 1, color: Colors.grey[300]),
+          ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -146,7 +151,7 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
           Container(
             //mainAxisAlignment: MainAxisAlignment.center,
             child: Text(
-              'Nutrition facts for serving of'.tr() + ' ' + getServingOf() + ' ' + 'of'.tr() + ' ' + _foodSelection.food.name,
+              'Nutrition facts for serving of'.tr() + ' ' + getServingOf(),
               style: TextStyle(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
               maxLines: 5,
