@@ -41,8 +41,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
   Food _editedFood;
 
   TextEditingController _nameController;
-  TextEditingController _servingOfController = TextEditingController(text: '100');
-  TextEditingController _weightPerUnitController = TextEditingController(text: '0.0');
+  TextEditingController _servingOfController;
+  TextEditingController _weightPerUnitController;
 
   final FeedingsServices _feedingsServices = FeedingsServices();
 
@@ -59,6 +59,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
     }
 
     _nameController = TextEditingController(text: _editedFood.name);
+    _servingOfController = TextEditingController(text: _editedFood.getServingOfGrams().toString());
+    _weightPerUnitController = TextEditingController(text: _editedFood.gramsPerUnit.toString());
     super.initState();
   }
 
