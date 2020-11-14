@@ -165,6 +165,19 @@ class Food extends WithValidations {
     }
   }
 
+  double getKcal(double grams) {
+    double kcal = 0.0;
+    kcal += 4.0 * (carbFactor - carbFiberFactor) * grams;
+    kcal += 4.0 * proteinFactor * grams;
+    kcal += 9.0 * fatFactor * grams;
+    kcal += 7.0 * alcoholFactor * grams;
+    return kcal;
+  }
+
+  double getDigestibleCarbs(double grams) {
+    return (carbFactor - carbFiberFactor) * grams;
+  }
+
 }
 
 

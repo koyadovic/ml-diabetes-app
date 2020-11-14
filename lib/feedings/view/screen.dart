@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:app_settings/app_settings.dart';
 
 import 'food_editor.dart';
+import 'food_list_item.dart';
 import 'food_selection.dart';
 
 
@@ -133,10 +134,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                     if(food == null) return;
                     openFoodSelectionDialog(FoodSelection(food: food, grams: 0));
                   },
-                  renderItem: (Food value) => ListTile(
-                    leading: FeedingIconSmall(),
-                    title: Text(value.name + ' ' + value.reliability.toString()),
-                  ),
+                  renderItem: (Food value) => FoodListTile(food: value,),
                 ),
               ),
               IconButton(
