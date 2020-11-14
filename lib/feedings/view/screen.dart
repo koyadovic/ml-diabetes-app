@@ -137,7 +137,7 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                   renderItem: (SearchAndSelectState state, Food value) => FoodListTile(
                     food: value,
                     onEditRequest: () {
-                      state.closeResults();
+                      state.clear();
                       openFoodEditor(foodForEdition: value);
                     },
                   ),
