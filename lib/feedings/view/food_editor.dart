@@ -48,8 +48,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
 
   List<Food> _similarFoods;
 
-  bool _nameChanged = false;
-
   @override
   void initState() {
     if(widget.food != null){
@@ -75,6 +73,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
         shrinkWrap: true,
         children: [
           TextField(
+            enabled: _editedFood.id == null,
             controller: _nameController,
             decoration: InputDecoration(
               hintText: 'Name of food'.tr()
@@ -84,7 +83,6 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               if(!_editedFood.isValid)
                 setState(() {
                   _editedFood.validate();
-                  _nameChanged = _editedFood.id != null && widget.food != null && _editedFood.name != widget.food.name;
                 });
             },
           ),
@@ -241,7 +239,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                     }
 
                     // food is valid so before save it, if _similarFoods is null, search for similar foods!
-                    if((_editedFood.id == null || (_editedFood.id != null && _nameChanged)) && _similarFoods == null) {
+                    if(_similarFoods == null) {
                       List<Food> similarFood = await _feedingsServices.getSimilarFood(_editedFood, widget.lat, widget.lng);
                       if(similarFood.length > 0) {
                         if(_editedFood.isFiberSpecifiedSeparately) {
