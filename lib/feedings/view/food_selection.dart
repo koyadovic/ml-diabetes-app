@@ -12,8 +12,9 @@ class FoodSelectionWidget extends StatefulWidget {
   final double previousGrams;
   final Function(FoodSelection) onSaveFoodSelection;
   final Function() onClose;
+  final Function() onRemove;
 
-  FoodSelectionWidget({this.food, this.onSaveFoodSelection, this.onClose, this.previousGrams : 0.0});
+  FoodSelectionWidget({this.food, this.onSaveFoodSelection, this.onClose, this.previousGrams : 0.0, this.onRemove});
 
   @override
   State<StatefulWidget> createState() {
@@ -174,11 +175,11 @@ class FoodSelectionWidgetState extends State<FoodSelectionWidget> {
                   widget.onSaveFoodSelection(_foodSelection);
                 },
               ),
-              // TODO que se abra un diálogo en el que se explique que el reportar es para notificar un problema con el alimento.
+              if(widget.onRemove != null)
               FlatButton(
-                child: Text('Report'.tr()),
+                child: Text('Remove'.tr()),
                 onPressed: () {
-                  widget.onClose();
+                  widget.onRemove();
                 },
               ),
             ],

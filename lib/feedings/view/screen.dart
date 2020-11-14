@@ -202,6 +202,12 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
           food: selection.food,
           previousGrams: selection.grams,
           onClose: widget.hideWidget,
+          onRemove: idx == null ? null : () {
+            setState(() {
+              _foodSelections.removeAt(idx);
+            });
+            widget.hideWidget();
+          },
           onSaveFoodSelection: (FoodSelection newSelection) {
             if (idx != null) {
               setState(() {
