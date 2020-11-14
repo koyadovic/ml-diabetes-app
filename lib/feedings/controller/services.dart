@@ -46,4 +46,17 @@ class FeedingsServices {
     return Feeding.fromJson(contents);
   }
 
+  Future<List<Food>> getSimilarFood(Food food, double lat, double lng) async {
+    String url = '/api/v1/foods/similar/';
+    Map<String, dynamic> data = food.toJson();
+    data['lat'] = lat;
+    data['lng'] = lng;
+    dynamic contents = await _backend.post(url, data);
+    List<Food> foods = [];
+    for(var content in contents) {
+      foods.add(Food.fromJson(content));
+    }
+    return foods;
+  }
+
 }

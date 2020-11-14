@@ -144,6 +144,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                 onPressed: () {
                   widget.showWidget(
                     FoodEditorWidget(
+                      lat: lat,
+                      lng: lng,
                       onClose: widget.hideWidget,
                       onSaveFood: (Food food) {
                         withBackendErrorHandlersOnView(() async {

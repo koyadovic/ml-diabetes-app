@@ -1,3 +1,4 @@
+import 'package:Dia/feedings/controller/services.dart';
 import 'package:Dia/feedings/model/foods.dart';
 import 'package:Dia/shared/tools/numbers.dart';
 import 'package:Dia/shared/view/theme.dart';
@@ -15,8 +16,13 @@ class FoodEditorWidget extends StatefulWidget {
   final Function() onClose;
   final Function() onReportError;
 
+  final double lat;
+  final double lng;
+
   FoodEditorWidget({
     this.food,
+    @required this.lat,
+    @required this.lng,
     @required this.onSaveFood,
     @required this.onClose,
     this.onReportError
@@ -35,6 +41,10 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
   TextEditingController _nameController;
   TextEditingController _servingOfController = TextEditingController(text: '100');
   TextEditingController _weightPerUnitController = TextEditingController(text: '0.0');
+
+  final FeedingsServices _feedingsServices = FeedingsServices();
+
+  List<Food> _similarFoods;
 
   @override
   void initState() {
@@ -143,9 +153,23 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           ),
           Container(height: 1, color: Colors.grey[300]),
           if(_editedFood.isFiberIncludedInCarbs)
-            FoodEditorFiberInCarbsWidget(food: _editedFood),
+            FoodEditorFiberInCarbsWidget(
+              food: _editedFood,
+              onFoodChange: () {
+                setState(() {
+                  _similarFoods = null;
+                });
+              },
+            ),
           if(_editedFood.isFiberSpecifiedSeparately)
-            FoodEditorFiberSeparatelyWidget(food: _editedFood),
+            FoodEditorFiberSeparatelyWidget(
+              food: _editedFood,
+              onFoodChange: () {
+                setState(() {
+                  _similarFoods = null;
+                });
+              },
+            ),
 
           Container(height: 1, color: Colors.grey[300]),
           SizedBox(height: 10),
@@ -179,6 +203,11 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
           if(!_editedFood.isValid)
             Text(_editedFood.getPropertyValidationText('global'), style: validationStyle),
 
+          if(_similarFoods != null && _similarFoods.length > 0)
+            ...[
+              Text('Was found similar food'),
+            ],
+
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -190,7 +219,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               ),
               FlatButton(
                 child: Text('Save'.tr()),
-                onPressed: () {
+                onPressed: () async {
                   _editedFood.validate();
                   setState(() {
                   });
@@ -199,18 +228,29 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                     if(_editedFood.isFiberSpecifiedSeparately) {
                       _editedFood.carbFactor += _editedFood.carbFiberFactor;
                     }
-                    widget.onSaveFood(_editedFood);
+
+                    // food is valid so before save it, if _similarFoods is null, search for similar foods!
+                    if(_similarFoods == null) {
+                      List<Food> similarFood = await _feedingsServices.getSimilarFood(_editedFood, widget.lat, widget.lng);
+                      if(similarFood.length > 0) {
+                        if(_editedFood.isFiberSpecifiedSeparately) {
+                          _editedFood.carbFactor -= _editedFood.carbFiberFactor;
+                        }
+                        setState(() {
+                          _similarFoods = similarFood;
+                        });
+                      } else {
+                        // there is no similar food. Save it!
+                        widget.onSaveFood(_editedFood);
+                      }
+                    } else {
+                      // search for similar foods was done yet!
+                      // so save it!
+                      widget.onSaveFood(_editedFood);
+                    }
                   }
                 },
               ),
-              if(_editedFood.id != null && widget.onReportError != null)
-              FlatButton(
-                child: Text('Report error'.tr()),
-                onPressed: () {
-                  widget.onReportError();
-                },
-              ),
-
             ],
           ),
         ],
@@ -231,7 +271,9 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
   TextEditingController _saltController;
   TextEditingController _alcoholController;
 
-  FoodEditorFiberInCarbsWidget({this.food}) {
+  final Function onFoodChange;
+
+  FoodEditorFiberInCarbsWidget({this.food, @required this.onFoodChange}) {
     _carbsTotalController = TextEditingController(text: (round(food.carbFactor * food.getServingOfGrams(), 2)).toString());
     _carbsSugarController = TextEditingController(text: (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString());
     _carbsFiberController = TextEditingController(text: (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString());
@@ -272,6 +314,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -294,6 +337,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -315,6 +359,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -336,6 +381,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -357,6 +403,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -378,6 +425,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -399,6 +447,7 @@ class FoodEditorFiberInCarbsWidget extends StatelessWidget {
               food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -421,7 +470,9 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
   TextEditingController _saltController;
   TextEditingController _alcoholController;
 
-  FoodEditorFiberSeparatelyWidget({this.food}){
+  final Function onFoodChange;
+
+  FoodEditorFiberSeparatelyWidget({this.food, @required this.onFoodChange}){
     _carbsTotalController = TextEditingController(text: (round((food.carbFactor - food.carbFiberFactor) * food.getServingOfGrams(), 2)).toString());
     _carbsSugarController = TextEditingController(text: (round(food.carbSugarFactor * food.getServingOfGrams(), 2)).toString());
     _carbsFiberController = TextEditingController(text: (round(food.carbFiberFactor * food.getServingOfGrams(), 2)).toString());
@@ -462,6 +513,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -483,6 +535,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -504,6 +557,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -525,6 +579,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -546,6 +601,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -567,6 +623,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
@@ -588,6 +645,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
               food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
                 food.validate();
+              onFoodChange();
             }
           )
         ),
