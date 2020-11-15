@@ -157,8 +157,11 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             },
           ),
         ),
-        
-        if(_authenticationServices.haveIRole(AuthenticationServices.ROLE_DIABETIC))
+
+        if(_authenticationServices.haveIAnyRole([
+          AuthenticationServices.ROLE_DIABETIC,
+          AuthenticationServices.ROLE_DIABETIC_PREMIUM,
+        ]))
         FloatingActionButton(
           heroTag: 'insulin',
           onPressed: null,
@@ -204,7 +207,10 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
             },
           ),
         ),
-        if(_authenticationServices.haveIRole(AuthenticationServices.ROLE_DIABETIC))
+        if(_authenticationServices.haveIAnyRole([
+          AuthenticationServices.ROLE_DIABETIC,
+          AuthenticationServices.ROLE_DIABETIC_PREMIUM,
+        ]))
         FloatingActionButton(
           heroTag: 'glucose',
           onPressed: null,

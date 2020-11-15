@@ -17,6 +17,7 @@ class AuthenticationServices {
   List<String> _accountRoles;
 
   static const String ROLE_DIABETIC = 'diabetic';
+  static const String ROLE_DIABETIC_PREMIUM = 'diabetic_premium';
   static const String ROLE_DIET_AND_EXERCISE = 'diet_and_exercise';
 
   // Singleton
@@ -34,7 +35,7 @@ class AuthenticationServices {
     _backend.setOnNewRolesListener(onNewRolesReceiver);
   }
 
-  onNewRolesReceiver(List<String> refreshedRoles) async {
+  Future onNewRolesReceiver(List<String> refreshedRoles) async {
     print('Get refreshed roles: ${refreshedRoles.toString()}');
     _accountRoles = refreshedRoles;
     await _storage.set('account_roles', _accountRoles);
@@ -52,7 +53,7 @@ class AuthenticationServices {
 
       // set roles!
       _accountRoles = List<String>.from(responseBody['account']['roles']);
-      onNewRolesReceiver(_accountRoles);
+      await onNewRolesReceiver(_accountRoles);
     } on BackendUnauthorized catch (e) {
       throw AuthenticationServicesError('Email/Password combination are wrong.');
     }
@@ -78,9 +79,16 @@ class AuthenticationServices {
   bool isAuthenticated() {
     return _backend.isAuthenticated();
   }
-  
+
   bool haveIRole(String role) {
     return _accountRoles.contains(role);
+  }
+
+  bool haveIAnyRole(List<String> roles) {
+    for(String role in roles){
+      if(_accountRoles.contains(role)) return true;
+    }
+    return false;
   }
 
 }
