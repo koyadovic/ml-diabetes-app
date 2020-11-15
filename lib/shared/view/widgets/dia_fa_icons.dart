@@ -139,12 +139,11 @@ class TraitMeasureIconBig extends StatelessWidget {
 
 
 class FlagIconSmall extends StatelessWidget {
-  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.Flag, color: Colors.black);
+  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.Flag, color: Colors.orange);
 }
 class FlagIconMedium extends StatelessWidget {
-  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.Flag, color: Colors.black);
+  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.Flag, color: Colors.orange);
 }
 class FlagIconBig extends StatelessWidget {
-  Widget build(BuildContext context) => DiaBigFaIcon(Entity.Flag, color: Colors.black);
+  Widget build(BuildContext context) => DiaBigFaIcon(Entity.Flag, color: Colors.orange);
 }
-
