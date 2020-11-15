@@ -24,6 +24,10 @@ class ActivityEditorWidget extends StatefulWidget {
 class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   TextEditingController _externalController;
 
+  static const String START = 'start';
+  static const String END = 'end';
+  String _startOrEndValue = START;
+
   Activity get activity {
     return widget.activityForEdition;
   }
@@ -32,6 +36,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
   void initState() {
     _externalController = TextEditingController(text: activity.minutes.toString());
     activity.addValidationListener(whenValidated);
+    handleStartOrEnd(START);
     super.initState();
   }
 
@@ -81,7 +86,29 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               subtitle: Text(value.mets.toString() + ' METs'),
             ),
           ),
-          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Radio(
+                value: START,
+                groupValue: _startOrEndValue,
+                onChanged: handleStartOrEnd,
+              ),
+              GestureDetector(
+                child: Text('Start now'.tr()),
+                onTap: () => handleStartOrEnd(START),
+              ),
+              Radio(
+                value: END,
+                groupValue: _startOrEndValue,
+                onChanged: handleStartOrEnd,
+              ),
+              GestureDetector(
+                child: Text('End now'.tr()),
+                onTap: () => handleStartOrEnd(END),
+              ),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -96,6 +123,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
                 ],
                 onChange: (value) {
                   activity.minutes = value.toInt();
+                  recomputeEventDate();
                   setState(() {
                     if(!activity.isValid) activity.validate();
                   });
@@ -127,5 +155,23 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
         ],
       ),
     );
+  }
+
+  void handleStartOrEnd(String value) {
+    _startOrEndValue = value;
+    setState(() {
+      recomputeEventDate();
+    });
+  }
+
+  void recomputeEventDate() {
+    switch(_startOrEndValue) {
+      case START:
+        activity.eventDate = DateTime.now().toUtc();
+        break;
+      case END:
+        activity.eventDate = DateTime.fromMillisecondsSinceEpoch(DateTime.now().toUtc().millisecondsSinceEpoch - activity.minutes * 60000, isUtc: true).toUtc();
+        break;
+    }
   }
 }

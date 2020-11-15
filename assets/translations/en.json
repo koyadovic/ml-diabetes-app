@@ -71,5 +71,7 @@
   "Remove": "Remove",
   "Finalize": "Finalize",
   "Information": "Information",
-  "Feeding view model text": "Feeding: +{kcal}kcal"
+  "Feeding view model text": "Feeding: +{kcal}kcal",
+  "Start now": "Start now",
+  "End now": "End now"
 }
