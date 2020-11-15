@@ -100,7 +100,7 @@ void main() {
     f = Flag(type: Flag.TYPE_HYPOGLYCEMIA);
     f.validate();
     expect(f.isValid, true);
-    f = Flag(type: Flag.TYPE_INSULIN_REGIMEN_CHANGED);
+    f = Flag(type: Flag.TYPE_INSULIN_TIME_CHANGE);
     f.validate();
     expect(f.isValid, true);
   });

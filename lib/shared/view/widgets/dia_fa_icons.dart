@@ -26,7 +26,7 @@ IconData getIconData(Entity entity) {
     case Entity.InsulinInjection:
       return FontAwesomeIcons.syringe;
     case Entity.Flag:
-      return FontAwesomeIcons.flag;
+      return FontAwesomeIcons.fontAwesomeFlag;
   }
   return null;
 }
@@ -139,12 +139,12 @@ class TraitMeasureIconBig extends StatelessWidget {
 
 
 class FlagIconSmall extends StatelessWidget {
-  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.TraitMeasure, color: Colors.blueGrey);
+  Widget build(BuildContext context) => DiaSmallFaIcon(Entity.Flag, color: Colors.black);
 }
 class FlagIconMedium extends StatelessWidget {
-  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.TraitMeasure, color: Colors.blueGrey);
+  Widget build(BuildContext context) => DiaMediumFaIcon(Entity.Flag, color: Colors.black);
 }
 class FlagIconBig extends StatelessWidget {
-  Widget build(BuildContext context) => DiaBigFaIcon(Entity.TraitMeasure, color: Colors.blueGrey);
+  Widget build(BuildContext context) => DiaBigFaIcon(Entity.Flag, color: Colors.black);
 }
 

@@ -192,10 +192,22 @@ class ViewModelEntry {
 
       case 'Flag':
         Flag flag = entity as Flag;
+        String text = flag.type;
+        switch(flag.type) {
+          case Flag.TYPE_HYPOGLYCEMIA:
+            text = 'Hypoglycemia registered'.tr();
+            break;
+          case Flag.TYPE_INSULIN_TIME_CHANGE:
+            text = 'Registered a change in insulin administration times'.tr();
+            break;
+          case Flag.TYPE_INSULIN_TYPES_CHANGE:
+            text = 'Registered a change in your insulin types used'.tr();
+            break;
+        }
         return ViewModelEntry(
             eventDate: entity.eventDate,
             type: entity.entityType,
-            text: flag.type,
+            text: text,
             entity: flag,
         );
     }

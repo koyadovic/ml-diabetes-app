@@ -73,5 +73,8 @@
   "Information": "Information",
   "Feeding view model text": "Feeding: +{kcal}kcal",
   "Start now": "Start now",
-  "End now": "End now"
+  "End now": "End now",
+  "Hypoglycemia registered": "Hypoglycemia registered",
+  "Registered a change in insulin administration times": "Registered a change in insulin administration times",
+  "Registered a change in your insulin types used": "Registered a change in your insulin types used"
 }
