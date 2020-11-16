@@ -1,6 +1,7 @@
 import 'package:Dia/settings/controller/services.dart';
 import 'package:Dia/settings/model/entities.dart';
 import 'package:Dia/settings/view/view_model.dart';
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/screen_widget.dart';
 import 'package:Dia/shared/view/theme.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
@@ -178,6 +179,11 @@ class CategoryWidgetState extends State<CategoryWidget> {
             endpoint: '/api/v1/insulin-types/',
             queryParameterName: 'search',
             deserializer: InsulinType.fromJson,
+            errorHandler: (err) {
+              withBackendErrorHandlersOnView(() {
+                throw err;
+              });
+            }
           ),
           onSelected: (InsulinType type) {
             widget.viewModel.saveSetting(widget.category, setting, type != null ? type.slug : '').then((_) {

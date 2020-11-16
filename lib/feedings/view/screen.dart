@@ -128,6 +128,11 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                     additionalQueryParameters: {
                       'lat': lat.toString(),
                       'lng': lng.toString(),
+                    },
+                    errorHandler: (err) {
+                      withBackendErrorHandlersOnView(() {
+                        throw err;
+                      });
                     }
                   ),
                   onSelected: (Food food) {

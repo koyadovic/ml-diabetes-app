@@ -1,3 +1,4 @@
+import 'package:Dia/shared/view/error_handlers.dart';
 import 'package:Dia/shared/view/utils/editable_status.dart';
 import 'package:Dia/shared/view/utils/enabled_status.dart';
 import 'package:Dia/shared/view/utils/font_sizes.dart';
@@ -75,6 +76,11 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               endpoint: '/api/v1/activity-types/',
               queryParameterName: 'search',
               deserializer: ActivityType.fromJson,
+              errorHandler: (err) {
+                withBackendErrorHandlersOnView(() {
+                  throw err;
+                });
+              }
             ),
             onSelected: (ActivityType value) {
               if(editable)

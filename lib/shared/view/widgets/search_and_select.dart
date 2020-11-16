@@ -274,6 +274,7 @@ class APIRestSource<T> extends Source<T> {
   final String queryParameterName;
   final Map<String, String> additionalQueryParameters;
   final T Function(Map<String, dynamic>) deserializer;
+  final Function(dynamic) errorHandler;
 
   final ApiRestBackend _backend = ApiRestBackend();
 
@@ -282,6 +283,7 @@ class APIRestSource<T> extends Source<T> {
     this.queryParameterName,
     this.deserializer,
     this.additionalQueryParameters,
+    this.errorHandler
   });
 
   @override
@@ -292,7 +294,18 @@ class APIRestSource<T> extends Source<T> {
         url += '&$key=$value';
       });
     }
-    dynamic contents = await _backend.get(url);
+    dynamic contents;
+    try {
+      contents = await _backend.get(url);
+    } catch (err) {
+      if(errorHandler != null) {
+        errorHandler(err);
+        return [];
+      } else {
+        throw err;
+      }
+    }
+
     List<T> items = [];
     for(var content in contents) {
       items.add(deserializer(content));
