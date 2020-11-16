@@ -50,8 +50,10 @@ class SettingsViewModel extends DiaViewModel {
         return 'Localization'.tr();
       case 'insulin-types-category':
         return 'Insulin Types'.tr();
+      default:
+        return 'setting_category_${category.key}'.tr();
+
     }
-    return category.key;
   }
 
   String getSettingLabel(Setting setting) {
@@ -66,8 +68,9 @@ class SettingsViewModel extends DiaViewModel {
         return 'Insulin type No.2'.tr();
       case 'insulin-type-3':
         return 'Insulin type No.3'.tr();
+      default:
+        return 'setting_label_${setting.key}'.tr();
     }
-    return setting.key;
   }
 
 }

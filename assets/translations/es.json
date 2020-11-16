@@ -76,5 +76,19 @@
   "End now": "Termina ahora",
   "Hypoglycemia registered": "Hipoglucemia registrada",
   "Registered a change in insulin administration times": "Registrado un cambio en las horas de administración de insulina",
-  "Registered a change in your insulin types used": "Registrado un cambio en los tipos de insulina usados"
+  "Registered a change in your insulin types used": "Registrado un cambio en los tipos de insulina usados",
+  "setting_title_select-type": "Seleccione tipo",
+  "setting_subtitle_select-type": "Necesitamos conocer qué tipo de diabetes tiene",
+  "setting_title_1": "Diabetes tipo 1",
+  "setting_title_2": "Diabetes tipo 2",
+  "setting_subtitle_1": "Tengo diabetes tipo 1",
+  "setting_subtitle_2": "Tengo diabetes tipo 2",
+  "setting_title_gestational": "Diabetes gestacional",
+  "setting_subtitle_gestational": "Tengo diabetes gestacional",
+  "setting_title_es": "Español",
+  "setting_title_en": "Inglés",
+  "setting_subtitle_es": "Idioma español",
+  "setting_subtitle_en": "Idioma inglés",
+  "setting_category_diabetes-general": "General",
+  "setting_label_diabetes-type": "Tipo de diabetes"
 }

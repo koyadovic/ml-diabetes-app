@@ -196,7 +196,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
         return DropdownButton<String>(
           isExpanded: true,
           itemHeight: 80,
-          value: setting.value,
+          value: setting.value ?? '',
           onChanged: (String newValue) {
             if(newValue != null) {
               widget.viewModel.saveSetting(widget.category, setting, newValue).then((_) {
@@ -207,12 +207,12 @@ class CategoryWidgetState extends State<CategoryWidget> {
             }
           },
           items: List<DropdownMenuItem<String>>.from(setting.specification.options.map((Map<String, dynamic> option) {
-
+            print(setting.specification.options.toString());
             return DropdownMenuItem<String>(
               value: option['value'],
               child: ListTile(
-                title: Text(option['display'], style: TextStyle(fontSize: mediumSize(context))),
-                subtitle: Text('language_${option["display"]}'.tr()),
+                title: Text('setting_title_${option["display"]}'.tr(), style: TextStyle(fontSize: mediumSize(context))),
+                subtitle: Text('setting_subtitle_${option["display"]}'.tr()),
               ),
             );
           }).toList()),
