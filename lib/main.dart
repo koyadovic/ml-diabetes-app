@@ -181,7 +181,12 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Menu'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset('assets/images/logo.png', width: 100),
+              ],
+            ),
             decoration: BoxDecoration(
               color: Colors.grey[200],
             ),

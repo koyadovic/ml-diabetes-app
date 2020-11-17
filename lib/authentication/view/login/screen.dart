@@ -37,6 +37,10 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(child: Image.asset('assets/images/logo.png', width: 150)),
+            ),
             TextField(
               onChanged: (String value) { _viewModel.email = value; },
               decoration: InputDecoration(
