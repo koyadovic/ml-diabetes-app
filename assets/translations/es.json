@@ -18,7 +18,7 @@
   "Timezone": "Huso horario",
   "Localization": "Localización",
   "Language": "Idioma",
-  "Insulin Types": "Tipos de insulina usados",
+  "setting_category_diabetics-category": "Diabetes",
   "Insulin type No.1": "Tipo de insulina 1",
   "Insulin type No.2": "Tipo de insulina 2",
   "Insulin type No.3": "Tipo de insulina 3",
@@ -90,5 +90,13 @@
   "setting_subtitle_es": "Idioma español",
   "setting_subtitle_en": "Idioma inglés",
   "setting_category_diabetes-general": "General",
-  "setting_label_diabetes-type": "Tipo de diabetes"
+  "setting_label_diabetes-type": "Tipo de diabetes",
+  "setting_category_diet-and-exercise-category": "Dieta y ejercicio",
+  "setting_label_weight-target-setting": "Objetivo con el peso",
+  "setting_title_keep-my-weight": "Mantener mi peso",
+  "setting_subtitle_keep-my-weight": "La dieta será normocalórica",
+  "setting_title_lose-weight": "Perder peso",
+  "setting_subtitle_lose-weight": "Dieta hipocalórica -500kcal",
+  "setting_title_gain-weight": "Ganar peso",
+  "setting_subtitle_gain-weight": "Dieta hipercalórica +500kcal"
 }

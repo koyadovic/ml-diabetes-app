@@ -28,7 +28,7 @@ class AuthenticationServices {
   AuthenticationServices._internal() {
     if (_accountRoles == null) {
       _storage.get('account_roles').then((roles) {
-        _accountRoles = List<String>.from(roles);
+        _accountRoles = roles != null ? List<String>.from(roles) : [];
       });
     }
     _backend = ApiRestBackend();
