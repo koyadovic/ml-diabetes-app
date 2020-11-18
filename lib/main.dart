@@ -161,7 +161,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     );
   }
 
-  Future<dynamic> hideWidget(dynamic resultValue) async {
+  Future<dynamic> hideWidget([dynamic resultValue]) async {
     unFocus(context);
     return Navigator.pop(context, resultValue);
   }
