@@ -369,7 +369,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     graphs = Graphs(widget);
 
     bool hasNotUrgentMessages = nonImmediatelyMessages.length > 0;
-    hasNotUrgentMessages = true;
+    // this is for tests only
+    //hasNotUrgentMessages = true;
     double notUrgentMessagesHeight = 80;
 
     return Stack(
