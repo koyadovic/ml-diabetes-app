@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class MessagesWidget extends StatefulWidget {
   final Message message;
-  final Function onDismiss;
+  final Function(bool) onFinish;
 
-  MessagesWidget({@required this.message, @required this.onDismiss});
+  MessagesWidget({@required this.message, @required this.onFinish});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,18 +28,23 @@ class MessagesWidgetState extends State<MessagesWidget> {
     return widget.message.type == 'suggestions';
   }
 
-  dismissMessage() async {
+  void dismissMessage() async {
     await _services.dismissMessage(widget.message);
-    widget.onDismiss();
+    widget.onFinish(true);
+  }
+
+  void closeMessage() async {
+    if(widget.message.attendImmediately) throw 'Cannot close a message that must be attended immediately';
+    widget.onFinish(false);
   }
 
   @override
   Widget build(BuildContext context) {
     if(isSimple)
-      return SimpleMessageWidget(widget.message, dismissMessage);
+      return SimpleMessageWidget(widget.message, dismissMessage, closeMessage);
 
     if(isSuggestion)
-      return SuggestionsGroupMessageWidget(widget.message, dismissMessage);
+      return SuggestionsGroupMessageWidget(widget.message, dismissMessage, closeMessage);
 
     return SizedBox.shrink();
   }

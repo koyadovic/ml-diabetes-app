@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 class SimpleMessageWidget extends StatelessWidget {
   final Message message;
-  final Function onFinished;
+  final Function() onDismiss;
+  final Function() onClose;
 
-  SimpleMessageWidget(this.message, this.onFinished);
+  SimpleMessageWidget(this.message, this.onDismiss, this.onClose);
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,15 @@ class SimpleMessageWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
+            if(!message.attendImmediately)
+            FlatButton(
+              child: const Text('Postpone'),
+              onPressed: () => onClose(),
+            ),
+
             FlatButton(
               child: const Text('OK'),
-              onPressed: onFinished,
+              onPressed: () => onDismiss(),
             ),
             const SizedBox(width: 8),
           ],

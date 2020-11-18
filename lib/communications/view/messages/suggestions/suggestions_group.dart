@@ -15,9 +15,10 @@ import 'dart:convert';
 
 class SuggestionsGroupMessageWidget extends StatefulWidget {
   final Message message;
-  final Function onFinished;
+  final Function() onDismiss;
+  final Function() onClose;
 
-  SuggestionsGroupMessageWidget(this.message, this.onFinished);
+  SuggestionsGroupMessageWidget(this.message, this.onDismiss, this.onClose);
 
   @override
   State<StatefulWidget> createState() {
@@ -106,6 +107,17 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if(!widget.message.attendImmediately)
+              FlatButton(
+                child: Row(
+                  children: [
+                    Icon(Icons.watch_later),
+                    Text('Postpone'),
+                  ],
+                ),
+                onPressed: () => widget.onClose(),
+              ),
+
               FlatButton(
                 child: Row(
                   children: [
@@ -160,7 +172,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                       print('Attending suggestion $suggestion');
                     }
                     await _removeHandledIndexes();
-                    widget.onFinished();
+                    widget.onDismiss();
                   } catch (err) {
                     print(err);
                   } finally {

@@ -313,7 +313,6 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;
       // Messages
-      // TODO deberían que tener que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
       await withBackendErrorHandlersOnView(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
         setState(() {
@@ -321,8 +320,10 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         });
 
         // only show immediately urgen messages
-        await showMessages(messages.where((m) => m.attendImmediately).toList());
-        if(messages.length > 0) {
+        List<Message> urgentMessages = messages.where((m) => m.attendImmediately).toList();
+        bool andRefresh = await showMessages(urgentMessages);
+
+        if(andRefresh || urgentMessages.length > 0) {
           refresh();
           reloadAgain = true;
         }
@@ -348,10 +349,16 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     });
   }
 
-  Future<void> showMessages(List<Message> messages) async {
+  Future<bool> showMessages(List<Message> messages) async {
+    bool needRefresh = false;
     for(Message message in messages) {
-      await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
+      needRefresh = needRefresh || await widget.showWidget(
+        MessagesWidget(message: message, onFinish: (refresh) {
+          widget.hideWidget(refresh);
+        })
+      );
     }
+    return needRefresh;
   }
 
   void refresh() {
@@ -390,8 +397,10 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () async {
-              await showMessages(nonImmediatelyMessages);
-              await refreshCommunications();
+              bool refresh = await showMessages(nonImmediatelyMessages);
+
+              if(refresh)
+                await refreshCommunications();
             },
             child: Container(
               decoration: BoxDecoration(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 typedef ShowWidget = Future<dynamic> Function(Widget w);
-typedef HideWidget = Future<void> Function();
+typedef HideWidget = Future<dynamic> Function([dynamic returnValue]);
 
 
 abstract class DiaRootScreenStatefulWidget extends StatefulWidget {

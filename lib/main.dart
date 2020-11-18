@@ -161,9 +161,9 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     );
   }
 
-  Future<void> hideWidget() async {
-    Navigator.pop(context);
+  Future<dynamic> hideWidget(dynamic resultValue) async {
     unFocus(context);
+    return Navigator.pop(context, resultValue);
   }
 
   ListTile buildDrawerItem(DiaScreen diaScreen, String text, IconData iconData, Function onTap) {
@@ -281,11 +281,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   Future<void> showDialogMessage(String message) async {
     Message messageInstance = Message(type: Message.TYPE_INFORMATION, title: 'Information'.tr(), text: message);
     showWidget(SimpleMessageWidget(
-      messageInstance,
-      () {
-        hideWidget();
-      }
-    ));
+      messageInstance, () => hideWidget(true), () => hideWidget(false)));
     return;
   }
 
