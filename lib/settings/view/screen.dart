@@ -166,7 +166,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
           },
           renderItem: (SearchAndSelectState state, String value) => ListTile(
             leading: Icon(Icons.location_on),
-            title: Text(value),
+            title: Text(value, style: TextStyle(fontSize: smallSize(context))),
           ),
         );
       case 'insulin-type-1':
@@ -194,8 +194,8 @@ class CategoryWidgetState extends State<CategoryWidget> {
           },
           renderItem: (SearchAndSelectState state, InsulinType value) => ListTile(
             leading: InsulinInjectionIconSmall(),
-            title: Text(value.name),
-            subtitle: Text(value.categories.join(', ').toString()),
+            title: Text(value.name, style: TextStyle(fontSize: smallSize(context))),
+            subtitle: Text(value.categories.join(', ').toString(), style: TextStyle(fontSize: verySmallSize(context))),
           ),
         );
       default:
@@ -218,7 +218,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
               value: option['value'],
               child: ListTile(
                 title: Text('setting_title_${option["display"]}'.tr(), style: TextStyle(fontSize: smallSize(context))),
-                subtitle: Text('setting_subtitle_${option["display"]}'.tr()),
+                subtitle: Text('setting_subtitle_${option["display"]}'.tr(), style: TextStyle(fontSize: verySmallSize(context))),
               ),
             );
           }).toList()),
