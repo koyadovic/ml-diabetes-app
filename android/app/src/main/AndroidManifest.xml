@@ -5,8 +5,8 @@
 
     <application
         android:name=".Application"
-        android:label="Dia"
-        android:icon="@mipmap/ic_launcher">
+        android:label="iDietFit"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
