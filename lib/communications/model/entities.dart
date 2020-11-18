@@ -66,8 +66,9 @@ class Message {
   final String title;
   final String text;
   final Map<String, dynamic> payload;
+  final bool attendImmediately;
 
-  Message({this.id, this.createdDate, this.type, this.title, this.text, this.payload});
+  Message({this.id, this.createdDate, this.type, this.title, this.text, this.payload, this.attendImmediately});
 
   static Message fromJson(Map<String, dynamic> json) {
     return Message(
@@ -77,6 +78,7 @@ class Message {
       title: json['title'],
       text: json['text'],
       payload: json['payload'],
+      attendImmediately: json['attend_immediately'],
     );
   }
 
