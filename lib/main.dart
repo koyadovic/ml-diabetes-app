@@ -67,6 +67,7 @@ class DiaAppState extends State<DiaApp> {
         fontFamily: 'Roboto',
         primarySwatch: DiaTheme.primarySwatch,
         primaryColor: DiaTheme.primaryColor,
+        secondaryHeaderColor: DiaTheme.secondaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       localizationsDelegates: context.localizationDelegates,
@@ -168,8 +169,8 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   ListTile buildDrawerItem(DiaScreen diaScreen, String text, IconData iconData, Function onTap) {
     return ListTile(
       selected: _currentScreen == diaScreen,
-      leading: IconButton(icon: FaIcon(iconData, size: 18, color: _currentScreen == diaScreen ? DiaTheme.primaryColor : Colors.black), onPressed: null),
-      title: Text(text),
+      leading: IconButton(icon: FaIcon(iconData, size: 18, color: _currentScreen == diaScreen ? DiaTheme.secondaryColor : DiaTheme.primaryColor), onPressed: null),
+      title: Text(text, style: TextStyle(color: _currentScreen == diaScreen ? DiaTheme.secondaryColor : DiaTheme.primaryColor)),
       onTap: onTap,
     );
   }
@@ -184,7 +185,10 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset('assets/images/logo.png', width: 100),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('assets/images/logo.png', width: 150),
+                ),
               ],
             ),
             decoration: BoxDecoration(
