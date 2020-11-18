@@ -1,4 +1,4 @@
-import 'package:Dia/communications/model/entities.dart';
+import 'package:iDietFit/communications/model/entities.dart';
 import 'package:flutter/material.dart';
 
 

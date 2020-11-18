@@ -1,6 +1,6 @@
-import 'package:Dia/communications/controller/services.dart';
-import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/shared/view/view_model.dart';
+import 'package:iDietFit/communications/controller/services.dart';
+import 'package:iDietFit/communications/model/entities.dart';
+import 'package:iDietFit/shared/view/view_model.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 

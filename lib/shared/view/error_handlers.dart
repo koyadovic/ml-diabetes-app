@@ -1,6 +1,6 @@
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/view/messages.dart';
+import 'package:iDietFit/shared/view/utils/navigation.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 

@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/tools/uris.dart';
-import 'package:Dia/shared/view/utils/editable_status.dart';
-import 'package:Dia/shared/view/utils/enabled_status.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/tools/uris.dart';
+import 'package:iDietFit/shared/view/utils/editable_status.dart';
+import 'package:iDietFit/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 

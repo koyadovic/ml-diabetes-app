@@ -1,4 +1,4 @@
-import 'package:Dia/feedings/model/foods.dart';
+import 'package:iDietFit/feedings/model/foods.dart';
 import 'package:flutter/material.dart';
 
 class FoodListTile extends StatelessWidget {

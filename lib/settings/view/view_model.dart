@@ -1,9 +1,9 @@
-import 'package:Dia/settings/controller/services.dart';
-import 'package:Dia/settings/model/entities.dart';
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/view_model.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/settings/controller/services.dart';
+import 'package:iDietFit/settings/model/entities.dart';
+import 'package:iDietFit/shared/view/error_handlers.dart';
+import 'package:iDietFit/shared/view/messages.dart';
+import 'package:iDietFit/shared/view/view_model.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/src/widgets/framework.dart';
 

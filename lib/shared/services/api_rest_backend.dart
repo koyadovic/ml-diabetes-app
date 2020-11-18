@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:Dia/shared/services/storage.dart';
-import 'package:Dia/shared/tools/uris.dart';
+import 'package:iDietFit/shared/services/storage.dart';
+import 'package:iDietFit/shared/tools/uris.dart';
 import 'package:http/http.dart' as http;
 import 'package:mutex/mutex.dart';
 

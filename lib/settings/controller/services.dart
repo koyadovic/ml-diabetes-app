@@ -1,8 +1,7 @@
-import 'package:Dia/settings/model/entities.dart';
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/services/storage.dart';
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/settings/model/entities.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/services/storage.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
 import 'package:timezone/timezone.dart';
 
 

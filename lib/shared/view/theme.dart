@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DiaTheme {
   static final Color primaryColor = Color(0xFF54728A);
-  static final Color secondaryColor = Color(0xFFF0A532);
+  static final Color secondaryColor = Color(0xFFFC5A3A);
 
   static Map<int, Color> _primaryColorMap = {
     50: primaryColor.withOpacity(0.1),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Dia/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
 
 import 'entities.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

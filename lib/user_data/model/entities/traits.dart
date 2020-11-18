@@ -1,5 +1,5 @@
-import 'package:Dia/shared/model/validations.dart';
-import 'package:Dia/shared/tools/map_tools.dart';
+import 'package:iDietFit/shared/model/validations.dart';
+import 'package:iDietFit/shared/tools/map_tools.dart';
 import 'package:collection/collection.dart';
 import 'base.dart';
 

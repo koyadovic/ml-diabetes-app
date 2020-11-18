@@ -1,15 +1,15 @@
-import 'package:Dia/shared/tools/numbers.dart';
-import 'package:Dia/user_data/controller/services.dart';
-import 'package:Dia/user_data/model/entities/activities.dart';
-import 'package:Dia/user_data/model/entities/base.dart';
-import 'package:Dia/user_data/model/entities/feeding.dart';
-import 'package:Dia/user_data/model/entities/flags.dart';
-import 'package:Dia/user_data/model/entities/glucose.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
-import 'package:Dia/user_data/model/entities/traits.dart';
-import 'package:Dia/shared/view/view_model.dart';
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/messages.dart';
+import 'package:iDietFit/shared/tools/numbers.dart';
+import 'package:iDietFit/user_data/controller/services.dart';
+import 'package:iDietFit/user_data/model/entities/activities.dart';
+import 'package:iDietFit/user_data/model/entities/base.dart';
+import 'package:iDietFit/user_data/model/entities/feeding.dart';
+import 'package:iDietFit/user_data/model/entities/flags.dart';
+import 'package:iDietFit/user_data/model/entities/glucose.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/user_data/model/entities/traits.dart';
+import 'package:iDietFit/shared/view/view_model.dart';
+import 'package:iDietFit/shared/view/error_handlers.dart';
+import 'package:iDietFit/shared/view/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

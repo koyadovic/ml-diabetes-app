@@ -1,7 +1,7 @@
 import 'package:timezone/timezone.dart' as tz;
 
 /*
-import 'package:Dia/shared/tools/dates.dart';
+import 'package:iDietFit/shared/tools/dates.dart';
  */
 
 

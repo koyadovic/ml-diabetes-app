@@ -1,5 +1,5 @@
-import 'package:Dia/shared/model/validations.dart';
-import 'package:Dia/shared/tools/numbers.dart';
+import 'package:iDietFit/shared/model/validations.dart';
+import 'package:iDietFit/shared/tools/numbers.dart';
 
 class Food extends WithValidations {
   final int id;

@@ -2,7 +2,7 @@
 TYPES!
  */
 
-import 'package:Dia/shared/model/validations.dart';
+import 'package:iDietFit/shared/model/validations.dart';
 
 abstract class UserDataValueObject {
   final String name;

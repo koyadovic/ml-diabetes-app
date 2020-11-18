@@ -1,7 +1,7 @@
-import 'package:Dia/communications/controller/services.dart';
-import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/communications/view/messages/simple/simple_message.dart';
-import 'package:Dia/communications/view/messages/suggestions/suggestions_group.dart';
+import 'package:iDietFit/communications/controller/services.dart';
+import 'package:iDietFit/communications/model/entities.dart';
+import 'package:iDietFit/communications/view/messages/simple/simple_message.dart';
+import 'package:iDietFit/communications/view/messages/suggestions/suggestions_group.dart';
 import 'package:flutter/material.dart';
 
 

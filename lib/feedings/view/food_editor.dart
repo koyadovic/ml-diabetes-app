@@ -1,10 +1,10 @@
-import 'package:Dia/feedings/controller/services.dart';
-import 'package:Dia/feedings/model/foods.dart';
-import 'package:Dia/shared/tools/numbers.dart';
-import 'package:Dia/shared/view/theme.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/utils/unfocus.dart';
-import 'package:Dia/shared/view/widgets/unit_text_field.dart';
+import 'package:iDietFit/feedings/controller/services.dart';
+import 'package:iDietFit/feedings/model/foods.dart';
+import 'package:iDietFit/shared/tools/numbers.dart';
+import 'package:iDietFit/shared/view/theme.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/utils/unfocus.dart';
+import 'package:iDietFit/shared/view/widgets/unit_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

@@ -1,6 +1,5 @@
-import 'package:Dia/shared/view/utils/editable_status.dart';
-import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/utils/editable_status.dart';
+import 'package:iDietFit/shared/view/utils/enabled_status.dart';
 import 'package:flutter/material.dart';
 
 // if not valid throw ValidationError('Message');

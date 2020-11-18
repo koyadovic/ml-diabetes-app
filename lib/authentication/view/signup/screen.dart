@@ -1,5 +1,5 @@
-import 'package:Dia/shared/view/utils/navigation.dart';
-import 'package:Dia/shared/view/screen_widget.dart';
+import 'package:iDietFit/shared/view/utils/navigation.dart';
+import 'package:iDietFit/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'view_model.dart';
 import 'package:easy_localization/easy_localization.dart';

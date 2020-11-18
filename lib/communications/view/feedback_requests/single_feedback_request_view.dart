@@ -1,8 +1,8 @@
-import 'package:Dia/communications/controller/services.dart';
-import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/theme.dart';
+import 'package:iDietFit/communications/controller/services.dart';
+import 'package:iDietFit/communications/model/entities.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/theme.dart';
 import 'package:flutter/material.dart';
 
 class FeedbackRequestWidget extends StatefulWidget {

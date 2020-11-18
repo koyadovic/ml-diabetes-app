@@ -1,4 +1,4 @@
-import 'package:Dia/shared/tools/map_tools.dart';
+import 'package:iDietFit/shared/tools/map_tools.dart';
 import 'package:test/test.dart';
 
 

@@ -1,8 +1,8 @@
-import 'package:Dia/communications/model/entities.dart';
-import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/user_data/model/entities/traits.dart';
-import 'package:Dia/user_data/view/shared/trait_measure_editor.dart';
+import 'package:iDietFit/communications/model/entities.dart';
+import 'package:iDietFit/shared/view/utils/enabled_status.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/user_data/model/entities/traits.dart';
+import 'package:iDietFit/user_data/view/shared/trait_measure_editor.dart';
 import 'package:flutter/material.dart';
 
 

@@ -1,11 +1,11 @@
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/utils/editable_status.dart';
-import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/shared/view/widgets/search_and_select.dart';
-import 'package:Dia/shared/view/widgets/unit_text_field.dart';
-import 'package:Dia/user_data/model/entities/activities.dart';
+import 'package:iDietFit/shared/view/error_handlers.dart';
+import 'package:iDietFit/shared/view/utils/editable_status.dart';
+import 'package:iDietFit/shared/view/utils/enabled_status.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/widgets/dia_fa_icons.dart';
+import 'package:iDietFit/shared/view/widgets/search_and_select.dart';
+import 'package:iDietFit/shared/view/widgets/unit_text_field.dart';
+import 'package:iDietFit/user_data/model/entities/activities.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

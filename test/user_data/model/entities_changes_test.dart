@@ -1,8 +1,8 @@
-import 'package:Dia/user_data/model/entities/activities.dart';
-import 'package:Dia/user_data/model/entities/feeding.dart';
-import 'package:Dia/user_data/model/entities/glucose.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
-import 'package:Dia/user_data/model/entities/traits.dart';
+import 'package:iDietFit/user_data/model/entities/activities.dart';
+import 'package:iDietFit/user_data/model/entities/feeding.dart';
+import 'package:iDietFit/user_data/model/entities/glucose.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/user_data/model/entities/traits.dart';
 import 'package:test/test.dart';
 import 'package:collection/collection.dart';
 

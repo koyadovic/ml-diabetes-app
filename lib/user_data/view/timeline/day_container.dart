@@ -1,4 +1,4 @@
-import 'package:Dia/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
 class TitledCardContainer extends StatelessWidget {

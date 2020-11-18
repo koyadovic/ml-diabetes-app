@@ -1,4 +1,4 @@
-import 'package:Dia/shared/model/validations.dart';
+import 'package:iDietFit/shared/model/validations.dart';
 
 import 'base.dart';
 

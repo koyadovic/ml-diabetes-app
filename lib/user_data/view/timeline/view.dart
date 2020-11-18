@@ -1,13 +1,13 @@
-import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/settings/controller/services.dart';
-import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/user_data/view/timeline/day_container.dart';
-import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/user_data/view/timeline/view_model.dart';
+import 'package:iDietFit/authentication/controller/services.dart';
+import 'package:iDietFit/settings/controller/services.dart';
+import 'package:iDietFit/shared/view/screen_widget.dart';
+import 'package:iDietFit/user_data/view/timeline/day_container.dart';
+import 'package:iDietFit/shared/view/widgets/dia_fa_icons.dart';
+import 'package:iDietFit/user_data/view/timeline/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:Dia/shared/tools/dates.dart';
+import 'package:iDietFit/shared/tools/dates.dart';
 import 'package:timezone/timezone.dart';
 
 

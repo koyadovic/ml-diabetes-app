@@ -1,13 +1,13 @@
-import 'package:Dia/settings/controller/services.dart';
-import 'package:Dia/settings/model/entities.dart';
-import 'package:Dia/settings/view/view_model.dart';
-import 'package:Dia/shared/view/error_handlers.dart';
-import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/shared/view/theme.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/widgets/dia_fa_icons.dart';
-import 'package:Dia/shared/view/widgets/search_and_select.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/settings/controller/services.dart';
+import 'package:iDietFit/settings/model/entities.dart';
+import 'package:iDietFit/settings/view/view_model.dart';
+import 'package:iDietFit/shared/view/error_handlers.dart';
+import 'package:iDietFit/shared/view/screen_widget.dart';
+import 'package:iDietFit/shared/view/theme.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/widgets/dia_fa_icons.dart';
+import 'package:iDietFit/shared/view/widgets/search_and_select.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 

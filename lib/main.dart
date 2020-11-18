@@ -1,23 +1,23 @@
-import 'package:Dia/settings/controller/services.dart';
-import 'package:Dia/settings/view/screen.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/utils/unfocus.dart';
+import 'package:iDietFit/settings/controller/services.dart';
+import 'package:iDietFit/settings/view/screen.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/utils/unfocus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'communications/model/entities.dart';
 import 'communications/view/messages/simple/simple_message.dart';
 import 'feedings/view/screen.dart';
 import 'shared/view/theme.dart';
-import 'package:Dia/authentication/controller/services.dart';
-import 'package:Dia/authentication/view/login/screen.dart';
-import 'package:Dia/authentication/view/signup/screen.dart';
-import 'package:Dia/communications/model/messages.dart';
-import 'package:Dia/shared/view/theme.dart';
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/view/messages.dart';
-import 'package:Dia/shared/view/utils/navigation.dart';
-import 'package:Dia/shared/view/screen_widget.dart';
-import 'package:Dia/user_data/view/screen.dart';
+import 'package:iDietFit/authentication/controller/services.dart';
+import 'package:iDietFit/authentication/view/login/screen.dart';
+import 'package:iDietFit/authentication/view/signup/screen.dart';
+import 'package:iDietFit/communications/model/messages.dart';
+import 'package:iDietFit/shared/view/theme.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/view/messages.dart';
+import 'package:iDietFit/shared/view/utils/navigation.dart';
+import 'package:iDietFit/shared/view/screen_widget.dart';
+import 'package:iDietFit/user_data/view/screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -187,12 +187,12 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/images/logo.png', width: 150),
+                  child: Image.asset('assets/images/logo-white.png', width: 150),
                 ),
               ],
             ),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: DiaTheme.secondaryColor,
             ),
           ),
           buildDrawerItem(DiaScreen.USER_DATA, 'User Data', FontAwesomeIcons.home, () {

@@ -1,9 +1,9 @@
-import 'package:Dia/shared/view/utils/editable_status.dart';
-import 'package:Dia/shared/view/utils/enabled_status.dart';
-import 'package:Dia/shared/view/utils/font_sizes.dart';
-import 'package:Dia/shared/view/widgets/unit_text_field.dart';
-import 'package:Dia/user_data/controller/services.dart';
-import 'package:Dia/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/shared/view/utils/editable_status.dart';
+import 'package:iDietFit/shared/view/utils/enabled_status.dart';
+import 'package:iDietFit/shared/view/utils/font_sizes.dart';
+import 'package:iDietFit/shared/view/widgets/unit_text_field.dart';
+import 'package:iDietFit/user_data/controller/services.dart';
+import 'package:iDietFit/user_data/model/entities/insulin.dart';
 import 'package:flutter/material.dart';
 
 

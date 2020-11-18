@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/shared/services/storage.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/shared/services/storage.dart';
 
 
 class AuthenticationServicesError implements Exception {

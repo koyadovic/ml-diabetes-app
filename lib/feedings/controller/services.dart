@@ -1,6 +1,6 @@
-import 'package:Dia/feedings/model/foods.dart';
-import 'package:Dia/shared/services/api_rest_backend.dart';
-import 'package:Dia/user_data/model/entities/feeding.dart';
+import 'package:iDietFit/feedings/model/foods.dart';
+import 'package:iDietFit/shared/services/api_rest_backend.dart';
+import 'package:iDietFit/user_data/model/entities/feeding.dart';
 
 class FeedingsServices {
   ApiRestBackend _backend;
