@@ -305,7 +305,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
     } else {
       _screens.add(screen);
     }
-    // print('requestScreenChange() andReplaceNavigationHistory: $andReplaceNavigationHistory, _screens.length: ${_screens.length}');
+
     switch (screen) {
       case DiaScreen.USER_DATA:
         this.setState(() {
@@ -348,7 +348,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
   }
 
   Future<bool> backScreen() async {
-    // print('backScreen() _screens.length ${_screens.length}');
+
     if(_screens.length > 1) {
       _screens.removeLast();
       requestScreenChange(_screens.removeLast());
