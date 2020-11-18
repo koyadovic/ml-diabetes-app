@@ -192,7 +192,7 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
               ],
             ),
             decoration: BoxDecoration(
-              color: DiaTheme.secondaryColor,
+              color: DiaTheme.primaryColor,
             ),
           ),
           buildDrawerItem(DiaScreen.USER_DATA, 'User Data', FontAwesomeIcons.home, () {
