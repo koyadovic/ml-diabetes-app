@@ -43,6 +43,7 @@ dependencies:
   mutex: ^1.1.0
   geolocator: ^6.1.4
   app_settings: 4.0.4
+  badges: ^1.1.4
 
   # locales
   intl: ^0.16.1

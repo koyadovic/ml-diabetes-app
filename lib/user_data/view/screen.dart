@@ -25,7 +25,7 @@ import 'package:Dia/user_data/view/timeline/view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:badges/badges.dart';
 import 'graphs/view.dart';
 
 
@@ -278,6 +278,8 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
   Summary summary;
   Graphs graphs;
 
+  List<Message> nonImmediatelyMessages = [];
+
   CommunicationsServices _communicationsServices = CommunicationsServices();
 
   @override
@@ -306,7 +308,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
 
   bool _refreshingCommunications = false;
 
-  void refreshCommunications() async {
+  Future<void> refreshCommunications() async {
     _refreshingCommunications = true;
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;
@@ -314,9 +316,12 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
       // TODO deberían que tener que especificar si desean un refresh del timeline, de los mensajes, feedback requests, etc
       await withBackendErrorHandlersOnView(() async {
         List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-        for(Message message in messages) {
-          await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
-        }
+        setState(() {
+          nonImmediatelyMessages = messages.where((m) => !m.attendImmediately).toList();
+        });
+
+        // only show immediately urgen messages
+        await showMessages(messages.where((m) => m.attendImmediately).toList());
         if(messages.length > 0) {
           refresh();
           reloadAgain = true;
@@ -343,6 +348,12 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     });
   }
 
+  Future<void> showMessages(List<Message> messages) async {
+    for(Message message in messages) {
+      await widget.showWidget(MessagesWidget(message: message, onDismiss: widget.hideWidget));
+    }
+  }
+
   void refresh() {
     Future.delayed(Duration(milliseconds: 500), () async {
       timeline?.refresh();
@@ -357,11 +368,54 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     summary = Summary(widget);
     graphs = Graphs(widget);
 
-    return TabBarView(
+    bool hasNotUrgentMessages = nonImmediatelyMessages.length > 0;
+    hasNotUrgentMessages = true;
+    double notUrgentMessagesHeight = 80;
+
+    return Stack(
       children: [
-        timeline,
-        // summary,
-        // graphs,
+        Padding(
+          padding: EdgeInsets.fromLTRB(0.0, hasNotUrgentMessages ? notUrgentMessagesHeight : 0.0, 0.0, 0.0),
+          child: TabBarView(
+            children: [
+              timeline,
+              // summary,
+              // graphs,
+            ],
+          ),
+        ),
+        if(hasNotUrgentMessages)
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () async {
+              await showMessages(nonImmediatelyMessages);
+              await refreshCommunications();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Color(0xFFFCFCFC),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ]
+              ),
+              child: ListTile(
+                title: Text('You have pending messages to be reviewed'.tr(), style: TextStyle(color: DiaTheme.primaryColor),),
+                subtitle: Text('Press here to attend them'.tr()),
+                leading: Badge(
+                  badgeColor: DiaTheme.secondaryColor,
+                  badgeContent: Text(nonImmediatelyMessages.length.toString()),
+                  child: Icon(Icons.message, color: DiaTheme.primaryColor),
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
