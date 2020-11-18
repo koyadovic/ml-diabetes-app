@@ -58,6 +58,7 @@ class Message {
   static const String TYPE_INFORMATION = 'information';
   static const String TYPE_WARNING = 'warning';
   static const String TYPE_ERROR = 'error';
+  static const String TYPE_SUGGESTIONS = 'suggestions';
 
   final int id;
   final DateTime createdDate;
