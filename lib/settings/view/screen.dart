@@ -217,7 +217,7 @@ class CategoryWidgetState extends State<CategoryWidget> {
             return DropdownMenuItem<String>(
               value: option['value'],
               child: ListTile(
-                title: Text('setting_title_${option["display"]}'.tr(), style: TextStyle(fontSize: mediumSize(context))),
+                title: Text('setting_title_${option["display"]}'.tr(), style: TextStyle(fontSize: smallSize(context))),
                 subtitle: Text('setting_subtitle_${option["display"]}'.tr()),
               ),
             );
