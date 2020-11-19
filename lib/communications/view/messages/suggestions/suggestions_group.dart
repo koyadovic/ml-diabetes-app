@@ -11,6 +11,7 @@ import 'package:iDietFit/user_data/model/entities/insulin.dart';
 import 'package:iDietFit/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class SuggestionsGroupMessageWidget extends StatefulWidget {
@@ -103,6 +104,15 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
       child: ListView(
         shrinkWrap: true,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () => widget.onClose(),
+              )
+            ],
+          ),
           ...suggestionWidgets,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,8 +121,8 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
               FlatButton(
                 child: Row(
                   children: [
-                    Icon(Icons.watch_later),
-                    Text('Postpone'),
+                    Icon(Icons.close),
+                    Text('Close'.tr()),
                   ],
                 ),
                 onPressed: () => widget.onClose(),
@@ -122,7 +132,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                 child: Row(
                   children: [
                     Icon(Icons.done),
-                    Text('Finish'),
+                    Text('Attend suggestion group'.tr()),
                   ],
                 ),
                 onPressed: () async {

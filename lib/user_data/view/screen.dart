@@ -95,7 +95,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       if(traitMeasure.hasChanged && traitMeasure.isValid) {
                         withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveTraitMeasure(traitMeasure);
-                          _state.refresh();
+                          _state.refreshTabChildren();
                           _state.refreshCommunications();
                           DiaMessages.getInstance().showBriefMessage('Saved!'.tr());
                         });
@@ -131,7 +131,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       if (activity.hasChanged && activity.isValid) {
                         withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveActivity(activity);
-                          _state.refresh();
+                          _state.refreshTabChildren();
                           _state.refreshCommunications();
                           DiaMessages.getInstance().showBriefMessage('Saved!'.tr());
                         });
@@ -194,7 +194,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       if(insulinInjection.hasChanged && insulinInjection.isValid) {
                         withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveInsulinInjection(insulinInjection);
-                          _state.refresh();
+                          _state.refreshTabChildren();
                           _state.refreshCommunications();
                           DiaMessages.getInstance().showBriefMessage('Saved!'.tr());
                         });
@@ -235,7 +235,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
                       if(glucoseLevel.hasChanged && glucoseLevel.isValid) {
                         withBackendErrorHandlersOnView(() async {
                           await _userDataServices.saveGlucoseLevel(glucoseLevel);
-                          _state.refresh();
+                          _state.refreshTabChildren();
                           _state.refreshCommunications();
                           DiaMessages.getInstance().showBriefMessage('Saved!'.tr());
                         });
@@ -324,7 +324,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
         bool andRefresh = await showMessages(urgentMessages);
 
         if(andRefresh || urgentMessages.length > 0) {
-          refresh();
+          refreshTabChildren();
           reloadAgain = true;
         }
       });
@@ -361,7 +361,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
     return needRefresh;
   }
 
-  void refresh() {
+  void refreshTabChildren() {
     Future.delayed(Duration(milliseconds: 500), () async {
       timeline?.refresh();
     });
@@ -399,8 +399,10 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
             onTap: () async {
               bool refresh = await showMessages(nonImmediatelyMessages);
 
-              if(refresh)
-                await refreshCommunications();
+              if(refresh) {
+                refreshTabChildren();
+                refreshCommunications();
+              }
             },
             child: Container(
               decoration: BoxDecoration(
