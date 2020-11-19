@@ -213,7 +213,6 @@ class CategoryWidgetState extends State<CategoryWidget> {
             }
           },
           items: List<DropdownMenuItem<String>>.from(setting.specification.options.map((Map<String, dynamic> option) {
-            print(setting.specification.options.toString());
             return DropdownMenuItem<String>(
               value: option['value'],
               child: ListTile(
