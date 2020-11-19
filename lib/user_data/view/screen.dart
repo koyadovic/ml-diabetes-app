@@ -415,11 +415,11 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
                   ]
               ),
               child: ListTile(
-                title: Text('You have pending messages to be reviewed'.tr(), style: TextStyle(color: DiaTheme.primaryColor),),
-                subtitle: Text('Press here to attend them'.tr()),
+                title: Text('You have pending messages to be reviewed'.tr(), style: TextStyle(color: DiaTheme.primaryColor)),
+                subtitle: Text('Press here to attend them'.tr(), style: TextStyle(color: Colors.grey)),
                 leading: Badge(
                   badgeColor: DiaTheme.secondaryColor,
-                  badgeContent: Text(nonImmediatelyMessages.length.toString()),
+                  badgeContent: Text(nonImmediatelyMessages.length.toString(), style: TextStyle(color: Colors.white)),
                   child: Icon(Icons.message, color: DiaTheme.primaryColor),
                 ),
               ),
