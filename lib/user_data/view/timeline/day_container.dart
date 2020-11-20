@@ -1,3 +1,4 @@
+import 'package:iDietFit/shared/view/theme.dart';
 import 'package:iDietFit/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class InnerCardItem extends StatelessWidget {
   InnerCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
   
   Widget getLinesAndIconWidget(BuildContext context) {
-    Color lineColor = Colors.grey;
+    Color lineColor = DiaTheme.primarySwatch.withOpacity(0.4);
 
     Container line = Container(
       decoration: BoxDecoration(
