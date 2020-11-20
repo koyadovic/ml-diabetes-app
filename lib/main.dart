@@ -233,16 +233,16 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
       title = _currentScreenWidget.getAppBarTitle();
       if (title == null || title == '')
         title = widget.title;
-    }
 
-    appBar = AppBar(
-      actionsIconTheme: actionsIconTheme,
-      iconTheme: iconTheme,
-      backgroundColor: backgroundColor,
-      title: Text(title, style: TextStyle(color: DiaTheme.primaryColor, fontSize: mediumSize(context))),
-      actions: appBarActions,
-      bottom: appBarBottom,
-    );
+      appBar = AppBar(
+        actionsIconTheme: actionsIconTheme,
+        iconTheme: iconTheme,
+        backgroundColor: backgroundColor,
+        title: Text(title, style: TextStyle(color: DiaTheme.primaryColor, fontSize: mediumSize(context))),
+        actions: appBarActions,
+        bottom: appBarBottom,
+      );
+    }
 
     Scaffold scaffold = Scaffold(
       key: _scaffoldKey,

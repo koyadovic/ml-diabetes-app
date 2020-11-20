@@ -20,11 +20,18 @@ class DiaMessages {
 
   static DiaMessages getInstance() => _instance;
 
+  String _lastBriefMessage;
+  String _lastDialogMessage;
+
   Future<void> showBriefMessage(String message) async {
+    if(message == _lastBriefMessage) return;
+    _lastBriefMessage = message;
     await _messagesHandler.showBriefMessage(message);
   }
 
   Future<void> showDialogMessage(String message) async {
+    if(message == _lastDialogMessage) return;
+    _lastDialogMessage = message;
     await _messagesHandler.showDialogMessage(message);
   }
 

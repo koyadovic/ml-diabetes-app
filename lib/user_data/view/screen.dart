@@ -309,6 +309,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
   bool _refreshingCommunications = false;
 
   Future<void> refreshCommunications() async {
+    print('refreshCommunications');
     _refreshingCommunications = true;
     Future.delayed(Duration(milliseconds: 500), () async {
       bool reloadAgain = false;

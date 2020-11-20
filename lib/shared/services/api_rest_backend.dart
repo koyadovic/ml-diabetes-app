@@ -14,8 +14,8 @@ class ApiRestBackend {
   static String _refreshToken;
   static double _tokenExpiresMilliseconds;
 
-  //static String _baseUrl = 'http://192.168.1.250:5000';
-  static String _baseUrl = 'https://idiet.fit';
+  static String _baseUrl = 'http://192.168.1.250:5000';
+  //static String _baseUrl = 'https://idiet.fit';
 
   Function(List<String>) _rolesListener;
 

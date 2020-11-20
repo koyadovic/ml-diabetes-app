@@ -35,7 +35,6 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   final SettingsServices settingsServices = SettingsServices();
   Location localTimezone;
-  AuthenticationServices _authenticationServices = AuthenticationServices();
 
   @override
   void initState() {
