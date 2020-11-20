@@ -7,51 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:mutex/mutex.dart';
 
 
-class BackendError implements Exception {
-  final String _message;
-  const BackendError(this._message);
-  String toString() => "$_message";
-}
-
-
-class BackendUnavailable extends BackendError {
-  const BackendUnavailable() : super('');
-  String toString() => "BackendUnavailable";
-}
-
-class BackendCriticalError extends BackendError {
-  const BackendCriticalError() : super('');
-  String toString() => "BackendUnavailable";
-}
-
-class BackendUnauthorized extends BackendError {
-  const BackendUnauthorized(String message) : super(message);
-}
-
-class BackendForbidden extends BackendError {
-  const BackendForbidden(String message) : super(message);
-}
-
-class BackendBadRequest extends BackendError {
-  const BackendBadRequest(String message) : super(message);
-}
-
-class NotLoggedIn extends BackendError {
-  const NotLoggedIn(String message) : super(message);
-}
-
-
-// abstract class IBackend {
-//   Future<void> initialize();
-//   bool isAuthenticated();
-//   Future<void> saveToken(String newToken, String refreshNewToken, double expiresMilliseconds);
-//   Future<void> removeToken();
-//   Future<dynamic> get(String endpoint, {bool withAuth = true, Map<String, String> additionalHeaders});
-//   Future<dynamic> post(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders});
-//   Future<dynamic> patch(String endpoint, dynamic data, {bool withAuth = true, Map<String, String> additionalHeaders});
-// }
-
-
 class ApiRestBackend {
   final Storage _storage = getLocalStorage();
 
@@ -59,7 +14,8 @@ class ApiRestBackend {
   static String _refreshToken;
   static double _tokenExpiresMilliseconds;
 
-  static String _baseUrl = 'http://192.168.1.250:5000';
+  //static String _baseUrl = 'http://192.168.1.250:5000';
+  static String _baseUrl = 'https://idiet.fit';
 
   Function(List<String>) _rolesListener;
 
@@ -261,4 +217,38 @@ class ApiRestBackend {
     return _token != null && _token != '';
   }
 
+}
+
+
+class BackendError implements Exception {
+  final String _message;
+  const BackendError(this._message);
+  String toString() => "$_message";
+}
+
+
+class BackendUnavailable extends BackendError {
+  const BackendUnavailable() : super('');
+  String toString() => "BackendUnavailable";
+}
+
+class BackendCriticalError extends BackendError {
+  const BackendCriticalError() : super('');
+  String toString() => "BackendUnavailable";
+}
+
+class BackendUnauthorized extends BackendError {
+  const BackendUnauthorized(String message) : super(message);
+}
+
+class BackendForbidden extends BackendError {
+  const BackendForbidden(String message) : super(message);
+}
+
+class BackendBadRequest extends BackendError {
+  const BackendBadRequest(String message) : super(message);
+}
+
+class NotLoggedIn extends BackendError {
+  const NotLoggedIn(String message) : super(message);
 }
