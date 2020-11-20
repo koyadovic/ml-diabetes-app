@@ -97,12 +97,16 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                     ...day.entries.asMap().entries.map((ent) {
                       int idx = ent.key;
                       ViewModelEntry entry = ent.value;
+                      String hour = DateFormat.Hm().format(entry.eventDate.toUtc().asTimezone(localTimezone));
+                      if(hour.length < 5) {
+                        hour = '0' + hour;
+                      }
                       return InnerCardItem(
                         lineToTop: idx != 0,
                         lineToBottom: idx != day.entries.length - 1,
                         text: entry.text,
                         icon: getIcon(entry),
-                        hourMinute: DateFormat.Hm().format(entry.eventDate.toUtc().asTimezone(localTimezone)),
+                        hourMinute: hour,
                       );
                     })
                   ],
