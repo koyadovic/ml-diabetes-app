@@ -151,7 +151,7 @@ class ViewModelEntry {
             entity: insulinInjection,
         );
 
-      case 'Message':
+      case 'NotEphemeralMessage':
         NotEphemeralMessage message = entity as NotEphemeralMessage;
         return ViewModelEntry(
           eventDate: entity.eventDate,

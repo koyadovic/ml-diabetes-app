@@ -27,6 +27,7 @@ class NotEphemeralMessage extends UserDataEntity {
     return NotEphemeralMessage(
       id: json['id'],
       eventDate: DateTime.fromMicrosecondsSinceEpoch((json['delivery_date'] * 1000000).toInt()).toUtc(),
+      entityType: 'NotEphemeralMessage',
       type: json['type'],
       title: json['title'],
       text: json['text'],
