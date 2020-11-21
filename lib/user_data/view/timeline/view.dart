@@ -68,7 +68,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         return TraitMeasureIconSmall();
       case 'NotEphemeralMessage':
         NotEphemeralMessage message = entity.entity as NotEphemeralMessage;
-        return NotEphemeralMessageIconSmall(message);
+        return NotEphemeralMessageIconMedium(message);
     }
 
   }

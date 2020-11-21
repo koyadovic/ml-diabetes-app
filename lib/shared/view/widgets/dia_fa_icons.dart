@@ -157,18 +157,22 @@ class _NotEphemeralMessageIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IconData iconData;
+    Color color;
     switch(message.type) {
       case NotEphemeralMessage.TYPE_ERROR:
         iconData = Icons.error;
+        color = Colors.red;
         break;
       case NotEphemeralMessage.TYPE_WARNING:
         iconData = Icons.warning;
+        color = Colors.orange;
         break;
       case NotEphemeralMessage.TYPE_INFORMATION:
         iconData = Icons.info;
+        color = Colors.blue;
         break;
     }
-    return Icon(iconData, size: size);
+    return Icon(iconData, size: size, color: color,);
   }
 }
 
