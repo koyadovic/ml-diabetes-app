@@ -6,6 +6,7 @@ import 'package:iDietFit/user_data/model/entities/feeding.dart';
 import 'package:iDietFit/user_data/model/entities/flags.dart';
 import 'package:iDietFit/user_data/model/entities/glucose.dart';
 import 'package:iDietFit/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
 import 'package:iDietFit/user_data/model/entities/traits.dart';
 
 class UserDataServicesError implements Exception {
@@ -52,6 +53,9 @@ class UserDataServices {
           break;
         case 'Flag':
           entities.add(Flag.fromJson(content));
+          break;
+        case 'Message':
+          entities.add(NotEphemeralMessage.fromJson(content));
           break;
       }
     }

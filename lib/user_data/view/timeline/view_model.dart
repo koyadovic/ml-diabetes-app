@@ -6,6 +6,7 @@ import 'package:iDietFit/user_data/model/entities/feeding.dart';
 import 'package:iDietFit/user_data/model/entities/flags.dart';
 import 'package:iDietFit/user_data/model/entities/glucose.dart';
 import 'package:iDietFit/user_data/model/entities/insulin.dart';
+import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
 import 'package:iDietFit/user_data/model/entities/traits.dart';
 import 'package:iDietFit/shared/view/view_model.dart';
 import 'package:iDietFit/shared/view/error_handlers.dart';
@@ -148,6 +149,15 @@ class ViewModelEntry {
             type: entity.entityType,
             text: 'You injected {} units of insulin {}'.tr(args: [insulinInjection.units.toString(), insulinInjection.insulinType.name]),
             entity: insulinInjection,
+        );
+
+      case 'Message':
+        NotEphemeralMessage message = entity as NotEphemeralMessage;
+        return ViewModelEntry(
+          eventDate: entity.eventDate,
+          type: entity.entityType,
+          text: message.text,
+          entity: message,
         );
 
       case 'TraitMeasure':

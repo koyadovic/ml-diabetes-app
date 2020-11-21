@@ -2,6 +2,7 @@ import 'package:iDietFit/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
 
 enum Entity {
   GlucoseLevel,
@@ -146,4 +147,44 @@ class FlagIconMedium extends StatelessWidget {
 }
 class FlagIconBig extends StatelessWidget {
   Widget build(BuildContext context) => DiaBigFaIcon(Entity.Flag, color: Colors.orange);
+}
+
+
+class _NotEphemeralMessageIcon extends StatelessWidget {
+  final NotEphemeralMessage message;
+  final double size;
+  _NotEphemeralMessageIcon(this.message, this.size);
+  @override
+  Widget build(BuildContext context) {
+    IconData iconData;
+    switch(message.type) {
+      case NotEphemeralMessage.TYPE_ERROR:
+        iconData = Icons.error;
+        break;
+      case NotEphemeralMessage.TYPE_WARNING:
+        iconData = Icons.warning;
+        break;
+      case NotEphemeralMessage.TYPE_INFORMATION:
+        iconData = Icons.info;
+        break;
+    }
+    return Icon(iconData, size: size);
+  }
+}
+
+
+class NotEphemeralMessageIconSmall extends StatelessWidget {
+  final NotEphemeralMessage message;
+  NotEphemeralMessageIconSmall(this.message);
+  Widget build(BuildContext context) => _NotEphemeralMessageIcon(message, 20 * screenSizeScalingFactor(context));
+}
+class NotEphemeralMessageIconMedium extends StatelessWidget {
+  final NotEphemeralMessage message;
+  NotEphemeralMessageIconMedium(this.message);
+  Widget build(BuildContext context) => _NotEphemeralMessageIcon(message, 26 * screenSizeScalingFactor(context));
+}
+class NotEphemeralMessageIconBig extends StatelessWidget {
+  final NotEphemeralMessage message;
+  NotEphemeralMessageIconBig(this.message);
+  Widget build(BuildContext context) => _NotEphemeralMessageIcon(message, 36 * screenSizeScalingFactor(context));
 }

@@ -1,6 +1,7 @@
 import 'package:iDietFit/authentication/controller/services.dart';
 import 'package:iDietFit/settings/controller/services.dart';
 import 'package:iDietFit/shared/view/screen_widget.dart';
+import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
 import 'package:iDietFit/user_data/view/timeline/day_container.dart';
 import 'package:iDietFit/shared/view/widgets/dia_fa_icons.dart';
 import 'package:iDietFit/user_data/view/timeline/view_model.dart';
@@ -65,6 +66,9 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
         return InsulinInjectionIconSmall();
       case 'TraitMeasure':
         return TraitMeasureIconSmall();
+      case 'Message':
+        NotEphemeralMessage message = entity.entity as NotEphemeralMessage;
+        return NotEphemeralMessageIconSmall(message);
     }
 
   }
