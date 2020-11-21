@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:iDietFit/shared/services/storage.dart';
 import 'package:iDietFit/shared/tools/uris.dart';
 import 'package:http/http.dart' as http;
@@ -14,8 +15,7 @@ class ApiRestBackend {
   static String _refreshToken;
   static double _tokenExpiresMilliseconds;
 
-  static String _baseUrl = 'http://192.168.1.250:5000';
-  //static String _baseUrl = 'https://idiet.fit';
+  static String _baseUrl = kReleaseMode ? 'https://idiet.fit' : 'http://192.168.1.250:5000';
 
   Function(List<String>) _rolesListener;
 
