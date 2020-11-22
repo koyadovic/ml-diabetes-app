@@ -96,7 +96,13 @@ class SettingsServices {
       await getAllSettings();
       tzString = await _retrieveSettingInLocalStorage('localization', 'timezone');
     }
-    Location location = getLocation(tzString);
+    Location location;
+    if(tzString.toLowerCase() == 'utc') {
+      location = UTC;
+    } else {
+      location = getLocation(tzString);
+    }
+
     return location;
   }
 
