@@ -82,7 +82,6 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
           children: [
             DropdownButton<InsulinType>(
               isExpanded: true,
-              isDense: true,
               value: insulinInjection.insulinType,
               onChanged: !enabled ? null : (InsulinType newValue) {
                 if(editable)
@@ -91,12 +90,37 @@ class InsulinInjectionEditorWidgetState extends State<InsulinInjectionEditorWidg
               items: editable ? _insulinTypes.map<DropdownMenuItem<InsulinType>>((InsulinType type) {
                 return DropdownMenuItem<InsulinType>(
                   value: type,
-                  child: Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: type.getFlutterColor()),
+                              color: type.getFlutterColor(),
+                              borderRadius: BorderRadius.all(Radius.circular(12))
+                          ),
+                        ),
+                      ),
+                      Text(type.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                    ],
+                  ),
                 );
               }).toList() : [
                 DropdownMenuItem<InsulinType>(
                   value: insulinInjection.insulinType,
-                  child: Text(insulinInjection.insulinType.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                  child: Row(
+                    children: [
+                      Text(insulinInjection.insulinType.name, style: TextStyle(color: enabled ? Colors.black : Colors.grey)),
+                      Container(
+                        width: 10,
+                        height: 10,
+                        color: insulinInjection.insulinType.getFlutterColor(),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

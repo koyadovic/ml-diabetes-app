@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:iDietFit/shared/model/validations.dart';
 import 'package:iDietFit/shared/tools/map_tools.dart';
 import 'package:collection/collection.dart';
@@ -32,6 +33,18 @@ class InsulinType extends UserDataValueObject {
       'u_per_ml': uPerMl,
       'color': color,
     };
+  }
+
+  Color getFlutterColor() {
+    String externalColor = color;
+    if (externalColor.substring(0, 1) == '#') {
+      externalColor = externalColor.substring(1);
+    }
+    if(externalColor.length == 6) {
+      externalColor = externalColor + 'ff';
+    }
+    externalColor = externalColor.substring(6, 8) + externalColor.substring(0, 6);
+    return Color(int.parse(externalColor, radix: 16));
   }
 
   @override
