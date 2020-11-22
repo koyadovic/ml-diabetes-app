@@ -36,21 +36,6 @@ abstract class InsulinType extends UserDataValueObject {
 
   Map<String, dynamic> toJson();
 
-  @override
-  bool operator == (Object other) {
-    Function eq = const ListEquality().equals;
-    return identical(this, other) ||
-        other is InsulinType &&
-            name == other.name &&
-            slug == other.slug &&
-            uPerMl == other.uPerMl &&
-            color == other.color &&
-            eq(categories, other.categories);
-  }
-
-  @override
-  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode;
-
   String toString() => name;
 
 }
@@ -92,6 +77,24 @@ class SingleInsulinType extends InsulinType {
     };
   }
 
+  @override
+  bool operator == (Object other) {
+    Function eq = const ListEquality().equals;
+    return identical(this, other) ||
+        other is SingleInsulinType &&
+            name == other.name &&
+            slug == other.slug &&
+            uPerMl == other.uPerMl &&
+            color == other.color &&
+            eq(categories, other.categories) &&
+            onset == other.onset &&
+            peakStart == other.peakStart &&
+            peakEnd == other.peakEnd &&
+            duration == other.duration;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode ^ onset.hashCode ^ peakStart.hashCode ^ peakEnd.hashCode ^ duration.hashCode;
 }
 
 class MixedInsulinType extends InsulinType {
@@ -130,6 +133,23 @@ class MixedInsulinType extends InsulinType {
     };
   }
 
+  @override
+  bool operator == (Object other) {
+    Function eq = const ListEquality().equals;
+    return identical(this, other) ||
+        other is MixedInsulinType &&
+            name == other.name &&
+            slug == other.slug &&
+            uPerMl == other.uPerMl &&
+            color == other.color &&
+            eq(categories, other.categories) &&
+            insulinType1 == other.insulinType1 &&
+            insulinType1Percentage == other.insulinType1Percentage &&
+            insulinType2 == other.insulinType2 &&
+            insulinType2Percentage == other.insulinType2Percentage;
+  }
+  @override
+  int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode ^ insulinType1.hashCode ^ insulinType1Percentage.hashCode ^ insulinType2.hashCode ^ insulinType2Percentage.hashCode;
 }
 
 
