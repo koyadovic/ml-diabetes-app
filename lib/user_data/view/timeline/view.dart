@@ -105,6 +105,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                       if(hour.length < 5) {
                         hour = '0' + hour;
                       }
+                      // TODO retorna una variación del de abajo para messages
                       return InnerCardItem(
                         lineToTop: idx != 0,
                         lineToBottom: idx != day.entries.length - 1,
