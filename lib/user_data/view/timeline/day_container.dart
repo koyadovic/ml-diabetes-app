@@ -156,13 +156,13 @@ class InnerMessageCardItem extends StatelessWidget {
     Icon leading;
     switch(message.type) {
       case NotEphemeralMessage.TYPE_INFORMATION:
-        leading = Icon(Icons.info, color: Colors.grey);
+        leading = Icon(Icons.info, color: Colors.grey, size: mediumSize(context));
         break;
       case NotEphemeralMessage.TYPE_WARNING:
-        leading = Icon(Icons.warning, color: Colors.orange);
+        leading = Icon(Icons.warning, color: Colors.orange, size: mediumSize(context));
         break;
       case NotEphemeralMessage.TYPE_ERROR:
-        leading = Icon(Icons.error, color: Colors.red);
+        leading = Icon(Icons.error, color: Colors.red, size: mediumSize(context));
         break;
     }
 
@@ -182,10 +182,8 @@ class InnerMessageCardItem extends StatelessWidget {
           if(lineToTop)
             Align(alignment: Alignment.topCenter, child: line),
           Align(alignment: Alignment.center, child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            height: 15,
+            decoration: BoxDecoration(color: Colors.white),
+            height: mediumSize(context) * 0.8,
             width: 2,
           )),
           Align(alignment: Alignment.center, child: leading),
@@ -197,22 +195,24 @@ class InnerMessageCardItem extends StatelessWidget {
   Widget getMessageWidget(BuildContext context) {
     return Expanded(
       child: Card(
+        elevation: 3,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 message.title,
-                style: TextStyle(fontSize: verySmallSize(context), letterSpacing: -0.5, fontWeight: FontWeight.w800),
+                style: TextStyle(fontSize: smallSize(context), letterSpacing: -0.5, fontWeight: FontWeight.w800),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
                 softWrap: true,
               ),
+              SizedBox(height: 4,),
               Text(
                 message.text,
-                style: TextStyle(fontSize: verySmallSize(context), letterSpacing: -0.5),
+                style: TextStyle(fontSize: verySmallSize(context)),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
                 softWrap: true,
