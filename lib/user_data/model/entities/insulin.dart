@@ -8,7 +8,7 @@ import 'base.dart';
 Function eq = const ListEquality().equals;
 
 
-class InsulinType extends UserDataValueObject {
+abstract class InsulinType extends UserDataValueObject {
   final List<String> categories;
   final int uPerMl;
   final String color;
@@ -16,23 +16,10 @@ class InsulinType extends UserDataValueObject {
   InsulinType(name, slug, this.categories, this.uPerMl, this.color) : super(name, slug);
 
   static InsulinType fromJson(Map<String, dynamic> json) {
-    return InsulinType(
-      json['name'],
-      json['slug'],
-      List<String>.from(json['categories']),
-      json['u_per_ml'],
-      json['color'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'slug': slug,
-      'categories': categories,
-      'u_per_ml': uPerMl,
-      'color': color,
-    };
+    if(json.containsKey('insulin_type_1')){
+      return MixedInsulinType.fromJson(json);
+    }
+    return SingleInsulinType.fromJson(json);
   }
 
   Color getFlutterColor() {
@@ -47,12 +34,13 @@ class InsulinType extends UserDataValueObject {
     return Color(int.parse(externalColor, radix: 16));
   }
 
+  Map<String, dynamic> toJson();
+
   @override
   bool operator == (Object other) {
     Function eq = const ListEquality().equals;
     return identical(this, other) ||
         other is InsulinType &&
-            runtimeType == other.runtimeType &&
             name == other.name &&
             slug == other.slug &&
             uPerMl == other.uPerMl &&
@@ -64,7 +52,86 @@ class InsulinType extends UserDataValueObject {
   int get hashCode => name.hashCode ^ slug.hashCode ^ uPerMl.hashCode ^ color.hashCode ^ categories.hashCode;
 
   String toString() => name;
+
 }
+
+
+class SingleInsulinType extends InsulinType {
+  final int onset;
+  final int peakStart;
+  final int peakEnd;
+  final int duration;
+
+  SingleInsulinType(name, slug, categories, uPerMl, color, this.onset, this.peakStart, this.peakEnd, this.duration) : super(name, slug, categories, uPerMl, color);
+
+  static SingleInsulinType fromJson(Map<String, dynamic> json) {
+    return SingleInsulinType(
+      json['name'],
+      json['slug'],
+      List<String>.from(json['categories']),
+      json['u_per_ml'],
+      json['color'],
+      json['onset'],
+      json['peak_start'],
+      json['peak_end'],
+      json['duration'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'slug': slug,
+      'categories': categories,
+      'u_per_ml': uPerMl,
+      'color': color,
+      'onset': onset,
+      'peak_start': peakStart,
+      'peak_end': peakEnd,
+      'duration': duration,
+    };
+  }
+
+}
+
+class MixedInsulinType extends InsulinType {
+  final SingleInsulinType insulinType1;
+  final double insulinType1Percentage;
+  final SingleInsulinType insulinType2;
+  final double insulinType2Percentage;
+
+  MixedInsulinType(name, slug, categories, uPerMl, color, this.insulinType1, this.insulinType1Percentage, this.insulinType2, this.insulinType2Percentage) : super(name, slug, categories, uPerMl, color);
+
+  static MixedInsulinType fromJson(Map<String, dynamic> json) {
+    return MixedInsulinType(
+      json['name'],
+      json['slug'],
+      List<String>.from(json['categories']),
+      json['u_per_ml'],
+      json['color'],
+      SingleInsulinType.fromJson(json['insulin_type_1']),
+      json['insulin_type_1_percentage'],
+      SingleInsulinType.fromJson(json['insulin_type_2']),
+      json['insulin_type_2_percentage'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'slug': slug,
+      'categories': categories,
+      'u_per_ml': uPerMl,
+      'color': color,
+      'insulin_type_1': insulinType1.toJson(),
+      'insulin_type_1_percentage': insulinType1Percentage,
+      'insulin_type_2': insulinType2.toJson(),
+      'insulin_type_2_percentage': insulinType2Percentage,
+    };
+  }
+
+}
+
 
 
 class InsulinInjection extends UserDataEntity {

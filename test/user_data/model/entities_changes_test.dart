@@ -29,8 +29,32 @@ void main() {
   });
 
   test('InsulinInjection changes', () {
-    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
-    InsulinType it2 = InsulinType('Tipo 2', 'tipo-2', ['rapid'], 100, '#000000');
+    InsulinType it1 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U1",
+      "slug": "novorapid-flexpen-100-u1",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
+    InsulinType it2 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U2",
+      "slug": "novorapid-flexpen-100-u2",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
 
     InsulinInjection i = InsulinInjection(id: 1, insulinType: it1, units: 4);
     i.insulinType = it2;
@@ -80,22 +104,50 @@ void main() {
   });
 
   test('Test insulin types equality', () {
-    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
-    InsulinType it2 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
-    expect(true, it1 == it2);
-    InsulinType it3 = InsulinType.fromJson({
-      'name': 'Tipo 1',
-      'slug': 'tipo-1',
-      'categories': ['rapid'],
-      'u_per_ml': 100,
-      'color': '#000000',
+    InsulinType it1 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U",
+      "slug": "novorapid-flexpen-100-u",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
     });
-    expect(true, it1 == it3);
-    expect(true, it2 == it3);
+    InsulinType it2 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U",
+      "slug": "novorapid-flexpen-100-u",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
+    expect(true, it1 == it2);
   });
 
   test('Insulin injection reset', () {
-    InsulinType it = InsulinType('Aspart', 'aspart', ['rapid-insulin'], 100, '#000000');
+    InsulinType it = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U",
+      "slug": "novorapid-flexpen-100-u",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
+
     InsulinInjection i = InsulinInjection(eventDate: DateTime.now(), units: 0, insulinType: it);
     i.units = 12;
     expect(i.changesToJson(), {'units': 12});

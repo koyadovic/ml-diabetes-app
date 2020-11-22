@@ -43,8 +43,32 @@ void main() {
 
   test('InsulinInjection equality', () {
     DateTime now = DateTime.now();
-    InsulinType it1 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
-    InsulinType it2 = InsulinType('Tipo 1', 'tipo-1', ['rapid'], 100, '#000000');
+    InsulinType it1 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U",
+      "slug": "novorapid-flexpen-100-u",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
+    InsulinType it2 = InsulinType.fromJson({
+      "name": "NovoRapid® FlexPen® 100-U",
+      "slug": "novorapid-flexpen-100-u",
+      "categories": [
+        "rapid-insulin"
+      ],
+      "onset": 15,
+      "peak_start": 60,
+      "peak_end": 120,
+      "duration": 180,
+      "u_per_ml": 100,
+      "color": "#e15601"
+    });
     InsulinInjection i1 = InsulinInjection(eventDate: now, units: 0, insulinType: it1);
     InsulinInjection i2 = InsulinInjection(eventDate: now, units: 0, insulinType: it1);
     expect(i1 == i2, true);
