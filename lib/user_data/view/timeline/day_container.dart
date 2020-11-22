@@ -42,14 +42,11 @@ class InnerIconHourTextCardItem extends StatelessWidget {
   InnerIconHourTextCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
   
   Widget getLinesAndIconWidget(BuildContext context) {
-    Color lineColor = DiaTheme.primarySwatch.withOpacity(0.4);
+    Color lineColor = DiaTheme.primaryColor;
 
-    Container line = Container(
-      decoration: BoxDecoration(
-        color: lineColor,
-      ),
-      height: 35 * screenSizeScalingFactor(context),
-      width: 2,
+    Widget line = FractionallySizedBox(
+      heightFactor: 0.5,
+      child: Container(decoration: BoxDecoration(color: lineColor), width: 2),
     );
 
     return Container(
@@ -159,24 +156,21 @@ class InnerMessageCardItem extends StatelessWidget {
     Icon leading;
     switch(message.type) {
       case NotEphemeralMessage.TYPE_INFORMATION:
-        leading = Icon(Icons.info);
+        leading = Icon(Icons.info, color: Colors.grey);
         break;
       case NotEphemeralMessage.TYPE_WARNING:
-        leading = Icon(Icons.warning);
+        leading = Icon(Icons.warning, color: Colors.orange);
         break;
       case NotEphemeralMessage.TYPE_ERROR:
-        leading = Icon(Icons.error);
+        leading = Icon(Icons.error, color: Colors.red);
         break;
     }
 
-    Color lineColor = DiaTheme.primarySwatch.withOpacity(0.4);
+    Color lineColor = DiaTheme.primaryColor;
 
-    Container line = Container(
-      decoration: BoxDecoration(
-        color: lineColor,
-      ),
-      height: 50 * screenSizeScalingFactor(context),
-      width: 2,
+    Widget line = FractionallySizedBox(
+      heightFactor: 0.5,
+      child: Container(decoration: BoxDecoration(color: lineColor), width: 2),
     );
 
     return Container(
@@ -187,6 +181,13 @@ class InnerMessageCardItem extends StatelessWidget {
             Align(alignment: Alignment.bottomCenter, child: line),
           if(lineToTop)
             Align(alignment: Alignment.topCenter, child: line),
+          Align(alignment: Alignment.center, child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            height: 15,
+            width: 2,
+          )),
           Align(alignment: Alignment.center, child: leading),
         ],
       ),
@@ -194,25 +195,6 @@ class InnerMessageCardItem extends StatelessWidget {
   }
 
   Widget getMessageWidget(BuildContext context) {
-    Icon leading;
-    switch(message.type) {
-      case NotEphemeralMessage.TYPE_INFORMATION:
-        leading = Icon(Icons.info);
-        break;
-      case NotEphemeralMessage.TYPE_WARNING:
-        leading = Icon(Icons.warning);
-        break;
-      case NotEphemeralMessage.TYPE_ERROR:
-        leading = Icon(Icons.error);
-        break;
-    }
-    /*
-              leading: leading,
-              title: Text(message.title, maxLines: 10, overflow: TextOverflow.ellipsis),
-              subtitle: Text(message.text, maxLines: 10, overflow: TextOverflow.ellipsis),
-
-     */
-
     return Expanded(
       child: Card(
         child: Padding(
@@ -244,15 +226,16 @@ class InnerMessageCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100 * screenSizeScalingFactor(context),
-      width: double.maxFinite,
-      child: IntrinsicWidth(
-        child: Row(
-          children: [
-            getLinesWidget(context),
-            getMessageWidget(context),
-          ],
+    return IntrinsicHeight(
+      child: Container(
+        width: double.maxFinite,
+        child: IntrinsicWidth(
+          child: Row(
+            children: [
+              getLinesWidget(context),
+              getMessageWidget(context),
+            ],
+          ),
         ),
       ),
     );
