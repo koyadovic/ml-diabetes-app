@@ -320,7 +320,7 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
           nonImmediatelyMessages = messages.where((m) => !m.attendImmediately).toList();
         });
 
-        // only show immediately urgen messages
+        // only show immediately urgent messages and ephemeral
         List<Message> urgentMessages = messages.where((m) => m.attendImmediately).toList();
         bool andRefresh = await showMessages(urgentMessages);
 
@@ -353,11 +353,16 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
   Future<bool> showMessages(List<Message> messages) async {
     bool needRefresh = false;
     for(Message message in messages) {
-      needRefresh = needRefresh || await widget.showWidget(
-        MessagesWidget(message: message, onFinish: (refresh) {
-          widget.hideWidget(refresh);
-        })
-      );
+      if(!message.ephemeral) {
+        // dismiss it
+        await _communicationsServices.dismissMessage(message);
+      } else {
+        needRefresh = needRefresh || await widget.showWidget(
+            MessagesWidget(message: message, onFinish: (refresh) {
+              widget.hideWidget(refresh);
+            })
+        );
+      }
     }
     return needRefresh;
   }

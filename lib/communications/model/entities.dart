@@ -67,8 +67,9 @@ class Message {
   final String text;
   final Map<String, dynamic> payload;
   final bool attendImmediately;
+  final bool ephemeral;
 
-  Message({this.id, this.createdDate, this.type, this.title, this.text, this.payload, this.attendImmediately});
+  Message({this.id, this.createdDate, this.type, this.title, this.text, this.payload, this.attendImmediately, this.ephemeral});
 
   static Message fromJson(Map<String, dynamic> json) {
     return Message(
@@ -79,6 +80,7 @@ class Message {
       text: json['text'],
       payload: json['payload'],
       attendImmediately: json['attend_immediately'],
+      ephemeral: json['ephemeral'],
     );
   }
 
