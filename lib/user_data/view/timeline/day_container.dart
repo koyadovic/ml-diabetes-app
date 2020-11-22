@@ -1,6 +1,7 @@
 import 'package:iDietFit/shared/view/theme.dart';
 import 'package:iDietFit/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
 
 class TitledCardContainer extends StatelessWidget {
   final List<Widget> children;
@@ -31,14 +32,14 @@ class TitledCardContainer extends StatelessWidget {
   }
 }
 
-class InnerCardItem extends StatelessWidget {
+class InnerIconHourTextCardItem extends StatelessWidget {
   final bool lineToTop;
   final bool lineToBottom;
   final Widget icon;
   final String hourMinute;
   final String text;
 
-  InnerCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
+  InnerIconHourTextCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
   
   Widget getLinesAndIconWidget(BuildContext context) {
     Color lineColor = DiaTheme.primarySwatch.withOpacity(0.4);
@@ -140,6 +141,117 @@ class InnerCardItem extends StatelessWidget {
             getLinesAndIconWidget(context),
             getMinuteHourWidget(context),
             getTextWidget(context),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InnerMessageCardItem extends StatelessWidget {
+  final bool lineToTop;
+  final bool lineToBottom;
+  final NotEphemeralMessage message;
+
+  InnerMessageCardItem({this.message, this.lineToTop, this.lineToBottom});
+
+  Widget getLinesWidget(BuildContext context) {
+    Icon leading;
+    switch(message.type) {
+      case NotEphemeralMessage.TYPE_INFORMATION:
+        leading = Icon(Icons.info);
+        break;
+      case NotEphemeralMessage.TYPE_WARNING:
+        leading = Icon(Icons.warning);
+        break;
+      case NotEphemeralMessage.TYPE_ERROR:
+        leading = Icon(Icons.error);
+        break;
+    }
+
+    Color lineColor = DiaTheme.primarySwatch.withOpacity(0.4);
+
+    Container line = Container(
+      decoration: BoxDecoration(
+        color: lineColor,
+      ),
+      height: 50 * screenSizeScalingFactor(context),
+      width: 2,
+    );
+
+    return Container(
+      width: 60 * screenSizeScalingFactor(context),
+      child: Stack(
+        children: [
+          if(lineToBottom)
+            Align(alignment: Alignment.bottomCenter, child: line),
+          if(lineToTop)
+            Align(alignment: Alignment.topCenter, child: line),
+          Align(alignment: Alignment.center, child: leading),
+        ],
+      ),
+    );
+  }
+
+  Widget getMessageWidget(BuildContext context) {
+    Icon leading;
+    switch(message.type) {
+      case NotEphemeralMessage.TYPE_INFORMATION:
+        leading = Icon(Icons.info);
+        break;
+      case NotEphemeralMessage.TYPE_WARNING:
+        leading = Icon(Icons.warning);
+        break;
+      case NotEphemeralMessage.TYPE_ERROR:
+        leading = Icon(Icons.error);
+        break;
+    }
+    /*
+              leading: leading,
+              title: Text(message.title, maxLines: 10, overflow: TextOverflow.ellipsis),
+              subtitle: Text(message.text, maxLines: 10, overflow: TextOverflow.ellipsis),
+
+     */
+
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                message.title,
+                style: TextStyle(fontSize: verySmallSize(context), letterSpacing: -0.5, fontWeight: FontWeight.w800),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 5,
+                softWrap: true,
+              ),
+              Text(
+                message.text,
+                style: TextStyle(fontSize: verySmallSize(context), letterSpacing: -0.5),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 5,
+                softWrap: true,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100 * screenSizeScalingFactor(context),
+      width: double.maxFinite,
+      child: IntrinsicWidth(
+        child: Row(
+          children: [
+            getLinesWidget(context),
+            getMessageWidget(context),
           ],
         ),
       ),

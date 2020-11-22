@@ -105,14 +105,22 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                       if(hour.length < 5) {
                         hour = '0' + hour;
                       }
-                      // TODO retorna una variación del de abajo para messages
-                      return InnerCardItem(
-                        lineToTop: idx != 0,
-                        lineToBottom: idx != day.entries.length - 1,
-                        text: entry.text,
-                        icon: getIcon(entry),
-                        hourMinute: hour,
-                      );
+                      if (entry.entity.entityType == 'NotEphemeralMessage') {
+                        NotEphemeralMessage message = entry.entity as NotEphemeralMessage;
+                        return InnerMessageCardItem(
+                          lineToTop: idx != 0,
+                          lineToBottom: idx != day.entries.length - 1,
+                          message: message
+                        );
+                      } else {
+                        return InnerIconHourTextCardItem(
+                          lineToTop: idx != 0,
+                          lineToBottom: idx != day.entries.length - 1,
+                          text: entry.text,
+                          icon: getIcon(entry),
+                          hourMinute: hour,
+                        );
+                      }
                     })
                   ],
                 ),
