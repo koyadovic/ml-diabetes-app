@@ -26,6 +26,9 @@ class DiaMessages {
   Future<void> showBriefMessage(String message) async {
     if(message == _lastBriefMessage) return;
     _lastBriefMessage = message;
+    Future.delayed(Duration(seconds: 1), () {
+      _lastBriefMessage = null;
+    });
     await _messagesHandler.showBriefMessage(message);
   }
 
