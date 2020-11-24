@@ -137,7 +137,7 @@ class ViewModelEntry {
             eventDate: entity.eventDate,
             type: entity.entityType,
             text: '{} for {} minutes'.tr(args: [activity.activityType.name, activity.minutes.toString()], namedArgs: {
-              'kcal_burned': (activity.activityType.mets * (activity.minutes / 60.0) * 90).toString()
+              'kcal_burned': ((activity.activityType.mets * (activity.minutes / 60.0) * 90).round()).toString()
             }),
             entity: activity,
         );
