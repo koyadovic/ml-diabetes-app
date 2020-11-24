@@ -92,65 +92,79 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
               subtitle: Text(value.mets.toString() + ' METs'),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          if(activity.activityType != null)
+          Column(
             children: [
-              Radio(
-                value: START,
-                groupValue: _startOrEndValue,
-                onChanged: handleStartOrEnd,
+              SizedBox(height: 20,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Radio(
+                    value: START,
+                    groupValue: _startOrEndValue,
+                    onChanged: handleStartOrEnd,
+                  ),
+                  GestureDetector(
+                    child: Text('Start now'.tr()),
+                    onTap: () => handleStartOrEnd(START),
+                  ),
+                ],
               ),
-              GestureDetector(
-                child: Text('Start now'.tr()),
-                onTap: () => handleStartOrEnd(START),
-              ),
-              Radio(
-                value: END,
-                groupValue: _startOrEndValue,
-                onChanged: handleStartOrEnd,
-              ),
-              GestureDetector(
-                child: Text('End now'.tr()),
-                onTap: () => handleStartOrEnd(END),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Radio(
+                    value: END,
+                    groupValue: _startOrEndValue,
+                    onChanged: handleStartOrEnd,
+                  ),
+                  GestureDetector(
+                    child: Text('End now'.tr()),
+                    onTap: () => handleStartOrEnd(END),
+                  ),
+                ],
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              UnitTextField(
-                valueSize: bigSize(context),
-                unitSize: verySmallSize(context),
-                externalController: _externalController,
-                unit: 'm',
-                processors: [
-                  (value) => value < 0.0 ? 0.0 : value,
-                  (value) => value > 600 ? 600.0 : value,
-                ],
-                onChange: (value) {
-                  activity.minutes = value.toInt();
-                  recomputeEventDate();
-                  setState(() {
-                    if(!activity.isValid) activity.validate();
-                  });
-                }
-              ),
-              if(editable)
-              ...[
-                Spacer(),
-                if(activity.minutes != null && activity.minutes != 0)
-                IconButton(
-                  icon: Icon(Icons.close, color: Colors.grey),
-                  onPressed: () {
-                    activity.minutes = 0;
-                    _externalController.text = activity.minutes.toString();
+          if(activity.activityType != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 0, 14, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                UnitTextField(
+                  valueSize: bigSize(context),
+                  unitSize: verySmallSize(context),
+                  externalController: _externalController,
+                  unit: 'm',
+                  processors: [
+                    (value) => value < 0.0 ? 0.0 : value,
+                    (value) => value > 600 ? 600.0 : value,
+                  ],
+                  onChange: (value) {
+                    activity.minutes = value.toInt();
+                    recomputeEventDate();
                     setState(() {
                       if(!activity.isValid) activity.validate();
                     });
                   }
                 ),
-              ]
-            ],
+                if(editable)
+                ...[
+                  if(activity.minutes != null && activity.minutes != 0)
+                  IconButton(
+                    icon: Icon(Icons.close, color: Colors.grey),
+                    onPressed: () {
+                      activity.minutes = 0;
+                      _externalController.text = activity.minutes.toString();
+                      setState(() {
+                        if(!activity.isValid) activity.validate();
+                      });
+                    }
+                  ),
+                ]
+              ],
+            ),
           ),
           if(!activity.isValid)
             Column(
