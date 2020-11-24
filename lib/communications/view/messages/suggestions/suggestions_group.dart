@@ -138,7 +138,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                     Text('Attend suggestion group'.tr()),
                   ],
                 ),
-                onPressed: () async {
+                onPressed: _saving ? null : () async {
                   setState(() {
                     _saving = true;
                   });
