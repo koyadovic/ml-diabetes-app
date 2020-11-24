@@ -113,7 +113,10 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
               )
             ],
           ),
-          ...suggestionWidgets,
+          if(_saving)
+            CircularProgressIndicator(),
+          if(!_saving)
+            ...suggestionWidgets,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
