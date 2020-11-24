@@ -114,7 +114,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
             ],
           ),
           if(_saving)
-            CircularProgressIndicator(),
+            Center(child: CircularProgressIndicator()),
           if(!_saving)
             ...suggestionWidgets,
           Row(
@@ -128,7 +128,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
                     Text('Close'.tr()),
                   ],
                 ),
-                onPressed: () => widget.onClose(),
+                onPressed: _saving ? null : () => widget.onClose(),
               ),
 
               FlatButton(
