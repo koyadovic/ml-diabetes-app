@@ -25,7 +25,7 @@ class GlucoseLevelEditorWidgetState extends State<GlucoseLevelEditorWidget> {
   @override
   void initState() {
     _glucoseLevel = widget.glucoseLevelForEdition;
-    _externalController = TextEditingController(text: _glucoseLevel.level.toString());
+    _externalController = TextEditingController(text: _glucoseLevel.level != null ? _glucoseLevel.level.toString() : '0');
     _glucoseLevel.addValidationListener(whenValidated);
     super.initState();
   }

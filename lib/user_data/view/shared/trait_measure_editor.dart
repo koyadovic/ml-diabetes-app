@@ -68,7 +68,7 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
     if(type.slug == 'birth-seconds-epoch') {
       _externalController = null;
     } else {
-      _externalController = TextEditingController(text: traitMeasure.value.toString());
+      _externalController = TextEditingController(text: traitMeasure.value != null ? traitMeasure.value.toString() : '0');
     }
     setState(() {
       if(!traitMeasure.isValid) traitMeasure.validate();

@@ -35,7 +35,7 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
 
   @override
   void initState() {
-    _externalController = TextEditingController(text: activity.minutes.toString());
+    _externalController = TextEditingController(text: activity.minutes != null ? activity.minutes.toString() : '0');
     activity.addValidationListener(whenValidated);
     handleStartOrEnd(START);
     super.initState();
