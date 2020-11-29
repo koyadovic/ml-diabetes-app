@@ -104,6 +104,7 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
       child: ListView(
         shrinkWrap: true,
         children: [
+          if(!widget.message.attendImmediately)
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -114,7 +115,10 @@ class SuggestionsGroupMessageWidgetState extends State<SuggestionsGroupMessageWi
             ],
           ),
           if(_saving)
-            Center(child: CircularProgressIndicator()),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(child: CircularProgressIndicator()),
+            ),
           if(!_saving)
             ...suggestionWidgets,
           Row(
