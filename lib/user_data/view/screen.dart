@@ -72,6 +72,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
           child: IconButton(
             icon: TraitMeasureIconMedium(),
             onPressed: () async {
+              severalFloatingActionButton.state.toggle();
               TraitMeasure traitMeasure;
               List<TraitType> traitTypes = await _userDataServices.getTraitTypes();
               if(traitTypes.length > 0) {
@@ -79,9 +80,6 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
               } else {
                 traitMeasure = TraitMeasure(eventDate: DateTime.now(), value: '0');
               }
-
-              severalFloatingActionButton.state.toggle();
-
               showWidget(
                 ParentEditorWidget(
                   child: TraitMeasureEditorWidget(
