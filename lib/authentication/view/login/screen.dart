@@ -87,17 +87,17 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                   Center(child: CircularProgressIndicator()),
                 SizedBox(height: 20),
                 // TODO this is disabled by now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FlatButton(
-                      child: Text('I have no account yet'.tr()),
-                      onPressed: () {
-                        _viewModel.notHaveAccount();
-                      },
-                    ),
-                  ],
-                )
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     FlatButton(
+                //       child: Text('I have no account yet'.tr()),
+                //       onPressed: () {
+                //         _viewModel.notHaveAccount();
+                //       },
+                //     ),
+                //   ],
+                // )
               ],
             ),
           ),
