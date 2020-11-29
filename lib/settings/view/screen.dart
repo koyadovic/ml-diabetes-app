@@ -60,9 +60,17 @@ class SettingsScreenWidgetState extends State<SettingsScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     List<Widget> categoryWidgets = _viewModel != null ?
       _viewModel.categories.map((category) => CategoryWidget(category, _viewModel, insulinTypes)).toList()
       : [];
+
+    bool loading = _viewModel == null || categoryWidgets.length == 0 || insulinTypes.length == 0;
+    if(loading) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
     return ListView(
       children: [
