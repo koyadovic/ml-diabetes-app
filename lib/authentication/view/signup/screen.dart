@@ -32,69 +32,83 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Spacer(),
-
-            TextField(
-              onChanged: (String value) { _viewModel.email = value; },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Email'.tr()
-              ),
-            ),
-            Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
-
-            TextField(
-              onChanged: (String value) { _viewModel.password1 = value; },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Password'.tr(),
-              ),
-              obscureText: true,
-            ),
-            Text(_viewModel.password1Error, style: TextStyle(color: Colors.red)),
-
-            TextField(
-              onChanged: (String value) { _viewModel.password2 = value; },
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Repeat Password'.tr(),
-              ),
-              obscureText: true,
-            ),
-            Text(_viewModel.password2Error, style: TextStyle(color: Colors.red)),
-
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      child: Center(
+        child: Container(
+          width: 300,
+          child: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (OverscrollIndicatorNotification overscroll) {
+              overscroll.disallowGlow();
+              return false;
+            },
+            child: ListView(
+              shrinkWrap: true,
               children: [
-                RaisedButton(
-                  child: Text('Signup'.tr()),
-                  onPressed: () {
-                    // hide keyboard
-                    FocusScope.of(context).unfocus();
-                    _viewModel.signUp();
-                  },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 50.0),
+                  child: Center(child: Image.asset('assets/images/logo.png', width: 150)),
                 ),
+
+                TextField(
+                  onChanged: (String value) { _viewModel.email = value; },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Email'.tr(),
+                    isDense: true,
+                  ),
+                ),
+                Text(_viewModel.emailError, style: TextStyle(color: Colors.red)),
+
+                TextField(
+                  onChanged: (String value) { _viewModel.password1 = value; },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Password'.tr(),
+                    isDense: true,
+                  ),
+                  obscureText: true,
+                ),
+                Text(_viewModel.password1Error, style: TextStyle(color: Colors.red)),
+
+                TextField(
+                  onChanged: (String value) { _viewModel.password2 = value; },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Repeat Password'.tr(),
+                    isDense: true,
+                  ),
+                  obscureText: true,
+                ),
+                Text(_viewModel.password2Error, style: TextStyle(color: Colors.red)),
+
+                SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      child: Text('Signup'.tr()),
+                      onPressed: () {
+                        // hide keyboard
+                        FocusScope.of(context).unfocus();
+                        _viewModel.signUp();
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FlatButton(
+                      child: Text('I already have an account'.tr()),
+                      onPressed: () {
+                        DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  child: Text('I already have an account'.tr()),
-                  onPressed: () {
-                    DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
-                  },
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );
