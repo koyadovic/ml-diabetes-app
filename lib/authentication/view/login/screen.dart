@@ -91,7 +91,12 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                   ],
                 ),
                 if(_viewModel.isLoading())
-                  Center(child: CircularProgressIndicator()),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(),
+                    )
+                  ),
                 SizedBox(height: 20),
                 // TODO this is disabled by now
                 // Row(

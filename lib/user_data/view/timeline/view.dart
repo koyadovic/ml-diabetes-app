@@ -77,6 +77,11 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
   Widget build(BuildContext context) {
     super.build(context);
     widget._state = this;
+    if (_viewModel == null || _viewModel.days.length == 0)
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+
     return Scrollbar(
       child: SmartRefresher(
         controller: _refreshController,
