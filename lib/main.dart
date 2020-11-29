@@ -279,9 +279,14 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
 
   @override
   Future<void> showDialogMessage(String message) async {
-    Message messageInstance = Message(type: Message.TYPE_INFORMATION, title: 'Information'.tr(), text: message);
-    showWidget(SimpleMessageWidget(
-      messageInstance, () => hideWidget(true), () => hideWidget(false)));
+    Message messageInstance = Message(
+      type: Message.TYPE_INFORMATION,
+      title: 'Information'.tr(),
+      text: message,
+      ephemeral: true,
+      attendImmediately: true
+    );
+    showWidget(SimpleMessageWidget(messageInstance, () => hideWidget(true), () => hideWidget(false)));
     return;
   }
 

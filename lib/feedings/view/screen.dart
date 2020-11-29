@@ -191,7 +191,6 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
                 widget.hideWidget();
                 DiaMessages.getInstance().showBriefMessage('Food saved successfully'.tr());
               } on BackendBadRequest catch(err) {
-                // DiaMessages.getInstance().showBriefMessage(err.toString());
                 DiaMessages.getInstance().showDialogMessage(err.toString());
               }
             });

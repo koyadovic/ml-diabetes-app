@@ -3,6 +3,7 @@ import 'package:iDietFit/communications/controller/services.dart';
 import 'package:iDietFit/communications/model/entities.dart';
 import 'package:iDietFit/communications/view/feedback_requests/single_feedback_request_view.dart';
 import 'package:iDietFit/communications/view/messages/messages_view.dart';
+import 'package:iDietFit/shared/services/storage.dart';
 import 'package:iDietFit/shared/view/error_handlers.dart';
 import 'package:iDietFit/shared/view/screen_widget.dart';
 import 'package:iDietFit/shared/view/theme.dart';
@@ -309,45 +310,54 @@ class UserDataScreenWidgetState extends State<UserDataScreenWidget> with Widgets
   bool _refreshingCommunications = false;
 
   Future<void> refreshCommunications() async {
-    print('refreshCommunications');
+    if(_refreshingCommunications) return;
     _refreshingCommunications = true;
-    Future.delayed(Duration(milliseconds: 500), () async {
-      bool reloadAgain = false;
-      // Messages
-      await withBackendErrorHandlersOnView(() async {
-        List<Message> messages = await _communicationsServices.getNotDismissedMessages();
-        setState(() {
-          nonImmediatelyMessages = messages.where((m) => !m.attendImmediately).toList();
-        });
 
-        // only show immediately urgent messages and ephemeral
-        List<Message> urgentMessages = messages.where((m) => m.attendImmediately).toList();
-        bool andRefresh = await showMessages(urgentMessages);
-
-        if(andRefresh || urgentMessages.length > 0) {
-          refreshTabChildren();
-          reloadAgain = true;
-        }
-      });
-
-      // Feedback Requests
-      if(!reloadAgain) {
+    Storage storage = getLocalStorage();
+    bool initialSettingsReview = await storage.get('initial-settings-review', false);
+    if(!initialSettingsReview) {
+      await DiaMessages.getInstance().showDialogMessage('We need you to take a first look at the settings before continuing'.tr());
+      await storage.set('initial-settings-review', true);
+      DiaNavigation.getInstance().requestScreenChange(DiaScreen.SETTINGS, andReplaceNavigationHistory: true);
+    } else {
+      Future.delayed(Duration(milliseconds: 500), () async {
+        bool reloadAgain = false;
+        // Messages
         await withBackendErrorHandlersOnView(() async {
-          List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
-          for(FeedbackRequest request in feedbackRequests) {
-            await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
-              if(reload) reloadAgain = true;
-              widget.hideWidget();
-            }));
+          List<Message> messages = await _communicationsServices.getNotDismissedMessages();
+          setState(() {
+            nonImmediatelyMessages = messages.where((m) => !m.attendImmediately).toList();
+          });
+
+          // only show immediately urgent messages and ephemeral
+          List<Message> urgentMessages = messages.where((m) => m.attendImmediately).toList();
+          bool andRefresh = await showMessages(urgentMessages);
+
+          if(andRefresh || urgentMessages.length > 0) {
+            refreshTabChildren();
+            reloadAgain = true;
           }
         });
-      }
 
-      _refreshingCommunications = false;
+        // Feedback Requests
+        if(!reloadAgain) {
+          await withBackendErrorHandlersOnView(() async {
+            List<FeedbackRequest> feedbackRequests = await _communicationsServices.getUnattendedFeedbackRequests();
+            for(FeedbackRequest request in feedbackRequests) {
+              await widget.showWidget(FeedbackRequestWidget(request: request, onFinish: (reload){
+                if(reload) reloadAgain = true;
+                widget.hideWidget();
+              }));
+            }
+          });
+        }
 
-      if(reloadAgain)
-        refreshCommunications();
-    });
+        _refreshingCommunications = false;
+
+        if(reloadAgain)
+          refreshCommunications();
+      });
+    }
   }
 
   Future<bool> showMessages(List<Message> messages) async {
