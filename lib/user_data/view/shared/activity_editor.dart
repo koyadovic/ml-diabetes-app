@@ -65,31 +65,34 @@ class ActivityEditorWidgetState extends State<ActivityEditorWidget> {
     bool editable = EditableStatus.of(context);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
       child: ListView(
         shrinkWrap: true,
         children: [
-          SearchAndSelect<ActivityType>(
-            hintText: 'Search for activity'.tr(),
-            currentValue: activity.activityType,
-            source: APIRestSource<ActivityType>(
-              endpoint: '/api/v1/activity-types/',
-              queryParameterName: 'search',
-              deserializer: ActivityType.fromJson,
-              errorHandler: (err) {
-                withBackendErrorHandlersOnView(() {
-                  throw err;
-                });
-              }
-            ),
-            onSelected: (ActivityType value) {
-              if(editable)
-                _selectActivityType(value);
-            },
-            renderItem: (SearchAndSelectState state, ActivityType value) => ListTile(
-              leading: ActivityIconSmall(),
-              title: Text(value.name),
-              subtitle: Text(value.mets.toString() + ' METs'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+            child: SearchAndSelect<ActivityType>(
+              hintText: 'Search for activity'.tr(),
+              currentValue: activity.activityType,
+              source: APIRestSource<ActivityType>(
+                endpoint: '/api/v1/activity-types/',
+                queryParameterName: 'search',
+                deserializer: ActivityType.fromJson,
+                errorHandler: (err) {
+                  withBackendErrorHandlersOnView(() {
+                    throw err;
+                  });
+                }
+              ),
+              onSelected: (ActivityType value) {
+                if(editable)
+                  _selectActivityType(value);
+              },
+              renderItem: (SearchAndSelectState state, ActivityType value) => ListTile(
+                leading: ActivityIconSmall(),
+                title: Text(value.name),
+                subtitle: Text(value.mets.toString() + ' METs'),
+              ),
             ),
           ),
           if(activity.activityType != null)
