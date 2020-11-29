@@ -1,4 +1,7 @@
 {
+  "User Data": "User Data",
+  "Settings": "Settings",
+  "Logout": "Logout",
   "Email": "Email",
   "Password": "Password",
   "I have no account yet": "I have no account yet",
@@ -12,7 +15,7 @@
   "See you soon!": "See you soon!",
   "Passwords does not match": "Passwords does not match",
   "Account created successfully": "Account created successfully",
-  "Dia Services are unavailable. Try again later.": "Dia Services are unavailable. Try again later.",
+  "Dia Services are unavailable. Try again later.": "iDietFit Services are unavailable. Try again later.",
   "Unexpected Error. Try again later.": "Unexpected Error. Try again later.",
   "We need you to authenticate again.": "We need you to authenticate again.",
   "Timezone": "Timezone",

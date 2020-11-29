@@ -262,7 +262,7 @@ class UserDataScreenWidget extends DiaRootScreenStatefulWidget {
 
   @override
   String getAppBarTitle() {
-    return 'User Data';
+    return 'User Data'.tr();
   }
 
   @override

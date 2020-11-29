@@ -195,15 +195,15 @@ class _MainScreenState extends State<MainScreen> implements MessagesHandler, Con
               color: DiaTheme.primaryColor,
             ),
           ),
-          buildDrawerItem(DiaScreen.USER_DATA, 'User Data', FontAwesomeIcons.home, () {
+          buildDrawerItem(DiaScreen.USER_DATA, 'User Data'.tr(), FontAwesomeIcons.home, () {
             requestScreenChange(DiaScreen.USER_DATA);
             Navigator.pop(context);
           }),
-          buildDrawerItem(DiaScreen.SETTINGS, 'Settings', FontAwesomeIcons.wrench, () {
+          buildDrawerItem(DiaScreen.SETTINGS, 'Settings'.tr(), FontAwesomeIcons.wrench, () {
             requestScreenChange(DiaScreen.SETTINGS);
             Navigator.pop(context);
           }),
-          buildDrawerItem(DiaScreen.LOGIN, 'Logout', FontAwesomeIcons.signOutAlt, () async {
+          buildDrawerItem(DiaScreen.LOGIN, 'Logout'.tr(), FontAwesomeIcons.signOutAlt, () async {
             final AuthenticationServices authenticationServices = AuthenticationServices();
             await authenticationServices.logout();
             showBriefMessage('See you soon!'.tr());

@@ -29,7 +29,7 @@ class SettingsScreenWidget extends DiaRootScreenStatefulWidget {
 
   @override
   String getAppBarTitle() {
-    return 'Settings';
+    return 'Settings'.tr();
   }
 
   @override
