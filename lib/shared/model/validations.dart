@@ -4,6 +4,8 @@ Errors
  */
 
 import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class NotImplemented {
 }
@@ -120,7 +122,7 @@ class NotNullValidator extends Validator {
   @override
   validate(value) {
     if(value == null)
-      throw ValidationError('Not set yet');
+      throw ValidationError('Not set yet'.tr());
   }
 }
 
@@ -129,10 +131,10 @@ class ZeroOrPositiveNumberValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Not a number');
+      throw ValidationError('Not a number'.tr());
     }
     if (value < 0) {
-      throw ValidationError('Must be zero or greater than zero');
+      throw ValidationError('Must be zero or greater than zero'.tr());
     }
   }
 }
@@ -142,10 +144,10 @@ class NotEmptyStringValidator extends Validator {
   @override
   validate(value) {
     if (!(value is String)) {
-      throw ValidationError('Cannot be empty');
+      throw ValidationError('Cannot be empty'.tr());
     }
     if (value.toString() == '') {
-      throw ValidationError('Cannot be empty');
+      throw ValidationError('Cannot be empty'.tr());
     }
   }
 }
@@ -155,10 +157,10 @@ class OneOrGreaterPositiveNumberValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Not a number');
+      throw ValidationError('Not a number'.tr());
     }
     if (value < 1) {
-      throw ValidationError('Must be zero or greater than zero');
+      throw ValidationError('Must be zero or greater than zero'.tr());
     }
   }
 }
@@ -173,7 +175,7 @@ class NumberBetweenValidator extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != double && value.runtimeType != int){
-      throw ValidationError('Not a number');
+      throw ValidationError('Not a number'.tr());
     }
     if (!(minimum <= value && value <= maximum)) {
       throw ValidationError('Must be between ${minimum.round()} and ${maximum.round()}');
@@ -190,9 +192,9 @@ class InValidator<T> extends Validator {
   @override
   validate(value) {
     if(value.runtimeType != T)
-      throw ValidationError('Not of type $T');
+      throw ValidationError('Not of type'.tr(namedArgs: {'type': T.toString()}));
     if (!possibilities.contains(value)) {
-      throw ValidationError('$value not in ${possibilities.join(", ")}');
+      throw ValidationError('not in'.tr(namedArgs: {'value': value.toString(), 'possibilities': possibilities.join(", ")}));
     }
   }
 }

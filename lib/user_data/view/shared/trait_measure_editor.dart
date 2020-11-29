@@ -6,6 +6,7 @@ import 'package:iDietFit/shared/view/widgets/unit_text_field.dart';
 import 'package:iDietFit/user_data/controller/services.dart';
 import 'package:iDietFit/user_data/model/entities/traits.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class TraitMeasureEditorWidget extends StatefulWidget {
@@ -125,11 +126,11 @@ class TraitMeasureEditorWidgetState extends State<TraitMeasureEditorWidget> {
                     items: [
                       DropdownMenuItem<String>(
                         value: 'male',
-                        child: Text('Male'),
+                        child: Text('Male'.tr()),
                       ),
                       DropdownMenuItem<String>(
                         value: 'female',
-                        child: Text('Female'),
+                        child: Text('Female'.tr()),
                       )
                     ],
                   ),

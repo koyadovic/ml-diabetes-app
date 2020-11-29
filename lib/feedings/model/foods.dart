@@ -1,5 +1,7 @@
 import 'package:iDietFit/shared/model/validations.dart';
 import 'package:iDietFit/shared/tools/numbers.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class Food extends WithValidations {
   final int id;
@@ -154,10 +156,10 @@ class Food extends WithValidations {
     super.validate();
     validatorResults['global'] = [];
     if((num(carbFactor) + num(carbFiberFactor) + num(carbSugarFactor) + num(proteinFactor) + num(fatFactor) + num(alcoholFactor) + num(saltFactor)) == 0) {
-      validatorResults['global'].add('All properties cannot be zero');
+      validatorResults['global'].add('All properties cannot be zero'.tr());
     }
     if(num(carbFactor) < num(carbFiberFactor) + num(carbSugarFactor)) {
-      validatorResults['global'].add('Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater');
+      validatorResults['global'].add('Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater'.tr());
     }
 
     if(validatorResults['global'].length == 0) {

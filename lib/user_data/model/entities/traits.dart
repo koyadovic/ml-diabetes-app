@@ -2,6 +2,7 @@ import 'package:iDietFit/shared/model/validations.dart';
 import 'package:iDietFit/shared/tools/map_tools.dart';
 import 'package:collection/collection.dart';
 import 'base.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 Function eq = const ListEquality().equals;
@@ -138,7 +139,7 @@ class TraitMeasure extends UserDataEntity {
       switch(traitType.slug) {
         case 'birth-seconds-epoch':
           if(!(value is double) && !(value is int)) {
-            addPropertyValidationText('value', 'Invalid Date time');
+            addPropertyValidationText('value', 'Invalid Date time'.tr());
           } else {
             try {
               DateTime now = DateTime.now();
@@ -149,18 +150,18 @@ class TraitMeasure extends UserDataEntity {
               //   addPropertyValidationText('value', 'You don\'t have a minimum of 18 years old.');
               // }
             } catch (err) {
-              addPropertyValidationText('value', 'Invalid date');
+              addPropertyValidationText('value', 'Invalid date'.tr());
             }
           }
           break;
         case 'gender':
           if(!(value is String) && !['male', 'female'].contains(value)) {
-            addPropertyValidationText('value', 'Value not is male or female');
+            addPropertyValidationText('value', 'Value not is male or female'.tr());
           }
           break;
         default:
           if(value < 1) {
-            addPropertyValidationText('value', 'Value cannot be zero');
+            addPropertyValidationText('value', 'Value cannot be zero'.tr());
           }
       }
     }

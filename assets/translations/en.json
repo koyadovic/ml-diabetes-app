@@ -136,5 +136,19 @@
   "We need you to take a first look at the settings before continuing": "We need you to take a first look at the settings before continuing",
   "years": "years",
   "male": "male",
-  "female": "female"
+  "female": "female",
+  "Male": "Male",
+  "Female": "Female",
+
+  "Not a number": "Not a number",
+  "Must be zero or greater than zero": "Must be zero or greater than zero",
+  "Cannot be empty": "Cannot be empty",
+  "Not set yet": "Not set yet",
+  "Not of type": "Not of type {type}",
+  "not in": "{value} not in {possibilities}",
+  "Value cannot be zero": "Value cannot be zero",
+  "Value not is male or female": "Value not is male or female",
+  "Invalid date": "Invalid date",
+  "All properties cannot be zero": "All properties cannot be zero",
+  "Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater": "Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater"
 }

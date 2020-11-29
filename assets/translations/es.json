@@ -138,5 +138,19 @@
   "We need you to take a first look at the settings before continuing": "Necesitamos que eche un primer vistazo a la configuración antes de continuar",
   "years": "años",
   "male": "masculino",
-  "female": "femenino"
+  "female": "femenino",
+  "Male": "Masculino",
+  "Female": "Femenino",
+
+  "Not a number": "No es un número",
+  "Must be zero or greater than zero": "Debe de ser cero o mayor que cero",
+  "Cannot be empty": "No puede estar vacío",
+  "Not set yet": "No se editó aún",
+  "Not of type": "No es del tipo {type}",
+  "not in": "{value} no está entre {possibilities}",
+  "Value cannot be zero": "El valor no puede ser cero",
+  "Value not is male or female": "Valor no es masculino o femenino",
+  "Invalid date": "Fecha inválida",
+  "All properties cannot be zero": "Todas las propiedades no pueden ser cero",
+  "Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater": "El valor para carbohidratos es menor que la suma de la fibra y el azúcar. Carbohidratos referencia el total así que tiene que ser mayor."
 }
