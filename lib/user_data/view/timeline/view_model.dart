@@ -105,6 +105,23 @@ class ViewModelEntry {
 
   ViewModelEntry({this.eventDate, this.type, this.text, this.entity});
 
+
+  static int getAge(int secondsSinceEpochBirth) {
+    DateTime birth = DateTime.fromMicrosecondsSinceEpoch(secondsSinceEpochBirth * 1000000);
+    DateTime now = DateTime.now();
+
+    int age = now.year - birth.year;
+    if(now.month < birth.month) {
+      age --;
+    }
+    else if(now.month == birth.month) {
+      if(now.day < birth.day) {
+        age --;
+      }
+    }
+    return age;
+  }
+
   factory ViewModelEntry.fromEntity(UserDataEntity entity) {
     switch(entity.entityType) {
       case 'GlucoseLevel':
@@ -180,7 +197,7 @@ class ViewModelEntry {
               type: entity.entityType,
               text: 'You changed your {}: {}{}'.tr(args: [
                 traitMeasure.traitType.name.toLowerCase(),
-                traitMeasure.value.toString(),
+                traitMeasure.value.toString().tr(),
                 traitMeasure.traitType.unit
               ]),
               entity: traitMeasure,
@@ -192,8 +209,8 @@ class ViewModelEntry {
               type: entity.entityType,
               text: 'You changed your {}: {}{}'.tr(args: [
                 traitMeasure.traitType.name.toLowerCase(),
-                traitMeasure.value.toString(),
-                traitMeasure.traitType.unit
+                getAge(traitMeasure.value).toString(),
+                ' ' + 'years'.tr()
               ]),
               entity: traitMeasure,
           );
