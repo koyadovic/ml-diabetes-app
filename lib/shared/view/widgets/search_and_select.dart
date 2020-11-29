@@ -191,26 +191,31 @@ class SearchAndSelectState<T> extends State<SearchAndSelect<T>> {
   void openResults() {
     closeResults();
     this._overlayEntry = this._createOverlayEntry(
-      ListView(
-        shrinkWrap: true,
-        children: _results.map(
-          (item) => GestureDetector(
-            onTap: () {
-              widget.onSelected(item);
+      ConstrainedBox(
+        constraints: new BoxConstraints(
+          maxHeight: 200.0,
+        ),
+        child: ListView(
+          shrinkWrap: true,
+          children: _results.map(
+            (item) => GestureDetector(
+              onTap: () {
+                widget.onSelected(item);
 
-              if(widget.clearWhenSelected) {
-                clear();
-              } else {
-                setState(() {
-                  _controller.text = widget.itemToString != null ? widget.itemToString(item) : item.toString();
-                  _results = [];
-                });
-                closeResults();
-              }
-            },
-            child: widget.renderItem(this, item),
-          )
-        ).toList(),
+                if(widget.clearWhenSelected) {
+                  clear();
+                } else {
+                  setState(() {
+                    _controller.text = widget.itemToString != null ? widget.itemToString(item) : item.toString();
+                    _results = [];
+                  });
+                  closeResults();
+                }
+              },
+              child: widget.renderItem(this, item),
+            )
+          ).toList(),
+        ),
       ),
     );
     Overlay.of(context).insert(this._overlayEntry);
