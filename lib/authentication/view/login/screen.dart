@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:iDietFit/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:iDietFit/shared/view/theme.dart';
 import 'view_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -73,13 +74,19 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RaisedButton(
-                      child: Text('Login'.tr()),
-                      onPressed: () {
-                        // hide keyboard
-                        FocusScope.of(context).unfocus();
-                        _viewModel.login();
-                      },
+                    ButtonTheme(
+                      minWidth: 300.0,
+                      height: 40.0,
+                      child: RaisedButton(
+                        elevation: 3,
+                        color: DiaTheme.primaryColor,
+                        child: Text('Login'.tr(), style: TextStyle(color: Colors.white),),
+                        onPressed: () {
+                          // hide keyboard
+                          FocusScope.of(context).unfocus();
+                          _viewModel.login();
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -91,7 +98,7 @@ class LoginScreenWidgetState extends State<LoginScreenWidget> {
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
                 //     FlatButton(
-                //       child: Text('I have no account yet'.tr()),
+                //       child: Text('I have no account yet'.tr(), style: TextStyle(color: DiaTheme.primaryColor)),
                 //       onPressed: () {
                 //         _viewModel.notHaveAccount();
                 //       },

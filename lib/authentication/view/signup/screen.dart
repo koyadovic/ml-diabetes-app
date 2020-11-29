@@ -1,3 +1,4 @@
+import 'package:iDietFit/shared/view/theme.dart';
 import 'package:iDietFit/shared/view/utils/navigation.dart';
 import 'package:iDietFit/shared/view/screen_widget.dart';
 import 'package:flutter/material.dart';
@@ -84,13 +85,19 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RaisedButton(
-                      child: Text('Signup'.tr()),
-                      onPressed: () {
-                        // hide keyboard
-                        FocusScope.of(context).unfocus();
-                        _viewModel.signUp();
-                      },
+                    ButtonTheme(
+                      minWidth: 300.0,
+                      height: 40.0,
+                      child: RaisedButton(
+                        elevation: 3,
+                        color: DiaTheme.primaryColor,
+                        child: Text('Signup'.tr(), style: TextStyle(color: Colors.white),),
+                        onPressed: () {
+                          // hide keyboard
+                          FocusScope.of(context).unfocus();
+                          _viewModel.signUp();
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -99,7 +106,7 @@ class SignupScreenWidgetState extends State<SignupScreenWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FlatButton(
-                      child: Text('I already have an account'.tr()),
+                      child: Text('I already have an account'.tr(), style: TextStyle(color: DiaTheme.primaryColor)),
                       onPressed: () {
                         DiaNavigation.getInstance().requestScreenChange(DiaScreen.LOGIN);
                       },
