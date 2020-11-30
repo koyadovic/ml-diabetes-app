@@ -74,7 +74,7 @@
   "Remove": "Eliminar",
   "Finalize": "Finalizar",
   "Information": "Información",
-  "Feeding view model text": "Comida: +{kcal}kcal",
+  "Feeding view model text": "Carb: {carbs}g, Prot: {proteins}g, Grasa: {fats}g, {kcal}kcal",
   "Start now": "Comienza ahora",
   "End now": "Termina ahora",
   "Hypoglycemia registered": "Hipoglucemia registrada",

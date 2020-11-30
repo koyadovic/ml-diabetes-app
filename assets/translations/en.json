@@ -72,7 +72,7 @@
   "Remove": "Remove",
   "Finalize": "Finalize",
   "Information": "Information",
-  "Feeding view model text": "Feeding: +{kcal}kcal",
+  "Feeding view model text": "Carb: {carbs}g, Prot: {proteins}g, Fats: {fats}g, {kcal}kcal",
   "Start now": "Start now",
   "End now": "End now",
   "Hypoglycemia registered": "Hypoglycemia registered",
