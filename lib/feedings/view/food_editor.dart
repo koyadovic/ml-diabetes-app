@@ -237,7 +237,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               FlatButton(
                 child: Text('Save'.tr()),
                 onPressed: () async {
-                  _editedFood.validate();
+                  _editedFood.validate(fiberInCarbs: !_editedFood.isFiberSpecifiedSeparately);
                   setState(() {
                   });
 
@@ -529,7 +529,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.carbFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -551,7 +551,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.carbSugarFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -573,7 +573,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.carbFiberFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -595,7 +595,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.proteinFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -617,7 +617,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.fatFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -639,7 +639,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.saltFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )
@@ -661,7 +661,7 @@ class FoodEditorFiberSeparatelyWidget extends StatelessWidget {
             onChange: (value) {
               food.alcoholFactor = food.getServingOfGrams() != 0.0 ? value / food.getServingOfGrams() : 0.0;
               if(!food.isValid)
-                food.validate();
+                food.validate(fiberInCarbs: false);
               onFoodChange();
             }
           )

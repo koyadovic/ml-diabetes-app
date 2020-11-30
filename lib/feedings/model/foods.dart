@@ -152,14 +152,20 @@ class Food extends WithValidations {
   }
 
   @override
-  void validate() {
+  void validate({fiberInCarbs: true}) {
     super.validate();
     validatorResults['global'] = [];
     if((num(carbFactor) + num(carbFiberFactor) + num(carbSugarFactor) + num(proteinFactor) + num(fatFactor) + num(alcoholFactor) + num(saltFactor)) == 0) {
       validatorResults['global'].add('All properties cannot be zero'.tr());
     }
+    if(!fiberInCarbs) {
+      carbFactor += carbFiberFactor;
+    }
     if(num(carbFactor) < num(carbFiberFactor) + num(carbSugarFactor)) {
       validatorResults['global'].add('Carbs are lower than the sum of fiber and sugar. Carbs reference the total so need to be greater'.tr());
+    }
+    if(!fiberInCarbs) {
+      carbFactor -= carbFiberFactor;
     }
 
     if(validatorResults['global'].length == 0) {
