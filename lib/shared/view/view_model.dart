@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iDietFit/settings/controller/services.dart';
 
 
 class DiaViewModel {
   bool _loading = false;
-
+  final SettingsServices settingsServices = SettingsServices();
   final State state;
 
   DiaViewModel(this.state);

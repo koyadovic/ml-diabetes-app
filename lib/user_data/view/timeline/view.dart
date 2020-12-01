@@ -1,4 +1,3 @@
-import 'package:iDietFit/authentication/controller/services.dart';
 import 'package:iDietFit/settings/controller/services.dart';
 import 'package:iDietFit/shared/view/screen_widget.dart';
 import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';

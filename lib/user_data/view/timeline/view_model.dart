@@ -13,6 +13,8 @@ import 'package:iDietFit/shared/view/error_handlers.dart';
 import 'package:iDietFit/shared/view/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:iDietFit/shared/tools/dates.dart';
+import 'package:timezone/timezone.dart';
 
 
 class TimelineViewModel extends DiaViewModel {
@@ -21,6 +23,8 @@ class TimelineViewModel extends DiaViewModel {
   
   DateTime _oldestRetrieved;
   bool _noMoreData = false;
+
+  Location _localTimezone;
 
   final UserDataServices userDataServices = UserDataServices();
 
@@ -49,14 +53,16 @@ class TimelineViewModel extends DiaViewModel {
 
     ViewModelDay currentDay = ViewModelDay();
     for(ViewModelEntry entry in entries) {
-      if(lastDay != null && entry.eventDate.day != lastDay) {
+      DateTime entryDate = entry.eventDate.toUtc().asTimezone(_localTimezone);
+      int entryDay = entryDate.day;
+      if(lastDay != null && entryDay != lastDay) {
         days.add(currentDay);
         currentDay = ViewModelDay();
       }
       if(currentDay.date == null)
-        currentDay.date = entry.eventDate;
+        currentDay.date = entryDate;
       currentDay.entries.add(entry);
-      lastDay = entry.eventDate.day;
+      lastDay = entryDay;
     }
     if (currentDay.entries.length > 0) {
       days.add(currentDay);
@@ -65,6 +71,10 @@ class TimelineViewModel extends DiaViewModel {
   }
 
   Future<void> moreData() async {
+    if (_localTimezone == null) {
+      _localTimezone = await settingsServices.getTimezone();
+    }
+
     if(_noMoreData || isLoading()) return;
 
     try {
