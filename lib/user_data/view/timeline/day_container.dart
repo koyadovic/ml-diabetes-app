@@ -117,13 +117,14 @@ class InnerIconHourTextCardItem extends StatelessWidget {
   Widget getContentsRow(BuildContext context) {
     switch(entry.entity.entityType){
       case 'GlucoseLevel':
+        String level = entry.glucoseLevel.level.toString() + ' mg/dL';
         return Row(
           children: [
-            // Text(entry.text),
+            Text(entry.text.replaceAll(level, '')),
             Chip(
               padding: EdgeInsets.all(0),
               backgroundColor: Colors.red,
-              label: Text(entry.glucoseLevel.level.toString() + 'mg/dL', style: TextStyle(color: Colors.white)),
+              label: Text(level, style: TextStyle(color: Colors.white)),
             )
           ],
         );
@@ -146,15 +147,15 @@ class InnerIconHourTextCardItem extends StatelessWidget {
       return Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
+          Text(
+            entry.insulinInjection.insulinType.name,
+            style: TextStyle(fontSize: verySmallSize(context)),
+          ),
+          SizedBox(width: 10),
           Chip(
             padding: EdgeInsets.all(0),
             backgroundColor: entry.insulinInjection.insulinType.getFlutterColor(),
             label: Text(entry.insulinInjection.units.toString() + 'u', style: TextStyle(color: Colors.white)),
-          ),
-          SizedBox(width: 10),
-          Text(
-            entry.insulinInjection.insulinType.name,
-            style: TextStyle(fontSize: verySmallSize(context)),
           ),
         ],
       );
