@@ -123,6 +123,7 @@ class TimelineState extends State<Timeline> with AutomaticKeepAliveClientMixin<T
                           text: entry.text,
                           icon: getIcon(entry),
                           hourMinute: hour,
+                          entry: entry,
                         );
                       }
                     })

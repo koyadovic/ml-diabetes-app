@@ -1,7 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:iDietFit/shared/view/theme.dart';
 import 'package:iDietFit/shared/view/utils/font_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:iDietFit/user_data/model/entities/base.dart';
 import 'package:iDietFit/user_data/model/entities/not_ephemeral_messages.dart';
+import 'package:iDietFit/user_data/view/timeline/view_model.dart';
 
 class TitledCardContainer extends StatelessWidget {
   final List<Widget> children;
@@ -38,8 +41,9 @@ class InnerIconHourTextCardItem extends StatelessWidget {
   final Widget icon;
   final String hourMinute;
   final String text;
+  final ViewModelEntry entry;
 
-  InnerIconHourTextCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom});
+  InnerIconHourTextCardItem({this.icon, this.text, this.hourMinute, this.lineToTop, this.lineToBottom, this.entry});
   
   Widget getLinesAndIconWidget(BuildContext context) {
     Color lineColor = DiaTheme.primaryColor;
@@ -110,19 +114,93 @@ class InnerIconHourTextCardItem extends StatelessWidget {
     );
   }
 
-  Widget getTextWidget(BuildContext context) {
+  Widget getContentsRow(BuildContext context) {
+    switch(entry.entity.entityType){
+      case 'GlucoseLevel':
+        return Row(
+          children: [
+            // Text(entry.text),
+            Chip(
+              padding: EdgeInsets.all(0),
+              backgroundColor: Colors.red,
+              label: Text(entry.glucoseLevel.level.toString() + 'mg/dL', style: TextStyle(color: Colors.white)),
+            )
+          ],
+        );
+
+      case 'Feeding':
+        return Wrap(
+          children: [
+            Text(entry.text)
+          ],
+        );
+
+      case 'Activity':
+        return Wrap(
+          children: [
+            Text(entry.text)
+          ],
+        );
+
+      case 'InsulinInjection':
+      return Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Chip(
+            padding: EdgeInsets.all(0),
+            backgroundColor: entry.insulinInjection.insulinType.getFlutterColor(),
+            label: Text(entry.insulinInjection.units.toString() + 'u', style: TextStyle(color: Colors.white)),
+          ),
+          SizedBox(width: 10),
+          Text(
+            entry.insulinInjection.insulinType.name,
+            style: TextStyle(fontSize: verySmallSize(context)),
+          ),
+        ],
+      );
+
+      case 'NotEphemeralMessage':
+        return Wrap(
+          children: [
+            Text(entry.text)
+          ],
+        );
+
+      case 'TraitMeasure':
+        return Wrap(
+          children: [
+            Text(entry.text)
+          ],
+        );
+
+      case 'Flag':
+        return Wrap(
+          children: [
+            Text(entry.text)
+          ],
+        );
+
+      default:
+        return Row();
+    }
+  }
+
+  Widget getContentsWidget(BuildContext context) {
+    /*
+      Text(
+        text,
+        style: TextStyle(
+          fontSize: smallSize(context),
+          letterSpacing: -0.5  // TODO pensar si lo dejamos.
+        ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 5,
+        softWrap: true,
+      )
+     */
     return Expanded(
       child: Container(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: smallSize(context),
-            letterSpacing: -0.5  // TODO pensar si lo dejamos.
-          ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 5,
-          softWrap: true,
-        ),
+        child: getContentsRow(context),
       ),
     );
   }
@@ -137,7 +215,7 @@ class InnerIconHourTextCardItem extends StatelessWidget {
           children: [
             getLinesAndIconWidget(context),
             getMinuteHourWidget(context),
-            getTextWidget(context),
+            getContentsWidget(context),
           ],
         ),
       ),

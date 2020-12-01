@@ -115,6 +115,33 @@ class ViewModelEntry {
 
   ViewModelEntry({this.eventDate, this.type, this.text, this.entity});
 
+  GlucoseLevel get glucoseLevel {
+    return entity as GlucoseLevel;
+  }
+
+  Feeding get feeding {
+    return entity as Feeding;
+  }
+
+  TraitMeasure get traitMeasure {
+    return entity as TraitMeasure;
+  }
+
+  InsulinInjection get insulinInjection {
+    return entity as InsulinInjection;
+  }
+
+  Activity get activity {
+    return entity as Activity;
+  }
+
+  Flag get flag {
+    return entity as Flag;
+  }
+
+  NotEphemeralMessage get notEphemeralMessage {
+    return entity as NotEphemeralMessage;
+  }
 
   static int getAge(int secondsSinceEpochBirth) {
     DateTime birth = DateTime.fromMicrosecondsSinceEpoch(secondsSinceEpochBirth * 1000000);
