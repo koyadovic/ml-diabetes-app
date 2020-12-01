@@ -7,6 +7,11 @@ import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin
 import io.flutter.view.FlutterMain
 import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService
 
+import android.app.NotificationManager
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+
+
 class Application : FlutterApplication(), PluginRegistrantCallback {
 
     override fun onCreate() {
@@ -19,5 +24,11 @@ class Application : FlutterApplication(), PluginRegistrantCallback {
         if (!registry!!.hasPlugin("io.flutter.plugins.firebasemessaging")) {
             FirebaseMessagingPlugin.registerWith(registry!!.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun cancelAllNotifications() {
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancelAll();
     }
 }
