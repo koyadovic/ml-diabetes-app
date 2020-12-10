@@ -50,6 +50,8 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
 
   List<Food> _similarFoods;
 
+  bool _working = false;
+
   @override
   void initState() {
     if(widget.food != null){
@@ -225,6 +227,20 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
               )),
             ],
 
+          if(_working)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 20,),
+                  CircularProgressIndicator()
+                ],
+              ),
+            ],
+          ),
+
+          if(!_working)
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -239,6 +255,7 @@ class FoodEditorWidgetState extends State<FoodEditorWidget> {
                 onPressed: () async {
                   _editedFood.validate(fiberInCarbs: !_editedFood.isFiberSpecifiedSeparately);
                   setState(() {
+                    _working = true;
                   });
 
                   if(_editedFood.isValid) {
