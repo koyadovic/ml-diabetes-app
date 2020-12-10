@@ -56,6 +56,8 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
   double lat;
   double lng;
 
+  bool _saving = false;
+
   final FeedingsServices _feedingsServices = FeedingsServices();
 
   @override
@@ -160,14 +162,32 @@ class FeedingsScreenWidgetState extends State<FeedingsScreenWidget> with Widgets
           // the table
           ...buildFoodSelectionTable(),
 
-          FlatButton(
-            child: Text('Finalize'.tr()),
-            onPressed: _foodSelections.length == 0 ? null : () async {
-              await _feedingsServices.saveFoodSelections(_foodSelections);
-              DiaMessages.getInstance().showBriefMessage('New feeding added to Dia!'.tr());
-              DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA, andReplaceNavigationHistory: true);
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FlatButton(
+                child: Row(
+                  children: [
+                    if (_saving)
+                      CircularProgressIndicator(),
+                    if(!_saving)
+                    Icon(Icons.done),
+                    if(!_saving)
+                    Text('Finalize'.tr()),
+                  ],
+                ),
+                onPressed: _saving || _foodSelections.length == 0 ? null : () async {
+                  setState(() {
+                    _saving = true;
+                  });
+                  await _feedingsServices.saveFoodSelections(_foodSelections);
+                  DiaMessages.getInstance().showBriefMessage('New feeding added to Dia!'.tr());
+                  DiaNavigation.getInstance().requestScreenChange(DiaScreen.USER_DATA, andReplaceNavigationHistory: true);
+                },
+              ),
+            ],
           ),
+
         ],
       ),
     );
